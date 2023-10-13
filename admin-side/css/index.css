@@ -6,6 +6,25 @@
   box-sizing: border-box;
 }
 
+/* Add responsive CSS for mobile view (375 x 812) */
+@media screen and (max-width: 375px) {
+  body {
+    background-size: auto; /* Adjust background size for mobile */
+  }
+  .module__wrapper__seal,
+  .module__wrapper__seal::before,
+  .module__wrapper__seal__fixed {
+    min-width: 100%; /* Make seal and fixed content full width */
+  }
+  .module__wrapper__seal::before {
+    width: 100%; /* Adjust background width for mobile */
+  }
+  .module__wrapper__seal__fixed {
+    width: 100%; /* Make fixed content full width */
+  }
+}
+
+/* Common styles for all screen sizes */
 input,
 button,
 select,
@@ -34,7 +53,7 @@ body {
   font-family: Arial;
   font-weight: normal;
   font-size: 100%;
-  background-image: linear-gradient(to bottom, rgba(97, 97, 97, 0.5), rgba(80, 79, 79, 0.8)), url("../system-images/backgroundbackground.png"); 
+  background-image: linear-gradient(to bottom, rgba(97, 97, 97, 0.5), rgba(80, 79, 79, 0.8)), url("../system-images/backgroundbackground.png");
   background-repeat: no-repeat;
   background-size: cover;
   backdrop-filter: blur(2px);
@@ -60,6 +79,7 @@ body {
   width: 600px;
   height: 90%;
 }
+
 .password-toggle {
   position: absolute;
   top: 50%;
@@ -259,12 +279,10 @@ body {
   .module__wrapper__seal {
     display: none;
   }
-
   .module__wrapper__form {
     justify-content: flex-start;
     gap: 2rem;
   }
-
   .module__wrapper__form__header {
     display: block;
   }
