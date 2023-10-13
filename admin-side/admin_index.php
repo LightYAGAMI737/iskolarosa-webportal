@@ -22,7 +22,7 @@
         
                 <div class="module__wrapper__form__content">
                     <div class="module__wrapper__form__content__title">
-                        <center><h1><span>iSKOLAROSA</span></h1><h6>  | LOG IN</h6></center>
+                        <center><h1><span>iSKOLAROSA</span></h1><h6>  EMPLOYEE | LOG IN</h6></center>
                     </div>
                     <form method="post" action="./php/admin_process.php" module__wrapper__form__content__login">
 
