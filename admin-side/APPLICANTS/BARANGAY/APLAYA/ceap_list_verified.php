@@ -1,0 +1,530 @@
+<?php
+   // Include configuration and functions
+   session_start();
+   include '../../../php/config_iskolarosa_db.php';
+   include '../../../php/functions.php';
+   
+   // Description: This script handles permission checks and retrieves applicant information.
+   
+   // Check if the session is not set (user is not logged in)
+   if (!isset($_SESSION['username'])) {
+       echo 'You need to log in to access this page.';
+       exit();
+   }
+   
+   // Define the required permission
+   $requiredPermission = 'view_ceap_applicants';
+   
+   // Define an array of required permissions for different pages
+   $requiredPermissions = [
+       'view_ceap_applicants' => 'You do not have permission to view CEAP applicants.',
+       'edit_users' => 'You do not have permission to edit applicant.',
+       'delete_applicant' => 'You do not have permission to delete applicant.',
+   ];
+   
+   // Check if the required permission exists in the array
+   if (!isset($requiredPermissions[$requiredPermission])) {
+       echo 'Invalid permission specified.';
+       exit();
+   }
+   
+   // Call the hasPermission function to check the user's permission
+   if (!hasPermission($_SESSION['role'], $requiredPermission)) {
+       echo $requiredPermissions[$requiredPermission];
+       exit();
+   }
+   
+   // Set variables
+   $currentStatus = 'verified';
+   $currentPage = 'ceap_list';
+   $currentBarangay ='aplaya';
+   $currentSubPage = 'new applicant';
+   
+   if (isset($_POST['saveBtn'])) {
+   // Process and update interview dates
+   $interviewDate = $_POST['interview_date'];
+   $interview_hours = $_POST['interview_hours'];
+   $interview_minutes = $_POST['interview_minutes'];
+   $interview_ampm = $_POST['interview_ampm'];
+   $limit = $_POST['limit'];
+   
+   if (!empty($interviewDate) && !empty($interview_hours) && !empty($interview_minutes) && !empty($interview_ampm) && !empty($limit)) {
+       $interviewDate = mysqli_real_escape_string($conn, $interviewDate);
+       $limit = intval($limit);
+   
+       $qualifiedQuery = "SELECT t.*, UPPER(p.first_name) AS first_name, UPPER(p.last_name) AS last_name, UPPER(p.barangay) AS barangay, p.control_number, p.date_of_birth, p.ceap_reg_form_id
+       FROM ceap_reg_form p
+       INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
+       WHERE t.status = 'Verified' AND p.barangay = 'aplaya'
+       LIMIT ?";
+       $stmt = mysqli_prepare($conn, $qualifiedQuery);
+       mysqli_stmt_bind_param($stmt, "i", $limit);
+       mysqli_stmt_execute($stmt);
+       $qualifiedResult = mysqli_stmt_get_result($stmt);
+   
+       $updateCount = 0; // Track the number of applicants updated
+   
+       while ($row = mysqli_fetch_assoc($qualifiedResult)) {
+           if ($updateCount >= $limit) {
+               break; // Stop updating once the limit is reached
+           }
+   
+           $ceapRegFormId = $row['ceap_reg_form_id'];
+           $employeeUsername = $_SESSION["username"];
+   
+           // Retrieve the previous status from the database
+           $prevStatusQuery = "SELECT status FROM temporary_account WHERE ceap_reg_form_id = ?";
+           $stmtPrev = $conn->prepare($prevStatusQuery);
+           $stmtPrev->bind_param("i", $ceapRegFormId);
+           $stmtPrev->execute();
+           $stmtPrev->bind_result($previousStatus);
+           $stmtPrev->fetch();
+           $stmtPrev->close();
+   
+           $updateTimeQuery = "UPDATE temporary_account SET interview_date = ?, interview_hour = ?, interview_minute = ?, interview_period = ? WHERE ceap_reg_form_id = ?";
+           $stmtTimeUpdate = mysqli_prepare($conn, $updateTimeQuery);
+           mysqli_stmt_bind_param($stmtTimeUpdate, "siisi", $interviewDate, $interview_hours, $interview_minutes, $interview_ampm, $ceapRegFormId);
+           mysqli_stmt_execute($stmtTimeUpdate);
+   
+           // Update the status to 'interview'
+           $statusUpdateQuery = "UPDATE temporary_account SET status = 'interview' WHERE ceap_reg_form_id = ?";
+           $stmtStatusUpdate = mysqli_prepare($conn, $statusUpdateQuery);
+           mysqli_stmt_bind_param($stmtStatusUpdate, "i", $ceapRegFormId);
+           mysqli_stmt_execute($stmtStatusUpdate);
+   
+           // Close and reset the prepared statements used in this loop iteration
+           mysqli_stmt_close($stmtTimeUpdate);
+           mysqli_stmt_close($stmtStatusUpdate);
+   
+           if ($stmt->affected_rows > 0) {
+               // Retrieve the employee_logs_id based on the employee username
+               $employeeIdQuery = "SELECT employee_logs_id FROM employee_logs WHERE employee_username = ?";
+               $stmtEmployeeId = $conn->prepare($employeeIdQuery);
+               $stmtEmployeeId->bind_param("s", $employeeUsername);
+               $stmtEmployeeId->execute();
+               $stmtEmployeeId->bind_result($employeeLogsId);
+               $stmtEmployeeId->fetch();
+               $stmtEmployeeId->close();
+   
+               $status = 'interview'; // Assign a value to $status before the insert query
+               // Log the status change in the applicant_status_logs table using a prepared statement
+               $logQuery = "INSERT INTO applicant_status_logs (previous_status, updated_status, ceap_reg_form_id, employee_logs_id) VALUES (?, ?, ?, ?)";
+               $stmtLog = $conn->prepare($logQuery);
+               $stmtLog->bind_param("ssii", $previousStatus, $status, $ceapRegFormId, $employeeLogsId);
+               $stmtLog->execute();
+   
+               $response = 'success'; // Update and log were successful
+           } else {
+               $response = 'error'; // Update failed
+           }
+   
+           $updateCount++;
+       }
+   }
+   
+   // Redirect to prevent form resubmission
+   header("Location: " . $_SERVER['REQUEST_URI']);
+   exit();
+   }
+   
+   
+   
+   // Construct the SQL query using heredoc syntax
+   $query = <<<SQL
+   SELECT t.*, 
+          UPPER(p.first_name) AS first_name, 
+          UPPER(p.last_name) AS last_name, 
+          UPPER(p.barangay) AS barangay, 
+          p.control_number, 
+          p.date_of_birth, 
+          UPPER(t.status) AS status
+   FROM ceap_reg_form p
+   INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
+   WHERE p.barangay = 'aplaya' && t.status = 'Verified'
+   SQL;
+   
+   $result = mysqli_query($conn, $query);
+   
+   
+   // Query to count 'verified' accounts
+   $verifiedCountQuery = "SELECT COUNT(*) AS verifiedCount, UPPER(p.barangay) AS barangay, 
+   UPPER(t.status) AS status
+FROM ceap_reg_form p
+INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
+WHERE p.barangay = 'aplaya' && t.status = 'Verified'";
+
+   $stmtVerifiedCount = mysqli_prepare($conn, $verifiedCountQuery);
+   mysqli_stmt_execute($stmtVerifiedCount);
+   $verifiedCountResult = mysqli_stmt_get_result($stmtVerifiedCount);
+   $verifiedCountRow = mysqli_fetch_assoc($verifiedCountResult);
+   
+   // Store the count of 'verified' accounts in a variable
+   $verifiedCount = $verifiedCountRow['verifiedCount'];
+   
+   ?>
+<!DOCTYPE html>
+<html lang="en" >
+   <head>
+      <meta charset="UTF-8">
+      <title>iSKOLAROSA | <?php echo strtoupper($currentSubPage); ?></title>
+      <link rel="icon" href="../../../system-images/iskolarosa-logo.png" type="image/png">
+      <link rel='stylesheet' href='../../../css/remixicon.css'>
+      <link rel='stylesheet' href="../../../css/unpkg-layout.css">
+      <link rel="stylesheet" href="../../../css/side_bar.css">
+      <link rel="stylesheet" href="../../../css/ceap_list.css">
+      <link rel="stylesheet" href="../../../css/ceap_verified.css">
+      <script>
+         // Prevent manual input in date fields
+         function preventInput(event) {
+             event.preventDefault();
+         }
+      </script>
+   </head>
+   <body>
+      <?php 
+         include '../../side_bar_barangay.php';
+         ?>
+      <!-- home content--> 
+      <!-- search bar and set interview modal -->   
+      <div class="form-group">
+         <?php
+            // Check if the user's role is not "Staff"
+            if ($_SESSION['role'] !== 1) {
+                // Only display the button if the user's role is not "Staff" and there are verified applicants
+                if (hasVerifiedStatusInDatabase($conn)) {
+                    echo '<button type="button" class="btn btn-primary btn-rad" id="openModalBtn">Set Interview</button>';
+                } else {
+                    echo '<button type="button" class="btn btn-primary btn-rad" id="openModalBtn" disabled style="background-color: #ccc; cursor: not-allowed;">Set Interview</button>';
+                }
+            }
+            ?>
+         <input type="text" name="search" class="form-control" id="search" placeholder="Search by Control Number or Last name"  oninput="formatInput(this)">
+         <button type="button" class="btn btn-primary" onclick="searchApplicants()">Search</button>
+         <!-- Add a button to trigger the modal -->
+         <?php
+            function hasVerifiedStatusInDatabase($conn) {
+                $query = "SELECT COUNT(*) FROM temporary_account AS t
+                          INNER JOIN ceap_reg_form AS p ON t.ceap_reg_form_id = p.ceap_reg_form_id
+                          WHERE t.status = 'Verified' AND UPPER(p.barangay) = 'APLAYA'";
+                
+                $result = mysqli_query($conn, $query);
+                
+                if ($result) {
+                    $count = mysqli_fetch_row($result)[0];
+                    return $count > 0;
+                } else {
+                    // Handle the query error if needed
+                    echo "Error: " . mysqli_error($conn);
+                    return false;
+                }
+            }
+             ?>
+      </div>
+      <!-- Set Interview Modal (hidden by default) -->
+      <div id="myModal" class="modal">
+         <div class="modal-content">
+            <span class="close" id="closeModalBtn">&times;</span>
+            <div class="modal-body">
+            <label for="current_time">Current Date and Time (Asia/Manila):</label>
+<span id="currentDateTime"></span>
+
+<script>
+    // Function to update the current date and time
+    function updateCurrentDateTime() {
+        const currentDateTimeElement = document.getElementById('currentDateTime');
+        const options = { timeZone: 'Asia/Manila', hour12: true, hour: 'numeric', minute: 'numeric', second: 'numeric', year: 'numeric', month: 'numeric', day: 'numeric' };
+        const currentDateTime = new Date().toLocaleString([], options);
+        currentDateTimeElement.textContent = currentDateTime;
+    }
+
+    // Update the current date and time initially and then every second
+    updateCurrentDateTime();
+    setInterval(updateCurrentDateTime, 1000); // Update every 1 second
+</script>
+                       
+            <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                  <div class="form-group">
+           
+                     <label for="interview_date">Date</label>
+        
+                     <input type="date" name="interview_date" id="interview_date" class="form-control" required onkeydown="preventInput(event)"
+                        <?php
+                           echo 'min="' . date('Y-m-d') . '"';
+                           echo ' max="' . date('Y-12-31') . '"';
+                           ?>>
+                  </div>
+                  <div class="form-group">
+                     <label>Time</label>
+                     <div style="display: flex; align-items: center;">
+                     <input type="number" name="interview_hours" id="interview_hours" class="form-control" min="1" max="12" required>
+                        <span style="margin: 0 5px;">:</span>
+                        <input type="number" name="interview_minutes" id="interview_minutes" class="form-control" min="0" max="59" required>
+                        <select class="form-control" name="interview_ampm" id="interview_ampm" required>
+                           <option value="AM">AM</option>
+                           <option value="PM">PM</option>
+                        </select>
+                  </div>
+                  </div>
+                        <span id="error-message" style="color: red;"></span>
+
+
+                        <div class="form-group">
+    <label for="limit">Qty</label>
+    <input type="number" class="form-control" name="limit" id="limit" min="1" max="<?php echo $verifiedCount; ?>" required>
+</div>
+<span id="error-message-limit" style="color: red;"></span>
+
+
+                  <div class="form-group">
+                     <button type="submit" name="saveBtn" id="saveBtn" class="btn btn-primary" disabled>Set</button>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+      <!-- end search and modal -->
+      <!-- table for displaying the applicant list -->
+      <div class="background">
+         <h2 style="text-align: center">CEAP APPLICANT LIST</h2>
+         <?php
+            if (mysqli_num_rows($result) === 0) {
+              // Display the empty state image and message
+              echo '<div class="empty-state">';
+              echo '<img src="../../../../empty-state-img/no_applicant.png" alt="No records found" class="empty-state-image">';
+              echo '<p>No applicant found.</p>';
+              echo '</div>';
+            } else {
+              ?>
+         <div class="applicant-info">
+            <table>
+               <tr>
+                  <th>NO.</th>
+                  <th>CONTROL NUMBER</th>
+                  <th>LAST NAME</th>
+                  <th>FIRST NAME</th>
+                  <th>BARANGAY</th>
+                  <th>STATUS</th>
+               </tr>
+               <?php
+                  $counter = 1;
+                  
+                           // Display applicant info using a table
+                           while ($row = mysqli_fetch_assoc($result)) {
+                              echo '<tr class="applicant-row contents" onclick="seeMore(\'' . $row['ceap_reg_form_id'] . '\')" style="cursor: pointer;">';
+                              echo '<td><strong>' . $counter++ . '</strong></td>';
+                              echo '<td>' . strtoupper($row['control_number']) . '</td>';
+                              echo '<td>' . strtoupper($row['last_name']) . '</td>';
+                              echo '<td>' . strtoupper($row['first_name']) . '</td>';
+                              echo '<td>' . strtoupper($row['barangay']) . '</td>';
+                              echo '<td>' . strtoupper($row['status']) . '</td>';
+                              echo '</tr>';
+                           }
+                           ?>
+            </table>
+            <div id="noApplicantFound" style="display: none; text-align: center; margin-top: 10px;">
+               No applicant found.
+            </div>
+         </div>
+      </div>
+      <?php } ?>
+      <!-- end applicant list -->
+      <footer class="footer">
+      </footer>
+      </main>
+      <div class="overlay"></div>
+      </div>
+      <!-- partial -->
+      <script src='../../../js/unpkg-layout.js'></script>
+      <script  src="../../../js/side_bar.js"></script>
+      <script  src="../../../js/interview_limit.js"></script>
+
+
+      <script>
+         function seeMore(id) {
+             // Redirect to a page where you can retrieve the reserved data based on the given ID
+             window.location.href = "ceap_information.php?ceap_reg_form_id=" + id;
+         }
+         
+      </script>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script>
+         $(document).ready(function() {
+             // Add an event listener to the search input field
+             $('#search').on('input', function() {
+                 searchApplicants();
+             });
+         });
+         
+         function searchApplicants() {
+             var searchValue = $('#search').val().toUpperCase();
+             var found = false; // Flag to track if any matching applicant is found
+             $('.contents').each(function () {
+                 var controlNumber = $(this).find('td:nth-child(2)').text().toUpperCase();
+                 var lastName = $(this).find('td:nth-child(3)').text().toUpperCase();
+                 if (searchValue.trim() === '' || controlNumber.includes(searchValue) || lastName.includes(searchValue)) {
+                     $(this).show();
+                     found = true;
+                 } else {
+                     $(this).hide();
+                 }
+             });
+         
+             // Display "No applicant found" message if no matching applicant is found
+             if (!found) {
+                 $('#noApplicantFound').show();
+             } else {
+                 $('#noApplicantFound').hide();
+             }
+         }
+         
+         
+      </script>
+      <script>
+         // Get modal elements using plain JavaScript
+         var modal = document.getElementById("myModal");
+         var openModalBtn = document.getElementById("openModalBtn");
+         var closeModalBtn = document.getElementById("closeModalBtn");
+         
+         // Show modal when the button is clicked
+         openModalBtn.addEventListener("click", function() {
+            modal.style.display = "block";
+         });
+         
+         // Close modal when the close button is clicked
+         closeModalBtn.addEventListener("click", function() {
+            modal.style.display = "none";
+         });
+         
+         // Close modal when clicking outside the modal content
+         window.addEventListener("click", function(event) {
+            if (event.target === modal) {
+               modal.style.display = "none";
+            }
+         });
+      </script>
+      <script>
+         document.addEventListener("DOMContentLoaded", function() {
+             const hoursInput = document.getElementById("interview_hours");
+             hoursInput.addEventListener("input", function() {
+               
+                 const hoursValue = parseInt(hoursInput.value);
+                 if (isNaN(hoursValue) || hoursValue < 1 || hoursValue > 12) {
+                     hoursInput.value = '';
+                 }
+             });
+             
+             const minutesInput = document.getElementById("interview_minutes");
+         minutesInput.addEventListener("input", function() {
+         let minutesValue = minutesInput.value;
+         
+         // Remove leading zeros, except when the input is '0' or '00'
+         minutesValue = minutesValue.replace(/^0+(?!$)/, '');
+         
+         // Ensure the value is within the valid range (0 to 59)
+         const parsedMinutesValue = parseInt(minutesValue);
+         if (isNaN(parsedMinutesValue) || parsedMinutesValue < 0 || parsedMinutesValue > 59) {
+         minutesInput.value = '';
+         } else {
+         // Add leading zeros if the value is less than 10
+         minutesInput.value = parsedMinutesValue < 10 ? `0${parsedMinutesValue}` : parsedMinutesValue.toString();
+         }
+         });
+         
+         
+         });
+         
+         function formatInput(inputElement) {
+             // Remove multiple consecutive white spaces
+             inputElement.value = inputElement.value.replace(/\s+/g, ' ');
+         
+             // Convert input text to uppercase
+             inputElement.value = inputElement.value.toUpperCase();
+           }
+         
+      </script>
+
+<script>
+    // Get references to the input fields and error message elements
+    const dateInput = document.getElementById('interview_date');
+    const hoursInput = document.getElementById('interview_hours');
+    const minutesInput = document.getElementById('interview_minutes');
+    const periodInput = document.getElementById('interview_ampm');
+    const limitInput = document.getElementById('limit');
+    const saveBtn = document.getElementById('saveBtn');
+    const errorMessage = document.getElementById('error-message');
+    const errorMessageLimit = document.getElementById('error-message-limit'); // New error message for limit
+
+    // Add input event listeners to all relevant inputs
+    dateInput.addEventListener('input', validateInput);
+    hoursInput.addEventListener('input', validateInput);
+    minutesInput.addEventListener('input', validateInput);
+    periodInput.addEventListener('input', validateInput);
+    limitInput.addEventListener('input', validateInput);
+
+    function validateInput() {
+        const selectedDate = new Date(dateInput.value);
+        const hours = parseInt(hoursInput.value);
+        const minutes = parseInt(minutesInput.value);
+        const period = periodInput.value;
+        const limit = parseInt(limitInput.value);
+
+        // Check if all inputs have valid values
+        const isDateTimeValid =
+            !isNaN(selectedDate) &&
+            !isNaN(hours) &&
+            !isNaN(minutes) &&
+            (period === 'AM' || period === 'PM');
+
+        const isLimitValid =
+            !isNaN(limit) && // Check if limit is a valid number
+            limit >= 1 &&    // Check if limit is not less than 1
+            limit <= <?php echo $verifiedCount; ?>; // Check if limit is not more than the total count
+
+        // Check both conditions
+        if (isDateTimeValid && isLimitValid) {
+            // Adjust hours if it's PM
+            if (period === 'PM') {
+                hours += 12;
+            }
+
+            // Set the selectedDate's time to the selected hours and minutes
+            selectedDate.setHours(hours, minutes, 0, 0);
+
+            // Create a Date object for the current time and date
+            const currentDate = new Date();
+
+            // Compare the selectedDate with the current date and time
+            if (selectedDate >= currentDate) {
+                // Enable the "Set" button when both inputs are valid
+                saveBtn.removeAttribute('disabled');
+                // Clear both error messages
+                errorMessage.textContent = '';
+                errorMessageLimit.textContent = '';
+            } else {
+                // Disable the "Set" button when the date and time input is invalid
+                saveBtn.setAttribute('disabled', 'true');
+                // Display an error message for date and time
+                errorMessage.textContent = 'Date and time should not be earlier than the current date and time.';
+                // Clear the "limit" error message
+                errorMessageLimit.textContent = '';
+            }
+        } else {
+            // Disable the "Set" button if any input is invalid
+            saveBtn.setAttribute('disabled', 'true');
+            // Clear both error messages
+            errorMessage.textContent = '';
+            errorMessageLimit.textContent = '';
+
+            // Display error messages based on the conditions
+            if (!isDateTimeValid) {
+                errorMessage.textContent = 'Date and time are invalid.';
+            }
+            if (!isLimitValid) {
+                errorMessageLimit.textContent = 'Quantity must be between 1 and <?php echo $verifiedCount; ?>.';
+            }
+        }
+    }
+</script>
+
+   </body>
+</html>

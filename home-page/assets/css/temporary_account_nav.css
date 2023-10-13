@@ -1,0 +1,134 @@
+* {
+  font-family: "Poppins", sans-serif !important;
+}
+/* Reset some default styles */
+body, h1, h2, p {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.actives {
+  background-color: #A5040A !important;
+  color: white !important;
+  border-radius: 15px !important;
+}
+/* Top Navigation Bar */
+.topnav {
+  background-color: none !important;
+  overflow: hidden !important;
+  padding-top: 10px !important;
+}
+
+.topnav a {
+  float: left !important;
+  display: block !important;
+  color: #A5040A;
+  text-align: center !important;
+  font-size: 20px !important;
+  font-weight: bolder !important;
+  padding: 10px 20px !important;
+  text-decoration: none !important;
+  border-radius: 15px !important;
+  margin: 0 5px !important;
+}
+
+
+.topnav .logo {
+  position: relative !important;
+  top: -10px !important; /* Adjust the top position as needed */
+  left: 30px !important; /* Adjust the left position as needed */
+}
+
+.logo img {
+  width: 50px !important; /* Adjust the width as needed */
+  height: auto !important; /* This maintains the aspect ratio of the image */
+}
+.topnav .icon {
+  display: none !important;
+}
+
+/* Position the links to the right side of the nav */
+.topnav .right-links {
+  float: right !important;
+}
+/* Position the icon on the right for responsive menu */
+.topnav.responsive .icon {
+  float: right !important;
+  display: block !important;
+}
+.topnav.responsive .right-links {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* Add a black background color to the topnav links when the screen is less than 600px wide */
+@media screen and (max-width: 600px) {
+  .topnav a:not(.logo) {
+    display: none !important;
+  }
+  .topnav a.icon {
+    float: right !important;
+    display: block !important;
+  }
+}
+
+/* Main Content Area */
+.main-content {
+  padding: 20px !important;
+  background-color: #f9f9f9 !important;
+  min-height: calc(100vh - 56px) !important; /* Adjust to account for the topnav height */
+}
+/* Style the icon */
+.icon {
+  font-size: 24px !important;
+  color: red !important;
+}
+
+
+
+/* Position the menu right beneath the top navigation bar */
+.menu {
+  width: 100% !important;
+  height: 0 !important;
+  position: relative !important;
+  top: 0 !important;
+  left: 0 !important;
+  background-color: rgb(177, 10, 10) !important;
+  overflow-y: auto !important;
+  transition: height 0.3s ease-in-out !important;
+  z-index: 1 !important; /* Make sure the menu is above the content */
+  display: block !important;
+
+}
+
+/* Show the menu when the "show-menu" class is added */
+.menu.show-menu {
+  height: 25vh !important; /* Adjust for topnav's height */
+}
+
+
+/* Adjust topnav styles for responsive menu */
+.topnav.responsive .right-links {
+  position: relative !important; /* Allow menu to be positioned relative to topnav */
+  z-index: 2 !important; /* Ensure menu is above topnav links */
+}
+.menu a {
+  display: block !important;
+  padding: 10px 20px !important;
+  color: #ffffff !important;
+  text-decoration: none !important;
+  font-weight: bolder !important;
+}
+
+.menu a:hover {
+  background-color: #400000 !important;
+}
+/* Show the menu on the right for larger screens */
+@media screen and (min-width: 601px) {
+  .topnav.responsive .menu {
+  display: none !important; 
+
+    height: 0 !important;
+    right: 0 !important;
+  }
+}
+

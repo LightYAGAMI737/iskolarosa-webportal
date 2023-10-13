@@ -1,0 +1,128 @@
+
+.popup{
+	width: 438px;
+	height: 380px;
+	background: #fff;
+	border-radius: 15px;
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%,-50%) scale(0.1);
+	text-align: center;
+	padding: 0 30px 30px;
+	color: #333;
+	visibility: hidden;
+	transition: transform 0.4s, center 0.4s;
+	margin-top: -304px;
+	border-color: #000000;
+	box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+
+}
+
+
+.open-popup{
+	visibility: visible;
+	center: 50%;
+	transform: translate(-50%,-50%) scale(1);
+
+}
+.popup h2{
+	font-size: 30px;
+	font-weight: 500px;
+	margin: 30px 0 10px;
+	margin-top: 10px;
+}
+.popup button{
+	width: 40%;
+	padding: 10px 0;
+	background: #FEC021;
+	color: #000000;
+	border: 0;
+	font-size: 18px;
+	border-radius: 15px;
+	cursor: pointer;
+	box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+/*discard button in create post button*/
+.disPopup{
+	width: 438px;
+	height: 388px;
+	background: #fff;
+	border-radius: 15px;
+	position: absolute;
+	center: 0%;
+	left: 50%;
+	transform: translate(-50%,-50%) scale(0.1);
+	text-align: center;
+	padding: 0 30px 30px;
+	color: #333;
+	visibility: hidden;
+	transition: transform 0.4s, center 0.4s;
+	margin-top: -304px;
+	border-color: #000000;
+	box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+/*	border-style: solid;*/
+}
+.open-discard{
+	visibility: visible;
+	center: 50%;
+	transform: translate(-50%,-50%) scale(1);
+}
+.disPopup h2{
+	font-size: 30px;
+	font-weight: 500px;
+	margin: 30px 0 10px;
+	margin-top: 10px;
+}
+.disPopup button{
+	width: 40%;
+	padding: 10px 0;
+	background: #FEC021;
+	color: #000000;
+	border: 0;
+	font-size: 18px;
+	border-radius: 15px;
+	cursor: pointer;
+	box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+}
+/*manage post delete post button*/
+.popupdel{
+	width: 438px;
+	height: 438px;
+	background: #fff;
+	border-radius: 15px;
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%,-50%) scale(0.1);
+	text-align: center;
+	padding: 0 30px 30px;
+	color: #333;
+	visibility: hidden;
+	transition: transform 0.4s, center 0.4s;
+	margin-top: 732px;
+	border-color: #000000;
+	box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+/*	border-style: solid;*/
+}
+.open-confirmDelete{
+	visibility: visible;
+	transform: translate(-50%,-50%) scale(1);
+}
+.popupdel h2{
+	font-size: 30px;
+	font-weight: 500px;
+	margin: 30px 0 10px;
+	margin-top: 10px;
+}
+.popupdel button{
+	width: 40%;
+	padding: 10px 0;
+	background: #FEC021;
+	color: #000000;
+	border: 0;
+	font-size: 18px;
+	border-radius: 15px;
+	cursor: pointer;
+	box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+	margin-top: 21px;
+}

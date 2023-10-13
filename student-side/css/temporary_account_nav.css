@@ -1,0 +1,171 @@
+* {
+  font-family: "Poppins", sans-serif;
+}
+/* Reset some default styles */
+body, h1, h2, p {
+  margin: 0;
+  padding: 0;
+}
+.actives {
+  background-color: #A5040A;
+  color: white !important;
+  border-radius: 15px;
+}
+/* Top Navigation Bar */
+.topnav {
+  background-color: none;
+  overflow: hidden;
+  padding: 10px 20px 0px 0px;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: #A5040A;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bolder;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 15px;
+  margin: 0 5px;
+}
+
+
+.topnav .logo {
+  position: relative;
+  top: -10px; /* Adjust the top position as needed */
+  left: 10px; /* Adjust the left position as needed */
+}
+
+.logo img {
+  width: 50px; /* Adjust the width as needed */
+  height: auto; /* This maintains the aspect ratio of the image */
+}
+.topnav .icon {
+  display: none;
+}
+
+.topnav .right-links {
+  float: right;
+  display: flex; /* Use flexbox to align items horizontally */
+  align-items: center; /* Vertically center the items */
+  gap: 10px; /* Add some spacing between the items */
+}
+
+/* Position the icon on the right for responsive menu */
+.topnav.responsive .icon {
+  float: right;
+  display: block;
+}
+.topnav.responsive .right-links {
+  position: relative;
+  z-index: 2;
+}
+
+/* Add a black background color to the topnav links when the screen is less than 600px wide */
+@media screen and (max-width: 600px) {
+  .topnav a:not(.logo) {
+    display: none;
+  }
+  .topnav a.icon {
+    float: right;
+    display: block;
+  }
+}
+
+/* Main Content Area */
+.main-content {
+  padding: 20px;
+  background-color: #f9f9f9;
+  min-height: calc(100vh - 56px); /* Adjust to account for the topnav height */
+}
+/* Style the icon */
+.icon {
+  font-size: 24px;
+  color: red;
+}
+
+
+
+/* Position the menu right beneath the top navigation bar */
+.menu {
+  width: 100%;
+  height: 0;
+  position: relative;
+  top: 0;
+  left: 0;
+  background-color: rgb(177, 10, 10);
+  overflow-y: auto;
+  transition: height 0.3s ease-in-out;
+  z-index: 1; /* Make sure the menu is above the content */
+  display: block;
+
+}
+
+/* Show the menu when the "show-menu" class is added */
+.menu.show-menu {
+  height: 25vh; /* Adjust for topnav's height */
+}
+
+/* Adjust topnav styles for responsive menu */
+.topnav.responsive .right-links {
+  position: relative; /* Allow menu to be positioned relative to topnav */
+  z-index: 2; /* Ensure menu is above topnav links */
+}
+.menu a {
+  display: block;
+  padding: 10px 20px;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: bolder;
+}
+
+.menu a:hover {
+  background-color: #400000;
+}
+/* Show the menu on the right for larger screens */
+@media screen and (min-width: 601px) {
+  .topnav.responsive .menu {
+  display: none; 
+
+    height: 0;
+    right: 0;
+  }
+}
+
+/* CSS */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  border-radius: 15px;
+  background-color: #fff;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  top: calc(7% + 5px); /* Position it just below the icon */
+  right: 10px; /* Align with the icon's right edge */
+  width: 160px; /* Set a specific width for the dropdown */
+}
+
+
+.graduation-icon:hover + .dropdown-content, .dropdown-content.show {
+  display: block;
+}
+/* Style the user icon */
+.graduation-icon {
+  position: relative; /* Remove the absolute positioning */
+  font-size: 24px;
+  color: #A5040A;
+  cursor: pointer;
+}
+
+#userDropdownContent a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+#userDropdownContent a:hover {
+  background-color: #ECECEC;
+}

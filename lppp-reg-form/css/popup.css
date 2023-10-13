@@ -1,0 +1,457 @@
+
+/*ceap configuration submit button*/
+.ceap-containerPopup{
+	width: 100%;
+	height: 100vh;
+	background-color: rgba(143, 143, 143, 0.8);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	display: none;
+	z-index: 9999;
+
+}
+.popup{
+	width: 388px;
+	height: 360px;
+	background: #fff;
+	border-radius: 11px;
+	position: absolute;
+	center: 0%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	text-align: center;
+	padding: 0 30px 30px;
+	color: #333;
+	transition: transform 0.4s, center 0.4s;
+	margin-top: 330px;
+	border-color: #000000;
+	box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.40);
+}
+.open-popup{
+	display: flex;
+
+}
+.popup h2{
+	font-size: 27px;
+	font-weight: 500px;
+	margin: 30px 0 10px;
+	margin-top: 5px;
+}
+.popup button{
+	width: 46%;
+	height: 39px;
+	padding: 10px 0;
+	background: #FEC021;
+	color: #000000;
+	border: 0;
+	font-size: 18px;
+	border-radius: 4px;
+	cursor: pointer;
+	margin-top: 10px;
+	
+}
+
+/*create post popup*/
+.post-containerPopup{
+	width: 100%;
+	height: 100vh;
+	background-color: rgba(143, 143, 143, 0.8);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	display: none;
+	z-index: 9999;
+
+}
+.popuppost{
+	width: 340px;
+	height: 360px;
+	background: #fff;
+	border-radius: 11px;
+	position: absolute;
+	center: 0%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	text-align: center;
+	padding: 0 30px 30px;
+	color: #333;
+/*	visibility: hidden;*/
+	transition: transform 0.4s, center 0.4s;
+	margin-top: 330px;
+	border-color: #000000;
+	box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.40);
+
+}
+.open-post{
+	/*visibility: visible;
+	center: 50%;
+	transform: translate(-50%,-50%) scale(1);*/
+	display: flex;
+
+}
+.popuppost h2{
+	font-size: 27px;
+	font-weight: 500px;
+	margin: 30px 0 10px;
+	margin-top: 5px;
+}
+.popuppost button{
+	width: 46%;
+	height: 39px;
+	padding: 10px 0;
+	background: #FEC021;
+	color: #000000;
+	border: 0;
+	font-size: 18px;
+	border-radius: 11px;
+	cursor: pointer;
+
+}
+
+/*discard button in create post button*/
+
+.dis-containerPopup{
+	width: 100%;
+	height: 100vh;
+	background-color: rgba(143, 143, 143, 0.8);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	display: none;
+	z-index: 9999;
+}
+
+.disPopup{
+	width: 331px;
+	height: 390px;
+	background: #fff;
+	border-radius: 11px;
+	position: absolute;
+	center: 0%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	text-align: center;
+	padding: 0 30px 30px;
+	color: #333;
+	transition: transform 0.4s, center 0.4s;
+	margin-top: 430px;
+	border-color: #000000;
+	box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.40);
+}
+.open-discard{
+	/*visibility: visible;
+	center: 50%;
+	transform: translate(-50%,-50%) scale(1);*/
+	display: flex;
+}
+.disPopup h2{
+	font-size: 27px;
+	font-weight: 500px;
+	margin: 30px 0 10px;
+	margin-top: 5px;
+}
+.disPopup button{
+	width: 46%;
+	height: 39px;
+	padding: 10px 0;
+	background: #FEC021;
+	color: #000000;
+	border: 0;
+	font-size: 18px;
+	border-radius: 11px;
+	cursor: pointer;
+	
+}
+
+/*manage post delete post button*/
+.del-containerPopup{
+	width: 100%;
+	height: 100vh;
+	background-color: rgba(143, 143, 143, 0.8);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	display: none;
+	z-index: 9999;
+}
+.popupdel{
+	width: 331px;
+	height: 390px;
+	background: #fff;
+	border-radius: 11px;
+	position: absolute;
+	center: 0%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	text-align: center;
+	padding: 0 30px 30px;
+	color: #333;
+/*	visibility: hidden;*/
+	transition: transform 0.4s, center 0.4s;
+	margin-top: 450px;
+	border-color: #000000;
+	box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+}
+.open-confirmDelete{
+	display: flex;
+}
+.popupdel h2{
+	font-size: 27px;
+	font-weight: 500px;
+	margin: 30px 0 10px;
+	margin-top: 5px;
+}
+.popupdel button{
+	width: 46%;
+	height: 39px;
+	padding: 10px 0;
+	background: #FEC021;
+	color: #000000;
+	border: 0;
+	font-size: 18px;
+	border-radius: 11px;
+	cursor: pointer;
+	margin-top: 10px;
+}
+/*another  popup for confirm*/
+.confirmcontainerpopup{
+	width: 100%;
+	height: 100vh;
+	background-color: rgba(143, 143, 143, 0.8);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	display: none;
+	z-index: 9999;
+}
+.confirmpopup{
+	width: 388px;
+	height: 258px;
+	background: #fff;
+	border-radius: 11px;
+	position: absolute;
+	center: 0%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	text-align: center;
+	padding: 0 30px 30px;
+	color: #333;
+	transition: transform 0.4s, center 0.4s;
+	margin-top: 300px;
+	border-color: #000000;
+	box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.40)
+
+}
+.open-confirmpopup{
+	display: flex;
+}
+.confirmpopup h2{
+	font-size: 27px;
+	font-weight: 500px;
+	margin: 30px 0 10px;
+	margin-top: 5px;
+}
+/*another delete popup for confirm*/
+.delconfirmcontainerpopup{
+	width: 100%;
+	height: 100vh;
+	background-color: rgba(143, 143, 143, 0.8);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	display: none;
+	z-index: 9999;
+}
+.delconfirmpopup{
+	width: 388px;
+	height: 244px;
+	background: #fff;
+	border-radius: 11px;
+	position: absolute;
+	center: 0%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	text-align: center;
+	padding: 0 30px 30px;
+	color: #333;
+	transition: transform 0.4s, center 0.4s;
+	margin-top: 290px;
+	border-color: #000000;
+	box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.40)
+
+}
+.open-delconfirmpopup{
+	display: flex;
+}
+.delconfirmpopup h2{
+	font-size: 27px;
+	font-weight: 500px;
+	margin: 30px 0 10px;
+	margin-top: 5px;
+}
+/*apply now button*/
+.apply-containerPopup{
+	width: 100%;
+	height: 100vh;
+	background-color: rgba(143, 143, 143, 0.8);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	display: none;
+	z-index: 9999;
+
+}
+.apppopup{
+	width: 388px;
+	height: 360px;
+	background: #fff;
+	border-radius: 11px;
+	position: absolute;
+	center: 0%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	text-align: center;
+	padding: 0 30px 30px;
+	color: #333;
+	transition: transform 0.4s, center 0.4s;
+	margin-top: 330px;
+	border-color: #000000;
+	box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.40);
+}
+.open-apppopup{
+	display: flex;
+
+}
+.apppopup h2{
+	font-size: 27px;
+	font-weight: 500px;
+	margin: 30px 0 10px;
+	margin-top: 5px;
+}
+.apppopup button{
+	width: 28%;
+	height: 39px;
+	padding: 10px 0;
+	background: #A5040A;
+	color: #ffffff;
+	border: 0;
+	font-size: 18px;
+	border-radius: 4px;
+	cursor: pointer;
+	margin-top: 30px;
+	
+}
+/*submit ceap-reg-form button*/
+.sub-containerPopup{
+	width: 100%;
+	height: 100vh;
+	background-color: rgba(143, 143, 143, 0.8);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	top: -15px;
+	display: none;
+	z-index: 9999;
+
+}
+.subpopup{
+	width: 400px;
+	height: 360px;
+	background: #fff;
+	border-radius: 15px;
+	position: absolute;
+	center: 0%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	text-align: center;
+	padding: 0 30px 30px;
+	color: #333;
+	transition: transform 0.4s, center 0.4s;
+	margin-top: 330px;
+	border-color: #000000;
+	box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.40);
+}
+.open-subpopup{
+	display: flex;
+
+}
+.subpopup h2{
+	font-size: 27px;
+	font-weight: 500px;
+	margin: 30px 0 10px;
+	margin-top: -14px;
+}
+.subpopup button{
+	width: 41%;
+	height: 43px;
+	padding: 10px 0;
+	background: #A5040A;
+	color: #ffffff;
+	border: 0;
+	font-size: 18px;
+	border-radius: 15px;
+	cursor: pointer;
+	margin-top: 14px;
+	
+}
+/*another submit popup for confirm*/
+.subconfirmcontainerpopup{
+	width: 100%;
+	height: 100vh;
+	background-color: rgba(143, 143, 143, 0.8);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	display: none;
+	z-index: 9999;
+}
+.subconfirmpopup{
+	width: 470px;
+	height: 347px;
+	background: #fff;
+	border-radius: 11px;
+	position: absolute;
+	center: 0%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	text-align: center;
+	padding: 0 30px 30px;
+	color: #333;
+	transition: transform 0.4s, center 0.4s;
+	margin-top: 290px;
+	border-color: #000000;
+	box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.40)
+
+}
+.open-subconfirmpopup{
+	display: flex;
+}
+.subconfirmpopup h2{
+	font-size: 27px;
+	font-weight: 500px;
+	margin: 30px 0 10px;
+	margin-top: 5px;
+}
+.subconfirmpopup button{
+	width: 25%;
+	height: 43px;
+	padding: 10px 0;
+	background: #A5040A;
+	color: #ffffff;
+	border: 0;
+	font-size: 18px;
+	border-radius: 11px;
+	cursor: pointer;
+	margin-top: 14px;
+	
+}

@@ -1,0 +1,250 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style: none;
+  font-family: "Arial";
+
+}
+
+/* Active CSS */
+ul li .active {
+  background-color: #A5040A;
+  display: grid;
+  place-items: center;
+}
+
+li .active::after {
+  background-color: #FEC021;
+}
+
+ul li .active p {
+  display: none;
+}
+
+ul li .active .uil {
+  font-size: 20px;
+  display: flex;
+}
+
+/* CONTENT CSS */
+.container {
+  border-radius: 15px;
+  background: #FFF;
+  box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.40);
+  height: 500px;  
+  padding: 40px;
+  margin: 20px 40px 0px 40px;
+}
+.ul {
+  list-style-type: none;
+  margin: 20px 0;
+  padding: 0;
+}
+
+.ul li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.ul li .icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.ul li .progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background-color: #A5040A;
+  border-radius: 50%;
+  color: white;
+  margin-right: 10px;
+}
+
+.ul li .progress p {
+  margin: 0;
+  font-weight: bold;
+}
+
+.ul li .progress .uil-check {
+  font-size: 18px;
+}
+
+.ul li .text {
+  margin: 0;
+}
+
+.ul {
+  display: flex;
+  margin-top: 30px;
+}
+
+.ul li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 30px;
+}
+
+.ul li .icon {
+  font-size: 35px;
+  color: #ff4732;
+}
+
+.ul li .text {
+  font-size: 14px;
+  font-weight: 600;
+  color: black;
+}
+
+/* Progress Div CSS */
+.ul li .progress {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #A9ABAD;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  position: relative;
+  cursor: pointer;
+  margin: 50px;
+}
+
+.progress::after {
+  content: " ";
+  position: absolute;
+  border-radius: 15px;
+  width: 125px;
+  height: 10px;
+  background-color: grey;
+  margin-right: 205px;
+}
+
+/* Shaded Color */
+/* Shaded Color */
+.ul li .progress.shaded {
+  background-color: #FEC021;
+  position: relative;
+}
+
+.ul li .progress.shaded::before {
+  content: "\2714"; /* Unicode checkmark character */
+  font-size: 24px;
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+.one::after {
+  width: 0;
+  height: 0;
+}
+
+.ul li .progress .uil {
+  display: none;
+}
+
+.ul li .progress p {
+  font-size: 23px;
+}
+
+.status_bar p {
+  margin-top: -30px;
+  font-weight: bold;
+}
+.status_bar { 
+  background-color: white;
+  display: flex;
+  justify-content: center;
+}
+  .border_line {
+    border-top: 1px solid grey;
+    margin-top: 15px;
+  }
+
+  @media only screen and (max-width: 1000px) {
+  .ul {
+    flex-direction: column;
+    align-items: center;
+  }
+  .ul li {
+    flex-direction: row;
+    margin: 10px 0;
+  }
+  .ul li .progress {
+    margin: 0 10px;
+  }
+  .progress::after {
+    width: 5px;
+    height: 55px;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: -1;
+  }
+  .one::after {
+    height: 10px;
+  }
+  ul li .icon {
+    margin: 15px 0;
+  }
+}
+
+
+
+/* Table Styles */
+.table-info {
+  margin-top: 20px;
+  padding: 30px;
+
+}
+
+.table-info table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+
+}
+
+.table-info th,
+.table-info td {
+  padding: 10px;
+  border: 1px solid black;
+
+}
+
+.table-info th {
+  background-color: #ffffff;
+  font-weight: bold;
+}
+
+.table-info td {
+  text-align: center;
+
+}
+
+/* Make the td for description wider */
+.table-info td:nth-child(3) {
+  width: 50%; /* Adjust width as needed */
+}
+
+/* Optional: Style for alternating rows */
+.table-info tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+footer {
+    background-color: #A5040A;
+    color: white;
+  }

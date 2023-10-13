@@ -1,0 +1,238 @@
+.create-post-form {
+  max-width: 100%;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  height: auto;
+  padding-bottom: 20px;
+}
+
+.content-section {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: -25px;
+}
+
+
+.left-section {
+flex: 70; /* Set the flex value to 70 */
+padding: 25px;
+}
+
+.right-section {
+flex: 30; /* Set the flex value to 30 */
+padding: 25px;
+}
+
+.left-section label,
+.right-section label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.left-section input,
+.left-section textarea,
+.right-section input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid grey;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); 
+
+}
+#description {
+height: 400px;
+}
+.left-section textarea {
+  resize: none; /* Prevent resizing */
+  width: 100%;
+  padding: 8px;
+  border: 1px solid grey;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+
+}
+.right-section input[type="file"] {
+height: 350px;
+border: 1px solid grey;
+box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); 
+}
+
+button.discard {
+  background-color: #FFFBEF !important;
+  border: 1px solid black !important;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 15px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: -40px;
+  transition: background-color 0.3s ease;
+}
+button.create {
+  background-color: #FEC021 !important;
+  border: 1px solid #FEC021 !important;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 15px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: -40px;
+  transition: background-color 0.3s ease;
+}
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.btn-upload {
+  border: 2px solid gray;
+  color: gray;
+  background-color: white;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.upload-btn-wrapper input[type="file"] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+.button-section {
+margin-top: 20px;
+text-align: center;
+}
+button.button-section{
+  margin-right: 20px;
+}
+.create-post-form button[type="submit"] {
+  background-color: #FEC021;
+  color: black;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 15px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: -40px;
+  transition: background-color 0.3s ease;
+}
+
+.create-post-form button[type="submit"]:hover {
+  background-color: #e3a300;
+}
+.input-row {
+display: flex;
+align-items: center;
+margin-bottom: 10px;
+}
+
+.input-row label {
+flex: 0 0 80%; /* Adjust as needed */
+font-weight: bold;
+margin-right: 10px;
+}
+
+.input-row input[type="datetime-local"],
+.input-row input[type="text"] {
+flex: 0 0 80%; /* Adjust as needed */
+padding: 8px;
+border: 1px solid grey;
+border-radius: 4px;
+box-sizing: border-box;
+box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Additional styles to remove default spacing between inputs */
+.input-row input[type="datetime-local"] + label,
+.input-row input[type="text"] + label {
+margin-left: 0;
+}
+
+@media (max-width: 768px) {
+  .content-section {
+      flex-direction: column; /* Stack sections vertically on small screens */
+  }
+
+  .left-section,
+  .right-section {
+      flex: 100%; /* Take full width on small screens */
+  }
+
+  .input-row label {
+flex: 0 0 80%; /* Adjust as needed */
+      margin-bottom: 5px;
+  }
+
+  .input-row input[type="datetime-local"],
+  .input-row input[type="text"] {
+      flex: 100%; /* Take full width on small screens */
+      margin-bottom: 10px;
+  }
+  .right-section input[type="file"] {
+    height: 40px;
+    border: 1px solid grey;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); 
+    }
+    
+}
+
+
+#tag {
+  position: relative;
+  top: -5px;
+  width: 100px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+  font-size: 16px;
+  color: #333;
+  height: 35px;
+}
+
+/* Style for the select options */
+#tag option {
+  background-color: white;
+  color: #333;
+}
+
+/* Style for the select dropdown arrow */
+#tag::-ms-expand {
+  display: none;
+}
+
+.createpostbtn {
+  display: inline-block;
+  padding: 10px 20px; /* Adjust padding as needed */
+  background-color: #A5040A; /* Button background color */
+  color: #fff; /* Button text color */
+  text-decoration: none; /* Remove underline from the link */
+  border: none; /* Remove button border */
+  border-radius: 15px; /* Rounded corners */
+  cursor: pointer; /* Show a pointer cursor on hover */
+  transition: background-color 0.3s ease; /* Smooth background color transition */
+}
+
+/* Style for the button on hover */
+.createpostbtn:hover {
+  background-color: #400000; /* Change background color on hover */
+}
+.required::after {
+  content: " *";
+  color: #A5040A;
+}
+
+button[disabled] {
+  background-color: gray !important;
+  cursor: not-allowed !important;
+  border-color: gray !important;
+  color: white;
+}
