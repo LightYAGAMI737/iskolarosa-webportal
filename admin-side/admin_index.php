@@ -1,3 +1,7 @@
+<?php
+header("Location: login");
+?>
+
 <!DOCTYPE html>
 <html lang="en" >
    <head>
@@ -80,12 +84,7 @@ if (isset($_GET['error'])) {
             }
         }
     </script>
-        <script>
-        // Use pushState to change the URL when the page loads
-        window.onload = function() {
-            history.pushState(null, '', 'login');
-        };
-    </script>
+
 </body>
 </html>
 
