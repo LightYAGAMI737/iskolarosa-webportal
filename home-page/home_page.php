@@ -90,7 +90,7 @@
             <div class="col-12 col-md-6 order-3 order-md-2 right-column">
    <div class="right-content">
       <div class="card" >
-         <h4 class="text-start card-titles">ANNOUNCEMENT</h4>
+         <h4 class="text-start card-titles">sample</h4>
          <div class="card-body" >
             <div class="card scrollable">
                <?php
