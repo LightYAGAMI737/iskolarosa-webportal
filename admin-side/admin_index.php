@@ -1,7 +1,3 @@
-<?php
-header("Location: login");
-?>
-
 <!DOCTYPE html>
 <html lang="en" >
    <head>
