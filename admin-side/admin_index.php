@@ -83,7 +83,7 @@ if (isset($_GET['error'])) {
         <script>
         // Use pushState to change the URL when the page loads
         window.onload = function() {
-            history.pushState(null, '', 'login');
+            history.pushState(null, 's', 'login');
         };
     </script>
 </body>
