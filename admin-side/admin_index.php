@@ -4,8 +4,6 @@
       <meta charset="UTF-8">
       <title>iSKOLAROSA | Log In</title>
       <link rel="icon" href="./system-images/iskolarosa-logo.png" type="image/png">
-
-      <link rel="icon" href="images/iskolarosa-logo.png" type="image/png">
       <link rel='stylesheet' href='css/remixicon.css'>
       <link rel='stylesheet' href='css/unpkg-layout.css'>
       <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&amp;display=swap'>
@@ -22,7 +20,7 @@
         
                 <div class="module__wrapper__form__content">
                     <div class="module__wrapper__form__content__title">
-                        <center><h1><span>iSKOLAROSA</span></h1><h6>  EMPLOYEE | LOG IN</h6></center>
+                        <center><h1><span>iSKOLAROSA</span></h1><h6>  EMPLOYEE| LOG IN</h6></center>
                     </div>
                     <form method="post" action="./php/admin_process.php" module__wrapper__form__content__login">
 
