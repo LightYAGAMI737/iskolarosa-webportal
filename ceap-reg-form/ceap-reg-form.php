@@ -120,7 +120,7 @@
                         <label class="required" for="date_of_birth">Date of birth</label>
                         <input type="date" id="date_of_birth" name="date_of_birth" min="1960-01-01" required onkeydown="event.preventDefault();" />
                      </div>
-                     <div class="input-container">
+                     <div class="input-container noborder">
                         <label class="required" for="age">Age</label>
                         <input type="text" id="age" name="age"  style="border: none;" readonly/>
                      </div>

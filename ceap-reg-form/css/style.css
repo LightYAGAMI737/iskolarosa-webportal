@@ -20,21 +20,29 @@
      justify-content: center;
      align-items: flex-start;
 }
-/* Add a media query for screens with a maximum width of 768px */
-@media (max-width: 768px) {
+/* Add a media query for screens with a maximum width of 800px */
+@media (max-width: 800px) {
+
     .text-row {
-        flex-direction: column;
-        height: auto;
-        justify-content: center; /* Center horizontally */
-        align-items: center; /* Center vertically */
+        flex-direction: column !important;
+        height: auto !important;
+        justify-content: center !important; /* Center horizontally */
+        align-items: center !important; /* Center vertically */
     }
+
     .input-container {
-        flex: 1; /* Use flex layout */
-        max-width: none;
-        width: 100%; /* Each field takes full width in a single column */
+        flex: 1 !important;
+        max-width: none !important;
+        width: 100% !important;
     }
+
     .input-container label {
-        text-align: left;
+        text-align: left !important;
+    }
+
+    .fieldset-container {
+        width: 400px !important;
+        margin: 0 auto !important;
     }
 }
 
