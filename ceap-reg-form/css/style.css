@@ -20,8 +20,9 @@
      justify-content: center;
      align-items: flex-start;
 }
+
 /* Add a media query for screens with a maximum width of 800px */
-@media (max-width: 840px) {
+@media (max-width: 991px) {
 
     .text-row {
         flex-direction: column !important;
@@ -42,6 +43,27 @@
 
     .fieldset-container {
         width: 400px !important;
+        margin: 0 auto !important;
+    }
+    #headerceap {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .fieldset-container {
+        width: 280px !important; 
+        margin: 0 auto !important;
+    }
+    #headerceap {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 410px) {
+
+    .fieldset-container {
+        width: 200px !important; 
         margin: 0 auto !important;
     }
 }
