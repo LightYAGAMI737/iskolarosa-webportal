@@ -21,7 +21,7 @@
      align-items: flex-start;
 }
 /* Add a media query for screens with a maximum width of 800px */
-@media (max-width: 1000px) {
+@media (max-width: 800px) {
 
     .text-row {
         flex-direction: column !important;
