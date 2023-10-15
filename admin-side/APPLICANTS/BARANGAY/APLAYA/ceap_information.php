@@ -44,10 +44,13 @@
       <link rel='stylesheet' href="../../../css/unpkg-layout.css">
       <link rel="stylesheet" href="../../../css/side_bar.css">
       <link rel="stylesheet" href="../../../css/ceap_information.css">
+      <link rel="stylesheet" href="../../../css/status_popup.css">
    </head>
    <body>
       <?php 
          include '../../side_bar_barangay_information.php';
+         include '../../../php/status_popup.php';
+         include '../../../php/confirmStatusPopUp.php';
          ?>
       <!-- home content-->    
       <!-- table for displaying the applicant info -->
@@ -304,7 +307,7 @@ echo $age->y . ' years old'; // Display calculated age
             // Check the status and determine which buttons to display
             if ($applicantStatus === 'In Progress') {
                 echo '<button onclick="openReasonModal(\'Disqualified\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">DISQUALIFIED</button>';
-                echo '<button onclick="updateStatus(\'Verified\', ' . $id . ')" style="background-color: #FEC021;" class="status-button">VERIFIED</button>';
+                echo '<button onclick="openVerifiedPopup()" style="background-color: #FEC021;" class="status-button">VERIFIED</button>';
             } elseif ($applicantStatus === 'Verified') {
                 echo '<button onclick="openReasonModal(\'Disqualified\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">DISQUALIFIED</button>';
             } elseif ($applicantStatus === 'Disqualified') {
@@ -319,7 +322,9 @@ echo $age->y . ' years old'; // Display calculated age
       <div class="overlay"></div>
       </div>
       <!-- partial -->
-      <script src='../../../js/unpkg-layout.js'></script><script  src="../../../js/side_bar.js"></script>
+      <script src='../../../js/unpkg-layout.js'></script>
+      <script  src="../../../js/side_bar.js"></script>
+      <script  src="../../../js/status_popup.js"></script>
 
 
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -398,33 +403,52 @@ echo $age->y . ' years old'; // Display calculated age
              // Send the AJAX request with status, reason, and applicantId
              xhr.send("status=" + status + "&id=" + applicantId + "&reason=" + reason);
          }
-         
-           function updateStatus(status, applicantId) {
-             // Send an AJAX request to update the applicant status
-             var xhr = new XMLHttpRequest();
-             xhr.open("POST", "../../../php/updateStatus.php", true);
-             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-             xhr.onreadystatechange = function () {
-                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                     // Handle the response here
-                     var response = xhr.responseText.trim(); // Trim whitespace from the response text
-                     if (response === 'success') {
-                         alert('Status updated successfully.');
-                         // You can add additional logic here if needed
-                         goBack(); // Corrected function name
-                     } else {
-                         alert('Failed to update status.');
-                         // You can handle error cases here if needed
-                         goBack(); // Corrected function name
-         
-                     }
-                 }
-             };
-             
-             // Send the AJAX request
-             xhr.send("status=" + status + "&id=" + applicantId); // Add this line to send data
-         }
-         
+         function updateStatus(status, applicantId) {
+  // Send an AJAX request to update the applicant status
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "../../../php/updateStatus.php", true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+      // Handle the response here
+      var response = xhr.responseText.trim(); // Trim whitespace from the response text
+      if (response === 'success') {
+        // Status updated successfully; open the confirmation popup
+        openConfirmationPopup();
+      } else {
+        alert('Failed to update status.');
+        // You can handle error cases here if needed
+        goBack(); // Corrected function name
+      }
+    }
+  };
+
+  // Send the AJAX request
+  xhr.send("status=" + status + "&id=" + applicantId); // Add this line to send data
+}
+
+function openConfirmationPopup() {
+  // Close the verified popup
+  closeVerifiedPopup();
+
+  const confirmPopup = document.getElementById("ConfrimMsgPopUp");
+  confirmPopup.style.display = "block";
+
+  // Add a click event listener to the "OK" button
+  const okButton = document.getElementById("okConfirm");
+  okButton.addEventListener("click", function () {
+    confirmPopup.style.display = "none";
+    // Call the goBack function when the "OK" button is clicked
+    goBack();
+  });
+
+  // Call the goBack function after a 5-second delay
+  setTimeout(goBack, 5000);
+}
+
+
+
+
       </script>
 
       
