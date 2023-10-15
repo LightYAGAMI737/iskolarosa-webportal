@@ -270,7 +270,6 @@ echo $age->y . ' years old'; // Display calculated age
                            echo "</tbody>";
                            echo "</table>";
                            
-                           
                            ?>
                      </div>
                   </td>
@@ -311,10 +310,10 @@ echo $age->y . ' years old'; // Display calculated age
             } elseif ($applicantStatus === 'Verified') {
                 echo '<button onclick="openReasonModal(\'Disqualified\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">DISQUALIFIED</button>';
             } elseif ($applicantStatus === 'Disqualified') {
-                echo '<button onclick="updateStatus(\'Verified\', ' . $id . ')" style="background-color: #FEC021; margin-right: 100px;" class="status-button">VERIFIED</button>';
+                echo '<button onclick="openVerifiedPopup()" style="background-color: #FEC021; margin-right: 100px;" class="status-button">VERIFIED</button>';
             } elseif ($applicantStatus === 'interview') {
                 echo '<button onclick="openReasonModal(\'Fail\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">NOT GRANTEE</button>';
-                echo '<button onclick="updateStatus(\'Grantee\', ' . $id . ')" style="background-color: #FEC021;" class="status-button">GRANTEE</button>';
+                echo '<button onclick="openGranteePopup()" style="background-color: #FEC021;" class="status-button">GRANTEE</button>';
             }
             ?>
       </footer>
@@ -403,6 +402,7 @@ echo $age->y . ' years old'; // Display calculated age
              // Send the AJAX request with status, reason, and applicantId
              xhr.send("status=" + status + "&id=" + applicantId + "&reason=" + reason);
          }
+
          function updateStatus(status, applicantId) {
   // Send an AJAX request to update the applicant status
   var xhr = new XMLHttpRequest();
@@ -417,7 +417,6 @@ echo $age->y . ' years old'; // Display calculated age
         openConfirmationPopup();
       } else {
         alert('Failed to update status.');
-        // You can handle error cases here if needed
         goBack(); // Corrected function name
       }
     }

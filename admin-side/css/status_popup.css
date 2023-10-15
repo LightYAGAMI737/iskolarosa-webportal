@@ -1,5 +1,4 @@
-.verifiedPopUp,
-.ConfrimMsgPopUp {
+.popupOut {
   display: none;
   position: fixed;
   top: 0;
@@ -12,8 +11,7 @@
   justify-content: center;
 }
 
-.open_verifiedPopUp,
-.open_ConfirmMessagePopUp {
+.popupIn {
     background: #fff;
     padding: 20px;
     border-radius: 15px;
@@ -26,28 +24,28 @@
     transform: translate(-50%, -50%); 
   }
   
-button#cancelConfirm,
+button.cancel-button,
 button#okConfirm,
-button#submitConfirm {
-  width: 120px; 
-  height: 40px;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  border-radius: 15px;
-  position: relative; 
-  text-align: center;
-  padding-left: 20px; 
-  align-items: center;
-  line-height: 0px;
+button.confirm-button {
+  width: 120px !important; 
+  height: 40px !important;
+  border: none !important;
+  cursor: pointer !important;
+  font-size: 16px !important;
+  border-radius: 15px !important;
+  position: relative !important; 
+  text-align: center !important;
+  padding-left: 20px !important; 
+  align-items: center !important;
+  line-height: 0px !important;
 }
 
-button#submitConfirm span {
+button.confirm-button span {
   margin-left: 6px;
 }
 
-button#cancelConfirm i,
-button#submitConfirm i {
+button.cancel-button i,
+button.confirm-button i {
   font-size: 20px;
   position: absolute; 
   left: 10px; 
@@ -55,22 +53,22 @@ button#submitConfirm i {
   transform: translateY(-50%); 
 }
 
-button#cancelConfirm {
+button.cancel-button {
   background-color: #C0C0C0;
   color: black;
 }
-button#submitConfirm,
+button.confirm-button,
 button#okConfirm {
   background-color: #FEC021;
   color: black;
 }
 
-button#submitConfirm:hover {
+button.confirm-button:hover {
   background-color: #daa41e;
 }
 
 .disabled {
-  pointer-events: none; 
-  opacity: 0.5; 
-  cursor: not-allowed; 
+  pointer-events: none !important; 
+  opacity: 0.5 !important; 
+  cursor: not-allowed !important; 
 }

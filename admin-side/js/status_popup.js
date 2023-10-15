@@ -1,30 +1,43 @@
-// JavaScript code to handle the popup
-const popup = document.getElementById("verifiedPopUp");
+   // JavaScript code to handle the popup
+   const Verifiedpopup = document.getElementById("verifiedPopUp");
+   const Granteepopup = document.getElementById("GranteePopUp");
 
-function openVerifiedPopup() {
-  popup.style.display = "block";
-}
+   function openVerifiedPopup() {
+       Verifiedpopup.style.display = "block";
+   }
 
-function closeVerifiedPopup() {
-  popup.style.display = "none";
-}
+   function openGranteePopup() {
+       Granteepopup.style.display = "block";
+   }
 
-// Get a reference to the "Cancel" button
-const cancelButton = document.getElementById("cancelConfirm");
-
-// Add a click event listener to the "Cancel" button to close the popup
-cancelButton.addEventListener("click", closeVerifiedPopup);
-
-
+   function closeVerifiedPopup() {
+       Verifiedpopup.style.display = "none";
+       Granteepopup.style.display = "none";
+   }
 
 
-// Get a reference to the button elements by their IDs
-var submitButtonConfirm = document.getElementById("submitConfirm");
-var submitCancelConfirm = document.getElementById("cancelConfirm");
+  // Get all elements with the class name "confirm-button"
+  const confirmButtons = document.querySelectorAll('.confirm-button');
 
-// Add a click event listener to the submitConfirm button
-submitButtonConfirm.addEventListener("click", function() {
-  // Add the "disabled" class to both buttons
-  submitButtonConfirm.classList.add("disabled");
-  submitCancelConfirm.classList.add("disabled");
+  // Loop through each confirm button and add a click event listener
+  confirmButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+          // Add the "disabled" class to the confirm button
+          this.classList.add('disabled');
+
+          // Find the associated cancel button
+          const cancelButton = this.parentElement.querySelector('.cancel-button');
+
+          // Add the "disabled" class to the cancel button
+          cancelButton.classList.add('disabled');
+      });
+  });
+
+ 
+        // Get a reference to the "Cancel" button
+const cancelButtons = document.querySelectorAll(".cancel-button");
+
+// Add a click event listener to each "Cancel" button to close the popup
+cancelButtons.forEach((cancelButton) => {
+  cancelButton.addEventListener("click", closeVerifiedPopup);
 });
