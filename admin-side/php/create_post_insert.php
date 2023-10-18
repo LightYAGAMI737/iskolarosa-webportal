@@ -68,31 +68,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             mysqli_stmt_bind_param($stmt, 'sssss', $post_title, $post_description, $post_image_path, $tag, $serverCurrentDateTime);
         }
 
-        // Execute the prepared statement
-        if (mysqli_stmt_execute($stmt)) {
-            // Log the post creation action
-            $employee_username = $_SESSION['username']; // Get the admin username from the session
-            $action = "Created a new post: $post_title"; // Define the action as post creation
+        // Check if the post was created successfully
+if (mysqli_stmt_execute($stmt)) {
+    // Log the post creation action
+    $employee_username = $_SESSION['username'];
+    $action = "Created a new post: $post_title";
 
-            // Insert a new log entry into the employee_logs table
-            $sql = "INSERT INTO employee_logs (employee_username, action) VALUES (?, ?)";
-            $stmt = mysqli_prepare($conn, $sql);
-            if ($stmt) {
-                mysqli_stmt_bind_param($stmt, 'ss', $employee_username, $action);
-                mysqli_stmt_execute($stmt);
-            }
+    // Insert a new log entry into the employee_logs table
+    $sql = "INSERT INTO employee_logs (employee_username, action) VALUES (?, ?)";
+    $stmt = mysqli_prepare($conn, $sql);
 
-            header("Location: ../create_post.php"); // Replace with the actual URL
-            exit();
-        } else {
-            echo "Error creating post: " . mysqli_error($conn);
-        }
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, 'ss', $employee_username, $action);
+        mysqli_stmt_execute($stmt);
+
+        // Respond with success
+        $response = array(
+            'success' => true,
+            'message' => 'Post created successfully'
+        );
+        echo json_encode($response);
     } else {
-        echo "Error preparing statement: " . mysqli_error($conn);
+        $response = array(
+            'success' => false,
+            'message' => 'Error inserting log entry'
+        );
+        echo json_encode($response);
     }
+} else {
+    $response = array(
+        'success' => false,
+        'message' => 'Error creating post: ' . mysqli_error($conn)
+    );
+    echo json_encode($response);
+}
 
     // Close the prepared statement and the database connection
     mysqli_stmt_close($stmt);
     mysqli_close($conn);
+}
 }
 ?>

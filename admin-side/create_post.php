@@ -50,7 +50,6 @@
       <link rel='stylesheet' href='css/unpkg-layout.css'>
       <link rel="stylesheet" href="css/side_bar.css">
       <link rel="stylesheet" href="./css/create_post.css">
-      <link rel="stylesheet" type="text/css" href="css/popup.css">
       <script>
          // Prevent manual input in date fields
          function preventInput(event) {
@@ -69,132 +68,64 @@
    </head>
    <body> <?php
          include './php/side_bar_main.php';
+         include './php/create_post_popup.php';
          ?>
       <!-- home content-->
       <!-- form for announcement -->
       <div class="header-label post">
          <h1>Create Post</h1>
       </div>
-      <div class="create-post-form">
+         <div class="create-post-form">
          <div class="content-section">
-            <div class="left-section">
-               <form action="./php/create_post_insert.php" id="post-form" method="post" enctype="multipart/form-data">
-                  <div class="input-row">
-                     <label for="title" class="required">Title:</label>
-                     <label for="scheduled_at" class="required">Tag</label>
-                  </div>
-                  <div class="input-row">
-                  <input type="text" id="title" name="post_title" minlength="5" maxlength="100" style="margin-right: 10px;" oninput="formatInput(this)" required>
-                     <select id="tag" name="tag">
-                        <option value="ceap">CEAP</option>
-                        <option value="lppp">LPPP</option>
-                     </select>
-                  </div>
-                  <label for="description" class="required">Description:</label>
-                  <textarea id="description" name="post_description" rows="4" minlength="10" maxlength="15000" oninput="formatInput(this)" required></textarea>
-                  <br>
-            </div>
-            <div class="right-section">
-               <label for="image">Upload Picture (Optional, JPG 5MB)</label>
-               <input type="file" id="image" name="post_image" accept=".jpg, .jpeg" onchange="validateFile()">
-               <br>
-               <br>
-               <label for="scheduled_at">Schedule Post (Optional):</label>
-                <input type="datetime-local" id="scheduled_at" name="post_schedule_at" onkeydown="preventInput(event)"
-                    min="<?php echo date('Y-m-d\TH:i'); ?>"
-                    max="<?php echo date('Y-12-31\TH:i'); ?>"
-                    onchange="validateSchedule()">
-                <p id="scheduleError" style="color: red;"></p>
-               <!-- create post button -->
-               <div class="button-section ">
-                  <button type="button" class="create" onclick="openPopup()" disabled>Create Post</button>
-                  <!-- <button type="button" class="btn" onclick="openPopup()">Create Post</button> -->
-                  <div class="popup" id="popup">
+               <div class="left-section">
+                  <form action="#" id="post-form" method="post" enctype="multipart/form-data">
+                     <div class="input-row">
+                           <label for="title" class="required">Title:</label>
+                           <label for="scheduled_at" class="required">Tag</label>
+                     </div>
+                     <div class="input-row">
+                           <input type="text" id="title" name="post_title" minlength="5" maxlength="100" style="margin-right: 10px;" oninput="formatInput(this)" required>
+                           <select id="tag" name="tag">
+                              <option value="ceap">CEAP</option>
+                              <option value="lppp">LPPP</option>
+                           </select>
+                     </div>
+                     <label for="description" class="required">Description:</label>
+                     <textarea id="description" name="post_description" rows="4" minlength="10" maxlength="15000" oninput="formatInput(this)" required></textarea>
                      <br>
-                     <i class="ri-download-2-fill" style="font-size: 10em; color: #A5040A;"></i>
-                     <strong>
-                        <h2>Post Now?</h2>
-                     </strong>
-                     <center>
-                        <p>This will publish your post in Announcement. You can make further edits in the “Manage Post” page.</p>
-                     </center>
-                     <div style="padding: 10px;">
-                        <button type="button" class="cancel" onclick="closePopup()" style="margin-right: 15px; background-color: #C0C0C0;">
-                           <i class="ri-close-fill"></i>Cancel </button>
-                        <button type="submit" onclick="closePopup()">
-                           <i class="ri-check-line"></i>Post </button>
-                     </div>
                   </div>
-                  <!-- discard button -->
-                  <div class="button-section ">
-                     <button type="button" class="discard" onclick="opendiscard()">Discard</button>
-                     <!-- <button type="button" class="btn" onclick="openPopup()">Discard</button> -->
-                     <div class="disPopup" id="disPopup">
-                        <br>
-                        <i class="ri-delete-bin-2-fill" style="font-size: 10em; color: #A5040A;"></i>
-                        <strong>
-                           <h2>Discard Post?</h2>
-                        </strong>
-                        <center>
-                           <p>Confirming this action will return your post to its previous state. Are you sure you want to discard your post? This action cannot be undo.</p>
-                        </center>
-                        <div style="padding: 10px;">
-                           <button type="button" onclick="closediscard()" style="margin-right: 15px; background-color: #C0C0C0;">
-                              <i class="ri-close-fill"></i>Cancel </button>
-                           <button type="button" onclick="closediscard(), clearFormFields()">
-                              <i class="ri-check-line"></i>Discard </button>
-                        </div>
+                  <div class="right-section">
+                     <label for="image">Upload Picture (Optional, JPG 5MB)</label>
+                     <input type="file" id="image" name="post_image" accept=".jpg, .jpeg" onchange="validateFile()">
+                     <br>
+                     <br>
+                     <label for="scheduled_at">Schedule Post (Optional):</label>
+                     <input type="datetime-local" id="scheduled_at" name="post_schedule_at" onkeydown="preventInput(event)"
+                           min="<?php echo date('Y-m-d\TH:i'); ?>"
+                           max="<?php echo date('Y-12-31\TH:i'); ?>"
+                           onchange="validateSchedule()">
+                     <p id="scheduleError" style="color: red;"></p>
+                     <!-- submit post button -->
+                     <div class="button-section ">
+                           <button type="button" class="create" onclick="openPopup()" disabled>Submit Post</button>
+                           <!-- discard button -->
+                           <div class="button-section ">
+                              <button type="button" class="discard" onclick="opendiscard()">Discard</button>
+                           </div>
                      </div>
-                  </div>
+                  </form>
                </div>
-            </div>
          </div>
       </div>
-      </form>
       <!-- end announcement form -->
       <!-- <footer class="footer"></footer> -->
       </main>
       <div class="overlay"></div>
       </div>
       <!-- partial -->
-      <script src='js/unpkg-layout.js'></script><script  src="./js/side_bar.js"></script>
-
-      <script>
-         function clearFormFields() {
-            // Get the form element by its ID
-            var form = document.getElementById("post-form");
-            // Reset the form to clear all input fields
-            form.reset();
-         }
-      </script>
-      <script>
-         let popup = document.getElementById("popup");
-
-         function openPopup() {
-            popup.classList.add("open-popup")
-            // document.getElementById("disabled").disabled=true;
-         }
-
-         function closePopup() {
-            popup.classList.remove("open-popup")
-            // document.getElementById("disabled").disabled=false;
-         }
-      </script>
-      <!-- popup -->
-      <!-- popup discard-->
-      <script>
-         let disPopup = document.getElementById("disPopup");
-
-         function opendiscard() {
-            disPopup.classList.add("open-discard")
-            // document.getElementById("disabled").disabled=true;
-         }
-
-         function closediscard() {
-            disPopup.classList.remove("open-discard")
-            // document.getElementById("disabled").disabled=false;
-         }
-      </script>
+      <script src='js/unpkg-layout.js'></script>
+      <script  src="./js/side_bar.js"></script>
+      <script  src="./js/create_post_popup.js"></script>
 
       <script>
        function validateFile() {
