@@ -1,8 +1,5 @@
 <?php
    session_start();
-
-
-   // Check if the session is not set (user is not logged in)
    if (!isset($_SESSION['username'])) {
        echo 'You need to log in to access this page.';
        exit();
@@ -13,7 +10,6 @@
    
    include '../../../php/config_iskolarosa_db.php';
    
-   // Get the ceap_reg_form_id parameter from the URL
    if (isset($_GET['ceap_reg_form_id'])) {
        $ceapRegFormId = $_GET['ceap_reg_form_id'];
    } else {
@@ -24,7 +20,7 @@
    $id = $_GET['ceap_reg_form_id'];
    $query = "SELECT * FROM ceap_reg_form WHERE ceap_reg_form_id = ?";
    $stmt = mysqli_prepare($conn, $query);
-   mysqli_stmt_bind_param($stmt, "i", $id); // "i" indicates an integer parameter
+   mysqli_stmt_bind_param($stmt, "i", $id); 
    mysqli_stmt_execute($stmt);
    $result = mysqli_stmt_get_result($stmt);
    
@@ -35,8 +31,7 @@
        exit();
    }
    
-   include '../../../php/status_popup.php';
-   include '../../../php/confirmStatusPopUp.php';
+   
    ?>
 <!DOCTYPE html>
 <html lang="en" >
@@ -52,12 +47,13 @@
    </head>
    <body>
       <?php 
+         include '../../../php/status_popup.php';
+         include '../../../php/confirmStatusPopUp.php';
          include '../../side_bar_barangay_information.php';
-     
+         
          ?>
       <!-- home content-->    
       <!-- table for displaying the applicant info -->
-
       <div class="table-section">
          <!-- Back button -->
          <div class="back-button-container">
@@ -65,60 +61,56 @@
             <i><i class="ri-close-circle-line"></i></i>
             </a>
          </div>
-<!-- Table 1: Personal Info -->
-<div class="applicant-info">
-    <h2 style="margin-top: -55px;">Personal Information</h2>
-    <table>
-        <?php foreach ($applicantInfo as $field => $value) : ?>
-            <?php if (in_array($field, [
-                'control_number', 'last_name', 'first_name', 'middle_name', 'suffix_name',
-                'date_of_birth', 'gender', 'civil_status', 'place_of_birth', 'religion', 'contact_number',
-                'active_email_address', 'house_number', 'province', 'municipality', 'barangay'
-            ])) : ?>
-                <tr>
-                    <th><?php echo ucwords(str_replace('_', ' ', $field)) . ': '; ?></th>
-                    <td>
-                        <?php
+         <!-- Table 1: Personal Info -->
+         <div class="applicant-info">
+            <h2 style="margin-top: -55px;">Personal Information</h2>
+            <table>
+               <?php foreach ($applicantInfo as $field => $value) : ?>
+               <?php if (in_array($field, [
+                  'control_number', 'last_name', 'first_name', 'middle_name', 'suffix_name',
+                  'date_of_birth', 'gender', 'civil_status', 'place_of_birth', 'religion', 'contact_number',
+                  'active_email_address', 'house_number', 'province', 'municipality', 'barangay'
+                  ])) : ?>
+               <tr>
+                  <th><?php echo ucwords(str_replace('_', ' ', $field)) . ': '; ?></th>
+                  <td>
+                     <?php
                         if ($field === 'date_of_birth') {
                             echo $value; // Display date of birth
                         } else {
                             echo $value;
                         }
                         ?>
-                    </td>
-                </tr>
-                <?php if ($field === 'date_of_birth') : ?>
-                    <tr>
-        <th>Age:</th>
-        <td>
-        <?php
-// Calculate age from date of birth
-$birthDate = new DateTime($value);
-$currentDate = new DateTime();
-$age = $currentDate->diff($birthDate);
-
-// Check if the birthday has occurred in the current year
-if (($currentDate < $birthDate->modify('+' . $age->y . ' years'))) {
-    $age->y--; // Decrement the age by 1
-    $birthDate->modify('-1 year'); // Adjust the birthdate for correct calculation
-}
-
-// Reset the birthdate to its original value
-$birthDate->modify('+' . $age->y . ' years');
-
-echo $age->y . ' years old'; // Display calculated age
-?>
-
-        </td>
-    </tr>
-                <?php endif; ?>
-            <?php endif; ?>
-        <?php endforeach; ?>
-    </table>
-</div>
-
-
-
+                  </td>
+               </tr>
+               <?php if ($field === 'date_of_birth') : ?>
+               <tr>
+                  <th>Age:</th>
+                  <td>
+                     <?php
+                        // Calculate age from date of birth
+                        $birthDate = new DateTime($value);
+                        $currentDate = new DateTime();
+                        $age = $currentDate->diff($birthDate);
+                        
+                        // Check if the birthday has occurred in the current year
+                        if (($currentDate < $birthDate->modify('+' . $age->y . ' years'))) {
+                            $age->y--; // Decrement the age by 1
+                            $birthDate->modify('-1 year'); // Adjust the birthdate for correct calculation
+                        }
+                        
+                        // Reset the birthdate to its original value
+                        $birthDate->modify('+' . $age->y . ' years');
+                        
+                        echo $age->y . ' years old'; // Display calculated age
+                        ?>
+                  </td>
+               </tr>
+               <?php endif; ?>
+               <?php endif; ?>
+               <?php endforeach; ?>
+            </table>
+         </div>
          <!-- Table 2: Family Background -->
          <div class="applicant-info">
             <h2>Family Background</h2>
@@ -284,10 +276,10 @@ echo $age->y . ' years old'; // Display calculated age
       <!-- Modal for entering reason -->
       <div id="reasonModal" class="modal">
          <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
+            <span class="close" onclick="closeReasonModal()">&times;</span>
             <h2>Enter Reason</h2>
             <input type="text" name="reason" id="disqualificationReason" minlength="10" maxlength="255" placeholder="Enter reason for disqualification">
-            <button id="submitReason" onclick="submitStatusAndReason()">Submit</button>
+            <button id="submitReason" onclick="submitStatusAndReason()" class="disabled">Submit</button>
          </div>
       </div>
       <footer class="footer">
@@ -327,132 +319,12 @@ echo $age->y . ' years old'; // Display calculated age
       <script src='../../../js/unpkg-layout.js'></script>
       <script  src="../../../js/side_bar.js"></script>
       <script  src="../../../js/status_popup.js"></script>
-
-
+      <script  src="../../../js/updateStatusDisqualified.js"></script>
+      <script  src="../../../js/updateStatusVerified.js"></script>
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      <script>
-         function expandImage(element) {
-             var expandedImage = element.nextElementSibling;
-             expandedImage.style.display = 'flex';
-         }
-         
-         function collapseImage(element) {
-             element.style.display = 'none';
-         }
-         
-         
-              // Function to go back to the previous page
-            
-         function goBack() {
-               window.history.back();
-           }
-         
-      </script>
-      <script>
-         function openReasonModal(status) {
-             const modal = document.getElementById("reasonModal");
-             if (modal) {
-                 modal.style.display = "block";
-         
-                 // Pass the status to the submitReason function only if it's defined and not empty
-                 if (status) {
-                     const submitReasonButton = document.getElementById("submitReason");
-                     if (submitReasonButton) {
-                         submitReasonButton.onclick = function () {
-                             const reason = document.getElementById("disqualificationReason").value;
-                             if (reason.trim() !== '') {
-                                 const applicantId = <?php echo $ceapRegFormId; ?>;
-                                 submitStatusAndReason(status, reason, applicantId);
-                             } else {
-                                 alert('Please enter a reason.');
-                             }
-                         };
-                     } else {
-                         console.error("Element with ID 'submitReason' not found.");
-                     }
-                 }
-             } else {
-                 console.error("Element with ID 'reasonModal' not found.");
-             }
-         }
-         
-         
-         
-         function closeModal() {
-             document.getElementById("reasonModal").style.display = "none";
-         }
-         
-         function submitStatusAndReason(status, reason, applicantId) {
-             // Send an AJAX request to update both status and reason
-             var xhr = new XMLHttpRequest();
-             xhr.open("POST", "../../../php/updateReason.php", true); // Create a new PHP file for this action
-             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-             xhr.onreadystatechange = function () {
-                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                     // Handle the response here
-                     var response = xhr.responseText.trim();
-                     if (response === 'success') {
-                         alert('Status and reason updated successfully.');
-                         closeModal(); // Close the modal after updating status and reason
-                         goBack(); // Corrected function name
-                     } else {
-                         alert('Failed to update status and reason.');
-                         // You can handle error cases here if needed
-                     }
-                 }
-             };
-             
-             // Send the AJAX request with status, reason, and applicantId
-             xhr.send("status=" + status + "&id=" + applicantId + "&reason=" + reason);
-         }
+      <script type="text/javascript">
+    var ceapRegFormId = <?php echo $ceapRegFormId; ?>;
+</script>
 
-         function updateStatus(status, applicantId) {
-  // Send an AJAX request to update the applicant status
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", "../../../php/updateStatus.php", true);
-  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-      // Handle the response here
-      var response = xhr.responseText.trim(); // Trim whitespace from the response text
-      if (response === 'success') {
-        // Status updated successfully; open the confirmation popup
-        openConfirmationPopup();
-      } else {
-        alert('Failed to update status.');
-        goBack(); // Corrected function name
-      }
-    }
-  };
-
-  // Send the AJAX request
-  xhr.send("status=" + status + "&id=" + applicantId); // Add this line to send data
-}
-
-function openConfirmationPopup() {
-  // Close the verified popup
-  closeVerifiedPopup();
-
-  const confirmPopup = document.getElementById("ConfrimMsgPopUp");
-  confirmPopup.style.display = "block";
-
-  // Add a click event listener to the "OK" button
-  const okButton = document.getElementById("okConfirm");
-  okButton.addEventListener("click", function () {
-    confirmPopup.style.display = "none";
-    // Call the goBack function when the "OK" button is clicked
-    goBack();
-  });
-
-  // Call the goBack function after a 5-second delay
-  setTimeout(goBack, 5000);
-}
-
-
-
-
-      </script>
-
-      
    </body>
 </html>

@@ -1,4 +1,3 @@
-
 document.getElementById('confirmSetInterview').addEventListener('click', function() {
     // Gather the data you want to send
     const interviewDate = document.getElementById('interview_date').value;
@@ -47,9 +46,8 @@ function goBack() {
 }
 
 function openConfirmationPopup() {
-    // Close the verified popup
-    closStatusPopup();
-  
+    closeStatusPopup();
+    closeModalInterview();
     const confirmPopup = document.getElementById("ConfrimMsgPopUp");
     confirmPopup.style.display = "block";
   
@@ -66,7 +64,7 @@ function openConfirmationPopup() {
   }
 
   // Function to close the modal
-function closeModal() {
+function closeModalInterview() {
     const modals = document.getElementById('myModal');
     modals.style.display = 'none';
   }
