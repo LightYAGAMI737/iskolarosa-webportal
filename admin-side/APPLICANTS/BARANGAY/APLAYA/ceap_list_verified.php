@@ -3,9 +3,7 @@
    session_start();
    include '../../../php/config_iskolarosa_db.php';
    include '../../../php/functions.php';
-   include '../../../php/updateStatusInterview.php';
-   include '../../../php/status_popup.php';
-   include '../../../php/confirmStatusPopUp.php';
+
    
    // Description: This script handles permission checks and retrieves applicant information.
    
@@ -97,6 +95,9 @@ WHERE p.barangay = 'aplaya' && t.status = 'Verified'";
    </head>
    <body>
       <?php 
+         include '../../../php/updateStatusInterview.php';
+   include '../../../php/status_popup.php';
+   include '../../../php/confirmStatusPopUp.php';
          include '../../side_bar_barangay.php';
          ?>
       <!-- home content--> 
