@@ -84,8 +84,9 @@ if ($result) {
       <link rel='stylesheet' href='css/remixicon.css'>
       <link rel='stylesheet' href='css/unpkg-layout.css'>
       <link rel="stylesheet" href="css/side_bar.css">
-      <link rel="stylesheet" type="text/css" href="css/popup.css">
       <link rel="stylesheet" href="css/ceap_configuration.css">
+      <link rel="stylesheet" href="css/status_popup.css">
+
        
       <script>
         // Prevent manual input in date fields
@@ -105,6 +106,7 @@ if ($result) {
    </head>
    <body>
    <?php
+         include './php/configurationPopup.php';
     include './php/side_bar_main.php';
 ?>
       <!-- home content-->   
@@ -186,22 +188,11 @@ if ($result) {
                     </div>
                 </div>
             </div>
-        <!-- start popup -->
-        <div class="button-container"> 
-                <!-- <div class="container-button">  --> 
-                    <button type="button" id="disabled" class="btn" onclick="openPopup()">Submit</button>
-                        <div class="popup" id="popup"><br>
-                        <i class="ri-error-warning-line"style="font-size: 10em; color: #A5040A;"></i>
-            <strong><h2>Submit Now?</h2></strong>
-            <center><p>Confirming this action will save your changes to the application period. Are you sure you want to proceed?</p></center>
-            <div style="padding: 10px;">
-            <button type="button" onclick="closePopup()" style="margin-right: 15px; background-color: #C0C0C0;"><i class="ri-close-fill"></i>Cancel</button>
-            <button type="submit" onclick="closePopup()"><i class="ri-check-line"></i>Confirm</button>
+            <div class="button-container"> 
+               <button type="button" id="submitConfigBtn" class="btn" onclick="openLPPPConfigurationPopup()">Submit</button>
             </div>
-        </div> 
-        <!-- ending popup -->
-        </div>
-    </form>
+         </div>
+      </form>
       <!-- end application configuration -->
       <!-- <footer class="footer">
       </footer> -->
@@ -209,115 +200,10 @@ if ($result) {
       <div class="overlay"></div>
       </div>
       <!-- partial -->
-      <script src='js/unpkg-layout.js'></script><script  src="./js/side_bar.js"></script>
+      <script src='js/unpkg-layout.js'></script>
+      <script  src="./js/side_bar.js"></script>
+      <script  src="./js/status_popup.js"></script>
+      <script  src="./js/configurationPopup.js"></script>
 
-     
-      
-       <!-- popup -->
-       <script>
-    let popup = document.getElementById("popup");
-
-    function openPopup(){
-        popup.classList.add("open-popup")
-        document.getElementById("disabled").disabled=true;
-    }
-    function closePopup(){
-        popup.classList.remove("open-popup")
-        document.getElementById("disabled").disabled=false;
-    }
-</script>
-    <!-- popup -->
-     <script>
-  function checkTimeValidity() {
-    const startDateInput = document.getElementById('startDate');
-    const startTimeInput = document.getElementById('startTime');
-    const endDateInput = document.getElementById('endDate');
-    const endTimeInput = document.getElementById('endTime');
-
-    // Get the current date and time
-    const currentDate = new Date();
-    currentDate.setSeconds(0); // Set seconds to 0 to make it more precise
-
-    // Calculate the selected date and time
-    const startDateTime = new Date(startDateInput.value + 'T' + startTimeInput.value);
-    const endDateTime = new Date(endDateInput.value + 'T' + endTimeInput.value);
-
-    // Check if the start time is earlier than the current time
-    if (startDateTime <= currentDate) {
-        alert('Start time cannot be earlier than the current time.');
-        startTimeInput.value = ''; // Clear the input field
-        return;
-    }
-
-    // Check if the end time is not before the start time
-    if (endDateTime <= startDateTime) {
-        alert('End time must be after the start time.');
-        endTimeInput.value = ''; // Clear the input field
-    }
-}
-
-// Set the minimum date for the start date input to today's date
-const today = new Date().toISOString().split('T')[0];
-document.getElementById('startDate').setAttribute('min', today);
-document.getElementById('endDate').setAttribute('min', today);
-
-// Add event listeners to date and time inputs
-document.getElementById('startDate').addEventListener('change', checkTimeValidity);
-document.getElementById('startTime').addEventListener('change', checkTimeValidity);
-document.getElementById('endDate').addEventListener('change', checkTimeValidity);
-document.getElementById('endTime').addEventListener('change', checkTimeValidity);
-
-// Disable the submit button by default
-const submitButton = document.querySelector('button[type="button"]');
-submitButton.disabled = true;
-
-// Function to check if all required fields are filled
-function checkRequiredFields() {
-    const requiredFields = document.querySelectorAll('[required]');
-    let allFilled = true;
-    requiredFields.forEach(function(field) {
-        if (field.value.trim() === '') {
-            allFilled = false;
-        }
-    });
-    submitButton.disabled = !allFilled;
-}
-
-// Add event listeners to required fields
-const requiredFields = document.querySelectorAll('[required]');
-requiredFields.forEach(function(field) {
-    field.addEventListener('input', checkRequiredFields);
-});
-
-
-// Add event listener to the toggle button
-toggleButton.addEventListener('change', toggleButtonStateChanged);
-
-// Function to handle toggle button state change
-function toggleButtonStateChanged() {
-    // Get the state of the toggle button
-    const isChecked = toggleButton.checked;
-
-    // Enable or disable the submit button based on the toggle button state
-    submitButton.disabled = isChecked;
-
-    // Enable or disable the required attribute of the fields based on the toggle button state
-    requiredFields.forEach(function(field) {
-        field.required = isChecked;
-    });
-}
-
-// Call the toggleButtonStateChanged function initially to set the initial state of the submit button and required fields
-toggleButtonStateChanged();
-
-
-    </script>
-    <script>
-     function formatInput(inputElement) {
-    // Replace multiple consecutive spaces with a single space
-    inputElement.value = inputElement.value.replace(/ +/g, ' ');
-}
-
-    </script>
    </body>
 </html>

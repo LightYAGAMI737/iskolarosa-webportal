@@ -2,6 +2,8 @@
    const Verifiedpopup = document.getElementById("verifiedPopUp");
    const Granteepopup = document.getElementById("GranteePopUp");
    const interviewpopup = document.getElementById("interviewPopUp");
+   const CEAPconfigPopup = document.getElementById("CEAPconfigurationPopUp");
+   const LPPPconfigPopup = document.getElementById("LPPPconfigurationPopUp");
 
    function openVerifiedPopup() {
        Verifiedpopup.style.display = "block";
@@ -16,11 +18,22 @@
    }
 
    function closeStatusPopup() {
-       Verifiedpopup.style.display = "none";
-       Granteepopup.style.display = "none";
-       interviewpopup.style.display = "none";
-
-   }
+    if (Verifiedpopup) {
+        Verifiedpopup.style.display = "none";
+    }
+    if (Granteepopup) {
+        Granteepopup.style.display = "none";
+    }
+    if (interviewpopup) {
+        interviewpopup.style.display = "none";
+    }
+    if (CEAPconfigPopup) {
+        CEAPconfigPopup.style.display = "none";
+    }
+    if (LPPPconfigPopup) {
+      LPPPconfigPopup.style.display = "none";
+  }
+}
 
 
   const confirmButtons = document.querySelectorAll('.confirm-button');
