@@ -4,11 +4,12 @@ body {
 
 .text-cont {
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 0px 30px 0px 30px;
     padding: 0 20px 20px 20px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 15px;
     background-color: #ECECEC;
+    box-shadow: 0px 0px 7px 4px rgba(0, 0, 0, 0.3) ;
 }
 
 h1 {
@@ -69,8 +70,9 @@ button {
     background-color: #FEC021;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 15px;
     cursor: pointer;
+    width: 150px;
     transition: background-color 0.3s;
 }
 
