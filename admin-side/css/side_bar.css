@@ -596,52 +596,8 @@ a {
 .header-label.post {
   margin-bottom: 20px !important;
 }
-@font-face {
-  font-family: 'Poppins';
-  src: url('../fonts/font-poppins.WOFF2') format('woff2');
-}
-* {
-  font-family: 'Poppins', sans-serif;
-  letter-spacing: 0.3px;
-}
-.inside-main-content h2 {
-  margin-left: 20px;
-}
-@media (max-width: 768px) {
-  .left-column {
-      display: none;
- }
-  .dropdown-btn {
-      background-color: #ECECEC;
-      border: none;
-      border-radius: 15px;
-      color: #000;
-      padding: 10px 20px;
-      text-align: left;
-      text-decoration: none;
-      display: block;
-      cursor: pointer;
-      font-weight: bolder;
- }
-  .dropdown-btn.active {
-      color: #A5040A !important;
- }
-  .dropdown-content {
-      display: none;
-      padding: 10px 30px;
- }
-  .dropdown-btn.active + .dropdown-content {
-      display: block;
- }
-  .right-column {
-      width: 100%;
-      padding-left: 10px;
- }
-  .right-column a {
-      font-size: 10px !important;
- }
-}
 
+/*start popup */
 .logoutpopupOut {
   display: none;
   position: fixed;
@@ -715,4 +671,53 @@ button.confirm-button:hover {
   pointer-events: none !important; 
   opacity: 0.5 !important; 
   cursor: not-allowed !important; 
+}
+
+
+/*end popup */
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('../fonts/font-poppins.WOFF2') format('woff2');
+}
+* {
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: 0.3px;
+}
+.inside-main-content h2 {
+  margin-left: 20px;
+}
+@media (max-width: 768px) {
+  .left-column {
+      display: none;
+ }
+  .dropdown-btn {
+      background-color: #ECECEC;
+      border: none;
+      border-radius: 15px;
+      color: #000;
+      padding: 10px 20px;
+      text-align: left;
+      text-decoration: none;
+      display: block;
+      cursor: pointer;
+      font-weight: bolder;
+ }
+  .dropdown-btn.active {
+      color: #A5040A !important;
+ }
+  .dropdown-content {
+      display: none;
+      padding: 10px 30px;
+ }
+  .dropdown-btn.active + .dropdown-content {
+      display: block;
+ }
+  .right-column {
+      width: 100%;
+      padding-left: 10px;
+ }
+  .right-column a {
+      font-size: 10px !important;
+ }
 }

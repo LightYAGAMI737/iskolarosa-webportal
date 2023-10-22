@@ -1,6 +1,6 @@
 <!-- Logout popup  -->
-<div class="popupOut" id="LogoutPopUp">
-    <div class="popupIn">
+<div class="logoutpopupOut" id="LogoutPopUp">
+    <div class="logoutpopupIn">
         <i class="ri-logout-box-fill" style="font-size: 6em; color: #F54021;"></i>
         <strong>
             <h2>Are you sure you want to Log out?</h2>
