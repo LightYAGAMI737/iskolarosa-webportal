@@ -5,11 +5,11 @@ body {
 .text-cont {
     max-width: 1200px;
     margin: 0px 30px 30px 30px;
-    padding: 0 20px 20px 20px;
+    padding: 0 45px 25px 45px;
     border: 1px solid #ccc;
     border-radius: 15px;
-    background-color: #ECECEC;
-    box-shadow: 0px 0px 7px 4px rgba(0, 0, 0, 0.3) ;
+    background-color: #ececec;
+    box-shadow: 0px 0px 7px 4px rgba(0, 0, 0, 0.3);
 }
 
 h1 {
@@ -202,27 +202,7 @@ background-color: #8F8F8F;
 background-color: #400000;
 color: white;
 }
-/* Track */
-::-webkit-scrollbar {
-width: 7px;
-background-color: #f8f8f8;
-}
 
-/* Handle */
-::-webkit-scrollbar-thumb {
-background-color: #ccc;
-border-radius: 5px;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-background-color: #A5040A;
-}
-
-/* Track when scrollbar is pressed */
-::-webkit-scrollbar-thumb:active {
-background-color: #7F0214;
-}
 .actives {
 background-color: #A5040A;
 
