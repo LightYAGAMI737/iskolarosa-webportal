@@ -47,6 +47,7 @@
       <title>iSKOLAROSA | <?php echo strtoupper($currentSubPage); ?> </title>
       <link rel="icon" href="system-images/iskolarosa-logo.png" type="image/png">
       <link rel='stylesheet' href='css/remixicon.css'>
+      <link rel="stylesheet" href="./css/status_popup.css">
       <link rel='stylesheet' href='css/unpkg-layout.css'>
       <link rel="stylesheet" href="css/side_bar.css">
       <link rel="stylesheet" href="./css/create_post.css">
@@ -66,9 +67,10 @@
       </script>
       <style></style>
    </head>
-   <body> <?php
-         include './php/side_bar_main.php';
+   <body> 
+    <?php
          include './php/create_post_popup.php';
+         include './php/side_bar_main.php';
          ?>
       <!-- home content-->
       <!-- form for announcement -->
@@ -107,10 +109,10 @@
                      <p id="scheduleError" style="color: red;"></p>
                      <!-- submit post button -->
                      <div class="button-section ">
-                           <button type="button" class="create" onclick="openPopup()" disabled>Submit Post</button>
+                           <button type="button" class="create createpostBtn" onclick="openPopup()" disabled>Submit Post</button>
                            <!-- discard button -->
                            <div class="button-section ">
-                              <button type="button" class="discard" onclick="opendiscard()">Discard</button>
+                              <button type="button" class="discard createpostBtn" onclick="opendiscard()">Discard</button>
                            </div>
                      </div>
                   </form>
@@ -186,7 +188,7 @@ function validateSchedule() {
     const currentDateTime = new Date();
     
     if (selectedDateTime < currentDateTime) {
-        scheduleError.textContent = 'Scheduled time cannot be earlier than the current time.';
+        scheduleError.textContent = 'Scheduled time must be after current time.';
         scheduledAtInput.classList.add("invalid");
         scheduledAtInput.value = ''; // Clear the input value
 
