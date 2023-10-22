@@ -4,6 +4,7 @@
 if (session_status() == PHP_SESSION_NONE) {
    session_start();
 }
+include 'logoutpopup.php';  
 ?>
 <!-- partial:index.partial.html -->
 
