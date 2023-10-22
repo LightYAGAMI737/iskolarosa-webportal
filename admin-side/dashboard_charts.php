@@ -68,6 +68,7 @@ $lpppGenderData = mysqli_query($conn, $lpppGenderQuery);
 </head>
 <body>
 <?php
+include './php/logoutpopup.php';  
 include './php/side_bar_main.php';
 ?>
 
