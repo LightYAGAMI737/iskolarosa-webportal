@@ -36,7 +36,7 @@
   width: 100%;
   padding: 8px;
   border: 1px solid #747474;
-  border-radius: 10px;
+  border-radius: 15px;
   box-sizing: border-box;
   margin-bottom: 10px;
 }
@@ -69,7 +69,7 @@ button.discard {
   border: 1px solid #b8b8b8 !important;
   padding: 10px 20px;
   border: none;
-  border-radius: 10px;
+  border-radius: 15px;
   font-size: 16px;
   cursor: pointer;
   margin-top: -40px;
@@ -81,7 +81,7 @@ button.create {
   border: 1px solid #fec021 !important;
   padding: 10px 20px;
   border: none;
-  border-radius: 10px;
+  border-radius: 15px;
   font-size: 16px;
   cursor: pointer;
   margin-top: -40px;
@@ -98,7 +98,7 @@ button.create {
   color: gray;
   background-color: white;
   padding: 8px 20px;
-  border-radius: 10px;
+  border-radius: 15px;
   font-size: 16px;
   font-weight: bold;
 }
@@ -123,7 +123,7 @@ button.button-section {
   color: black;
   padding: 10px 20px;
   border: none;
-  border-radius: 10px;
+  border-radius: 15px;
   font-size: 16px;
   cursor: pointer;
   margin-top: -40px;
@@ -150,7 +150,7 @@ button.button-section {
   flex: 0 0 80%; /* Adjust as needed */
   padding: 8px;
   border: 1px solid #747474;
-  border-radius: 10px;
+  border-radius: 15px;
   box-sizing: border-box;
 }
 
@@ -191,7 +191,7 @@ button.button-section {
   top: -5px;
   width: 100px;
   border: 1px solid #747474;
-  border-radius: 10px;
+  border-radius: 15px;
   background-color: white;
   font-size: 16px;
   color: #333;
