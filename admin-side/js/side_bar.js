@@ -10,7 +10,7 @@
 	}
 
 	const confirmButtons = document.querySelectorAll('.confirm-button');
-confirmButtons.forEach(function(button) {
+	confirmButtons.forEach(function(button) {
 	button.addEventListener('click', function() {
 		this.classList.add('disabled');
 		const cancelButton = this.parentElement.querySelector('.cancel-button');
@@ -23,9 +23,6 @@ confirmButtons.forEach(function(button) {
 	logoutcancelButton.addEventListener("click", closeLogoutPopup);
   
 });
-
-
-
 
 function logoutredirect() {
 	setTimeout(function() {
