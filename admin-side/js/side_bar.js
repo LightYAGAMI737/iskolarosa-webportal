@@ -1,3 +1,39 @@
+    //popup javascript
+	const logoutpopup = document.getElementById('LogoutPopUp');
+
+	function openLogoutPopup() {
+		logoutpopup.style.display="block";
+	}
+	
+	function closeLogoutPopup() {
+		logoutpopup.style.display="none";
+	}
+
+	const confirmButtons = document.querySelectorAll('.confirm-button');
+confirmButtons.forEach(function(button) {
+	button.addEventListener('click', function() {
+		this.classList.add('disabled');
+		const cancelButton = this.parentElement.querySelector('.cancel-button');
+		cancelButton.classList.add('disabled');
+	});
+});
+
+	const LogoutcancelButtons = document.querySelectorAll(".cancel-button");	
+	LogoutcancelButtons.forEach((logoutcancelButton) => {
+	logoutcancelButton.addEventListener("click", closeLogoutPopup);
+  
+});
+
+
+
+
+function logoutredirect() {
+	setTimeout(function() {
+	  window.location.href = 'logout.php';
+	}, 500); // 1000 milliseconds (1 second)
+  }
+
+
 function _defineProperty(obj, key, value) {
 	if (key in obj) {
 		Object.defineProperty(obj, key, {
@@ -330,3 +366,5 @@ searchInput.addEventListener("input", function () {
     // Apply text-transform: uppercase to the input value
     searchInput.value = searchInput.value.toUpperCase();
 });
+
+

@@ -1,9 +1,10 @@
+
 <?php 
 // Check if the session is not set (user is not logged in)
 if (session_status() == PHP_SESSION_NONE) {
    session_start();
 }
-
+include 'logoutpopup.php';  
 ?>
 <!-- partial:index.partial.html -->
 
@@ -157,13 +158,10 @@ if (session_status() == PHP_SESSION_NONE) {
 
 
 <li class="menu-item <?php if ($_SESSION['role'] == 1) echo 'logout-staff'; elseif ($_SESSION['role'] == 2 || $_SESSION['role'] == 3) echo 'logout-btn'; ?>">
-    <a href="./php/logout.php">
+    <a href="#" onclick="openLogoutPopup()">
         <span class="menu-icon">
             <i class="ri-logout-box-fill"></i>
         </span>
-  
-
-
     <span class="username">
         <?php
         if (isset($_SESSION['username'])) {
