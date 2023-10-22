@@ -36,8 +36,8 @@
 }
 
 
-  const confirmButtons = document.querySelectorAll('.confirm-button');
-  confirmButtons.forEach(function(button) {
+  const StatusconfirmButtons = document.querySelectorAll('.confirm-button');
+  StatusconfirmButtons.forEach(function(button) {
       button.addEventListener('click', function() {
           this.classList.add('disabled');
           const cancelButton = this.parentElement.querySelector('.cancel-button');

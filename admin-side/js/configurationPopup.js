@@ -94,16 +94,16 @@ const LPPPconfigurationPopup = document.getElementById("LPPPconfigurationPopUp")
 function openCEAPConfigurationPopup() {
     CEAPconfigurationPopup.style.display = "block";
 }
-function closeCEAPConfigurationPopup() {
-    CEAPconfigurationPopup.style.display = "none";
-}
-
 function openLPPPConfigurationPopup() {
     LPPPconfigurationPopup.style.display = "block";
 }
 function closeLPPPConfigurationPopup() {
     LPPPconfigurationPopup.style.display = "none";
 }
+function closeCEAPConfigurationPopup() {
+    CEAPconfigurationPopup.style.display = "none";
+}
+
 
 function openConfigConfirmationPopup() {
     closeCEAPConfigurationPopup();

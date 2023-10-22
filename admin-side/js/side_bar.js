@@ -1,31 +1,31 @@
     //popup javascript
-    const logoutpopup = document.getElementById('LogoutPopUp');
+	const logoutpopup = document.getElementById('LogoutPopUp');
 
-    function openLogoutPopup()
-    {
-        logoutpopup.style.display = "block";
-    }
+	function openLogoutPopup() {
+		logoutpopup.style.display="block";
+	}
+	
+	function closeLogoutPopup() {
+		logoutpopup.style.display="none";
+	}
 
-    function closeLogoutPopup()
-    {
-        logoutpopup.style.display = "none";
-    }
-    const confirmButtons = document.querySelectorAll('.confirm-button');
-    confirmButtons.forEach(function(button)
-    {
-        button.addEventListener('click', function()
-        {
-            this.classList.add('disabled');
-            const cancelButton = this.parentElement.querySelector('.cancel-button');
-            cancelButton.classList.add('disabled');
-        });
-    });
+	const logoutconfirmButtons = document.querySelectorAll('.confirm-button');
+logoutconfirmButtons.forEach(function(button) {
+	button.addEventListener('click', function() {
+		this.classList.add('disabled');
+		const cancelButton = this.parentElement.querySelector('.cancel-button');
+		cancelButton.classList.add('disabled');
+	});
+});
 
-    const LogoutcancelButtons = document.querySelectorAll(".cancel-button");
-    LogoutcancelButtons.forEach((logoutcancelButton) =>
-    {
-        logoutcancelButton.addEventListener("click", closeLogoutPopup);
-    });
+	const LogoutcancelButtons = document.querySelectorAll(".cancel-button");	
+	LogoutcancelButtons.forEach((logoutcancelButton) => {
+	logoutcancelButton.addEventListener("click", closeLogoutPopup);
+  
+});
+
+
+
 
 function logoutredirect() {
 	setTimeout(function() {
