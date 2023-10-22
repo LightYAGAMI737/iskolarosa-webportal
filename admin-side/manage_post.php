@@ -63,47 +63,40 @@
       <link rel='stylesheet' href='css/remixicon.css'>
       <link rel='stylesheet' href='css/unpkg-layout.css'>
       <link rel="stylesheet" href="css/side_bar.css">
+      <link rel="stylesheet" href="css/status_popup.css">
       <link rel="stylesheet" href="./css/manage_post.css">
-      <link rel="stylesheet" href="./css/create_post.css">
-      <link rel="stylesheet" type="text/css" href="css/popup.css">
    </head>
    <body>
       <?php
+         include './php/deletepostPopup.php';
          include './php/side_bar_main.php';
          ?>
       <!-- home content -->
       <div class="header-label post">
          <h1 >Manage Post</h1>
       </div>
-      <form action="./php/delete_post.php" method="post" id="post-form">
+      <form action="#" method="post" id="post-form">
       <div class="card">
          <div class="header-delete-checkbox">
             <!--dropdown filtering--->
-            <select id="tag-filter" onchange="applyFilter()">
-               <option value="" hidden>FILTER</option>
-               <option value="all">All Tags</option>
-               <option value="ceap">CEAP</option>
-               <option value="lppp">LPPP</option>
-            </select>
-            <div class="post-checkbox">
-               <button type="button" onclick="openconfirmDelete()" class="delete-button">Delete</button>
-               <div class="popupdel" id="popupdel">
-                  <br>
-                  <i class="ri-delete-bin-fill" style="font-size: 10em; color: #A5040A;"></i>
-                  <strong>
-                     <h2>Delete Post?</h2>
-                  </strong>
-                  <p>Deleting the selected post(s) will permanently remove. This action cannot be undo. Are you sure you want to delete these posts?</p>
-                  <div style="padding: 10px;">
-                     <button type="button" onclick="closeDelete()" style="margin-right: 15px; background-color: #C0C0C0;"><i class="ri-close-fill"></i>Cancel</button>
-                     <button type="button" onclick="closeDelete(), confirmDelete()"><i class="ri-check-line"></i>Confirm</button>
-                  </div>
+            <div class="custom-select">
+               <select id="tag-filter" onchange="applyFilter()">
+                  <option value="" hidden>Tags</option>
+                  <option value="all">All</option>
+                  <option value="ceap">CEAP</option>
+                  <option value="lppp">LPPP</option>
+               </select>
                </div>
+            <div class="post-checkbox">
+               <button type="button" onclick="opendeletepostpopup()" class="delete-button">
+               <i class="ri-delete-bin-fill" style="margin-right: 7px;"></i>
+               <span>Delete</span>
+            </button>
                <label for="select-all" id="select-all-label">Select All</label>
                <input type="checkbox" id="select-all" onchange="selectAllCheckboxes()">
             </div>
          </div>
-         <div class="card-body">
+         <div class="outer-card-body">
             <?php
                if (mysqli_num_rows($result) === 0) {
                  echo '<div class="empty-state">';
@@ -119,7 +112,7 @@
                     $postCreatedAt = date('F d, Y', strtotime($row['post_created_at']));
                   ?>
             <div class="card mb-3">
-               <div class="card-body dynamic-height" style="background-color: #ECECEC; box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);border-radius: 15px; display: flex;">
+               <div class="card-body dynamic-height">
                   <div class="post-left-column">
                      <div class="post-title">
                         <div class="post-info-label">Title:</div>
@@ -159,20 +152,11 @@
       </main>
       <div class="overlay"></div>
       </div>
-      <script src='js/unpkg-layout.js'></script><script  src="./js/side_bar.js"></script>
+      <script src='js/unpkg-layout.js'></script>
+      <script  src="./js/side_bar.js"></script>
+      <script  src="./js/status_popup.js"></script>
+      <script  src="./js/deletepostPopup.js"></script>
 
-      <!-- delete popup start -->
-      <script>
-         let popupdel = document.getElementById("popupdel");
-         
-         function openconfirmDelete(){
-             popupdel.classList.add("open-confirmDelete")
-         }
-         function closeDelete(){
-             popupdel.classList.remove("open-confirmDelete")
-         }
-      </script>
-      <!-- delete popup ending -->
       <script>
          function selectAllCheckboxes() {
          const selectAllCheckbox = document.getElementById('select-all');

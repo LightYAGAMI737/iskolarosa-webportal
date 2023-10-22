@@ -2,6 +2,8 @@
 session_start();
 include 'config_iskolarosa_db.php';
 
+$response = array(); // Initialize an empty response array
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selected_posts'])) {
     $selectedPosts = $_POST['selected_posts'];
 
@@ -21,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selected_posts'])) {
     // Insert a new log entry into the employee_logs table
     $logQuery = "INSERT INTO employee_logs (employee_username, action) VALUES (?, ?)";
     $logStmt = mysqli_prepare($conn, $logQuery);
-    
+
     if ($logStmt) {
         mysqli_stmt_bind_param($logStmt, "ss", $employee_username, $action);
         mysqli_stmt_execute($logStmt);
@@ -43,10 +45,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selected_posts'])) {
 
         // Close the statement
         mysqli_stmt_close($stmt);
+
+        $response['success'] = true; // Set a success flag in the response
+        $response['message'] = 'Post(s) deleted successfully'; // Provide a success message
+    } else {
+        $response['success'] = false; // Set a failure flag in the response
+        $response['message'] = 'Error deleting post(s)'; // Provide an error message
     }
 }
 
-// Redirect back to the manage post page
-header('Location: ../manage_post.php');
-exit();
+// Send the JSON response back to the client-side JavaScript
+header('Content-Type: application/json');
+echo json_encode($response);
+
+// Redirect back to the manage post page (if needed)
+// header('Location: ../manage_post.php');
+// exit();
 ?>
+    

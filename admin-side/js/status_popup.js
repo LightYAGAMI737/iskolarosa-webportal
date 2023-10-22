@@ -4,6 +4,7 @@
    const interviewpopup = document.getElementById("interviewPopUp");
    const CEAPconfigPopup = document.getElementById("CEAPconfigurationPopUp");
    const LPPPconfigPopup = document.getElementById("LPPPconfigurationPopUp");
+   const postdeletepopup = document.getElementById("DeletepostPopUp");
 
    function openVerifiedPopup() {
        Verifiedpopup.style.display = "block";
@@ -33,6 +34,9 @@
     if (LPPPconfigPopup) {
       LPPPconfigPopup.style.display = "none";
   }
+  if (postdeletepopup) {
+    postdeletepopup.style.display = "none";
+}
 }
 
 

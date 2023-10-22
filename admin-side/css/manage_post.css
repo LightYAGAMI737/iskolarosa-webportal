@@ -1,54 +1,78 @@
+.card {
+  width: 100%;
+  margin-bottom: 20px;
+}
 
-         .card {
-         width: 100%;
-         margin-bottom: 20px;
-         }
-         .card-body {
-         padding: 0;
-         }
-         .dynamic-height {
-         display: flex;
-         align-items: center;
-         padding: 20px;
-         }
-         .post-left-column,
-         .post-right-column {
-         flex: 50%;
-         padding: 10px; /* Add padding for spacing */
-         }
-         .post-left-column {
-         margin-right: 50px; /* Add margin between columns */
-         }
-  
-         .post-info-label {
-         font-weight: bold;
-         }
-         .post-info {
-         display: flex;
-         align-items: center;
-         margin-bottom: 10px;
-         }
-         .post-icon {
-         margin-right: 10px;
-         }
-         .post-icon i {
-         color: red;
-         }
-         .post-date {
-         margin-left: auto;
-         margin-right: 20px;
-         }
-         .post-checkbox {
-         margin-left: auto;
-         }
-         .post-title,
-         .post-tag,
-         .card-title,
-         .description,
-         .post-info-label {
-         text-transform: uppercase;
-         }
-         /* Add this CSS to your existing styles */
+.card-body {
+  max-width: 1200px;
+  margin: 0px 30px 30px 30px;
+  padding: 0 20px 10px 20px;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  background-color: #ececec;
+  box-shadow: 0px 0px 7px 4px rgba(0, 0, 0, 0.3);   
+}
+
+.delete-button {
+  background-color: #a5040a;
+  color: #fff;
+  border: none;
+  border-radius: 15px;
+  padding: 10px 10px;
+  cursor: pointer;
+  width: 100px;
+  margin-right: 30px;
+}
+
+.delete-button:hover {
+  background-color: #400000;
+}
+
+.dynamic-height {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}
+
+.post-left-column,
+.post-right-column {
+  flex: 50%;
+  padding: 10px; /* Add padding for spacing */
+}
+
+.post-left-column {
+  margin-right: 50px; /* Add margin between columns */
+}
+
+.post-info-label {
+  font-weight: bold;
+}
+.post-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.post-icon {
+  margin-right: 10px;
+}
+.post-icon i {
+  color: red;
+}
+.post-date {
+  margin-left: auto;
+  margin-right: 20px;
+}
+.post-checkbox {
+  margin-left: auto;
+}
+.post-title,
+.post-tag,
+.card-title,
+.description,
+.post-info-label {
+  text-transform: uppercase;
+}
+/* Add this CSS to your existing styles */
 .post-checkbox {
   display: flex;
   justify-content: flex-end;
@@ -56,24 +80,6 @@
   margin-top: 10px;
 }
 
-.delete-button {
-  background-color: #A5040A;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 5px 10px;
-  cursor: pointer;
-  margin-right: 30px;
-}
-
-.delete-button:hover {
-  background-color: #c82333;
-}
-
-/* Style the "Select All" checkbox label */
-#select-all-label {
-  margin-right: 10px;
-}
 /* Style for checkboxes */
 .post-checkbox input[type="checkbox"] {
   appearance: none;
@@ -86,13 +92,14 @@
   margin-right: 6px;
   position: relative;
   top: 2px;
+  border: 1px solid #a5040a;
   cursor: pointer;
 }
 
 /* Style for selected checkboxes */
 .post-checkbox input[type="checkbox"]:checked {
-  background-color: #007bff;
-  border: 1px solid #007bff;
+  background-color: red;
+  border: 1px solid #a5040a;
 }
 
 /* Style for "Select All" label */
@@ -101,151 +108,52 @@
   cursor: pointer;
 }
 .header-delete-checkbox {
-    margin-bottom: 20px;
-    margin-right: 20px;
+  margin: 0px 30px 10px 30px;
+  padding: 0 20px 10px 20px;
 }
 
-.card {
-  width: 100%;
-  margin-bottom: 20px;
-  }
-  .card-body {
-  padding: 0;
-  }
-  .dynamic-height {
-  display: flex;
-  align-items: center;
+.custom-select {
+  position: relative;
+}
+
+.custom-select select {
+  position: absolute;
+  width: 120px;
+  height: 40px;
+  top: 5px;
+  left: 0;
+  background: #400000;
+  border-radius: 15px;
+  color: #fff;
+  font-size: 16px;
+  padding: 5px 10px;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.custom-select option {
+  background-color: #ececec;
+  color: rgb(20, 20, 20);
+  padding: 5px; 
+  border-radius: 15px; 
+}
+
+/* Style for the empty state div */
+.empty-state {
+  text-align: center;
+  margin: auto; /* Center horizontally */
+  max-width: 510px; /* Adjust the maximum width as needed */
   padding: 20px;
-  }
-  .post-left-column,
-  .post-right-column {
-  flex: 50%;
-  padding: 10px; /* Add padding for spacing */
-  }
-  .post-left-column {
-  margin-right: 50px; /* Add margin between columns */
-  }
-
-  .post-info-label {
-  font-weight: bold;
-  }
-  .post-info {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-  }
-  .post-icon {
-  margin-right: 10px;
-  }
-  .post-icon i {
-  color: red;
-  }
-  .post-date {
-  margin-left: auto;
-  margin-right: 20px;
-  }
-  .post-checkbox {
-  margin-left: auto;
-  }
-  .post-title,
-  .post-tag,
-  .card-title,
-  .description,
-  .post-info-label {
-  text-transform: uppercase;
-  }
-  /* Add this CSS to your existing styles */
-.post-checkbox {
-display: flex;
-justify-content: flex-end;
-align-items: center;
-margin-top: 10px;
-}
-
-.delete-button {
-background-color: #A5040A;
-color: #fff;
-border: none;
-border-radius: 5px;
-padding: 5px 10px;
-cursor: pointer;
-margin-right: 30px;
-}
-
-.delete-button:hover {
-background-color: #c82333;
-}
-
-/* Style the "Select All" checkbox label */
-#select-all-label {
-margin-right: 10px;
-}
-/* Style for checkboxes */
-.post-checkbox input[type="checkbox"] {
-appearance: none;
--webkit-appearance: none;
--moz-appearance: none;
-width: 16px;
-height: 16px;
-border: 1px solid #ccc;
-border-radius: 3px;
-margin-right: 6px;
-position: relative;
-top: 2px;
-border: 1px solid #A5040A;
-cursor: pointer;
-}
-
-/* Style for selected checkboxes */
-.post-checkbox input[type="checkbox"]:checked {
-background-color: red;
-border: 1px solid #A5040A;
-
-}
-
-/* Style for "Select All" label */
-#select-all-label {
-margin-right: 10px;
-cursor: pointer;
-}
-.header-delete-checkbox {
-margin-bottom: 20px;
-margin-right: 20px;
-}
-#tag-filter {
-border-radius: 15px;
-border: 2px solid #400000;
-background: #400000;
-width: 120px;
-height: 40px;
-flex-shrink: 0;
-color: #fff;
-font-size: 16px;
-padding: 10px;
-}
-
-#tag-filter option {
-background-color: #400000;
-color: #fff;
-font-size: 16px;
-}
-
-   /* Style for the empty state div */
-   .empty-state {
-    text-align: center;
-    margin: auto; /* Center horizontally */
-    max-width: 510px; /* Adjust the maximum width as needed */
-    padding: 20px;
 }
 
 /* Style for the empty state image */
 .empty-state-image {
-    max-width: 100%; /* Resize the image to fit its container */
-    height: auto; /* Maintain aspect ratio */
+  max-width: 100%; /* Resize the image to fit its container */
+  height: auto; /* Maintain aspect ratio */
 }
 
 /* Style for the empty state message */
 .empty-state-message {
-    margin-top: 20px; /* Add some spacing below the image */
-    font-size: 18px; /* Adjust the font size as needed */
+  margin-top: 20px; /* Add some spacing below the image */
+  font-size: 18px; /* Adjust the font size as needed */
 }

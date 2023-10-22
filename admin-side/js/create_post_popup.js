@@ -25,7 +25,7 @@ function openSuccessPopup() {
     // Automatically close the success popup after 3 seconds
     setTimeout(() => {
         closeSuccessPopup();
-    }, 13000); // 3-second delay
+    }, 3000); // 3-second delay
 }
 
 function closeSuccessPopup() {
