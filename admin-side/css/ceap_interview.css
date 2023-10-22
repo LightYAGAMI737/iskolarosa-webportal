@@ -1,0 +1,176 @@
+.filter-icon {
+    position: relative;
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.filter-icon label {
+    cursor: pointer;
+}
+
+.filter-dropdown {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    right: 0;
+    top: 100%;
+    z-index: 1;
+}
+
+.filter-dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.filter-dropdown li {
+    padding: 10px;
+    text-align: right;
+}
+
+.filter-dropdown li a {
+    color: #333;
+    text-decoration: none;
+    display: block;
+}
+
+.filter-dropdown li a:hover {
+    background-color: #f0f0f0;
+}
+
+@media (max-width: 767px) {
+    .filter-icon {
+        position: absolute;
+        float: left;
+        margin-bottom: 10px;
+    }
+
+    .applicant-info {
+            overflow-x: auto;
+        }
+    
+}
+
+/* Additional Styling */
+.form-group {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center horizontally */
+    margin-bottom: 15px;
+}
+
+.btn-primary {
+    background-color: #FEC021;
+    border-color: #FEC021;
+    color: #000000;
+}
+#search {
+    border-radius: 15px 0px 0px 15px !important;
+}
+
+#saveBtn {
+    background-color: #FEC021;
+    border-color: #FEC021;
+    color: black;
+}
+#rescheduleButton {
+    background-color: #FEC021;
+    border-color: #FEC021;
+    color: #000000;
+    margin-right: 40px;
+    border-radius: 15px;
+}
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+.modal-content {
+    background-color: #ffffff;
+    margin: auto;
+    padding: 20px;
+    border-radius: 8px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50%;
+    max-width: 400px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+#interview_date, #limit {
+    width: 60%;
+    margin-right: 10px;
+}
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .form-group {
+        flex-direction: column;
+        align-items: center; /* Center both vertically and horizontally */
+    }
+    .btn-primary {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .modal-content {
+        width: 90%;
+    }
+    #interview_date {
+        width: 100%;
+    }
+}
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+input[type="date"],
+input[type="number"],
+select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+    margin-right: 10px;
+    margin-bottom: 10px; /* Add spacing between elements */
+    flex: 1;
+}
+select {
+    background-size: 16px 16px;
+    padding-right: 30px;
+}
+button[type="submit"] {
+    background-color: #FEC021;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+button[type="submit"]:hover {
+    background-color: #FEC021;
+}
+
+/* Disable style for the button */
+#rescheduleButton:disabled {
+    background-color: #ccc; /* Gray background color */
+    cursor: not-allowed;
+    margin-right: 40px;
+border-radius: 15px;
+}
+

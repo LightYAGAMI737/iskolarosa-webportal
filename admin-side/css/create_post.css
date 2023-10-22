@@ -1,0 +1,354 @@
+.create-post-form {
+  max-width: 100%;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  height: auto;
+  padding-bottom: 20px;
+  margin: 10px;
+}
+
+.content-section {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: -25px;
+}
+
+
+.left-section {
+flex: 70; /* Set the flex value to 70 */
+padding: 25px;
+}
+
+.right-section {
+flex: 30; /* Set the flex value to 30 */
+padding: 25px;
+}
+
+.left-section label,
+.right-section label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.left-section input,
+.left-section textarea,
+.right-section input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid grey;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); 
+
+}
+#description {
+height: 400px;
+}
+.left-section textarea {
+  resize: none; /* Prevent resizing */
+  width: 100%;
+  padding: 8px;
+  border: 1px solid grey;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+
+}
+.right-section input[type="file"] {
+height: 350px;
+border: 1px solid grey;
+box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); 
+}
+button {
+  width: 300px;
+}
+button.discard {
+  background-color: #b8b8b8 !important;
+  border: 1px solid #b8b8b8 !important;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 15px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: -40px;
+  transition: background-color 0.3s ease;
+  margin-top: -10px;
+}
+button.create {
+  background-color: #FEC021 !important;
+  border: 1px solid #FEC021 !important;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 15px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: -40px;
+  transition: background-color 0.3s ease;
+}
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.btn-upload {
+  border: 2px solid gray;
+  color: gray;
+  background-color: white;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.upload-btn-wrapper input[type="file"] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+.button-section {
+margin-top: 20px;
+text-align: center;
+}
+button.button-section{
+  margin-right: 20px;
+}
+.create-post-form button[type="submit"] {
+  background-color: #FEC021;
+  color: black;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 15px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: -40px;
+  transition: background-color 0.3s ease;
+}
+
+.create-post-form button[type="submit"]:hover {
+  background-color: #e3a300;
+}
+.input-row {
+display: flex;
+align-items: center;
+margin-bottom: 10px;
+}
+
+.input-row label {
+flex: 0 0 80%; /* Adjust as needed */
+font-weight: bold;
+margin-right: 10px;
+}
+
+.input-row input[type="datetime-local"],
+.input-row input[type="text"] {
+flex: 0 0 80%; /* Adjust as needed */
+padding: 8px;
+border: 1px solid grey;
+border-radius: 4px;
+box-sizing: border-box;
+box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Additional styles to remove default spacing between inputs */
+.input-row input[type="datetime-local"] + label,
+.input-row input[type="text"] + label {
+margin-left: 0;
+}
+
+@media (max-width: 768px) {
+  .content-section {
+      flex-direction: column; /* Stack sections vertically on small screens */
+  }
+
+  .left-section,
+  .right-section {
+      flex: 100%; /* Take full width on small screens */
+  }
+
+  .input-row label {
+flex: 0 0 80%; /* Adjust as needed */
+      margin-bottom: 5px;
+  }
+
+  .input-row input[type="datetime-local"],
+  .input-row input[type="text"] {
+      flex: 100%; /* Take full width on small screens */
+      margin-bottom: 10px;
+  }
+  .right-section input[type="file"] {
+    height: 40px;
+    border: 1px solid grey;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); 
+    }
+    
+}
+
+
+#tag {
+  position: relative;
+  top: -5px;
+  width: 100px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+  font-size: 16px;
+  color: #333;
+  height: 35px;
+}
+
+/* Style for the select options */
+#tag option {
+  background-color: white;
+  color: #333;
+}
+
+/* Style for the select dropdown arrow */
+#tag::-ms-expand {
+  display: none;
+}
+
+.createpostbtn {
+  display: inline-block;
+  padding: 10px 20px; /* Adjust padding as needed */
+  background-color: #A5040A; /* Button background color */
+  color: #fff; /* Button text color */
+  text-decoration: none; /* Remove underline from the link */
+  border: none; /* Remove button border */
+  border-radius: 15px; /* Rounded corners */
+  cursor: pointer; /* Show a pointer cursor on hover */
+  transition: background-color 0.3s ease; /* Smooth background color transition */
+}
+
+/* Style for the button on hover */
+.createpostbtn:hover {
+  background-color: #400000; /* Change background color on hover */
+}
+.required::after {
+  content: " *";
+  color: #A5040A;
+}
+
+button[disabled] {
+  background-color: gray !important;
+  cursor: not-allowed !important;
+  border-color: gray !important;
+  color: white;
+}
+
+   /* Your CSS here */
+   .popupOut {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 9999 !important;
+    align-items: center;
+    justify-content: center;
+}
+
+.popupIn {
+    background: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+button.cancel-button,
+button.confirm-button {
+    width: 120px !important;
+    height: 40px !important;
+    border: none !important;
+    cursor: pointer !important;
+    font-size: 16px !important;
+    border-radius: 15px !important;
+    position: relative !important;
+    text-align: center !important;
+    padding-left: 20px !important;
+    align-items: center !important;
+    line-height: 0px !important;
+}
+
+button.confirm-button span {
+    margin-left: 6px;
+}
+
+button.cancel-button i,
+button.confirm-button i {
+    font-size: 20px;
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+button.cancel-button {
+    background-color: #C0C0C0;
+    color: black;
+}
+
+button.confirm-button {
+    background-color: #FEC021;
+    color: black;
+}
+
+button.confirm-button:hover {
+    background-color: #daa41e;
+}
+
+.disabled {
+    pointer-events: none !important;
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+}
+#okButton {
+  animation-name: countdownAnimation;
+  animation-duration: 3s;
+  animation-timing-function: linear;
+  overflow: hidden;
+  position: relative;
+}
+
+@keyframes countdownAnimation {
+  0% {
+    width: 100%;
+  }
+  100% {
+    width: 0;
+  }
+}
+
+#okButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, #FF5733, #FFC300);
+  transform: translateX(100%);
+  animation: moveColor 3s linear infinite;
+}
+
+@keyframes moveColor {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
