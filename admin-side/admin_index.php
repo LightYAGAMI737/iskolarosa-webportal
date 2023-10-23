@@ -38,7 +38,7 @@
                         <i class="fas fa-eye" id="togglePassword"></i>
                     </div>
             	</div>
-            	<a href="#">Forgot Password?</a>
+            	<a href="forgotpassword.php">Forgot Password?</a>
             	<input type="submit" class="btn" value="Login">
 
                 <?php
