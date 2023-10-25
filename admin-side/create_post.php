@@ -195,41 +195,45 @@ function validateSchedule() {
     } else {
         scheduledAtInput.classList.remove("invalid");
         scheduleError.textContent = '';
-         // Clear any previous error message
     }
 }
 </script>
-<!-- Add this script to your HTML file -->
 <script>
-    // Function to check if any input has the 'invalid' class
-    function checkInvalidInputs() {
-        const inputs = document.querySelectorAll('input, textarea');
-        let hasInvalidInput = false;
-        let hasEmptyRequiredField = false;
+// Function to check if any input has the 'invalid' class
+function checkInvalidInputs() {
+    const inputs = document.querySelectorAll('input, textarea');
+    let hasInvalidInput = false;
 
-        inputs.forEach(function(input) {
-            if (input.classList.contains('invalid')) {
-                hasInvalidInput = true;
-            }
-
-            if (input.hasAttribute('required') && input.value.trim() === '') {
-                hasEmptyRequiredField = true;
-            }
-        });
-
-        return hasInvalidInput || hasEmptyRequiredField;
-    }
-
-    // Function to update the button's disabled state
-    function updateButtonState() {
-        const createButton = document.querySelector('.create');
-
-        if (checkInvalidInputs()) {
-            createButton.disabled = true; // Disable the button if there are invalid inputs or empty required fields
-        } else {
-            createButton.disabled = false; // Enable the button if all inputs are valid and required fields are filled
+    inputs.forEach(function(input) {
+        if (input.classList.contains('invalid')) {
+            hasInvalidInput = true;
         }
+
+        if (input.hasAttribute('required') && (input.value.trim() === '' || input.value === null)) {
+            hasInvalidInput = true;
+        }
+    });
+
+    return hasInvalidInput;
+}
+
+// Function to update the button's disabled state
+function updateButtonState() {
+    const createButton = document.querySelector('.create');
+
+    if (checkInvalidInputs()) {
+        createButton.disabled = true; // Disable the button if there are invalid inputs or empty required fields
+    } else {
+        createButton.disabled = false; // Enable the button if all inputs are valid and required fields are filled
     }
+}
+
+// Add event listeners for input and change events on form elements
+const formElements = document.querySelectorAll('input, textarea');
+formElements.forEach(function(element) {
+    element.addEventListener('input', updateButtonState);
+    element.addEventListener('change', updateButtonState);
+});
 </script>
 
    </body>
