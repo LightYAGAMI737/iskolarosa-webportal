@@ -17,11 +17,12 @@
   background-color: #a5040a;
   color: #fff;
   border: none;
+  height: 45px;
+  width: 120px;
   border-radius: 15px;
-  padding: 10px 10px;
   cursor: pointer;
-  width: 100px;
   margin-right: 30px;
+  font-size: 16px;
 }
 
 .delete-button:hover {
@@ -36,12 +37,11 @@
 
 .post-left-column,
 .post-right-column {
-  flex: 50%;
+  flex: 45%;
   padding: 10px; /* Add padding for spacing */
 }
-
-.post-left-column {
-  margin-right: 50px; /* Add margin between columns */
+.post-third-column {
+  flex: 10%;
 }
 
 .post-info-label {
@@ -62,9 +62,7 @@
   margin-left: auto;
   margin-right: 20px;
 }
-.post-checkbox {
-  margin-left: auto;
-}
+
 .post-title,
 .post-tag,
 .card-title,
@@ -80,13 +78,40 @@
   margin-top: 10px;
 }
 
+.post-checkbox-indiv {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-bottom: 50px; /* Add some spacing between the "Edit" button and checkbox */
+}
+
+.post-edit {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+/* Style the "Edit" button */
+.edit-button {
+  background-color: #FEC021;
+  color: #000;
+  border: none;
+  width: 120px;
+  height: 45px;
+  padding: 5px 10px;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 16px;
+
+}
+
 /* Style for checkboxes */
-.post-checkbox input[type="checkbox"] {
+.post-checkbox input[type="checkbox"],
+.post-checkbox-indiv input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   border: 1px solid #ccc;
   border-radius: 3px;
   margin-right: 6px;
@@ -97,7 +122,8 @@
 }
 
 /* Style for selected checkboxes */
-.post-checkbox input[type="checkbox"]:checked {
+.post-checkbox input[type="checkbox"]:checked,
+.post-checkbox-indiv input[type="checkbox"]:checked {
   background-color: red;
   border: 1px solid #a5040a;
 }
@@ -106,6 +132,7 @@
 #select-all-label {
   margin-right: 10px;
   cursor: pointer;
+  font-size: 16px;
 }
 .header-delete-checkbox {
   margin: 0px 30px 10px 30px;
@@ -119,14 +146,13 @@
 .custom-select select {
   position: absolute;
   width: 120px;
-  height: 40px;
+  height: 45px;
   top: 5px;
   left: 0;
   background: #400000;
   border-radius: 15px;
   color: #fff;
   font-size: 16px;
-  padding: 5px 10px;
   cursor: pointer;
   border: 1px solid transparent;
 }
@@ -155,5 +181,5 @@
 /* Style for the empty state message */
 .empty-state-message {
   margin-top: 20px; /* Add some spacing below the image */
-  font-size: 18px; /* Adjust the font size as needed */
+  font-size: 16px; /* Adjust the font size as needed */
 }

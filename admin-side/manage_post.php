@@ -116,11 +116,11 @@
                   <div class="post-left-column">
                      <div class="post-title">
                         <div class="post-info-label">Title:</div>
-                        <h3 class="text-center card-title truncate" style="font-weight: normal;"><?php echo $postTitle; ?></h3>
+                        <h3 class="text-center card-title truncate" id="postTitle"style="font-weight: normal;"><?php echo $postTitle; ?></h3>
                      </div>
                      <div class="post-description">
                         <div class="post-info-label">Description:</div>
-                        <p class="card-text description truncate">
+                        <p class="card-text description truncate" id="postDescription">
                            <?php echo $postDescription; ?>
                         </p>
                      </div>
@@ -132,13 +132,22 @@
                      </div>
                      <div class="post-tag">
                         <div class="post-info-label">Tag:</div>
-                        <p class="card-text description">
+                        <p class="card-text description" id="tag">
                         <p><?php echo $tag; ?></p>
                         </p>
                      </div>
+                     <div id="imagePath"></div>
                   </div>
-                  <div class="post-checkbox">
+                  <div class="post-third-column">
+                  <div class="post-checkbox-indiv">
                      <input type="checkbox" name="selected_posts[]" value="<?php echo $row['create_post_id']; ?>">
+                  </div>
+                  <div class="post-edit">
+                     <button type="button" class="edit-button" onclick="editPost(<?php echo $row['create_post_id']; ?>)">
+                     <i class="ri-edit-box-fill" style="margin-right: 15px;"></i>  
+                        <span>Edit</span>
+                     </button>
+                  </div>
                   </div>
                </div>
             </div>
@@ -156,8 +165,11 @@
       <script  src="./js/side_bar.js"></script>
       <script  src="./js/status_popup.js"></script>
       <script  src="./js/deletepostPopup.js"></script>
+      <script  src="./js/editpost.js"></script>
 
       <script>
+
+
          function selectAllCheckboxes() {
          const selectAllCheckbox = document.getElementById('select-all');
          const checkboxes = document.querySelectorAll('input[name="selected_posts[]"]');
