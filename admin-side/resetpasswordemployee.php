@@ -43,7 +43,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reset Password | Employee</title>
+    <title>iSKOLAROSA | Reset Password</title>
+    <link rel="icon" href="system-images/iskolarosa-logo.png" type="image/png">
 	<!-- Bootstrap 5 CDN Link -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -56,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		<div class="container">
 			<div class="col-sm-8 offset-sm-2 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4 text-center">
 				<div class="logo">
-					<img decoding="async" src="./system-images/iskolarosa-logo.png" class="img-fluid" alt="logo">
+					<img decoding="async" src="./system-images/iskolarosa-logo.png" class="img-fluid" alt="logo" style="margin-top: 80px;">
 				</div>
 				<form class="rounded bg-white shadow p-5" action="resetpasswordemployee.php" method="post">
 				<input type="hidden" name="username" value="<?php echo $_GET['username']; ?>">
