@@ -51,41 +51,57 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 	<!-- Custom CSS Link -->
 	<link rel="stylesheet" href="./css/forgotpassword.css">
+    <style>
+    .form-check {
+        display: flex;
+        align-items: center;
+    }
+
+    .form-check-label {
+        margin-left: 10px; /* Adjust the margin as needed to control the spacing */
+    }
+    .form-check-input:checked {
+    background-color: #FEC021;
+    border-color: #FEC021;
+    }
+</style>
 </head>
 <body> 
     <section class="wrapper">
 		<div class="container">
 			<div class="col-sm-8 offset-sm-2 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4 text-center">
 				<div class="logo">
-					<img decoding="async" src="./system-images/iskolarosa-logo.png" class="img-fluid" alt="logo" style="margin-top: 80px;">
+					<img decoding="async" src="./system-images/iskolarosa-logo.png" class="img-fluid" alt="logo" >
 				</div>
-				<form class="rounded bg-white shadow p-5" action="resetpasswordemployee.php" method="post">
-				<input type="hidden" name="username" value="<?php echo $_GET['username']; ?>">
+                <form class="rounded bg-white shadow p-5" action="resetpasswordemployee.php" method="post">
+    <input type="hidden" name="username" value="<?php echo $_GET['username']; ?>">
+    <h3 class="text-dark fw-bolder fs-4 mb-2">Reset Password</h3>
 
-					<h3 class="text-dark fw-bolder fs-4 mb-2">Reset Password</h3>
+    <div class="form-floating mb-3">
+        <input type="password" class="form-control" style="margin-bottom: 10px;" id="new_password" name="new_password" placeholder="New Password">
+        <label for="new_password">New Password</label>
+        <span id="new_password_error"></span>
+    </div>
 
+    <div class="form-floating mb-3">
+        <input type="password" class="form-control" style="margin-bottom: 10px;" id="confirm_password" name="confirm_password" placeholder="Confirm New Password">
+        <label for="confirm_password">Confirm New Password</label>
+        <span id="confirm_password_error"></span>
+    </div>
 
-					<div class="form-floating mb-3">
-					<input type="password" class="form-control" style="margin-bottom: 10px;" id="floatingInput" name="old_password" placeholder="name@example.com">
-						<label for="floatingInput">Old Password</label>
-					</div>  
+    <div class="form-check mt-2">
+        <input type="checkbox" class="form-check-input" id="showPassword">
+        <label class="form-check-label" for="showPassword">Show Password</label>
+    </div>
 
-					<div class="form-floating mb-3">
-					<input type="password" class="form-control" style="margin-bottom: 10px;" id="floatingInput" name="new_password" placeholder="name@example.com">
-						<label for="floatingInput">New Password</label>
-					</div>  
-
-                    <div class="form-floating mb-3">
-					<input type="password" class="form-control" style="margin-bottom: 10px;" id="floatingInput" name="confirm_password" placeholder="name@example.com">
-						<label for="confirm_password">Confirm New Password</label>
-					</div>  
-					<button type="submit" class="btn btn-primary submit_btn my-4" id="submitForgotPassword">Submit</button>
-                    <button type="button" class="btn btn-secondary submit_btn my-4 ms-3" id="cancelForgotPassword">Cancel</button> 
-				</form>
+    <button type="submit" class="btn btn-primary submit_btn my-4" id="submitForgotPassword" disabled>Submit</button>
+    <button type="button" class="btn btn-secondary submit_btn my-4 ms-3" id="cancelForgotPassword">Cancel</button>
+</form>
 			</div>
 		</div>
 	</section>
 	<script src="./js/resetpassword.js"></script>
+    <script src="./js/validatepassword.js"></script>
 </body>
 </html>
 
