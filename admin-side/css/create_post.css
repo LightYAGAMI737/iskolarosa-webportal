@@ -56,11 +56,53 @@
 .left-section textarea {
   resize: none; /* Prevent resizing */
 }
-.right-section input[type="file"] {
+.right-section input[type="file"],
+.noUploadfile{
   height: 350px;
   border: 1px solid #747474;
   background: white;
 }
+.editUploadfile {
+  height: 100px !important;
+}
+#imagePreview {
+  display: block;
+  margin: 0 auto;
+  max-width: 200px;
+  height: 180px !important;
+}
+
+.imageprev {
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  padding: 20px;
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+}
+
+/* Style for the delete icon */
+.delete-icon {
+  position: absolute;
+  top: 10px; /* Adjust the top position as needed */
+  right: 35px; /* Adjust the right position as needed */
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Style for the close icon */
+.delete-icon i {
+  font-size: 18px; /* Adjust the icon size as needed */
+  color: #ff0000; /* Red color for the close icon */
+}
+
 button.createpostBtn {
   width: 300px;
 }

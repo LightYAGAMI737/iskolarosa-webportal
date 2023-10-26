@@ -30,9 +30,6 @@
    
    $currentDateTime = date('Y-m-d H:i:s'); 
    
-   $sql = "SELECT * FROM create_post WHERE post_schedule_at <= '$currentDateTime' ORDER BY post_created_at DESC";
-   $result = mysqli_query($conn, $sql);
-   
    $currentPage = "post";
    $currentSubPage = 'manage post';
    
@@ -143,8 +140,8 @@
                      <input type="checkbox" name="selected_posts[]" value="<?php echo $row['create_post_id']; ?>">
                   </div>
                   <div class="post-edit">
-                     <button type="button" class="edit-button" onclick="editPost(<?php echo $row['create_post_id']; ?>)">
-                     <i class="ri-edit-box-fill" style="margin-right: 15px;"></i>  
+                     <button type="button" class="edit-button" onclick="redirectToEditPost(<?php echo $row['create_post_id']; ?>)">
+                        <i class="ri-edit-box-fill" style="margin-right: 15px;"></i>
                         <span>Edit</span>
                      </button>
                   </div>
@@ -165,9 +162,12 @@
       <script  src="./js/side_bar.js"></script>
       <script  src="./js/status_popup.js"></script>
       <script  src="./js/deletepostPopup.js"></script>
-      <script  src="./js/editpost.js"></script>
 
       <script>
+function redirectToEditPost(createPostId) {
+    // Redirect to edit_post.php with the createPostId as a query parameter
+    window.location.href = 'edit_post.php?create_post_id=' + createPostId;
+}
 
 
          function selectAllCheckboxes() {
