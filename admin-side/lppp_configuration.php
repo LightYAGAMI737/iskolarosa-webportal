@@ -86,6 +86,7 @@ if ($result) {
       <link rel="stylesheet" href="css/side_bar.css">
       <link rel="stylesheet" href="css/ceap_configuration.css">
       <link rel="stylesheet" href="css/status_popup.css">
+      <link rel="stylesheet" href="css/errorpopup.css">
 
        
       <script>
