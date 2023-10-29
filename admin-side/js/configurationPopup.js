@@ -4,18 +4,18 @@ function checkTimeValidity() {
     const endDateInput = document.getElementById('endDate');
     const endTimeInput = document.getElementById('endTime');
     const errorSpan = document.querySelector('.TimeandDateError');
-   
+
     // Get the current date and time
     const currentDate = new Date();
     currentDate.setSeconds(0); // Set seconds to 0 to make it more precise
-   
+
     // Calculate the selected date and time
     const startDateTime = new Date(startDateInput.value + 'T' + startTimeInput.value);
     const endDateTime = new Date(endDateInput.value + 'T' + endTimeInput.value);
-   
+
     // Calculate one hour from the current time
     const oneHourFromNow = new Date(currentDate.getTime() + 3600000); // 3600000 milliseconds = 1 hour
-   
+
     // Check if the start time is at least one hour after the current time
     if (startDateTime <= oneHourFromNow) {
         openstarterrormsgconfig();
@@ -23,14 +23,14 @@ function checkTimeValidity() {
         // Use setTimeout to close the error message after 5 seconds
         setTimeout(function () {
             closeerrormsgconfig();
-        }, 10000); // 5000 milliseconds = 5 seconds
-    
+        }, 10000); // 10000 milliseconds = 10 seconds
+
         startTimeInput.value = ''; // Clear the input field
         return;
     } else {
         errorSpan.textContent = ''; // Clear the error message if valid
     }
-   
+
     // Check if the end time is at least one hour after the start time
     if (endDateTime <= startDateTime.getTime() + 3600000) {
         openenderrormsgconfig();
@@ -38,11 +38,14 @@ function checkTimeValidity() {
         // Use setTimeout to close the error message after 5 seconds
         setTimeout(function () {
             closeerrormsgconfig();
-        }, 10000); // 5000 milliseconds = 5 seconds
-    
+        }, 10000); // 10000 milliseconds = 10 seconds
+
         endTimeInput.value = '';
     } else {
         errorSpan.textContent = ''; // Clear the error message if valid
+        
+        // Call closeerrormsgconfig when the input is valid
+        closeerrormsgconfig();
     }
 }
 
