@@ -60,3 +60,22 @@
       </div>
     </div>
   </div>
+<!--error popup-->
+<div class="errorpopupoutside" id="errorpopupoutside"></div>
+<div class="errorpopupinside" id="errorendpopupinside">
+    <div class="center-content">
+        <p>End time must be one hour after the start time.</p>
+        <span class="close-icon" onclick="closeerrormsgconfig()">
+            <i class="ri-close-line"></i>
+        </span>
+    </div>
+</div>
+
+<div class="errorpopupinside" id="errorstartpopupinside">
+    <div class="center-content">
+        <p>Start time should be one hour after the current time.</p>
+        <span class="close-icon" onclick="closeerrormsgconfig()">
+            <i class="ri-close-line"></i>
+        </span>
+    </div>
+</div>

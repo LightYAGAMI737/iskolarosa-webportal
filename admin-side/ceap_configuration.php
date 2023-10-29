@@ -79,6 +79,7 @@
       <link rel="stylesheet" href="css/side_bar.css">
       <link rel="stylesheet" href="css/ceap_configuration.css">
       <link rel="stylesheet" href="css/status_popup.css">
+      <link rel="stylesheet" href="css/errorpopup.css">
       <script>
          // Prevent manual input in date fields
          function preventInput(event) {
@@ -137,6 +138,7 @@
                <input type="date" id="endDate" name="endDate" required onkeydown="preventInput(event)">
                <input type="time" id="endTime" name="endTime" required onkeydown="preventInput(event)">
             </p>
+            <span class="TimeandDateError"></span>
             <?php
                $sql = "SELECT toggle_value FROM ceap_configuration ORDER BY id DESC LIMIT 1";
                $result = mysqli_query($conn, $sql);
@@ -195,7 +197,6 @@
       <script  src="./js/side_bar.js"></script>
       <script  src="./js/status_popup.js"></script>
       <script  src="./js/configurationPopup.js"></script>
-      <script>
  
          
       </script>

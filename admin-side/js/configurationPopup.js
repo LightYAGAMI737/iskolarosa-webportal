@@ -3,6 +3,7 @@ function checkTimeValidity() {
     const startTimeInput = document.getElementById('startTime');
     const endDateInput = document.getElementById('endDate');
     const endTimeInput = document.getElementById('endTime');
+    const errorSpan = document.querySelector('.TimeandDateError');
    
     // Get the current date and time
     const currentDate = new Date();
@@ -12,19 +13,39 @@ function checkTimeValidity() {
     const startDateTime = new Date(startDateInput.value + 'T' + startTimeInput.value);
     const endDateTime = new Date(endDateInput.value + 'T' + endTimeInput.value);
    
-    // Check if the start time is earlier than the current time
-    if (startDateTime <= currentDate) {
-        alert('Start time cannot be earlier than the current time.');
+    // Calculate one hour from the current time
+    const oneHourFromNow = new Date(currentDate.getTime() + 3600000); // 3600000 milliseconds = 1 hour
+   
+    // Check if the start time is at least one hour after the current time
+    if (startDateTime <= oneHourFromNow) {
+        openstarterrormsgconfig();
+
+        // Use setTimeout to close the error message after 5 seconds
+        setTimeout(function () {
+            closeerrormsgconfig();
+        }, 10000); // 5000 milliseconds = 5 seconds
+    
         startTimeInput.value = ''; // Clear the input field
         return;
+    } else {
+        errorSpan.textContent = ''; // Clear the error message if valid
     }
    
-    // Check if the end time is not before the start time
-    if (endDateTime <= startDateTime) {
-        alert('End time must be after the start time.');
-        endTimeInput.value = ''; // Clear the input field
+    // Check if the end time is at least one hour after the start time
+    if (endDateTime <= startDateTime.getTime() + 3600000) {
+        openenderrormsgconfig();
+
+        // Use setTimeout to close the error message after 5 seconds
+        setTimeout(function () {
+            closeerrormsgconfig();
+        }, 10000); // 5000 milliseconds = 5 seconds
+    
+        endTimeInput.value = '';
+    } else {
+        errorSpan.textContent = ''; // Clear the error message if valid
     }
-   }
+}
+
    
  // Set the minimum date for the start date input to today's date
 const today = new Date().toISOString().split('T')[0];
@@ -32,10 +53,10 @@ document.getElementById('startDate').setAttribute('min', today);
 document.getElementById('endDate').setAttribute('min', today);
 
 // Add event listeners to date and time inputs
-document.getElementById('startDate').addEventListener('change', checkTimeValidity);
-document.getElementById('startTime').addEventListener('change', checkTimeValidity);
-document.getElementById('endDate').addEventListener('change', checkTimeValidity);
-document.getElementById('endTime').addEventListener('change', checkTimeValidity);
+document.getElementById('startDate').addEventListener('input', checkTimeValidity);
+document.getElementById('startTime').addEventListener('input', checkTimeValidity);
+document.getElementById('endDate').addEventListener('input', checkTimeValidity);
+document.getElementById('endTime').addEventListener('input', checkTimeValidity);
 
 
 // Disable the submit button by default
@@ -62,9 +83,9 @@ field.addEventListener('input', checkRequiredFields);
 
 
 // Add event listener to the toggle button
-toggleButton.addEventListener('change', toggleButtonStateChanged);
+toggleButton.addEventListener('input', toggleButtonStateChanged);
 
-// Function to handle toggle button state change
+// Function to handle toggle button state input
 function toggleButtonStateChanged() {
 // Get the state of the toggle button
 const isChecked = toggleButton.checked;
@@ -87,7 +108,22 @@ function formatInput(inputElement) {
     inputElement.value = inputElement.value.replace(/ +/g, ' ');
 }
 
+//error message
+const errorstartmsgconfiguration = document.getElementById("errorstartpopupinside");
+const errorendmsgconfiguration = document.getElementById("errorendpopupinside");
 
+function openenderrormsgconfig() {
+    errorendmsgconfiguration.style.display="block";
+}
+function openstarterrormsgconfig() {
+    errorstartmsgconfiguration.style.display="block";
+}
+
+function closeerrormsgconfig(){
+    errorendmsgconfiguration.style.display="none";
+    errorstartmsgconfiguration.style.display="none";
+    
+}
 const CEAPconfigurationPopup = document.getElementById("CEAPconfigurationPopUp");
 const LPPPconfigurationPopup = document.getElementById("LPPPconfigurationPopUp");
 
