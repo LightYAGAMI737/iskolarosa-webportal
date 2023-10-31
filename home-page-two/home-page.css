@@ -1,0 +1,104 @@
+        /* Background image */
+        body {
+            background-image: url('background2.png');
+            background-size: cover; /* Adjust the image size to cover the entire background */
+            background-repeat: no-repeat; /* Prevent the background image from repeating */
+        }
+
+        .navbar-brand {
+            font-size: 24px; /* Increase the font size of the navbar brand */
+            margin-right: 20px; /* Add right margin to the brand */
+        }
+
+       /* Custom CSS to align navigation links to the right */
+        .navbar-nav {
+            margin-left: auto;
+        }
+         
+        .navbar {
+            padding: 10px; /* Add padding to the navbar */
+        }
+
+        .navbar-nav .nav-item .nav-link {
+            color: #A5040A; /* Font color for the navbar links */
+            width: 110px; /* Add width to the navbar links */
+            text-align: center;
+            font-weight: bolder;
+        }
+
+        .navbar-nav .nav-item .nav-link.active {
+            color: white !important; /* Background color for the active link */
+            max-width: 90px !important;
+        }
+        
+        @media (max-width: 768px) {
+            /* Custom CSS for small screens */
+            .top-left-row {
+                order: 1;
+            }
+            .right-column {
+                order: 2;
+            }
+            .bottom-left-row {
+                order: 3;
+            }
+        }
+        
+        @media (max-width: 990px) {
+            .navbar-nav {
+                background-color: #ccc;
+            }
+            .nav-link {
+                text-align: left !important;
+            }
+            .navbar-nav .nav-item {
+                display: flex;
+                justify-content: center;
+                margin: 5px !important;
+                border-radius: 15px;
+            }
+        }
+        
+        /* Custom CSS for background colors, borders, and heights */
+        .flex-container {
+            display: flex;
+            flex-direction: column;
+        }
+        .top-left-row {
+            background-color: red;
+            border: 1px solid black;
+            height: 100px;
+        }
+        .right-column {
+            background-color: pink;
+            border: 1px solid black;
+            height: 400px;
+        }
+        .bottom-left-row {
+            background-color: green;
+            border: 1px solid black;
+            height: 450px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end; /* Position the card at the bottom */
+            align-items: center;
+        }
+        .card {
+            width: 80%;
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid black;
+        }
+
+        /* Custom CSS to center navbar links */
+        .navbar-nav {
+            display: flex;
+            justify-content: center;
+        }
+
+        .navbar-nav .nav-item {
+            margin: 0 10px; /* Add some margin between the links */
+        }
+
+      
