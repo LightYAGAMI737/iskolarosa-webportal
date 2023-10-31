@@ -1,20 +1,14 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
 require_once 'user_registration.php';
 require_once 'email_functions.php';
 
 include '../../admin-side/php/config_iskolarosa_db.php';
-
 function handleEmptyValue($value)
 {
     return empty($value) ? "N/A" : $value;
 }
 
-if (isset($_POST['submit']))
-{
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $last_name = htmlspecialchars($_POST['last_name']);
     $first_name = htmlspecialchars($_POST['first_name']);
     $middle_name = htmlspecialchars($_POST['middle_name']);
@@ -160,13 +154,11 @@ if (isset($_POST['submit']))
 
     if (mysqli_num_rows($duplicateCheckResultNameDOB) > 0)
     {
-        // Set a flag for duplicate applicant
-        $duplicateApplicantFlag = true;
+      echo 'duplicate applicant entry';
     }
     elseif (mysqli_num_rows($duplicateCheckResultGuardian) > 0)
     {
-        // Set a flag for duplicate guardian
-        $duplicateGuardianFlag = true;
+      echo 'duplicate guardian entry';
     }
     else
     {
@@ -210,95 +202,21 @@ if (isset($_POST['submit']))
 
                 if (mysqli_stmt_execute($stmtUpdate))
                 {
-                    // Success! Both temporary_account and ceap_reg_form tables are updated.
-                    // Send the email with username and password (using $control_number as the username)
-                    if (sendEmail($active_email_address, $control_number, $password))
-                    { 
-                        $_SESSION['duplicateApplicantFlag'] = true;
-                        header("Location: success_page.php");
-                        exit;
-                    }
-                    else
-                    {
-                        // Set a flag for email sending error
-                        $emailErrorFlag = true;
-                        $emailErrorMessage = "Error: Failed to send email.";
-                    }
-                }
-                else
-                {
-                    // Handle the error if the update query fails
-                    $updateTableErrorFlag = true;
-                    $updateTableErrorMessage = "Error: Failed to update the table ceap_reg_form.";
-
-                }
+                  // Send the email with username and password (using $control_number as the username)
+              if (sendEmail($active_email_address, $control_number, $password)) { // Pass the generated password here
+                echo 'success';
+            } else {
+                echo "error";
             }
-            else
-            {
-                // Set a flag for database error
-                $databaseErrorFlag = true;
-                // You can also store the error message in a variable for later use
-                $databaseErrorMessage = "Error: Failed to insert data.";
-            }
-        }
-
-    }
-}
-?>
-
-<script>
-// Call JavaScript function to update file names
-updateFileNames();
-
-function updateFileNames() {
-    var last_name = "<?php echo $last_name; ?>";
-    var first_name = "<?php echo $first_name; ?>";
-
-    // Update PDF file names
-    var uploadVotersApplicant = last_name + ', ' + first_name + '_ApplicantVoters.pdf';
-    var uploadVotersParent = last_name + ', ' + first_name + '_VotersParent.pdf';
-    var uploadITR = last_name + ', ' + first_name + '_ITR.pdf';
-    var uploadResidency = last_name + ', ' + first_name + '_Residency.pdf';
-    var uploadCOR = last_name + ', ' + first_name + '_COR.pdf';
-    var uploadGrade = last_name + ', ' + first_name + '_Grade.pdf';
-
-    // Update JPG file name
-    var uploadPhotoJPG = last_name + ', ' + first_name + '_2x2_Picture.jpg';
-
-    $.ajax({
-        type: 'POST',
-        url: 'update_file_names.php',
-        data: {
-            ceap_reg_form_id: <?php echo $ceap_reg_form_id; ?>,
-            last_name: last_name,
-            first_name: first_name,
-            uploadVotersApplicant: uploadVotersApplicant,
-            uploadVotersParent: uploadVotersParent,
-            uploadITR: uploadITR,
-            uploadResidency: uploadResidency,
-            uploadCOR: uploadCOR,
-            uploadGrade: uploadGrade,
-            uploadPhotoJPG: uploadPhotoJPG
-        },
-        success: function(response) {
-            console.log(response);
-        },
-        error: function(xhr, status, error) {
-            console.log(error);
-        }
-    });
-}
-</script>
-
-<!DOCTYPE html>
-<html>
-   <head>
-      <title>iSKOLORSA</title>
-      <link rel="stylesheet" href="../css/control_number.css">   
-<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-      
-   </head>
-   <body>
-   </body>
-   
-</html>
+                   } else {
+                       // Handle the error if the update query fails
+                       echo "Error updating ceap_reg_form table: " . mysqli_error($conn);
+                   }
+                } else {
+                    // Handle the error if the insert query for temporary_account fails
+                    echo "Error inserting into temporary_account table: " . mysqli_error($conn);
+                }
+           }
+               }
+           }
+           ?>

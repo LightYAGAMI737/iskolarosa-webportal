@@ -174,43 +174,85 @@ document.getElementById("nextButtonStep_three").addEventListener("click", functi
     enableAfterCooldown(document.getElementById("submitReview"), 20000); // 20000 milliseconds = 20 seconds
 });
 
-//popup
 
-let subpopup = document.getElementById("sub-containerPopup");
-  let confirmButton = document.getElementById("submitReview"); // Get the "Confirm" button
+const ceapConfirmpopup = document.getElementById('ceapConfirmPopUp');
+function openceapconfirmpopup(){
+  ceapConfirmpopup.style.display="block";
+}
+function closeceapconfirmpoup(){
+  ceapConfirmpopup.style.display="none";
+}
 
-  function opensub() {
-    subpopup.classList.add("open-subpopup");
-  }
-
-  function closesub() {
-    subpopup.classList.remove("open-subpopup");
-  }
-
-  let subconfirmpopup = document.getElementById("subconfirmcontainerpopup");
-
-  function opensubConfirmpopup() {
-    subconfirmpopup.classList.add("open-subconfirmpopup");
-    subpopup.classList.remove("open-subpopup");
-    
-    // Disable the "Confirm" button when it's clicked
-    confirmButton.disabled = true;
-    
-    // Log the button's state to the console
-    console.log("Confirm button state:", confirmButton.disabled);
-  }
-
-  function closesubconfirmPopup() {
-    subconfirmpopup.classList.remove("open-subconfirmpopup");
-  }
-
-// Get a reference to the button elements by their IDs
-var submitButtonConfirm = document.getElementById("submitConfirm");
-var submitCancelConfirm = document.getElementById("cancelConfirm");
-
-// Add a click event listener to the submitConfirm button
-submitButtonConfirm.addEventListener("click", function() {
-  // Add the "disabled" class to both buttons
-  submitButtonConfirm.classList.add("disabled");
-  submitCancelConfirm.classList.add("disabled");
+const CeapconfirmButtons = document.querySelectorAll('.confirm-button');
+CeapconfirmButtons.forEach(function(button) {
+    button.addEventListener('click', function() {
+        this.classList.add('disabled');
+        const ceapcancelButton = this.parentElement.querySelector('.cancel-button');
+        ceapcancelButton.classList.add('disabled');
+    });
 });
+
+const ceapcancelButtons = document.querySelectorAll(".cancel-button");
+ceapcancelButtons.forEach((ceapcancelButtons) => {
+ceapcancelButtons.addEventListener("click", closeceapconfirmpoup);
+});
+
+function submitForm() {
+  // Serialize the form data
+  var formData = new FormData(document.getElementById('msform'));
+
+  // Send an AJAX request to submit the form
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', './php/ceapregformdatabaseinsert.php', true);
+  xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+
+  // Handle the response from the server
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        var response = xhr.responseText;
+        // Handle the response from the server here
+        if (response === 'success') {
+          console.log('Request successful. Response: ' + xhr.status);
+          openCeapConfirmationPopup();
+        } else {
+          openCeapConfirmationPopup();
+          console.log('Request successful, but an error occurred. Response: ' + xhr.responseText);
+          // You can handle specific error cases here
+        }
+      } else {
+        // Handle errors here, providing meaningful error messages or actions
+        console.log('Request failed with status ' + xhr.status);
+        // You can add more specific error handling here
+      }
+    }
+  };
+
+  // Error handler for network-related issues
+  xhr.onerror = function () {
+    console.log('Request failed due to a network error.');
+    // You can take appropriate actions for network errors here
+  };
+
+  xhr.send(formData);
+}
+
+
+function openCeapConfirmationPopup() {
+  closeceapconfirmpoup();
+const CeapconfirmationPopup = document.getElementById("CeapConfrimMsgPopUp");
+CeapconfirmationPopup.style.display = "block";
+
+const CeapokButton = document.getElementById("okConfirm");
+CeapokButton.addEventListener("click", function () {
+  CeapconfirmationPopup.style.display = "none";
+  goBack();
+});
+// Call the goBack function after a 5-second delay
+setTimeout(goBack, 20000);
+}
+
+function goBack() {
+  window.location.href = "../home-page/home_page.php";
+}
+

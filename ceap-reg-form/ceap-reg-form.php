@@ -9,33 +9,23 @@
       <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css'>
       <link rel="stylesheet" type="text/css" href="css/popup.css">
       <link rel="stylesheet" href="css/style.css">
+      <link rel="stylesheet" href="../admin-side/css/status_popup.css">
+
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  
+      <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js'></script>
       <style>
       </style>
    </head>
    <body>
+      <?php 
+         include './php/submitconfirmpopup.php';
+      ?>
       <div class="header">
          <h3>COLLEGE EDUCATIONAL ASSISTANCE PROGRAM (CEAP)</h3>
          <h4>APPLICATION FORM</h4>
          <h5>To be filled-up by the applicant</h5>
       </div>
       <form id="msform" action="./php/ceapregformdatabaseinsert.php" enctype="multipart/form-data" method="post">
-         
-<!-- submit popup button -->
-<div class="sub-containerPopup" id="sub-containerPopup">
-  <div class="subpopup" id="subpopup"><br>
-    <i class="ri-error-warning-line" style="font-size: 8em; color: #F54021;"></i>
-    <strong><h2>Submit Now?</h2></strong>
-    <center><p>You are about to submit your Application Form. Please review your information carefully. Are you sure you want to submit your application?</p></center>
-    <div style="padding: 3px;">
-      <button type="button" onclick="closesub()" id="cancelConfirm" style="margin-right: 15px; background-color: #C0C0C0;"><i class="ri-close-fill" style="font-size: 20px; margin-left: -76px;"></i><p style="margin-left: 16px; margin-top: -31px;">Cancel</p></button>
-      <button type="submit" name="submit" id="submitConfirm">
-    <i class="ri-check-line" style="font-size: 20px; margin-left: -85px;"></i>
-    <p style="margin-left: 16px; margin-top: -31px;">Confirm</p>
-</button>
-
-</div>
-  </div>
-</div>
          <!-- MultiStep Form -->
          <div class="row">
          <div class="col-md-6 col-md-offset-3">
@@ -136,7 +126,7 @@
                         <label class="required" for="barangay">Barangay</label>
                         <select name="barangay" id="barangay" required>
                            <option value="APLAYA">APLAYA</option>
-                           <option value="BALIBAGO">BALIBAGO</option>
+                           <!-- <option value="BALIBAGO">BALIBAGO</option>
                            <option value="CAINGIN">CAINGIN</option>
                            <option value="DILA">DILA</option>
                            <option value="DITA">DITA</option>
@@ -152,7 +142,7 @@
                            <option value="PULONG SANTA CRUZ">PULONG SANTA CRUZ</option>
                            <option value="SANTO DOMINGO">SANTO DOMINGO</option>
                            <option value="SINALHAN">SINALHAN</option>
-                           <option value="TAGAPO">TAGAPO</option>
+                           <option value="TAGAPO">TAGAPO</option> -->
                         </select>
                      </div>
                      <div class="input-container">
@@ -402,28 +392,27 @@
                   <input type="button" name="next" id="nextButtonStep_three" class="next action-button" value="Next" disabled/>
                </fieldset>
                <!-- Add a new fieldset for the review step -->
-<fieldset id="step_four">
-    <h2 class="fs-title"><strong>Review Your Information</strong></h2>
-    <h3 class="fs-subtitle"></h3>
-    <!-- Create a container to display the review information -->
-    <div id="review-container">
-    </div>
+               <fieldset id="step_four">
+                  <h2 class="fs-title"><strong>Review Your Information</strong></h2>
+                  <h3 class="fs-subtitle"></h3>
+                  <!-- Create a container to display the review information -->
+                     <div id="review-container">
+                     </div>
 
                   <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
-                  <input type="button" id="submitReview" class="submit action-button cooldown" onclick="opensub()" value="Submit">
+                  <input type="button" id="submitReview" class="submit action-button cooldown" value="Submit" onclick="openceapconfirmpopup()">
                </fieldset>
 
       </form>
       </div>
       </div>
 <!-- Include jQuery library -->
-      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js'></script>
+
       <script src="./js/script.js"></script>
       <script src="./js/validatenext_stepone.js"></script>
       <script src="./js/validatenext_steptwo.js"></script>
       <script src="./js/validatenext_stepthree.js"></script>
-      <script src="./js/validatenext_stepfour.js"></script>
       <script src="./js/check_duplicate.js"></script>
+      <script src="./js/validatenext_stepfour.js"></script>
    </body>
 </html>
