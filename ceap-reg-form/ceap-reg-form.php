@@ -412,7 +412,7 @@
       <script src="./js/validatenext_stepone.js"></script>
       <script src="./js/validatenext_steptwo.js"></script>
       <script src="./js/validatenext_stepthree.js"></script>
-      <script src="./js/check_duplicate.js"></script>
       <script src="./js/validatenext_stepfour.js"></script>
+      <script src="./js/check_duplicate.js"></script>
    </body>
 </html>
