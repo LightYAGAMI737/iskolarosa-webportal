@@ -130,10 +130,25 @@
          <div class="modal-content">
             <span class="close" id="closeModalBtn">&times;</span>
             <div class="modal-body">
-               <form method="post" action="../../../php/reschedule.php">
-                  <h3 style="text-align: center;">Reschedule today's applicant.</h3>
+               <label for="current_time">Current Date and Time (Asia/Manila):</label>
+               <span id="currentDateTime"></span>
+               <script>
+                  // Function to update the current date and time
+                  function updateCurrentDateTime() {
+                      const currentDateTimeElement = document.getElementById('currentDateTime');
+                      const options = { timeZone: 'Asia/Manila', hour12: true, hour: 'numeric', minute: 'numeric', second: 'numeric', year: 'numeric', month: 'numeric', day: 'numeric' };
+                      const currentDateTime = new Date().toLocaleString([], options);
+                      currentDateTimeElement.textContent = currentDateTime;
+                  }
+                  
+                  // Update the current date and time initially and then every second
+                  updateCurrentDateTime();
+                  setInterval(updateCurrentDateTime, 1000); // Update every 1 second
+               </script>
+               <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+               <h3 style="text-align: center;">Reschedule today's applicants</h3>
                   <div class="form-group">
-                     <label for="interview_date">Date</label> 
+                     <label for="interview_date">Date</label>
                      <input type="date" name="interview_date" id="interview_date" class="form-control" required onkeydown="preventInput(event)"
                         <?php
                            echo 'min="' . date('Y-m-d') . '"';
@@ -145,38 +160,21 @@
                      <div style="display: flex; align-items: center;">
                         <input type="number" name="interview_hours" id="interview_hours" class="form-control" min="1" max="12" required>
                         <span style="margin: 0 5px;">:</span>
-                        <input type="number" name="interview_minutes" id="interview_minutes" minlength="2" class="form-control" min="0" max="59" required>
+                        <input type="number" name="interview_minutes" id="interview_minutes" class="form-control" min="0" max="59" required>
                         <select class="form-control" name="interview_ampm" id="interview_ampm" required>
                            <option value="AM">AM</option>
                            <option value="PM">PM</option>
                         </select>
                      </div>
                   </div>
+                  <span id="error-message" style="color: red;"></span>
                   <div class="form-group">
                      <label for="limit">Qty</label>
-                     <input type="number" class="form-control"  name="limit" id="limit" min="1" max="<?php echo $todayInterviewCount; ?>" required>
+                     <input type="number" class="form-control" name="limit" id="limit" min="1" max="<?php echo $todayInterviewCount; ?>" required>
                   </div>
-                  <script>
-                     const limitInput = document.getElementById('limit');
-                     
-                     limitInput.addEventListener('input', function() {
-                         const userInput = limitInput.value.trim();
-                         let sanitizedInput = userInput.replace(/^0+|(\..*)\./gm, '$0');
-                     
-                         if (sanitizedInput === '' || isNaN(sanitizedInput)) {
-                             limitInput.value = '';
-                         } else {
-                             const parsedInput = parseInt(sanitizedInput);
-                     
-                             // Ensure the value is within the valid range
-                             const validValue = Math.min(Math.max(parsedInput, 1), 200);
-                     
-                             limitInput.value = validValue;
-                         }
-                     });
-                  </script>
+                  <span id="error-message-limit" style="color: red;"></span>
                   <div class="form-group">
-                     <button type="submit" name="rescheduleBtn" id="rescheduleBtn" class="btn btn-primary">Reschedule</button>
+                     <button type="button" class="btn btn-primary" id="rescheduleBtn" onclick="openInterviewPopup(), closeModalInterview()" disabled>Set</button>
                   </div>
                </form>
             </div>
@@ -249,47 +247,41 @@
       </div>
       <!-- partial -->
       <script src='../../../js/unpkg-layout.js'></script><script  src="../../../js/side_bar.js"></script>
-
-
-      <script>
-         function seeMore(id) {
-             // Redirect to a page where you can retrieve the reserved data based on the given ID
-             window.location.href = "ceap_information.php?ceap_reg_form_id=" + id;
-         }
-         
-      </script>
+      <script  src="../../../js/VerifiedandInterview.js"></script>
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
       <script>
-         $(document).ready(function() {
-             // Add an event listener to the search input field
-             $('#search').on('input', function() {
-                 searchApplicants();
-             });
-         });
-         
-         function searchApplicants() {
-             var searchValue = $('#search').val().toUpperCase();
-             var found = false; // Flag to track if any matching applicant is found
-             $('.contents').each(function () {
-                 var controlNumber = $(this).find('td:nth-child(2)').text().toUpperCase();
-                 var lastName = $(this).find('td:nth-child(3)').text().toUpperCase();
-                 if (searchValue.trim() === '' || controlNumber.includes(searchValue) || lastName.includes(searchValue)) {
-                     $(this).show();
-                     found = true;
-                 } else {
-                     $(this).hide();
-                 }
-             });
-         
-             // Display "No applicant found" message if no matching applicant is found
-             if (!found) {
-                 $('#noApplicantFound').show();
-             } else {
-                 $('#noApplicantFound').hide();
-             }
-         }
-      </script>
-      <script>
+$(document).ready(function() {
+    // Add an event listener to the search input field
+    $('#search').on('input', function() {
+        searchApplicants();
+    });
+});
+
+function searchApplicants() {
+    var searchValue = $('#search').val().toUpperCase();
+    var found = false; // Flag to track if any matching applicant is found
+    $('.contents').each(function () {
+        var controlNumber = $(this).find('td:nth-child(2)').text().toUpperCase();
+        var lastName = $(this).find('td:nth-child(3)').text().toUpperCase();
+        if (searchValue.trim() === '' || controlNumber.includes(searchValue) || lastName.includes(searchValue)) {
+            $(this).show();
+            found = true;
+        } else {
+            $(this).hide();
+        }
+    });
+
+    // Display "No applicant found" message if no matching applicant is found
+    if (!found) {
+        $('#noApplicantFound').show();
+    } else {
+        $('#noApplicantFound').hide();
+    }
+}
+</script>
+
+<script>
          function filterApplicants(selectedFilter) {
              // Get all rows in the table
              var rows = $('.applicant-row');
@@ -384,7 +376,7 @@
          
          // DOMContentLoaded event
          document.addEventListener("DOMContentLoaded", function() {
-             filterApplicants('interview_date_today');
+             filterApplicants('interview_date_for_month');
              const hoursInput = document.getElementById("interview_hours");
              hoursInput.addEventListener("input", function() {
                  const hoursValue = parseInt(hoursInput.value);

@@ -71,11 +71,10 @@
    <body>
       <?php 
          include '../../side_bar_barangay.php';
-         
          ?>
       <!-- home content-->    
       <div class="form-group">
-         <input type="text" name="search" class="form-control" id="search" placeholder="Search by Control Number or Last name" oninput="formatInput(this)">
+      <input type="text" name="search" class="form-control" id="search" placeholder="Search by Control Number or Last name"  oninput="formatInput(this)">
          <button type="button" class="btn btn-primary" onclick="searchApplicants()">Search</button>
       </div>
       <!-- table for displaying the applicant list -->
@@ -141,8 +140,39 @@
          }
          
       </script>
-      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      <script>
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+$(document).ready(function() {
+// Add an event listener to the search input field
+$('#search').on('input', function() {
+  searchApplicants();
+});
+});
+
+function searchApplicants() {
+var searchValue = $('#search').val().toUpperCase();
+var found = false; // Flag to track if any matching applicant is found
+$('.contents').each(function () {
+  var controlNumber = $(this).find('td:nth-child(2)').text().toUpperCase();
+  var lastName = $(this).find('td:nth-child(3)').text().toUpperCase();
+  if (searchValue.trim() === '' || controlNumber.includes(searchValue) || lastName.includes(searchValue)) {
+      $(this).show();
+      found = true;
+  } else {
+      $(this).hide();
+  }
+});
+
+// Display "No applicant found" message if no matching applicant is found
+if (!found) {
+  $('#noApplicantFound').show();
+} else {
+  $('#noApplicantFound').hide();
+}
+}
+
+
          function formatInput(inputElement) {
            // Remove multiple consecutive white spaces
            inputElement.value = inputElement.value.replace(/\s+/g, ' ');
@@ -150,31 +180,6 @@
            // Convert input text to uppercase
            inputElement.value = inputElement.value.toUpperCase();
          }
-         
-         function searchApplicants() {
-           var searchValue = $('#search').val().toUpperCase();
-           var found = false; // Flag to track if any matching applicant is found
-           $('.contents').each(function () {
-               var controlNumber = $(this).find('td:nth-child(2)').text().toUpperCase();
-               var lastName = $(this).find('td:nth-child(3)').text().toUpperCase();
-               if (searchValue.trim() === '' || controlNumber.includes(searchValue) || lastName.includes(searchValue)) {
-                   $(this).show();
-                   found = true;
-               } else {
-                   $(this).hide();
-               }
-           });
-         
-           // Display "No applicant found" message if no matching applicant is found
-           if (!found) {
-               $('#noApplicantFound').show();
-           } else {
-               $('#noApplicantFound').hide();
-           }
-         }
-         
-         
-         
       </script>
    </body>
 </html>

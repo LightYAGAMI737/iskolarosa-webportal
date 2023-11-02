@@ -70,10 +70,11 @@
     border-radius: 15px 0px 0px 15px !important;
 }
 
-#saveBtn {
+#rescheduleBtn {
     background-color: #FEC021;
     border-color: #FEC021;
     color: black;
+    border-radius: 15px !important;
 }
 #rescheduleButton {
     background-color: #FEC021;
