@@ -7,7 +7,6 @@ employeeIdInput.addEventListener('input', function () {
     employeeIdInput.value = employeeIdInput.value.replace(/[^A-Za-z0-9-]/g, '');
 
     validateEmployeeId();
-    checkAllFields(); // Check all fields after each input
 });
 
 function validateEmployeeId() {
@@ -24,75 +23,6 @@ function validateEmployeeId() {
         employeeIdInput.classList.remove('invalid');
     }
 }
-
-  // Declare passwordInput and confirmPasswordInput as global variables
-var passwordInput = document.getElementById('password');
-var confirmPasswordInput = document.getElementById('confirmPassword');
-var confirmPasswordError = document.getElementById('confirmPasswordError'); // Declare confirmPasswordError as a global variable
-
-function validatePassword() {
-    var password = passwordInput.value;
-    var passwordError = document.getElementById('passwordError'); // Declare passwordError here
-
-    // var lengthRegex = /.{8,20}/;
-    // var uppercaseRegex = /[A-Z]/;
-    // var lowercaseRegex = /[a-z]/;
-    // var numberRegex = /[0-9]/;
-
-    // var validLength = lengthRegex.test(password);
-    // var hasUppercase = uppercaseRegex.test(password);
-    // var hasLowercase = lowercaseRegex.test(password);
-    // var hasNumber = numberRegex.test(password);
-
-    // // Check if any validation fails
-    // if (!validLength || !hasUppercase || !hasLowercase || !hasNumber) {
-    //     passwordError.textContent = '8 characters long, 1 uppercase letter, 1 lowercase letter, and one number.';
-    //     passwordError.style.display = 'block';
-    //     passwordInput.classList.add('invalid');
-    // } else {
-    //     passwordError.textContent = '';
-    //     passwordError.style.display = 'none';
-    //     passwordInput.classList.remove('invalid');
-    // }
-
-    // Check if the password and confirm password match in real-time
-    if (password !== confirmPasswordInput.value) {
-        confirmPasswordError.textContent = 'Passwords do not match.';
-        confirmPasswordError.style.display = 'block';
-        confirmPasswordInput.classList.add('invalid');
-    } else {
-        confirmPasswordError.textContent = 'Password matched';
-        confirmPasswordError.style.display = 'block';
-
-        setTimeout(function () {
-            confirmPasswordError.textContent = '';
-            confirmPasswordError.style.display = 'none';
-            confirmPasswordInput.classList.remove('invalid');
-        }, 2000);
-    }
-}
-
-function validateConfirmPassword() {
-    var password = passwordInput.value;
-    var confirmPassword = confirmPasswordInput.value;
-
-    if (password !== confirmPassword) {
-        confirmPasswordError.textContent = 'Passwords do not match.';
-        confirmPasswordError.style.display = 'block';
-        confirmPasswordInput.classList.add('invalid');
-    } else {
-        confirmPasswordError.textContent = 'Password matched';
-        confirmPasswordError.style.display = 'block';
-
-        setTimeout(function () {
-            confirmPasswordError.textContent = '';
-            confirmPasswordError.style.display = 'none';
-            confirmPasswordInput.classList.remove('invalid');
-        }, 2000);
-    }
-}
-
-// Rest of your existing code remains the same
 
 
 
@@ -126,8 +56,6 @@ function validateNames(inputElement, errorElement) {
     // Remove the 'invalid' class
     inputElement.classList.remove('invalid');
   }
-  checkAllFields();
-
 }
 
 
@@ -248,86 +176,91 @@ function validatePicture() {
   document.getElementById('department').addEventListener('change', generateUsername);
   document.getElementById('employeeId').addEventListener('input', generateUsername);
 
+  const passwordInput = document.getElementById("password");
+  const confirmPasswordInput = document.getElementById("confirmPassword");
+  const passwordError = document.getElementById("passwordError");
+  const confirmPasswordError = document.getElementById("confirmPasswordError");
 
-// Function to check all required fields for 'invalid' class and enable/disable the submit button
-function checkAllFields() {
-  const requiredFields = document.querySelectorAll('.required-field'); // Add 'required-field' class to required fields
-  const submitButton = document.getElementById('submitButton');
-  let allFieldsValid = true; // Assume all fields are valid initially
+  passwordInput.addEventListener("input", validatePassword);
+  confirmPasswordInput.addEventListener("input", validateConfirmPassword);
 
-  for (const field of requiredFields) {
-    if (field.classList.contains('invalid') || !field.value.trim()) {
-      // If a required field has the 'invalid' class or is empty, mark it as invalid
-      allFieldsValid = false;
-      break; // Exit loop if at least one required field is invalid
+  function validatePassword() {
+      const password = passwordInput.value;
+      const passwordPattern = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{8,}$/;
+
+      if (passwordPattern.test(password)) {
+          closepasswordpopup();
+          passwordInput.classList.remove("invalid");
+      } else {
+          openpasswordpopup();
+          passwordInput.classList.add("invalid");
+      }
+
+      validateConfirmPassword();
+  }
+
+  function validateConfirmPassword() {
+    const password = passwordInput.value;
+    const confirmPassword = confirmPasswordInput.value;
+
+    if (confirmPassword) {
+        if (password === confirmPassword) {
+            confirmPasswordError.textContent = "";
+            confirmPasswordInput.classList.remove("invalid");
+        } else {
+            confirmPasswordError.textContent = "Passwords do not match.";
+            confirmPasswordInput.classList.add("invalid");
+        }
     }
-  }
-  
-  // Check if the password and confirm password match
-  const passwordInput = document.getElementById('password');
-  const confirmPasswordInput = document.getElementById('confirmPassword');
-
-  if (
-    passwordInput.value !== confirmPasswordInput.value ||
-    !passwordInput.value.trim() ||
-    !confirmPasswordInput.value.trim()
-  ) {
-    allFieldsValid = false;
-  }
-
-  // Enable or disable the submit button based on allFieldsValid
-  submitButton.disabled = !allFieldsValid;
 }
-// Add event listeners to first and last name fields
-const firstNameInput = document.getElementById('firstName');
-const lastNameInput = document.getElementById('lastName');
-const firstNameError = document.getElementById('first_NameError');
-const lastNameError = document.getElementById('last_NameError');
+
+  const buttonContainer = document.querySelector(".button-container"); // Get the button container
+  const submitButton = document.getElementById("submitButton");
+  
+  // Add an input event listener to the document to continuously check for invalid fields
+  document.addEventListener("input", checkFormValidity);
+  
+  function checkFormValidity() {
+      const requiredFields = document.querySelectorAll('[required]'); // Get all required fields
+      const invalidFields = document.querySelectorAll('.invalid'); // Get all elements with the 'invalid' class
+  
+      let hasEmptyRequiredField = false;
+  
+      requiredFields.forEach(field => {
+          if (field.value.trim() === '') {
+              hasEmptyRequiredField = true;
+          }
+      });
+  
+      if (invalidFields.length === 0 && !hasEmptyRequiredField) {
+          submitButton.removeAttribute("disabled");
+      } else {
+          submitButton.setAttribute("disabled", "disabled");
+      }
+  }
+const passwordInputshowhide = document.getElementById("password");
+const confirmpasswordInputshowhide = document.getElementById("confirmPassword");
+const passwordToggle = document.querySelector(".password-toggle");
+
+function togglePasswordVisibility() {
+    if (passwordInputshowhide.type === "password" && confirmpasswordInputshowhide.type === "password") {
+        passwordInputshowhide.type = "text";
+        confirmpasswordInputshowhide.type = "text";
+        passwordToggle.innerHTML = '<i class="ri-eye-off-fill"></i>'; // Change to a crossed-out eye
+    } else {
+        passwordInputshowhide.type = "password";
+        confirmpasswordInputshowhide.type = "password";
+        passwordToggle.innerHTML = '<i class="ri-eye-fill"></i>'; // Change back to a regular eye
+    }
+}
 
 
-employeeIdInput.addEventListener('input', function () {
-    validateEmployeeId();
-    checkAllFields(); // Check all fields after each input
-});
+const passwordpopop = document.getElementById('openpasswordpopup'); 
 
-firstNameInput.addEventListener('input', function () {
-  validateNames(firstNameInput, firstNameError);
-  checkAllFields(); // Check all fields after each input
-});
+function openpasswordpopup() {
+  passwordpopop.style.display="block";
+} 
+function closepasswordpopup(){
+  passwordpopop.style.display="none";
 
-lastNameInput.addEventListener('input', function () {
-  validateNames(lastNameInput, lastNameError);
-  checkAllFields(); // Check all fields after each input
-});
-
-passwordInput.addEventListener('input', function() {
-  validatePassword(); // Validate the password input
-  checkAllFields(); // Check password and confirm password
-});
-
-confirmPasswordInput.addEventListener('input', function() {
-  validateConfirmPassword();
-  checkAllFields(); // Check password and confirm password
-});
-
-// Add event listener for contact number input
-var contactNumberInput = document.getElementById('contactNumber');
-contactNumberInput.addEventListener('input', function() {
-  validateContactNumber();
-  checkAllFields(); // Check all fields after each input
-});
-
-// Add event listener for email input
-var emailInput = document.getElementById('email');
-emailInput.addEventListener('input', function() {
-  validateEmail();
-  checkAllFields(); // Check all fields after each input
-});
-
-// Add event listener for picture input
-var pictureInput = document.getElementById('picture');
-pictureInput.addEventListener('input', function() {
-  validatePicture();
-  checkAllFields(); // Check all fields after each input
-});
-
+}

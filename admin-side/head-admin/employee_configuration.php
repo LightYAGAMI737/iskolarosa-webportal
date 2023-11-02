@@ -58,16 +58,31 @@
       <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&amp;display=swap'>
       <link rel="stylesheet" href="../css/side_bar.css">
       <link rel="stylesheet" href="../css/ceap_configuration.css">
+      <link rel="stylesheet" href="../css/remixicon.css">
       <link rel="stylesheet" href="../css/employee_configuration.css">
+      <link rel="stylesheet" href="../css/errorpopup.css">
       <style>
         /* Define the invalid class with red border color */
         .invalid {
             border-color: red !important;
         }
+        .password-input {
+    position: relative;
+}
+
+.password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
     </style>
    </head>
    <body>
    <?php
+        include 'passwordpopup.php';
         include 'head_admin_side_bar.php';
 
 ?>
@@ -142,9 +157,15 @@
         <input type="text" class="required-field" id="username"  style="border: none; background: #ececec;"  name="username" readonly required>
       </div>
       <div class="form-group">
-    <label class="required"  for="password">Password:</label>
-    <input type="password" id="password" name="password" placeholder="Enter password" maxlength="20" onkeyup="validatePassword()" required>
-    <span id="passwordError" class="error-message"></span>
+    <label class="required" for="password">Password:</label>
+    <div class="password-input">
+        <input type="password" id="password" name="password" placeholder="Enter password" maxlength="20" required>
+        <span class="password-toggle" onclick="togglePasswordVisibility()">
+            <i class="ri-eye-fill"></i>
+        </span>
+      </div>
+      <span id="passwordError" class="error-message"></span>
+
 </div>
 
 <div class="form-group">
