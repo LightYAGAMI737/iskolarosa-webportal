@@ -184,7 +184,7 @@
                   </div>
                   <span id="error-message-limit" style="color: red;"></span>
                   <div class="form-group">
-                     <button type="button" class="btn btn-primary" id="saveBtn" onclick="openInterviewPopup(), closeModal()" disabled>Set</button>
+                     <button type="button" class="btn btn-primary" id="saveBtn" onclick="openInterviewPopup(), closeModalInterview()" disabled>Set</button>
                   </div>
                </form>
             </div>

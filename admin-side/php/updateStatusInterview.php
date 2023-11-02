@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($interviewDate) && !empty($interview_hours) && !empty($interview_minutes) && !empty($interview_ampm) && !empty($limit)) {
         $interviewDate = mysqli_real_escape_string($conn, $interviewDate);
         $limit = intval($limit);
-
+    
         $qualifiedQuery = "SELECT t.*, UPPER(p.first_name) AS first_name, UPPER(p.last_name) AS last_name, UPPER(p.barangay) AS barangay, p.control_number, p.date_of_birth, p.ceap_reg_form_id
         FROM ceap_reg_form p
         INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         mysqli_stmt_bind_param($stmt, "i", $limit);
         mysqli_stmt_execute($stmt);
         $qualifiedResult = mysqli_stmt_get_result($stmt);
-
+    
         $updateCount = 0; // Track the number of applicants updated
 
         while ($row = mysqli_fetch_assoc($qualifiedResult)) {
@@ -77,11 +77,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmtLog->bind_param("ssii", $previousStatus, $status, $ceapRegFormId, $employeeLogsId);
                 $stmtLog->execute();
 
-                $response = array("response" => "success");
-                echo json_encode($response);
+                echo 'success';
             } else {
-                $response = array("response" => "error");
-                echo json_encode($response);
+                echo 'error';
             }
             $updateCount++;
         }

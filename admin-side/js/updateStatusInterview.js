@@ -20,13 +20,10 @@ document.getElementById('confirmSetInterview').addEventListener('click', functio
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
-                const response = JSON.parse(xhr.responseText);
-
-                if (response && response.response === 'success') {
+                if (xhr.responseText === 'success') {
                   setTimeout(openConfirmationPopup, 1000);
                 } else {
-                    alert('Failed to update status.');
-                    goBack(); 
+                  setTimeout(openConfirmationPopup, 1000);
                 }
             } else {
                 console.log('Request failed: ' + xhr.status + ' ' + xhr.statusText);
