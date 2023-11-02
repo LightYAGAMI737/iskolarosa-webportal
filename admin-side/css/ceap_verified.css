@@ -13,7 +13,6 @@
     background-color: #FEC021;
     color: #000000;
     margin-right: 10px;
-    
 }
 
 .btn-rad {
@@ -26,7 +25,13 @@
     background-color: #FEC021;
     border-color: #FEC021;
     color: black;
+    border-radius: 15px !important;
 }
+#saveBtn[disabled] {
+    opacity: 0.5; /* Reduced opacity for disabled state */
+    cursor: not-allowed; /* Disabled cursor style */
+ }
+
 #openModalBtn {
     background-color: #FEC021;
     border-color: #FEC021;
@@ -110,18 +115,4 @@ select {
     background-size: 16px 16px;
     padding-right: 30px;
 }
-button[type="submit"] {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-button[type="submit"]:hover {
-    background-color: #0056b3;
-}
-  #saveBtn[disabled] {
-    opacity: 0.5; /* Reduced opacity for disabled state */
-    cursor: not-allowed; /* Disabled cursor style */
-  }
+

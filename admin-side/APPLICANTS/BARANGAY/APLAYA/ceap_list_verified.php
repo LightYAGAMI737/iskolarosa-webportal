@@ -3,7 +3,7 @@
    session_start();
    include '../../../php/config_iskolarosa_db.php';
    include '../../../php/functions.php';
-
+   
    
    // Description: This script handles permission checks and retrieves applicant information.
    
@@ -34,7 +34,7 @@
        echo $requiredPermissions[$requiredPermission];
        exit();
    }
- 
+   
    // Set variables
    $currentStatus = 'verified';
    $currentPage = 'ceap_list';
@@ -61,10 +61,10 @@
    // Query to count 'verified' accounts
    $verifiedCountQuery = "SELECT COUNT(*) AS verifiedCount, UPPER(p.barangay) AS barangay, 
    UPPER(t.status) AS status
-FROM ceap_reg_form p
-INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
-WHERE p.barangay = 'aplaya' && t.status = 'Verified'";
-
+   FROM ceap_reg_form p
+   INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
+   WHERE p.barangay = 'aplaya' && t.status = 'Verified'";
+   
    $stmtVerifiedCount = mysqli_prepare($conn, $verifiedCountQuery);
    mysqli_stmt_execute($stmtVerifiedCount);
    $verifiedCountResult = mysqli_stmt_get_result($stmtVerifiedCount);
@@ -96,8 +96,8 @@ WHERE p.barangay = 'aplaya' && t.status = 'Verified'";
    <body>
       <?php 
          include '../../../php/updateStatusInterview.php';
-   include '../../../php/status_popup.php';
-   include '../../../php/confirmStatusPopUp.php';
+         include '../../../php/status_popup.php';
+         include '../../../php/confirmStatusPopUp.php';
          include '../../side_bar_barangay.php';
          ?>
       <!-- home content--> 
@@ -141,28 +141,24 @@ WHERE p.barangay = 'aplaya' && t.status = 'Verified'";
          <div class="modal-content">
             <span class="close" id="closeModalBtn">&times;</span>
             <div class="modal-body">
-            <label for="current_time">Current Date and Time (Asia/Manila):</label>
-<span id="currentDateTime"></span>
-
-<script>
-    // Function to update the current date and time
-    function updateCurrentDateTime() {
-        const currentDateTimeElement = document.getElementById('currentDateTime');
-        const options = { timeZone: 'Asia/Manila', hour12: true, hour: 'numeric', minute: 'numeric', second: 'numeric', year: 'numeric', month: 'numeric', day: 'numeric' };
-        const currentDateTime = new Date().toLocaleString([], options);
-        currentDateTimeElement.textContent = currentDateTime;
-    }
-
-    // Update the current date and time initially and then every second
-    updateCurrentDateTime();
-    setInterval(updateCurrentDateTime, 1000); // Update every 1 second
-</script>
-                       
-            <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+               <label for="current_time">Current Date and Time (Asia/Manila):</label>
+               <span id="currentDateTime"></span>
+               <script>
+                  // Function to update the current date and time
+                  function updateCurrentDateTime() {
+                      const currentDateTimeElement = document.getElementById('currentDateTime');
+                      const options = { timeZone: 'Asia/Manila', hour12: true, hour: 'numeric', minute: 'numeric', second: 'numeric', year: 'numeric', month: 'numeric', day: 'numeric' };
+                      const currentDateTime = new Date().toLocaleString([], options);
+                      currentDateTimeElement.textContent = currentDateTime;
+                  }
+                  
+                  // Update the current date and time initially and then every second
+                  updateCurrentDateTime();
+                  setInterval(updateCurrentDateTime, 1000); // Update every 1 second
+               </script>
+               <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                   <div class="form-group">
-           
                      <label for="interview_date">Date</label>
-        
                      <input type="date" name="interview_date" id="interview_date" class="form-control" required onkeydown="preventInput(event)"
                         <?php
                            echo 'min="' . date('Y-m-d') . '"';
@@ -172,24 +168,24 @@ WHERE p.barangay = 'aplaya' && t.status = 'Verified'";
                   <div class="form-group">
                      <label>Time</label>
                      <div style="display: flex; align-items: center;">
-                     <input type="number" name="interview_hours" id="interview_hours" class="form-control" min="1" max="12" required>
+                        <input type="number" name="interview_hours" id="interview_hours" class="form-control" min="1" max="12" required>
                         <span style="margin: 0 5px;">:</span>
                         <input type="number" name="interview_minutes" id="interview_minutes" class="form-control" min="0" max="59" required>
-                            <select class="form-control" name="interview_ampm" id="interview_ampm" required>
-                              <option value="AM">AM</option>
-                              <option value="PM">PM</option>
-                           </select>
+                        <select class="form-control" name="interview_ampm" id="interview_ampm" required>
+                           <option value="AM">AM</option>
+                           <option value="PM">PM</option>
+                        </select>
                      </div>
                   </div>
-                        <span id="error-message" style="color: red;"></span>
-                 <div class="form-group">
-                    <label for="limit">Qty</label>
-                    <input type="number" class="form-control" name="limit" id="limit" min="1" max="<?php echo $verifiedCount; ?>" required>
-                 </div>
-                    <span id="error-message-limit" style="color: red;"></span>
-                 <div class="form-group">
-                     <button type="button" class="btn btn-primary" onclick="openInterviewPopup(),closeModal() " >Set</button>
-                 </div>
+                  <span id="error-message" style="color: red;"></span>
+                  <div class="form-group">
+                     <label for="limit">Qty</label>
+                     <input type="number" class="form-control" name="limit" id="limit" min="1" max="<?php echo $verifiedCount; ?>" required>
+                  </div>
+                  <span id="error-message-limit" style="color: red;"></span>
+                  <div class="form-group">
+                     <button type="button" class="btn btn-primary" id="saveBtn" onclick="openInterviewPopup(), closeModal()" disabled>Set</button>
+                  </div>
                </form>
             </div>
          </div>
@@ -251,8 +247,6 @@ WHERE p.barangay = 'aplaya' && t.status = 'Verified'";
       <script  src="../../../js/interview_limit.js"></script>
       <script  src="../../../js/status_popup.js"></script>
       <script  src="../../../js/updateStatusInterview.js"></script>
-
-
       <script>
          function seeMore(id) {
              // Redirect to a page where you can retrieve the reserved data based on the given ID
@@ -356,88 +350,115 @@ WHERE p.barangay = 'aplaya' && t.status = 'Verified'";
            }
          
       </script>
-
-<script>
-    // Get references to the input fields and error message elements
+     <script>
     const dateInput = document.getElementById('interview_date');
     const hoursInput = document.getElementById('interview_hours');
     const minutesInput = document.getElementById('interview_minutes');
     const periodInput = document.getElementById('interview_ampm');
     const limitInput = document.getElementById('limit');
-    const saveBtn = document.getElementById('saveBtn');
     const errorMessage = document.getElementById('error-message');
-    const errorMessageLimit = document.getElementById('error-message-limit'); // New error message for limit
+    const errorMessageLimit = document.getElementById('error-message-limit');
 
-    // Add input event listeners to all relevant inputs
-    dateInput.addEventListener('input', validateInput);
-    hoursInput.addEventListener('input', validateInput);
-    minutesInput.addEventListener('input', validateInput);
-    periodInput.addEventListener('input', validateInput);
-    limitInput.addEventListener('input', validateInput);
+    // Add input event listeners to date/time inputs
+    dateInput.addEventListener('input', validateDateTimeInput);
+    hoursInput.addEventListener('input', validateDateTimeInput);
+    minutesInput.addEventListener('input', validateDateTimeInput);
+    periodInput.addEventListener('input', validateDateTimeInput);
 
-    function validateInput() {
-        const selectedDate = new Date(dateInput.value);
-        const hours = parseInt(hoursInput.value);
-        const minutes = parseInt(minutesInput.value);
-        const period = periodInput.value;
-        const limit = parseInt(limitInput.value);
+    // Add input event listener to the limit input
+    limitInput.addEventListener('input', validateLimitInput);
 
-        // Check if all inputs have valid values
-        const isDateTimeValid =
-            !isNaN(selectedDate) &&
-            !isNaN(hours) &&
-            !isNaN(minutes) &&
-            (period === 'AM' || period === 'PM');
+    function validateDateTimeInput() {
+    const selectedDate = new Date(dateInput.value);
+    const hours = parseInt(hoursInput.value);
+    const minutes = parseInt(minutesInput.value);
+    const period = periodInput.value;
 
-        const isLimitValid =
-            !isNaN(limit) && // Check if limit is a valid number
-            limit >= 1 &&    // Check if limit is not less than 1
-            limit <= <?php echo $verifiedCount; ?>; // Check if limit is not more than the total count
+    // Log the selected period to the console
+    console.log('Selected Period:', period);
 
-        // Check both conditions
-        if (isDateTimeValid && isLimitValid) {
-            // Adjust hours if it's PM
-            if (period === 'PM') {
-                hours += 12;
-            }
+    let adjustedHours = hours; // Declare a new variable to store the adjusted hours
 
-            // Set the selectedDate's time to the selected hours and minutes
-            selectedDate.setHours(hours, minutes, 0, 0);
-
-            // Create a Date object for the current time and date
-            const currentDate = new Date();
-
-            // Compare the selectedDate with the current date and time
-            if (selectedDate >= currentDate) {
-                // Enable the "Set" button when both inputs are valid
-                saveBtn.removeAttribute('disabled');
-                // Clear both error messages
-                errorMessage.textContent = '';
-                errorMessageLimit.textContent = '';
-            } else {
-                // Disable the "Set" button when the date and time input is invalid
-                saveBtn.setAttribute('disabled', 'true');
-                // Display an error message for date and time
-                errorMessage.textContent = 'Date and time should not be earlier than the current date and time.';
-                // Clear the "limit" error message
-                errorMessageLimit.textContent = '';
-            }
-        } else {
-            // Disable the "Set" button if any input is invalid
-            saveBtn.setAttribute('disabled', 'true');
-            // Clear both error messages
-            errorMessage.textContent = '';
-            errorMessageLimit.textContent = '';
-
-            // Display error messages based on the conditions
-            if (!isDateTimeValid) {
-                errorMessage.textContent = 'Date and time are invalid.';
-            }
-            if (!isLimitValid) {
-                errorMessageLimit.textContent = 'Quantity must be between 1 and <?php echo $verifiedCount; ?>.';
-            }
-        }
+    if (period === 'PM') {
+        adjustedHours += 12;
     }
+
+    const isDateTimeValid =
+        !isNaN(selectedDate) &&
+        !isNaN(adjustedHours) && // Use adjustedHours
+        !isNaN(minutes);
+
+    // Get the input elements for date, hours, minutes, and period
+    const inputElements = [dateInput, hoursInput, minutesInput, periodInput];
+
+    if (isDateTimeValid) {
+        // If input is valid, remove 'invalid' class
+        inputElements.forEach((element) => {
+            element.classList.remove('invalid');
+        });
+
+        selectedDate.setHours(adjustedHours, minutes, 0, 0);
+        const currentDate = new Date();
+
+        if (selectedDate >= currentDate) {
+            errorMessage.textContent = '';
+        }  else {
+            inputElements.forEach((element) => {
+                element.classList.add('invalid');
+            });
+            errorMessage.textContent = 'Date and time should not be earlier than the current date and time.';
+        }
+    } else {
+        // If input is invalid, add 'invalid' class
+        inputElements.forEach((element) => {
+            element.classList.add('invalid');
+        });
+        errorMessage.textContent = 'Date and time should not be earlier than the current date and time.';
+    }
+}
+
+function validateLimitInput() {
+    const limit = parseInt(limitInput.value);
+    const isLimitValid =
+        !isNaN(limit) &&
+        limit >= 1 &&
+        limit <= <?php echo $verifiedCount; ?>;
+
+    // Add or remove 'invalid' class based on validation
+    if (isLimitValid) {
+        limitInput.classList.remove('invalid');
+        errorMessageLimit.textContent = '';
+    } else {
+        limitInput.classList.add('invalid');
+        errorMessageLimit.textContent = 'Quantity cannot exceed to <?php echo $verifiedCount; ?>.';
+    }
+}
+
+// Get references to the required input fields and the save button
+const requiredInputs = document.querySelectorAll('[required]'); // Get all required fields
+const saveBtn = document.getElementById('saveBtn');
+
+// Function to check if all required inputs are valid
+function checkRequiredInputs() {
+    const allInputsValid = Array.from(requiredInputs).every((input) => {
+        return input.value.trim() !== '' && !input.classList.contains('invalid');
+    });
+
+    if (allInputsValid) {
+        saveBtn.removeAttribute('disabled');
+    } else {
+        saveBtn.setAttribute('disabled', 'true');
+    }
+}
+
+// Add input event listeners to required input fields
+requiredInputs.forEach((input) => {
+    input.addEventListener('input', checkRequiredInputs);
+});
+
+// Initial check
+checkRequiredInputs();
+
 </script>
 
    </body>
