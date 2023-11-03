@@ -5,53 +5,54 @@ function checkTimeValidity() {
     const endTimeInput = document.getElementById('endTime');
     const errorSpan = document.querySelector('.TimeandDateError');
 
-    // Get the current date and time
-    const currentDate = new Date();
-    currentDate.setSeconds(0); // Set seconds to 0 to make it more precise
+    // Create a Date object for the current time in Asia/Manila timezone
+    const asiaManilaTimeZone = 'Asia/Manila';
+    const currentDateTime = new Date(new Date().toLocaleString('en-US', { timeZone: asiaManilaTimeZone }));
 
-    // Calculate the selected date and time
+    // Calculate the selected date and time in the Asia/Manila timezone
     const startDateTime = new Date(startDateInput.value + 'T' + startTimeInput.value);
-    const endDateTime = new Date(endDateInput.value + 'T' + endTimeInput.value);
 
     // Calculate one hour from the current time
-    const oneHourFromNow = new Date(currentDate.getTime() + 3600000); // 3600000 milliseconds = 1 hour
+    const oneHourFromNow = new Date(currentDateTime.getTime() + 3600000); // 3600000 milliseconds = 1 hour
 
     // Check if the start time is at least one hour after the current time
     if (startDateTime <= oneHourFromNow) {
         openstarterrormsgconfig();
-
         // Use setTimeout to close the error message after 5 seconds
         setTimeout(function () {
             closeerrormsgconfig();
         }, 10000); // 10000 milliseconds = 10 seconds
 
         startTimeInput.value = ''; // Clear the input field
+        console.log('Start Date and Time Input is INVALID'); // Log that the input is invalid
         return;
     } else {
         errorSpan.textContent = ''; // Clear the error message if valid
+        console.log('Start Date and Time Input is VALID'); // Log that the input is valid
     }
 
     // Check if the end time is at least one hour after the start time
+    const endDateTime = new Date(endDateInput.value + 'T' + endTimeInput.value);
+
     if (endDateTime <= startDateTime.getTime() + 3600000) {
         openenderrormsgconfig();
-
         // Use setTimeout to close the error message after 5 seconds
         setTimeout(function () {
             closeerrormsgconfig();
         }, 10000); // 10000 milliseconds = 10 seconds
 
         endTimeInput.value = '';
+        console.log('End Date and Time Input is INVALID'); // Log that the input is invalid
     } else {
         errorSpan.textContent = ''; // Clear the error message if valid
-        
-        // Call closeerrormsgconfig when the input is valid
+        console.log('End Date and Time Input is VALID'); // Log that the input is valid
         closeerrormsgconfig();
     }
 }
 
-   
- // Set the minimum date for the start date input to today's date
-const today = new Date().toISOString().split('T')[0];
+
+// Set the minimum date for the start date input to today's date in the "Asia/Manila" timezone
+const today = new Date().toLocaleString('en-US', { timeZone: 'Asia/Manila' }).split('T')[0];
 document.getElementById('startDate').setAttribute('min', today);
 document.getElementById('endDate').setAttribute('min', today);
 
@@ -60,7 +61,6 @@ document.getElementById('startDate').addEventListener('input', checkTimeValidity
 document.getElementById('startTime').addEventListener('input', checkTimeValidity);
 document.getElementById('endDate').addEventListener('input', checkTimeValidity);
 document.getElementById('endTime').addEventListener('input', checkTimeValidity);
-
 
 // Disable the submit button by default
 const submitButton = document.querySelector('#submitConfigBtn');

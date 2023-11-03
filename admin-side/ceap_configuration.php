@@ -40,33 +40,40 @@
    
    
    // Retrieve the toggle value from the database
-   $sql = "SELECT toggle_value, qualifications, requirements FROM ceap_configuration ORDER BY id DESC LIMIT 1";
+   $sql = "SELECT * FROM ceap_configuration ORDER BY id DESC LIMIT 1";
    $result = mysqli_query($conn, $sql);
-   
-   // Check if the query was successful
-   if ($result) {
-    $row = mysqli_fetch_assoc($result);
-   
-    if ($row !== null) {
-        // Retrieve the toggle_value, qualifications, and requirements
-        $toggleValue = $row['toggle_value'];
-        $qualifications = $row['qualifications'];
-        $requirements = $row['requirements'];
-    }else {
-    // No data available, set toggle_value to zero and other values to default
-    $toggleValue = 0;
-    $qualifications = '';
-    $requirements = '';
-   }
-   
-    // Close the result set
-    mysqli_free_result($result);
+   // Your database retrieval code
+
+if ($result) {
+   $row = mysqli_fetch_assoc($result);
+
+   if ($row !== null) {
+       $toggleValue = $row['toggle_value'];
+       $qualifications = $row['qualifications'];
+       $requirements = $row['requirements'];
+       $startTime = $row['start_time'];
+       $startDate = $row['start_date'];
+       $endTime = $row['end_time'];
+       $endDate = $row['end_date'];
    } else {
-    // Handle the case when the query fails
-    echo "Error retrieving data from the database: " . mysqli_error($conn);
-    exit; // Stop execution if the query fails
+       // No data available, set toggle_value to zero and other values to default
+       $toggleValue = 0;
+       $qualifications = '';
+       $requirements = '';
+       $startTime = '';
+       $startDate = '';
+       $endTime = '';
+       $endDate = '';
    }
-   
+
+   // Close the result set
+   mysqli_free_result($result);
+} else {
+   // Handle the case when the query fails
+   echo "Error retrieving data from the database: " . mysqli_error($conn);
+   exit; // Stop execution if the query fails
+}
+
    ?>
 <!DOCTYPE html>
 <html lang="en" >
@@ -121,6 +128,21 @@
       <form method="POST" id="configForm">
          <div class="text-cont">
             <h1>CEAP CONFIGURATION</h1>
+             <center><label for="current_time">Current Date and Time (Asia/Manila):</label>
+               <span id="currentDateTime"></span>
+      </center><script>
+                  // Function to update the current date and time
+                  function updateCurrentDateTime() {
+                      const currentDateTimeElement = document.getElementById('currentDateTime');
+                      const options = { timeZone: 'Asia/Manila', hour12: true, hour: 'numeric', minute: 'numeric', second: 'numeric', year: 'numeric', month: 'numeric', day: 'numeric' };
+                      const currentDateTime = new Date().toLocaleString([], options);
+                      currentDateTimeElement.textContent = currentDateTime;
+                  }
+                  
+                  // Update the current date and time initially and then every second
+                  updateCurrentDateTime();
+                  setInterval(updateCurrentDateTime, 1000); // Update every 1 second
+               </script>
             <div class="toggle-applicant">
                <label for="toggleButton" class="toggle-label">
                   <span class="slider-text">Application Period:</span>
@@ -130,13 +152,22 @@
                   </div>
                </label>
             </div>
+            <?php
+if ($startTime === "00:00:00") {
+    $startTime = '';
+}
+
+if ($endTime === "00:00:00") {
+    $endTime = '';
+}
+?>
             <p class="application-dates">
-               <label for="startDate">Application starts at:</label>
-               <input type="date" id="startDate" name="startDate" required onkeydown="preventInput(event)" onchange="checkTimeValidity()">
-               <input type="time" id="startTime" name="startTime" required onkeydown="preventInput(event)" onchange="checkTimeValidity()">
-               <label for="endDate">and ends at:</label>
-               <input type="date" id="endDate" name="endDate" required onkeydown="preventInput(event)">
-               <input type="time" id="endTime" name="endTime" required onkeydown="preventInput(event)">
+            <label for="startDate">Application starts at:</label>
+<input type="date" id="startDate" name="startDate" required onkeydown="preventInput(event)" value="<?php echo ($startDate); ?>" onchange="checkTimeValidity()" <?php if (!empty($startDate) && $startDate !== '0000-00-00') echo 'readonly'; ?>>
+<input type="time" id="startTime" name="startTime" required onkeydown="preventInput(event)" value="<?php echo ($startTime); ?>" onchange="checkTimeValidity()" <?php if (!empty($startTime) && $startTime !== '00:00:00') echo 'readonly'; ?>>
+<label for="endDate">and ends at:</label>
+<input type="date" id="endDate" name="endDate" value="<?php echo ($endDate); ?>" required onkeydown="preventInput(event)" onchange="checkTimeValidity()" <?php if (!empty($endDate) && $endDate !== '0000-00-00') echo 'readonly'; ?>>
+<input type="time" id="endTime" name="endTime" value="<?php echo ($endTime); ?>" required onkeydown="preventInput(event)" onchange="checkTimeValidity()" <?php if (!empty($endTime) && $endTime !== '00:00:00') echo 'readonly'; ?>>
             </p>
             <span class="TimeandDateError"></span>
             <?php
@@ -198,7 +229,28 @@
       <script  src="./js/status_popup.js"></script>
       <script  src="./js/configurationPopup.js"></script>
  
-         
-      </script>
+      <script>
+document.addEventListener("DOMContentLoaded", function() {
+    const toggleButton = document.getElementById("toggleButton");
+    const startDateInput = document.getElementById("startDate");
+    const startTimeInput = document.getElementById("startTime");
+    const endDateInput = document.getElementById("endDate");
+    const endTimeInput = document.getElementById("endTime");
+
+    toggleButton.addEventListener("change", function() {
+        if (!toggleButton.checked) {
+            // If the toggle button is unchecked, clear the values
+            startDateInput.value = "";
+            startTimeInput.value = "";
+            endDateInput.value = "";
+            endTimeInput.value = "";
+
+        }
+    });
+});
+
+</script>
+
+
    </body>
 </html>
