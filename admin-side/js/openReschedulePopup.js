@@ -5,6 +5,7 @@ function openRescheduleAPLAYA(){
 }
 function closeRescheduleAPLAYA(){
     RescheduleAPLAYA.style.display="none";
+    goBack();
 }
 
 function openConfirmationPopup() {
@@ -25,6 +26,12 @@ function openConfirmationPopup() {
     setTimeout(goBack, 5000);
   }
 
+ 
+ 
+const ReschedulecancelButtons = document.querySelectorAll(".cancel-button");
+ReschedulecancelButtons.forEach((ReschedulecancelButton) => {
+  ReschedulecancelButton.addEventListener("click", closeRescheduleAPLAYA);
+});
 
 function goBack() {
     location.reload();
