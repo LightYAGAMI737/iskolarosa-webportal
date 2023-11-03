@@ -105,6 +105,26 @@ requiredFields.forEach(function(field) {
 // Call the toggleButtonStateChanged function initially to set the initial state of the submit button and required fields
 toggleButtonStateChanged();
 
+document.addEventListener("DOMContentLoaded", function() {
+    const toggleButton = document.getElementById("toggleButton");
+    const startDateInput = document.getElementById("startDate");
+    const startTimeInput = document.getElementById("startTime");
+    const endDateInput = document.getElementById("endDate");
+    const endTimeInput = document.getElementById("endTime");
+
+    toggleButton.addEventListener("change", function() {
+        if (!toggleButton.checked) {
+            // If the toggle button is unchecked, clear the values
+            startDateInput.value = "";
+            startTimeInput.value = "";
+            endDateInput.value = "";
+            endTimeInput.value = "";
+
+        }
+    });
+});
+
+
 
 function formatInput(inputElement) {
     // Replace multiple consecutive spaces with a single space
