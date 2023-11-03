@@ -2,7 +2,6 @@
  if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Process and update interview dates
     $interviewDate = $_POST['interview_date'];
@@ -20,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $qualifiedQuery = "SELECT t.*, UPPER(p.first_name) AS first_name, UPPER(p.last_name) AS last_name, UPPER(p.barangay) AS barangay, p.control_number, p.date_of_birth, p.ceap_reg_form_id
         FROM ceap_reg_form p
         INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
-        WHERE t.status = 'Verified' AND p.barangay = 'aplaya'
+        WHERE t.status = 'Verified' AND p.barangay = 'APLAYA'
         LIMIT ?";
         $stmt = mysqli_prepare($conn, $qualifiedQuery);
         mysqli_stmt_bind_param($stmt, "i", $limit);

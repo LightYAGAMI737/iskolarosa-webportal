@@ -55,33 +55,32 @@
        t.interview_date
    FROM ceap_reg_form p
    INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
-   WHERE p.barangay = 'aplaya' && t.status = 'interview'
+   WHERE p.barangay = 'aplaya' AND t.status = 'interview'
    SQL;
    
    $result = mysqli_query($conn, $query);
    
-   // Get the current date in the format 'Y-m-d'
-   $currentDate = date('Y-m-d');
-   
-   // Query to count applicants with interview dates today
-   $countQuery = "SELECT COUNT(*) AS todayCount, UPPER(p.barangay) AS barangay, 
-      p.control_number, 
-      p.date_of_birth, 
-      UPPER(t.status) AS status,
-      t.interview_date
-   FROM ceap_reg_form p
-   INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
-   WHERE p.barangay = 'aplaya' && t.status = 'interview' && t.interview_date = ?";
-   $stmtCount = mysqli_prepare($conn, $countQuery);
-   mysqli_stmt_bind_param($stmtCount, "s", $currentDate);
-   mysqli_stmt_execute($stmtCount);
-   $todayCountResult = mysqli_stmt_get_result($stmtCount);
-   $todayCountRow = mysqli_fetch_assoc($todayCountResult);
-   
-   // Store the count in a variable
-   $todayInterviewCount = $todayCountRow['todayCount'];
-   
-   
+// Get the current date in the format 'Y-m-d'
+$currentDate = date('Y-m-d');
+
+// Query to count applicants with interview dates today
+$countQuery = "SELECT COUNT(*) AS todayCount, UPPER(p.barangay) AS barangay, 
+   p.control_number, 
+   p.date_of_birth, 
+   UPPER(t.status) AS status,
+   t.interview_date
+FROM ceap_reg_form p
+INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
+WHERE p.barangay = 'aplaya' AND t.status = 'interview' AND t.interview_date = ?";
+$stmtCount = mysqli_prepare($conn, $countQuery);
+mysqli_stmt_bind_param($stmtCount, "s", $currentDate);
+mysqli_stmt_execute($stmtCount);
+$todayCountResult = mysqli_stmt_get_result($stmtCount);
+$todayCountRow = mysqli_fetch_assoc($todayCountResult);
+
+// Store the count in a variable
+$todayInterviewCount = $todayCountRow['todayCount'];
+
    ?>
 <!DOCTYPE html>
 <html lang="en" >
@@ -93,6 +92,7 @@
       <link rel='stylesheet' href="../../../css/unpkg-layout.css">
       <link rel="stylesheet" href="../../../css/side_bar.css">
       <link rel="stylesheet" href="../../../css/ceap_list.css">
+      <link rel="stylesheet" href="../../../css/status_popup.css">
       <link rel="stylesheet" href="../../../css/ceap_interview.css">
       <script>
          // Prevent manual input in date fields
@@ -113,19 +113,54 @@
    </head>
    <body>
       <?php 
+            include '../../../php/reschedulepopups.php';
          include '../../side_bar_barangay.php';
          ?>
       <!-- home content-->
       <!-- search and reschedule -->
       <div class="form-group">
-         <!-- Reschedule Button -->
-         <div class="reschedule-button">
-            <button id="rescheduleButton" type="button" class="btn btn-primary" style="border-radius: 15px; margin-right: 40px;" onclick="openRescheduleModal()">Reschedule</button>
-         </div>
+      <?php
+            // Check if the user's role is not "Staff"
+            if ($_SESSION['role'] !== 1) {
+                // Only display the button if the user's role is not "Staff" and there are verified applicants
+                if (hasInterviewStatusInDatabase($conn)) {
+                    echo '<button id="rescheduleButton" type="button" class="btn btn-primary">Reschedule</button>';
+                } else {
+                    echo '<button id="rescheduleButton" type="button" class="btn btn-primary" disabled style="background-color: #ccc; cursor: not-allowed;">Reschedule</button>';
+                }
+            }
+            ?>
          <input type="text" name="search" class="form-control" id="search" placeholder="Search by Control Number or Last name"  oninput="formatInput(this)">
-         <button type="button" class="btn btn-primary" style="margin-right: 10px;" onclick="searchApplicants()">Search</button>
+         <button type="button" class="btn btn-primary" onclick="searchApplicants()">Search</button>
+         <!-- Add a button to trigger the Reschedmodal -->
+         <?php
+function hasInterviewStatusInDatabase($conn) {
+    $interviewDate= date('Y-m-d');
+    
+    $query = "SELECT COUNT(*) FROM temporary_account AS t
+              INNER JOIN ceap_reg_form AS p ON t.ceap_reg_form_id = p.ceap_reg_form_id
+              WHERE t.status = 'interview' AND UPPER(p.barangay) = 'APLAYA' AND t.interview_date = ? ";
+    
+    
+    $stmt = mysqli_prepare($conn, $query);
+    
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "s", $interviewDate); 
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_bind_result($stmt, $count);
+        mysqli_stmt_fetch($stmt);
+        mysqli_stmt_close($stmt);
+        return $count > 0;
+    } else {
+        
+        echo "Error: " . mysqli_error($conn);
+        return false;
+    }
+}
+?>
+
       </div>
-      <!-- Set Interview Modal (hidden by default) -->
+      <!-- Reschedule Modal (hidden by default) -->
       <div id="myModal" class="modal">
          <div class="modal-content">
             <span class="close" id="closeModalBtn">&times;</span>
@@ -133,7 +168,7 @@
                <label for="current_time">Current Date and Time (Asia/Manila):</label>
                <span id="currentDateTime"></span>
                <script>
-                  // Function to update the current date and time
+                  
                   function updateCurrentDateTime() {
                       const currentDateTimeElement = document.getElementById('currentDateTime');
                       const options = { timeZone: 'Asia/Manila', hour12: true, hour: 'numeric', minute: 'numeric', second: 'numeric', year: 'numeric', month: 'numeric', day: 'numeric' };
@@ -174,7 +209,7 @@
                   </div>
                   <span id="error-message-limit" style="color: red;"></span>
                   <div class="form-group">
-                     <button type="button" class="btn btn-primary" id="rescheduleBtn" onclick="openInterviewPopup(), closeModalInterview()" disabled>Set</button>
+                     <button type="button" class="btn btn-primary" id="rescheduleBtn" onclick="openRescheduleAPLAYA(), closeModalInterview()" disabled>Reschedule</button>
                   </div>
                </form>
             </div>
@@ -246,10 +281,12 @@
       <div class="overlay"></div>
       </div>
       <!-- partial -->
-      <script src='../../../js/unpkg-layout.js'></script><script  src="../../../js/side_bar.js"></script>
+      <script src='../../../js/unpkg-layout.js'></script>
+      <script  src="../../../js/side_bar.js"></script>
       <script  src="../../../js/VerifiedandInterview.js"></script>
+      <script  src="../../../js/rescheduleInterview.js"></script>
+      <script  src="../../../js/openReschedulePopup.js"></script>
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
       <script>
 $(document).ready(function() {
     // Add an event listener to the search input field
@@ -322,72 +359,45 @@ function searchApplicants() {
              }
          }
          
-         // Function to open the reschedule modal
-         function openRescheduleModal() {
-             var rescheduleButton = document.getElementById("rescheduleButton");
-             if (!rescheduleButton.disabled) {
-                 var modal = document.getElementById("myModal");
-                 modal.style.display = "block";
-             }
-         }
+       //open modal
+         // Get Reschedmodal elements using plain JavaScript
+         var Reschedmodal = document.getElementById("myModal");
+         var openReschedModalBtn = document.getElementById("rescheduleButton");
+         var closeReschedModalBtn = document.getElementById("closeModalBtn");
          
-         // Function to close the modal
-         function closeRescheduleModal() {
-             var modal = document.getElementById("myModal");
-             modal.style.display = "none";
-         }
-         
-         // Close the modal when the close button is clicked
-         document.getElementById("closeModalBtn").addEventListener("click", function() {
-             closeRescheduleModal();
+         // Show Reschedmodal when the button is clicked
+         openReschedModalBtn.addEventListener("click", function() {
+            Reschedmodal.style.display = "block";
          });
          
-         // Close the modal when clicking outside of it
-         window.onclick = function(event) {
-             var modal = document.getElementById("myModal");
-             if (event.target === modal) {
-                 closeRescheduleModal();
-             }
-         }
+         // Close Reschedmodal when the close button is clicked
+         closeReschedModalBtn.addEventListener("click", function() {
+            Reschedmodal.style.display = "none";
+         });
          
+         // Close Reschedmodal when clicking outside the Reschedmodal content
+         window.addEventListener("click", function(event) {
+            if (event.target === Reschedmodal) {
+               Reschedmodal.style.display = "none";
+            }
+         });
          
-         // Check if there are any applicants with interview_date set to today
-         checkTodayInterview();
-         
-         function checkTodayInterview() {
-             var today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
-         
-             var hasTodayInterview = false; // Flag to track if there are applicants with today's interview
-         
-             $('.contents').each(function () {
-                 var interviewDate = $(this).data('interview-date');
-                 if (interviewDate === today) {
-                     hasTodayInterview = true;
-                     return false; // Exit the loop early since we found a match
-                 }
-             });
-         
-             // Disable the "Reschedule" button if no applicants have interview_date today
-             var rescheduleButton = document.getElementById("rescheduleButton");
-             if (!hasTodayInterview) {
-                 rescheduleButton.disabled = true;
-             }
-         }
+     
          
          // DOMContentLoaded event
          document.addEventListener("DOMContentLoaded", function() {
              filterApplicants('interview_date_for_month');
-             const hoursInput = document.getElementById("interview_hours");
-             hoursInput.addEventListener("input", function() {
-                 const hoursValue = parseInt(hoursInput.value);
+             const reschedulehoursInput = document.getElementById("interview_hours");
+             reschedulehoursInput.addEventListener("input", function() {
+                 const hoursValue = parseInt(reschedulehoursInput.value);
                  if (isNaN(hoursValue) || hoursValue < 1 || hoursValue > 12) {
-                     hoursInput.value = '';
+                     reschedulehoursInput.value = '';
                  }
              });
          
-             const minutesInput = document.getElementById("interview_minutes");
-         minutesInput.addEventListener("input", function() {
-         let minutesValue = minutesInput.value;
+             const rescheduleminutesInput = document.getElementById("interview_minutes");
+         rescheduleminutesInput.addEventListener("input", function() {
+         let minutesValue = rescheduleminutesInput.value;
          
          // Remove leading zeros, except when the input is '0' or '00'
          minutesValue = minutesValue.replace(/^0+(?!$)/, '');
@@ -395,10 +405,10 @@ function searchApplicants() {
          // Ensure the value is within the valid range (0 to 59)
          const parsedMinutesValue = parseInt(minutesValue);
          if (isNaN(parsedMinutesValue) || parsedMinutesValue < 0 || parsedMinutesValue > 59) {
-             minutesInput.value = '';
+             rescheduleminutesInput.value = '';
          } else {
              // Add leading zeros if the value is less than 10
-             minutesInput.value = parsedMinutesValue < 10 ? `0${parsedMinutesValue}` : parsedMinutesValue.toString();
+             rescheduleminutesInput.value = parsedMinutesValue < 10 ? `0${parsedMinutesValue}` : parsedMinutesValue.toString();
          }
          });
          
@@ -429,5 +439,116 @@ function searchApplicants() {
              }
          }
       </script>
+
+<script>
+    const rescheduledateInput = document.getElementById('interview_date');
+    const reschedulehoursInput = document.getElementById('interview_hours');
+    const rescheduleminutesInput = document.getElementById('interview_minutes');
+    const rescheduleperiodInput = document.getElementById('interview_ampm');
+    const reschedulelimitInput = document.getElementById('limit');
+    const rescheduleerrorMessage = document.getElementById('error-message');
+    const rescheduleerrorMessageLimit = document.getElementById('error-message-limit');
+
+    // Add input event listeners to date/time inputs
+    rescheduledateInput.addEventListener('input', validateDateTimeInput);
+    reschedulehoursInput.addEventListener('input', validateDateTimeInput);
+    rescheduleminutesInput.addEventListener('input', validateDateTimeInput);
+    rescheduleperiodInput.addEventListener('input', validateDateTimeInput);
+
+    // Add input event listener to the limit input
+    reschedulelimitInput.addEventListener('input', validaterescheduleLimitInput);
+
+    function validateDateTimeInput() {
+    const selectedDate = new Date(rescheduledateInput.value);
+    const hours = parseInt(reschedulehoursInput.value);
+    const minutes = parseInt(rescheduleminutesInput.value);
+    const period = rescheduleperiodInput.value;
+
+    // Log the selected period to the console
+    console.log('Selected Period:', period);
+
+    let adjustedHours = hours; // Declare a new variable to store the adjusted hours
+
+    if (period === 'PM') {
+        adjustedHours += 12;
+    }
+
+    const isDateTimeValid =
+        !isNaN(selectedDate) &&
+        !isNaN(adjustedHours) && // Use adjustedHours
+        !isNaN(minutes);
+
+    // Get the input elements for date, hours, minutes, and period
+    const inputElements = [rescheduledateInput, reschedulehoursInput, rescheduleminutesInput, rescheduleperiodInput];
+
+    if (isDateTimeValid) {
+        // If input is valid, remove 'invalid' class
+        inputElements.forEach((element) => {
+            element.classList.remove('invalid');
+        });
+
+        selectedDate.setHours(adjustedHours, minutes, 0, 0);
+        const currentDate = new Date();
+
+        if (selectedDate >= currentDate) {
+            rescheduleerrorMessage.textContent = '';
+        }  else {
+            inputElements.forEach((element) => {
+                element.classList.add('invalid');
+            });
+            rescheduleerrorMessage.textContent = 'Date and time should not be earlier than the current date and time.';
+        }
+    } else {
+        // If input is invalid, add 'invalid' class
+        inputElements.forEach((element) => {
+            element.classList.add('invalid');
+        });
+        rescheduleerrorMessage.textContent = 'Date and time should not be earlier than the current date and time.';
+    }
+}
+
+function validaterescheduleLimitInput() {
+    const limit = parseInt(reschedulelimitInput.value);
+    const isLimitValid =
+        !isNaN(limit) &&
+        limit >= 1 &&
+        limit <= <?php echo $todayInterviewCount; ?>;
+
+    // Add or remove 'invalid' class based on validation
+    if (isLimitValid) {
+        reschedulelimitInput.classList.remove('invalid');
+        rescheduleerrorMessageLimit.textContent = '';
+    } else {
+        reschedulelimitInput.classList.add('invalid');
+        rescheduleerrorMessageLimit.textContent = 'Quantity cannot exceed to <?php echo $todayInterviewCount; ?>.';
+    }
+}
+
+// Get references to the required input fields and the save button
+const requiredInputs = document.querySelectorAll('[required]'); // Get all required fields
+const rescheduleBtn = document.getElementById('rescheduleBtn');
+
+// Function to check if all required inputs are valid
+function checkRequiredInputs() {
+    const allInputsValid = Array.from(requiredInputs).every((input) => {
+        return input.value.trim() !== '' && !input.classList.contains('invalid');
+    });
+
+    if (allInputsValid) {
+        rescheduleBtn.removeAttribute('disabled');
+    } else {
+        rescheduleBtn.setAttribute('disabled', 'true');
+    }
+}
+
+// Add input event listeners to required input fields
+requiredInputs.forEach((input) => {
+    input.addEventListener('input', checkRequiredInputs);
+});
+
+// Initial check
+checkRequiredInputs();
+
+</script>
    </body>
 </html>

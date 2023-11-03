@@ -76,6 +76,11 @@
     color: black;
     border-radius: 15px !important;
 }
+#rescheduleBtn[disabled] {
+    opacity: 0.5; /* Reduced opacity for disabled state */
+    cursor: not-allowed; /* Disabled cursor style */
+    border-radius: 15px !important;
+ }
 #rescheduleButton {
     background-color: #FEC021;
     border-color: #FEC021;
@@ -167,11 +172,4 @@ button[type="submit"]:hover {
     background-color: #FEC021;
 }
 
-/* Disable style for the button */
-#rescheduleButton:disabled {
-    background-color: #ccc; /* Gray background color */
-    cursor: not-allowed;
-    margin-right: 40px;
-border-radius: 15px;
-}
 

@@ -96,7 +96,6 @@
    </head>
    <body>
       <?php 
-         include '../../../php/updateStatusInterview.php';
          include '../../../php/status_popup.php';
          include '../../../php/confirmStatusPopUp.php';
          include '../../side_bar_barangay.php';
