@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             exit(); // Make sure to exit after header redirects
         } else {
             // Invalid password
-            $error = 'Invalid username or password.';
+            $error = 'Incorrect username or password.';
             header('Location: ../admin_index.php?error=' . urlencode($error)); // Redirect to admin_index.php with an error parameter
             exit();
         }

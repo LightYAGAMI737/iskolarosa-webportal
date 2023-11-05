@@ -9,6 +9,17 @@ body{
     overflow: hidden;
 }
 
+/* Add this CSS to your stylesheet */
+.btn[disabled] {
+    opacity: 0.5; /* Adjust the opacity as needed */
+    cursor: not-allowed;
+}
+/* Add this CSS to your stylesheet */
+input:required::before {
+    content: "* ";
+    color: red;
+}
+
 .wave{
 	position: fixed;
 	bottom: 0;
@@ -72,10 +83,11 @@ form{
 }
 
 .i{
-	color: #d9d9d9;
+	color: #aaaaaa;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	font-size: 17px;
 }
 
 .i i{

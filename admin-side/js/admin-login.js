@@ -28,5 +28,27 @@ togglePassword.addEventListener("click", function () {
     passwordField.setAttribute("type", type);
 
     // Change the eye icon based on the password field type
-    togglePassword.classList.toggle("active");
+    if (type === "password") {
+        togglePassword.classList.remove("ri-eye-off-fill");
+        togglePassword.classList.add("ri-eye-fill");
+    } else {
+        togglePassword.classList.remove("ri-eye-fill");
+        togglePassword.classList.add("ri-eye-off-fill");
+    }
 });
+
+
+const usernameField = document.querySelector('input[name="username"]');
+const LoginpasswordField = document.querySelector('input[name="password"]');
+const loginButton = document.querySelector('.btn');
+
+usernameField.addEventListener('input', validateInputs);
+LoginpasswordField.addEventListener('input', validateInputs);
+
+function validateInputs() {
+    if (usernameField.value.trim() !== '' && LoginpasswordField.value.trim() !== '') {
+        loginButton.removeAttribute('disabled');
+    } else {
+        loginButton.setAttribute('disabled', 'true');
+    }
+}
