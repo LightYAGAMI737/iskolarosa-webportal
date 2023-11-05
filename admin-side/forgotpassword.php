@@ -30,14 +30,13 @@
                             Enter your email to reset your password.
                         </div>  
 
-                        <div class="form-floating mb-3">
+                        <div class="form-floating mb-3" style="height:90px;">
                         <input type="email" class="form-control" style="margin-bottom: 10px;" id="floatingInput" name="email" placeholder="name@example.com">
                             <label for="floatingInput">Email address</label>
                             <span class="emailCheckMsg" style="color: #A5040A"></span>
                         </div>  
-
-                        <button type="submit" class="btn btn-primary submit_btn my-4 confirm-button" id="submitForgotPassword" disabled>Submit</button>
-                        <button type="button" class="btn btn-secondary submit_btn my-4 ms-3 cancel-button" id="cancelForgotPassword">Cancel</button> 
+                        <button type="submit" class="btn btn-primary submit_btn  confirm-button" id="submitForgotPassword" disabled>Submit</button>
+                        <button type="button" class="btn btn-secondary submit_btn  ms-3 cancel-button" id="cancelForgotPassword">Cancel</button> 
                     </form>
                 </div>
             </div>
