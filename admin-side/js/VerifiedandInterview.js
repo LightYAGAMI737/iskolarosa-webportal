@@ -50,7 +50,7 @@ function formatInput(inputElement) {
       let sanitizedInput = userInput.replace(/^0+|(\..*)\./gm, '$0');
       
       if (sanitizedInput === '' || isNaN(sanitizedInput)) {
-          limitInputCount.value = '99';
+          limitInputCount.value = '';
       } else {
           const parsedInput = parseInt(sanitizedInput);
           // Ensure the value is within the valid range
