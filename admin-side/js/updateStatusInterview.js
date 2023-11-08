@@ -15,12 +15,13 @@ document.getElementById('confirmSetInterview').addEventListener('click', functio
     };
 
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', '../../../php/updateStatusInterview.php', true);
+    xhr.open('POST', '../../../php/updateStatusInterviewAplaya.php', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
-                if (xhr.responseText === 'success') {
+                if (xhr.responseText === 'success') 
+                {
                   setTimeout(openConfirmationPopup, 1000);
                 } else {
                   setTimeout(openConfirmationPopup, 1000);
@@ -42,9 +43,14 @@ function goBack() {
     location.reload();
 }
 
+const modalsetInterview = document.getElementById('myModal');
+function closeModalInterview(){
+    modalsetInterview.style.display="none";
+}
+
 function openConfirmationPopup() {
-    closeStatusPopup();
     closeModalInterview();
+    closeStatusPopup();
     const confirmPopup = document.getElementById("ConfrimMsgPopUp");
     confirmPopup.style.display = "block";
   
@@ -58,10 +64,4 @@ function openConfirmationPopup() {
   
     // Call the goBack function after a 5-second delay
     setTimeout(goBack, 5000);
-  }
-
-  // Function to close the modal
-function closeModalInterview() {
-    const modals = document.getElementById('myModal');
-    modals.style.display = 'none';
   }
