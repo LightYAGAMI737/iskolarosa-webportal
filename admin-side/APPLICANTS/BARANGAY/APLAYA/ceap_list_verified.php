@@ -177,12 +177,12 @@
                         </select>
                      </div>
                   </div>
-                  <span id="error-message" style="color: red;"></span>
+                  <span id="error-message" style="text-align: center; display: flex; justify-content: center;"></span>
                   <div class="form-group">
                      <label for="limit">Qty</label>
                      <input type="number" class="form-control" name="limit" id="limit" min="1" max="<?php echo $verifiedCount; ?>" required>
                   </div>
-                  <span id="error-message-limit" style="color: red;"></span>
+                  <span id="error-message-limit" style="text-align: center; display: flex; justify-content: center;"></span>
                   <div class="form-group">
                      <button type="button" class="btn btn-primary" id="saveBtn" onclick="openInterviewPopup(), closeModalInterview()" disabled>Set</button>
                   </div>
@@ -360,14 +360,17 @@ if (!found) {
             inputElements.forEach((element) => {
                 element.classList.add('invalid');
             });
-            errorMessage.textContent = 'Date and time should not be earlier than the current date and time.';
+            errorMessage.textContent = 'Invalid Date and time';
+            errorMessage.style.color = 'red';
         }
     } else {
         // If input is invalid, add 'invalid' class
         inputElements.forEach((element) => {
             element.classList.add('invalid');
         });
-        errorMessage.textContent = 'Date and time should not be earlier than the current date and time.';
+        errorMessage.textContent = 'Ensure the date and time are not earlier than the current time.';
+        errorMessage.style.color = 'gray';
+
     }
 }
 
@@ -385,6 +388,7 @@ function validateLimitInput() {
     } else {
         limitInput.classList.add('invalid');
         errorMessageLimit.textContent = 'Quantity cannot exceed to <?php echo $verifiedCount; ?>.';
+        errorMessageLimit.style.color = 'red';
     }
 }
 
