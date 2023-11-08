@@ -73,7 +73,7 @@
    echo "Error retrieving data from the database: " . mysqli_error($conn);
    exit; // Stop execution if the query fails
    }
-   
+      
    ?>
 <!DOCTYPE html>
 <html lang="en" >
@@ -164,11 +164,12 @@
                ?>
             <p class="application-dates">
                <label for="startDate">Application starts at:</label>
-               <input type="date" id="startDate" name="startDate" min= "<?= date('Y-m-d'); ?>" disabled required onkeydown="preventInput(event)" value="<?php echo ($startDate); ?>" onchange="checkTimeValidity()" <?php if (!empty($startDate) && $startDate !== '0000-00-00') echo 'disabled'; ?>>
-               <input type="time" id="startTime" name="startTime" disabled  required onkeydown="preventInput(event)" value="<?php echo ($startTime); ?>" onchange="checkTimeValidity()" <?php if (!empty($startTime) && $startTime !== '00:00:00') echo 'disabled'; ?>>
+
+               <input type="date" id="startDate" name="startDate" disabled required value="<?php echo ($startDate); ?>" onkeydown="preventInput(event)"  onchange="checkTimeValidity()" <?php if (!empty($startDate)) echo 'disabled'; ?>>
+               <input type="time" id="startTime" name="startTime" disabled  required value="<?php echo ($startTime); ?>" onkeydown="preventInput(event)"  onchange="checkTimeValidity()">
                <label for="endDate">and ends at:</label>
-               <input type="date" id="endDate" name="endDate" disabled required value="<?php echo ($endDate); ?>"  onkeydown="preventInput(event)" onchange="checkTimeValidity()" <?php if (!empty($endDate) && $endDate !== '0000-00-00') echo 'disabled'; ?>>
-               <input type="time" id="endTime" name="endTime"disabled required value="<?php echo ($endTime); ?>"  onkeydown="preventInput(event)" onchange="checkTimeValidity()" <?php if (!empty($endTime) && $endTime !== '00:00:00') echo 'disabled'; ?>>
+               <input type="date" id="endDate" name="endDate" disabled required value="<?php echo ($endDate); ?>"  onkeydown="preventInput(event)" onchange="checkTimeValidity()">
+               <input type="time" id="endTime" name="endTime"disabled required value="<?php echo ($endTime); ?>"  onkeydown="preventInput(event)" onchange="checkTimeValidity()">
             </p>
             <span class="TimeandDateError"></span>
             <?php

@@ -1,10 +1,29 @@
-const toggleButton = document.getElementById('toggleButton');
+    const toggleButton = document.getElementById('toggleButton');
     const startDateInput = document.getElementById('startDate');
     const startTimeInput = document.getElementById('startTime');
-    const endDateInput = document.getElementById('endDate');
+    const endDateInput = document.getElementById('endDate');    
     const endTimeInput = document.getElementById('endTime');
+    const qualifications = document.getElementById('qualifications')
+    const requirements = document.getElementById('requirements')
     const submitConfigBtn = document.getElementById('submitConfigBtn');
     const errorSpan = document.querySelector('.TimeandDateError');
+    
+    // Function to format the current date as YYYY-MM-DD
+    function formatDate(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    // Set the min attribute to the current date
+    startDateInput.min = formatDate(new Date());
+    // Add an event listener to the startDate input to update the min attribute of endDate
+    startDateInput.addEventListener('input', function () {
+        const startDateValue = startDateInput.value;
+        endDateInput.min = startDateValue;
+    });
+    
 
 // Function to enable or disable fields based on toggle state
 function ToggleOnEnableFields() {
@@ -57,21 +76,26 @@ function toggleTextareas(disable) {
     });
 }
 
-// Add an event listener to the toggle button
-toggleButton.addEventListener("change", function () {
+toggleButton.addEventListener("input", function () {
     if (toggleButton.checked) {
-        ToggleOnEnableFields(); // Call the function to enable the fields
-    } else {
-        // If the toggle button is unchecked, clear only the date and time values
-        startDateInput.value = "";
-        startTimeInput.value = "";
-        endDateInput.value = "";
-        endTimeInput.value = "";
+        if (startDateInput.value.trim() === "") {
+            ToggleOnEnableFields(); // Call the function to enable the fields
+        }
+    }else {
+        startDateInput.setAttribute("disabled", "true")
+        startTimeInput.setAttribute("disabled", "true")
+        endDateInput.setAttribute("disabled", "true")
+        endTimeInput.setAttribute("disabled", "true")
+        endTimeInput.setAttribute("disabled", "true")
+        qualifications.setAttribute("disabled", "true")
+        requirements.setAttribute("disabled", "true")
 
-        startDateInput.setAttribute("disabled", "true");
-        startTimeInput.setAttribute("disabled", "true");
-        endDateInput.setAttribute("disabled", "true");
-        endTimeInput.setAttribute("disabled", "true");
+        startDateInput.value = ""
+        startTimeInput.value = ""
+        endDateInput.value = ""
+        endTimeInput.value = ""
+        qualifications.value = ""
+        requirements.value = ""
     }
 });
 
@@ -125,9 +149,10 @@ toggleButton.addEventListener("change", function () {
 
 
 // Set the minimum date for the start date input to today's date in the "Asia/Manila" timezone
-const today = new Date().toLocaleString('en-US', { timeZone: 'Asia/Manila' }).split('T')[0];
-document.getElementById('startDate').setAttribute('min', today);
-document.getElementById('endDate').setAttribute('min', today);
+const today = new Date();
+today.setMinutes(today.getMinutes() - today.getTimezoneOffset()); // Adjust for the time zone offset
+document.getElementById('startDate').setAttribute('min', today.toISOString().split('T')[0]);
+document.getElementById('endDate').setAttribute('min', today.toISOString().split('T')[0]);
 
 // Add event listeners to date and time inputs
 document.getElementById('startDate').addEventListener('input', checkTimeValidity);
@@ -178,6 +203,8 @@ function checkToggleState() {
                     toggleButton.addEventListener('change', function () {
                         if (!toggleButton.checked) {
                             submitConfigBtn.disabled = false;
+                        }else{
+                            submitConfigBtn.disabled = true;
                         }
                     });
                 } else if (response === '0')  {
