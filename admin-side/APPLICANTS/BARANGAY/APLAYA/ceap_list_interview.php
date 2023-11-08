@@ -202,12 +202,12 @@ function hasInterviewStatusInDatabase($conn) {
                         </select>
                      </div>
                   </div>
-                  <span id="error-message" style="color: red;"></span>
+                  <span id="error-message" style="text-align: center; display: flex; justify-content: center;"></span>
                   <div class="form-group">
                      <label for="limit">Qty</label>
                      <input type="number" class="form-control" name="limit" id="limit" min="1" max="<?php echo $todayInterviewCount; ?>" required>
                   </div>
-                  <span id="error-message-limit" style="color: red;"></span>
+                  <span id="error-message-limit" style="text-align: center; display: flex; justify-content: center;"></span>
                   <div class="form-group">
                      <button type="button" class="btn btn-primary" id="rescheduleBtn" onclick="openRescheduleAPLAYA(), closeModalInterview()" disabled>Reschedule</button>
                   </div>
@@ -496,14 +496,17 @@ function searchApplicants() {
             inputElements.forEach((element) => {
                 element.classList.add('invalid');
             });
-            rescheduleerrorMessage.textContent = 'Date and time should not be earlier than the current date and time.';
+            rescheduleerrorMessage.textContent = 'Invalid Date and time';
+            rescheduleerrorMessage.style.color= 'red';
         }
     } else {
         // If input is invalid, add 'invalid' class
         inputElements.forEach((element) => {
             element.classList.add('invalid');
         });
-        rescheduleerrorMessage.textContent = 'Date and time should not be earlier than the current date and time.';
+        rescheduleerrorMessage.textContent = 'Ensure the date and time are not earlier than the current time.';
+        rescheduleerrorMessage.style.color= 'gray';
+
     }
 }
 
@@ -521,6 +524,8 @@ function validaterescheduleLimitInput() {
     } else {
         reschedulelimitInput.classList.add('invalid');
         rescheduleerrorMessageLimit.textContent = 'Quantity cannot exceed to <?php echo $todayInterviewCount; ?>.';
+        rescheduleerrorMessage.style.color= 'red';
+
     }
 }
 
