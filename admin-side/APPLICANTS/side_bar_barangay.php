@@ -5,7 +5,6 @@
    }
    
    include '../../../php/logoutpopup.php';  
-
    ?>
 
 <!-- partial:index.partial.html -->
@@ -175,7 +174,7 @@
    
 <div class="inside-main-content">
 <div class="header-label post">
-<H1>College Educational Assistance Program</H1>
+<H1>College Educational Assistance Program (CEAP)</H1>
 <button class="dropdown-btn" onclick="toggleMenu()">
         Left Column Dropdown
     </button>
