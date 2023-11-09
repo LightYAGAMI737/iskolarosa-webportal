@@ -31,6 +31,12 @@ button[disabled]{
 .delete-button:hover {
   background-color: #400000;
 }
+.createpostbtn {
+  padding: 10px;
+  background: #a5040a;
+  border-radius: 15px;
+  color: #fff;
+}
 
 .dynamic-height {
   display: flex;
@@ -59,7 +65,7 @@ button[disabled]{
   margin-right: 10px;
 }
 .post-icon i {
-  color: red;
+  color: #a5040a;
 }
 .post-date {
   margin-left: auto;
@@ -127,7 +133,7 @@ button[disabled]{
 /* Style for selected checkboxes */
 .post-checkbox input[type="checkbox"]:checked,
 .post-checkbox-indiv input[type="checkbox"]:checked {
-  background-color: red;
+  background-color: #a5040a;
   border: 1px solid #a5040a;
 }
 
@@ -183,6 +189,6 @@ button[disabled]{
 
 /* Style for the empty state message */
 .empty-state-message {
-  margin-top: 20px; /* Add some spacing below the image */
+  margin: 20px 0px; /* Add some spacing below the image */
   font-size: 16px; /* Adjust the font size as needed */
 }

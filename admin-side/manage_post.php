@@ -99,7 +99,9 @@
                  echo '<div class="empty-state">';
                  echo '<img src="../empty-state-img/manage_post.png" alt="No records found" class="empty-state-image">';
                  echo "<p class='empty-state-message'>It seems you haven't created any posts yet. You can get started by clicking the 'Create Post' button below.</p>";
-                 echo '<a href="create_post.php" class="createpostbtn btn-primary">';
+                 echo '<a href="create_post.php" class="createpostbtn">';
+                 echo '<i class="ri-edit-2-fill" style="margin-right: 7px;"></i>';
+                 echo '<span>Create Post</span>';
                  echo '</a>';
                } else {
                   while ($row = mysqli_fetch_assoc($result)) {
