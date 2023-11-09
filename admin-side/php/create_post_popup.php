@@ -5,7 +5,7 @@
                 <h2>Submit Post?</h2>
             </strong>
             <center>
-                <p>Are you sure you want to post this? Your content will be shared with others. Double-check your details before submitting.</p>
+                <p>Are you sure you want to post this? Your content will be shared publicly. Double-check your details before submitting.</p>
             </center>
             <div style="padding: 3px;">
             <button type="button" style="margin-right: 15px;" class="cancel-button" onclick="closePopup()">
@@ -51,7 +51,7 @@
       <h2>Success!</h2>
     </strong>
     <center>
-      <p>Your post has been successfully submitted.</p>
+      <p>> Your post has been successfully posted.</p>
     </center>
     <div style="padding: 3px;">
       <button type="button" id="okButton" class="confirm-button" onclick="closeSuccessPopup()">
