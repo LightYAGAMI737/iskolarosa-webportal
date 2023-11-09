@@ -169,6 +169,25 @@ function redirectToEditPost(createPostId) {
     window.location.href = 'edit_post.php?create_post_id=' + createPostId;
 }
 
+// Get the delete button element
+const deleteButton = document.querySelector('.delete-button');
+
+// Get all the checkbox elements
+const Deletecheckboxes = Array.from(document.querySelectorAll('input[type="checkbox"]'));
+
+// Disable the delete button by default
+deleteButton.disabled = true;
+
+// Add a change event listener to all the checkbox elements
+Deletecheckboxes.forEach((checkbox) => {
+  checkbox.addEventListener('change', () => {
+    // Check if at least one checkbox is checked
+    const isAnyCheckboxChecked = Deletecheckboxes.some((checkbox) => checkbox.checked);
+
+    // Enable or disable the delete button based on whether any checkbox is checked
+    deleteButton.disabled = !isAnyCheckboxChecked;
+  });
+});
 
          function selectAllCheckboxes() {
          const selectAllCheckbox = document.getElementById('select-all');
