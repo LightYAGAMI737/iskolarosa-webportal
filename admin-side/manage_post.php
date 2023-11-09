@@ -44,10 +44,10 @@
    } else {
     $sql = "SELECT * FROM create_post ORDER BY post_created_at DESC";
    }
-   
+
    $result = mysqli_query($conn, $sql);
    
-   $result = mysqli_query($conn, $sql);
+
    
    ?>
 
@@ -90,7 +90,17 @@
                <span>Delete</span>
             </button>
                <label for="select-all" id="select-all-label">Select All</label>
-               <input type="checkbox" id="select-all" onchange="selectAllCheckboxes()">
+               <?php 
+                                 
+                     // Check if the result of the MySQL query is empty
+                  if (!mysqli_num_rows($result)) {
+                     // Disable the checkbox
+                     echo '<input type="checkbox" id="select-all" disabled>';
+                  } else {
+                     // Enable the checkbox
+                     echo '<input type="checkbox" id="select-all" onchange="selectAllCheckboxes()">';
+                  }
+                  ?>
             </div>
          </div>
          <div class="outer-card-body">

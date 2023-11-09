@@ -28,10 +28,13 @@ button[disabled]{
   opacity: 0.5;
   cursor: not-allowed;
 }
+#select-all {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 .delete-button:hover {
   background-color: #400000;
 }
-
 .createpostbtn {
   padding: 10px;
   background: #a5040a;
@@ -165,6 +168,7 @@ button[disabled]{
   font-size: 16px;
   cursor: pointer;
   border: 1px solid transparent;
+  padding: 10px;
 }
 
 .custom-select option {
