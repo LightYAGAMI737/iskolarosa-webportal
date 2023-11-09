@@ -14,7 +14,7 @@
             </button>
                 <button type="button" class="confirm-button" name="submit" onclick="submitPost()">
                     <i class="ri-check-fill"></i>
-                    <span>Submit</span>
+                    <span>Post</span>
                 </button>
             </div>
         </div>
@@ -51,7 +51,7 @@
       <h2>Success!</h2>
     </strong>
     <center>
-      <p>> Your post has been successfully posted.</p>
+      <p>Your post has been successfully posted.</p>
     </center>
     <div style="padding: 3px;">
       <button type="button" id="okButton" class="confirm-button" onclick="closeSuccessPopup()">
