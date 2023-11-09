@@ -31,6 +31,7 @@ button[disabled]{
 .delete-button:hover {
   background-color: #400000;
 }
+
 .createpostbtn {
   padding: 10px;
   background: #a5040a;
