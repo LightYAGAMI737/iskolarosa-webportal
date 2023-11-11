@@ -77,7 +77,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 // Data inserted successfully
                 echo "Data inserted successfully!";
                 // Redirect to the desired page after successful insertion
-                header("Location: ../head-admin/employee_list.php"); // Replace 'success_page.php' with the actual page URL
                 exit; // Terminate the script after redirection
             } else {
                 // Error occurred while inserting data

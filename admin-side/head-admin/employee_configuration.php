@@ -59,6 +59,7 @@
       <link rel="stylesheet" href="../css/side_bar.css">
       <link rel="stylesheet" href="../css/ceap_configuration.css">
       <link rel="stylesheet" href="../css/remixicon.css">
+      <link rel="stylesheet" href="../css/status_popup.css">
       <link rel="stylesheet" href="../css/employee_configuration.css">
       <link rel="stylesheet" href="../css/errorpopup.css">
       <style>
@@ -83,6 +84,7 @@
    <body>
    <?php
         include 'passwordpopup.php';
+        include 'EmployeeConfigPopup.php';
         include 'head_admin_side_bar.php';
 
 ?>
@@ -179,7 +181,7 @@
 </div>
     </div>
     <div class="button-container">
-                <button type="submit" id="submitButton" disabled>Submit</button>
+                <button type="button" id="submitButton" onclick="openemployeeConfigPopup()" disabled>Submit</button>
             </div>
   </div>
 </form>
@@ -192,5 +194,6 @@
       <!-- partial -->
       <script src='https://unpkg.com/@popperjs/core@2'></script><script  src="../js/side_bar.js"></script>
       <script  src="../js/employee_configuration.js"></script>
+      <script  src="../js/employeeConfigPopup.js"></script>
    </body>
 </html>
