@@ -108,29 +108,29 @@
             <div class="form-row">
             <div class="form-group">
     <label class="required" for="employeeId">Employee ID:</label>
-    <input type="text" class="required-field" id="employeeId" name="employee_id_no" minlength="5" maxlength="5" placeholder="Enter employee ID" required>
+    <input type="text" id="employeeId" name="employee_id_no" minlength="5" maxlength="5" placeholder="Enter employee ID" required>
     <span id="employeeIdErrors" class="error-message"></span>
 </div>
       <div class="form-group">
         <label class="required" for="lastName">Last Name:</label>
-        <input type="text" class="required-field" id="lastName" name="last_Name" placeholder="Enter last name" minlength="2" maxlength="25" required required onkeypress="validateNames()">
-        <span id="last_NameError" class="error-message"></span>
+        <input type="text" id="lastName" name="last_Name" placeholder="Enter last name" minlength="2" maxlength="25" required required onkeypress="validateNames()">
+        <span id="lastNameError" class="error-message"></span>
       </div>
       <div class="form-group">
         <label class="required" for="firstName">First Name:</label>
-        <input type="text" class="required-field" id="firstName" name="first_Name" placeholder="Enter first name" minlength="2" maxlength="25" required required onkeypress="validateNames()">
-        <span id="first_NameError" class="error-message"></span>
+        <input type="text" id="firstName" name="first_Name" placeholder="Enter first name" minlength="2" maxlength="25" required required onkeypress="validateNames()">
+        <span id="firstNameError" class="error-message"></span>
       </div>
     </div>
     <div class="form-row">
       <div class="form-group">
         <label class="required"  for="contactNumber">Contact Number:</label>
-        <input type="text" class="required-field" id="contactNumber" name="contact_Number" placeholder="Enter contact number"  minlength="11" maxlength="11" required>
+        <input type="text" id="contactNumber" name="contact_Number" placeholder="Enter contact number"  minlength="11" maxlength="11" required>
         <span id="contactNumberError" class="error-message"></span>
       </div>
       <div class="form-group">
         <label class="required"  for="email">Email:</label>
-        <input type="text" class="required-field" id="email" name="email" minlength="10" maxlength="100" placeholder="Enter email"  oninput="validateEmail()" required>
+        <input type="text" id="email" name="email" minlength="10" maxlength="100" placeholder="Enter email" required>
         <span id="emailError" class="error-message"></span>
       </div>
     </div>
@@ -154,23 +154,27 @@
     <div class="form-row">
       <div class="form-group">
         <label class="required"  for="username">Username:</label>
-        <input type="text" class="required-field" id="username"  style="border: none; background: #ececec;"  name="username" readonly required>
+        <input type="text" id="username"  style="border: none; background: #ececec;"  name="username" readonly required>
       </div>
       <div class="form-group">
     <label class="required" for="password">Password:</label>
     <div class="password-input">
         <input type="password" id="password" name="password" placeholder="Enter password" maxlength="20" required>
-        <span class="password-toggle" onclick="togglePasswordVisibility()">
+        <span class="password-toggle" onclick="togglePassword()">
             <i class="ri-eye-fill"></i>
         </span>
-      </div>
-      <span id="passwordError" class="error-message"></span>
-
+    </div>
+    <span id="passwordError" class="error-message"></span>
 </div>
 
 <div class="form-group">
     <label class="required" for="confirmPassword">Confirm Password:</label>
-    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password" maxlength="20" onkeyup="validateConfirmPassword()" required>
+    <div class="password-input">
+        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password" maxlength="20" required>
+        <span class="password-toggle" id="password-toggle-confirmPassword" onclick="toggleConfirmPassword()">
+            <i class="ri-eye-fill"></i>
+        </span>
+    </div>
     <span id="confirmPasswordError" class="error-message"></span>
 </div>
     </div>
