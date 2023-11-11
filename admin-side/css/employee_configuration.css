@@ -19,6 +19,37 @@ h1 {
   margin-top: 20px;
 }
 
+[disabled]{
+  border: none;
+}
+.readonly {
+  border: none;
+  background-color: transparent;
+}
+.editBtn,
+.updateBtn,
+.deleteBtn {
+    background-color: #A5040A; 
+    color: white; 
+    padding: 8px 16px; 
+    margin-right: 8px; 
+    cursor: pointer; 
+    border: none; 
+    border-radius: 15px; 
+}
+.deleteBtn {
+  float: right !important;
+}
+.editBtn:hover,
+.deleteBtn:hover,
+.updateBtn:hover {
+    background-color: #400000; 
+}
+
+.updateBtn:hover[disabled]
+ {
+    background-color: #A5040A; 
+}
 
 .form-row {
   display: flex;

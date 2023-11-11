@@ -36,12 +36,28 @@ function submitEmployeeConfig() {
     xhr.send(formData);
 }
 
+
+const EmployeeConfigconfirmButtons = document.querySelectorAll('.confirm-button');
+EmployeeConfigconfirmButtons.forEach(function(button) {
+    button.addEventListener('click', function() {
+        this.classList.add('disabled');
+        const employeeConfigCancelButton = this.parentElement.querySelector('.cancel-button');
+        employeeConfigCancelButton.classList.add('disabled');
+    });
+});
+
+
+const employeeConfigCancelButtons = document.querySelectorAll(".cancel-button");
+employeeConfigCancelButtons.forEach((employeeConfigCancelButton) => {
+employeeConfigCancelButton.addEventListener("click", closeemployeeConfigPopup);
+});
+
 function openEmployeeConfirmationPopup() {
     closeemployeeConfigPopup();
   const confirmPopup = document.getElementById("ConfrimEmployeeConfigMsgPopUp");
   confirmPopup.style.display = "block";
 
-  const okButton = document.getElementById("okConfirm");
+  const okButton = document.getElementById("okConfirmCreate");
   okButton.addEventListener("click", function () {
     confirmPopup.style.display = "none";
     goBacks();

@@ -58,6 +58,7 @@ if ($_SESSION['role'] === 3) {
       <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css'>
       <link rel='stylesheet' href='https://unpkg.com/css-pro-layout@1.1.0/dist/css/css-pro-layout.css'>
       <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&amp;display=swap'>
+      <link rel="stylesheet" href="../css/status_popup.css">
       <link rel="stylesheet" href="../css/side_bar.css">
       <link rel="stylesheet" href="../css/ceap_configuration.css">
       <link rel="stylesheet" href="../css/employee_configuration.css">
@@ -67,7 +68,7 @@ if ($_SESSION['role'] === 3) {
 <body>
   
         <?php
-// Include the database connection file
+include 'EmployeeConfigPopup.php';
 include 'head_admin_side_bar.php';
 
 // Get the employee ID from the URL parameter
@@ -83,120 +84,84 @@ if ($result->num_rows > 0) {
     echo '<div class="text-cont">';
    ?> <!-- Back button -->
     <div class="back-button-container">
-        <a href="#" class="back-button" onclick="goBack()">
+        <a href="#" class="back-button" onclick="goBacks()">
             <i><i class="ri-close-circle-line"></i></i>
         </a>
       </div>
-    <?php
-      echo '<h1>Employee Information</h1>';
-    echo '<table class="employee-table">';
-    echo '<thead>';
-    echo '<tr>';
-    echo '</tr>';
-    echo '</thead>';
-    echo '<tbody>';
+      <?php
+        echo '<h1>Employee Information</h1>';
+        echo '<form id="editForm">';
+        echo '<table class="employee-table">';
+        echo '<thead>';
+        echo '<tr></tr>';
+        echo '</thead>';
+        echo '<tbody>';
 
-    // Loop through the results and display the data in the table
-    while ($row = $result->fetch_assoc()) {
-        echo '<tr>';
-        echo '<td>Employee ID</td>';
-        echo '<td>' . strtoupper($row['employee_id_no']) . '</td>';
-        echo '</tr>';
-        echo '<tr>';
-        echo '<td>Last Name</td>';
-        echo '<td>' . strtoupper($row['last_name']) . '</td>';
-        echo '</tr>';
-        echo '<tr>';
-        echo '<td>First Name</td>';
-        echo '<td>' . strtoupper($row['first_name']) . '</td>';
-        echo '</tr>';
-        echo '<tr>';
-        echo '<td>Contact Number</td>';
-        echo '<td>' . strtoupper($row['contact_number']) . '</td>';
-        echo '</tr>';
-        echo '<tr>';
-        echo '<td>Email</td>';
-        echo '<td>' . strtoupper($row['email']) . '</td>';
-        echo '</tr>';
-        echo '<tr>';
-        echo '<td>Department</td>';
-        echo '<td>' . strtoupper($row['role_id']) . '</td>';
-        echo '</tr>';
-        echo '<tr>';
-        echo '<td>Username</td>';
-        echo '<td>' . strtoupper($row['username']) . '</td>';
-        echo '</tr>';
+        while ($row = $result->fetch_assoc()) {
+            echo '<td>Account Status:</td>';
+            echo '<td>';
+            echo '<select name="accountStatus" id="accountStatus" disabled>';
+            echo '<option value="1" ' . ($row['account_status'] == 1 ? 'selected' : '') . '>Active</option>';
+            echo '<option value="0" ' . ($row['account_status'] == 0 ? 'selected' : '') . '>Inactive</option>';
+            echo '</select>';
+            echo '</td>';
 
-        // Assuming you have stored the image path in the database
-        echo '<tr>';
-        echo '<td>Picture</td>';
-        echo '<td><img src="' . $row['picture'] . '" alt="Employee Picture" style="width: 200px; height: 200px;"></td>';
-        echo '</tr>';
+            echo '<tr>';
+            echo '<td>Employee ID</td>';
+            echo '<td><input type="text" name="employeeId" class="readonly" value="' . strtoupper($row['employee_id_no']) . '" readonly></td>';
+            echo '</tr>';
+            echo '<tr>';
+            echo '<td>Username</td>';
+            echo '<td><input type="text" name="username" class="readonly" value="' . strtoupper($row['username']) . '" readonly></td>';
+            echo '</tr>';
+            echo '<tr>';
+            echo '<td>Last Name</td>';
+            echo '<td><input type="text" name="lastName" value="' . strtoupper($row['last_name']) . '" disabled></td>';
+            echo '</tr>';
+            echo '<tr>';
+            echo '<td>First Name</td>';
+            echo '<td><input type="text" name="firstName" value="' . strtoupper($row['first_name']) . '" disabled></td>';
+            echo '</tr>';
+            echo '<tr>';
+            echo '<td>Contact Number</td>';
+            echo '<td><input type="text" name="contactNumber" value="' . strtoupper($row['contact_number']) . '" disabled></td>';
+            echo '</tr>';
+            echo '<tr>';
+            echo '<td>Email</td>';
+            echo '<td><input type="text" name="email" value="' . strtoupper($row['email']) . '" disabled></td>';
+            echo '</tr>';
+            echo '<tr>';
+            echo '<td>Department</td>';
+            echo '<td><input type="text" name="department" value="' . strtoupper($row['role_id']) . '" disabled></td>';
+            echo '</tr>';
+        
 
-        // Add the remaining form fields as needed...
-    }
+            echo '<tr>';
+            echo '<td>Picture</td>';
+            echo '<td><img src="' . $row['picture'] . '" alt="Employee Picture" style="width: 200px; height: 200px;"></td>';
+            echo '</tr>';
+        }
 
-    echo '</tbody>';
-    echo '</table>';
-    echo '</div>';
-} else {
-    // Display a message if there are no records in the database
-    echo '<div class="text-cont">';
-    echo '<h1>Employee Configuration Information</h1>';
-    echo '<p>No records found.</p>';
-    echo '</div>';
-}
-
-// Close the database connection
-$conn->close();
-?>
-<script src='https://unpkg.com/@popperjs/core@2'></script><script  src="../js/side_bar.js"></script>
-
-<script>
-function goBack() {
-  window.history.back();
-}
-
-function toggleSidebar() {
-  var sidebar = document.getElementById("sidebar-wrapper");
-  var tableContainer = document.querySelector(".table-container");
-
-  if (sidebar.classList.contains("open")) {
-    // Sidebar is currently open
-    sidebar.classList.remove("open");
-    tableContainer.style.width = "100%"; // Reset the width to 100%
-  } else {
-    // Sidebar is currently closed
-    sidebar.classList.add("open");
-    var sidebarWidth = sidebar.offsetWidth;
-    var availableWidth = window.innerWidth - sidebarWidth;
-    tableContainer.style.width = availableWidth + "px";
-  }
-}
-
-function expandImage(img) {
-  img.parentNode.querySelector(".expanded-image").style.display = "block";
-}
-
-function collapseImage(expandedImg) {
-  expandedImg.style.display = "none";
-}
-
-function togglePasswordVisibility(password) {
-    var passwordField = document.getElementById('passwordField');
-    var showHideButton = document.getElementById('showHideButton');
-
-    if (passwordField.innerHTML === '********') {
-        // Show the password
-        passwordField.innerHTML = password;
-        showHideButton.textContent = 'Hide';
+        echo '</tbody>';
+        echo '</table>';
+        echo '<br>';
+        echo '<button type="button" class="editBtn" onclick="toggleEditing()">Edit</button>';
+        echo '<button type="button" class="updateBtn" onclick="openEditEmployeeConfigPopup()" disabled>Update</button>';
+        echo '<button type="button" class="deleteBtn" onclick="openDeleteEmployee()">Delete</button>';
+        echo '</form>';
+        echo '</div>';
     } else {
-        // Hide the password
-        passwordField.innerHTML = '********';
-        showHideButton.textContent = 'Show';
+        echo '<div class="text-cont">';
+        echo '<h1>Employee Configuration Information</h1>';
+        echo '<p>No records found.</p>';
+        echo '</div>';
     }
-}
-</script>
+
+    $conn->close();
+?>
+<script src='https://unpkg.com/@popperjs/core@2'></script>
+<script  src="../js/side_bar.js"></script>
+<script  src="../js/employeeInformationPopup.js"></script>
 
 </div>
 </div>

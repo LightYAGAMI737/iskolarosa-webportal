@@ -25,7 +25,7 @@
   }
   
 button.cancel-button,
-button#okConfirm,
+button#okConfirm,button#okConfirmUpdate,button#okConfirmDelete,button#okConfirmCreate,
 button.confirm-button {
   width: 120px !important; 
   height: 40px !important;
@@ -57,10 +57,10 @@ button.cancel-button {
   background-color: #C0C0C0;
   color: black;
 }
-button.confirm-button,
+button.confirm-button,button#okConfirmUpdate,button#okConfirmDelete,button#okConfirmCreate,
 button#okConfirm {
-  background-color: #FEC021;
-  color: black;
+  background-color: #FEC021 !important;
+  color: black !important;
 }
 
 button.confirm-button:hover {

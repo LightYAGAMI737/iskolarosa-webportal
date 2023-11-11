@@ -77,10 +77,9 @@ button {
 }
 
 button:disabled {
-    background-color: #ccc;
+    opacity: 0.5;
     cursor: not-allowed;
 }
-
 
 .two-column-layout {
     display: flex;
