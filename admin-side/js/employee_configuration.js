@@ -1,5 +1,4 @@
-
- // Declare employeeIdInput as a global variable
+// Declare employeeIdInput as a global variable
 var employeeIdInput = document.getElementById('employeeId');
 var employeeIdError = document.getElementById('employeeIdErrors'); // Declare employeeIdError as a global variable
 
@@ -24,6 +23,7 @@ function validateEmployeeId() {
         employeeIdInput.classList.remove('invalid');
     }
 }
+
 // Function to validate first and last names
 function validateNames(inputElement) {
   // Check if the input element is defined and has a value

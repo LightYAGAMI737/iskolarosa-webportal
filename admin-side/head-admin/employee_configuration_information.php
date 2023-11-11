@@ -108,31 +108,36 @@ if ($result->num_rows > 0) {
 
             echo '<tr>';
             echo '<td>Employee ID</td>';
-            echo '<td><input type="text" name="employeeId" class="readonly" value="' . strtoupper($row['employee_id_no']) . '" readonly></td>';
+            echo '<td><input type="text" id ="employeeId" name="employeeId" class="readonly" value="' . strtoupper($row['employee_id_no']) . '" readonly></td>';
             echo '</tr>';
             echo '<tr>';
             echo '<td>Username</td>';
-            echo '<td><input type="text" name="username" class="readonly" value="' . strtoupper($row['username']) . '" readonly></td>';
+            echo '<td><input type="text" id ="username" name="username" class="readonly" value="' . strtoupper($row['username']) . '" readonly></td>';
             echo '</tr>';
             echo '<tr>';
             echo '<td>Last Name</td>';
-            echo '<td><input type="text" name="lastName" value="' . strtoupper($row['last_name']) . '" disabled></td>';
+            echo '<td><input type="text" id ="lastName" name="lastName" value="' . strtoupper($row['last_name']) . '" disabled>';
+            echo '<span id="lastNameError" class="error-message"></span></td>';
             echo '</tr>';
             echo '<tr>';
             echo '<td>First Name</td>';
-            echo '<td><input type="text" name="firstName" value="' . strtoupper($row['first_name']) . '" disabled></td>';
+            echo '<td><input type="text" id ="firstName" name="firstName" value="' . strtoupper($row['first_name']) . '" disabled>';
+            echo '<span id="firstNameError" class="error-message"></span></td>';
             echo '</tr>';
             echo '<tr>';
             echo '<td>Contact Number</td>';
-            echo '<td><input type="text" name="contactNumber" value="' . strtoupper($row['contact_number']) . '" disabled></td>';
+            echo '<td><input type="text" id ="contactNumber" name="contactNumber" value="' . strtoupper($row['contact_number']) . '" disabled>';
+            echo '<span id="contactNumberError" class="error-message"></span></td>';
             echo '</tr>';
             echo '<tr>';
             echo '<td>Email</td>';
-            echo '<td><input type="text" name="email" value="' . strtoupper($row['email']) . '" disabled></td>';
+            echo '<td><input type="text" id ="email" name="email" value="' . strtoupper($row['email']) . '" disabled>';
+            echo '<span id="emailError" class="error-message"></span></td>';
             echo '</tr>';
             echo '<tr>';
             echo '<td>Department</td>';
-            echo '<td><input type="text" name="department" value="' . strtoupper($row['role_id']) . '" disabled></td>';
+            echo '<td><input type="text" id ="department" name="department" value="' . strtoupper($row['role_id']) . '" disabled>';
+            echo '<span id="departmentError" class="error-message"></span></td>';
             echo '</tr>';
         
 
@@ -146,7 +151,7 @@ if ($result->num_rows > 0) {
         echo '</table>';
         echo '<br>';
         echo '<button type="button" class="editBtn" onclick="toggleEditing()">Edit</button>';
-        echo '<button type="button" class="updateBtn" onclick="openEditEmployeeConfigPopup()" disabled>Update</button>';
+        echo '<button type="button" class="updateBtn" id="updateButton" onclick="openEditEmployeeConfigPopup()">Update</button>';
         echo '<button type="button" class="deleteBtn" onclick="openDeleteEmployee()">Delete</button>';
         echo '</form>';
         echo '</div>';
@@ -162,6 +167,7 @@ if ($result->num_rows > 0) {
 <script src='https://unpkg.com/@popperjs/core@2'></script>
 <script  src="../js/side_bar.js"></script>
 <script  src="../js/employeeInformationPopup.js"></script>
+<script  src="../js/employeeInfoValidate.js"></script>
 
 </div>
 </div>
