@@ -117,7 +117,7 @@ if (session_status() == PHP_SESSION_NONE) {
                 </a>
              </li>
                <li class="menu-item" style="margin-top: 100px !important;">
-  <a href="../php/logout.php">
+  <a href="../logout.php">
     <span class="menu-icon">
       <i class="ri-logout-box-fill"></i>
     </span>

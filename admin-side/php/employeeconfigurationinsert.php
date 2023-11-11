@@ -57,10 +57,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // If everything is fine, try to upload the file
         if (move_uploaded_file($_FILES["picture"]["tmp_name"], $targetFile)) {
             // Insert the data into the database using prepared statements
-            $sql = "INSERT INTO employee_list (employee_id_no, last_Name, first_Name, contact_Number, email, role_id, username, password, picture) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param(
+          // Insert the data into the database using prepared statements
+                $sql = "INSERT INTO employee_list (employee_id_no, last_Name, first_Name, contact_Number, email, role_id, username, password, picture, account_status) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0)";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param(
                 "sssssssss",
                 $employeeId,
                 $lastName,
@@ -71,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $username,
                 $hashedPassword, // Hashed password instead of plain text
                 $targetFile
-            );
+                );
 
             if ($stmt->execute()) {
                 // Data inserted successfully
