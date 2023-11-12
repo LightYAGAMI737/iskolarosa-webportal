@@ -1,0 +1,90 @@
+/* Styles for the employee_logs table */
+.employee-logs-table {
+    width: 100%;
+}
+
+.employee-logs-table .table-container {
+    max-height: 350px; /* Adjust the max height as needed */
+    overflow: auto;
+}
+
+.employee-logs-table table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.employee-logs-table th,
+.employee-logs-table td {
+    border: 1px solid #424242;
+    padding: 8px;
+    text-align: left;
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Add ... if text overflows */
+}
+
+.employee-logs-table th {
+    width: 6%;
+}
+
+.employee-logs-table td {
+    text-transform: uppercase;
+}
+
+.employee-logs-table td:nth-child(2) {
+    width: 24%;
+}
+
+.employee-logs-table td:nth-child(3) {
+    width: 50%;
+}
+
+.employee-logs-table td:nth-child(4) {
+    width: 20%;
+}
+
+
+/* Styles for the applicant_status_logs table */
+.applicant-status-logs-table {
+    width: 100%;
+}
+.applicant-status-logs-table .table-container {
+    max-height: 350px; /* Adjust the max height as needed */
+    overflow: auto;
+}
+.applicant-status-logs-table table {
+    border-collapse: collapse;
+    width: 100%;
+}
+.applicant-status-logs-table th, .applicant-status-logs-table td {
+    border: 1px solid #424242;
+    padding: 8px;
+    text-align: left;
+}
+
+.applicant-status-logs-table th {
+    width: 6%;
+}
+.applicant-status-logs-table td {
+    text-transform: uppercase;
+}
+
+.applicant-status-logs-table td:nth-child(2) {
+    width: 16%; /* Adjust the width as needed */
+}
+
+.applicant-status-logs-table td:nth-child(3) {
+    width: 16%; /* Adjust the width as needed */
+}
+
+.applicant-status-logs-table td:nth-child(4) {
+    width: 16%; /* Adjust the width as needed */
+}
+
+.applicant-status-logs-table td:nth-child(5) {
+    width: 16%; /* Adjust the width as needed */
+}
+
+.applicant-status-logs-table td:nth-child(6) {
+    width: 20%;
+}

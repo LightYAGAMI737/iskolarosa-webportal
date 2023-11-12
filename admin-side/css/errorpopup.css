@@ -1,0 +1,52 @@
+/* Styling for the overlay background */
+.errorpopupoutside {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 100%; /* Adjust the width to cover the entire width of the screen */
+    z-index: 1;
+}
+
+.errorpopupinside {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    transform: translate(0, 0);
+    width: 80%; /* Adjust the width for smaller screens */
+    max-width: 350px; /* Set a maximum width to prevent it from getting too wide */
+    padding: 10px;
+    margin: 10px;
+    background-color: #a5040a;
+    border-radius: 10px;
+    z-index: 2;
+    animation: slideUp 0.2s ease-in-out;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add box shadow for a subtle shadow effect */
+    text-align: center; /* Center text in the popup */
+}
+
+.center-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #fff;
+}
+
+.close-icon {
+    font-size: 20px;
+    color: #fff;
+    cursor: pointer;
+    margin: 0px 10px;
+}
+
+/* Closing animation */
+@keyframes slideDown {
+    from {
+        bottom: 0;
+    }
+    to {
+        bottom: -100%;
+    }
+}
