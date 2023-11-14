@@ -132,7 +132,7 @@
       <form method="POST" id="configForm">
          <div class="text-cont">
             <h1>LPPP CONFIGURATION</h1>
-            <center><label for="current_time">Current Date and Time (Asia/Manila):</label>
+            <center><label for="current_time">Current Date and Time:</label>
                <span id="currentDateTime"></span>
             </center>
             <script>
@@ -168,11 +168,11 @@
                ?>
             <p class="application-dates">
                <label for="startDate">Application starts at:</label>
-               <input type="date" id="startDate" name="startDate" required onkeydown="preventInput(event)" value="<?php echo ($startDate); ?>" onchange="checkTimeValidity()" <?php if (!empty($startDate) && $startDate !== '0000-00-00') echo 'readonly'; ?>>
-               <input type="time" id="startTime" name="startTime" required onkeydown="preventInput(event)" value="<?php echo ($startTime); ?>" onchange="checkTimeValidity()" <?php if (!empty($startTime) && $startTime !== '00:00:00') echo 'readonly'; ?>>
+               <input type="date" id="startDate" name="startDate" disabled required value="<?php echo ($startDate); ?>" onkeydown="preventInput(event)"  onchange="checkTimeValidity()" <?php if (!empty($startDate)) echo 'disabled'; ?>>
+               <input type="time" id="startTime" name="startTime" disabled  required value="<?php echo ($startTime); ?>" onkeydown="preventInput(event)"  onchange="checkTimeValidity()">
                <label for="endDate">and ends at:</label>
-               <input type="date" id="endDate" name="endDate" value="<?php echo ($endDate); ?>" required onkeydown="preventInput(event)" onchange="checkTimeValidity()" <?php if (!empty($endDate) && $endDate !== '0000-00-00') echo 'readonly'; ?>>
-               <input type="time" id="endTime" name="endTime" value="<?php echo ($endTime); ?>" required onkeydown="preventInput(event)" onchange="checkTimeValidity()" <?php if (!empty($endTime) && $endTime !== '00:00:00') echo 'readonly'; ?>>
+               <input type="date" id="endDate" name="endDate" disabled required value="<?php echo ($endDate); ?>"  onkeydown="preventInput(event)" onchange="checkTimeValidity()">
+               <input type="time" id="endTime" name="endTime"disabled required value="<?php echo ($endTime); ?>"  onkeydown="preventInput(event)" onchange="checkTimeValidity()">
             </p>
             <span class="TimeandDateError"></span>
             <?php
@@ -203,17 +203,17 @@
                echo "Error retrieving data from the database: " . mysqli_error($conn);
                }
                ?>
-            <div class="two-column-layout">
+             <div class="two-column-layout">
                <div class="column">
                   <div class="text-input">
                      <label for="qualifications">Qualifications:</label>
-                     <textarea id="qualifications" name="qualifications" placeholder="Enter text here" rows="4" maxlength="1000" oninput="formatInput(this)"   required><?php echo ($qualifications) ?></textarea>
+                     <textarea id="qualifications" name="qualifications" disabled placeholder="Enter text here" rows="4" maxlength="1000" oninput="formatInput(this)"   required><?php echo ($qualifications) ?></textarea>
                   </div>
                </div>
                <div class="column">
                   <div class="text-input">
                      <label for="requirements">Requirements:</label>
-                     <textarea id="requirements" name="requirements" placeholder="Enter text here" rows="4" maxlength="1000"  oninput="formatInput(this)"   required><?php echo ($requirements) ?></textarea>
+                     <textarea id="requirements" name="requirements" disabled placeholder="Enter text here" rows="4" maxlength="1000"  oninput="formatInput(this)"   required><?php echo ($requirements) ?></textarea>
                   </div>
                </div>
             </div>
@@ -233,6 +233,7 @@
       <script  src="./js/side_bar.js"></script>
       <script  src="./js/status_popup.js"></script>
       <script  src="./js/configurationPopup.js"></script>
+      <script  src="./js/configuration.js"></script>
       </script>
    </body>
 </html>
