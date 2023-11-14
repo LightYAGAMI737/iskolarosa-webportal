@@ -1,4 +1,5 @@
 const editsubmitpopup = document.getElementById('edit-submit-post-popup');
+const editdiscardpopup = document.getElementById('edit-discard-post-popup');
 
 function openeditsubmitPopup() {
     editsubmitpopup.style.display="block";
@@ -7,6 +8,15 @@ function openeditsubmitPopup() {
 function editsubmitclosepopup() {
     editsubmitpopup.style.display="none";
 }
+
+function openeditdiscardPopup() {
+    editdiscardpopup.style.display="block";
+}
+
+function editdiscardclosepopup() {
+    editdiscardpopup.style.display="none";
+}
+
 const editsubmitconfirmButtons = document.querySelectorAll('.confirm-button');
  editsubmitconfirmButtons.forEach(function(button) {
     button.addEventListener('click', function() {
@@ -30,14 +40,12 @@ function submiteditPost(createPostId) {
         var postTitle = document.getElementById("title").value;
         var tag = document.getElementById("tag").value;
         var postDescription = document.getElementById("description").value;
-        var scheduledAt = document.getElementById("scheduled_at").value;
         var image = document.getElementById("image").files[0];
     
         // Debugging: Log the values to the console
         console.log("postTitle: " + postTitle);
         console.log("tag: " + tag);
         console.log("postDescription: " + postDescription);
-        console.log("scheduledAt: " + scheduledAt);
         console.log("image: " + image);
 
         // Create a FormData object to send the data, including the file
@@ -47,7 +55,6 @@ function submiteditPost(createPostId) {
         formData.append('tag', tag);
         formData.append('post_description', postDescription);
         formData.append('post_image', image); // Append the file to FormData
-        formData.append('post_schedule_at', scheduledAt);
 
         // Perform an AJAX request to update the post in the database
         var xhr = new XMLHttpRequest();
@@ -58,7 +65,7 @@ function submiteditPost(createPostId) {
                     // Successfully updated post
                     setTimeout(() => {
                         openeditConfirmationPopup();
-                    }, 1000); 
+                    }, 500); 
                     console.log("Success: updating post successfully.");
                 } else {
                     // Handle errors or display an error message
@@ -84,7 +91,7 @@ function openeditConfirmationPopup() {
     gobackreloadedit();
   });
   // Call the goBack function after a 5-second delay
-  setTimeout(gobackreloadedit, 5000);
+  setTimeout(gobackreloadedit, 3000);
 }
 
 function gobackreloadedit() {

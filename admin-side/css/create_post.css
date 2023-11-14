@@ -56,14 +56,19 @@
 .left-section textarea {
   resize: none; /* Prevent resizing */
 }
-.right-section input[type="file"],
-.noUploadfile{
+.right-section input[type="file"]{
   height: 350px;
   border: 1px solid #747474;
   background: white;
 }
+
+.noUploadfile {
+  height: 415px!important;
+  border: 1px solid #747474 !important;
+  background: white !important;
+}
 .editUploadfile {
-  height: 100px !important;
+  height: 170px !important;
 }
 #imagePreview {
   display: block;
@@ -74,7 +79,7 @@
 
 .imageprev {
   background: white;
-  border: 1px solid #ccc;
+  border: 1px solid #747474;
   border-radius: 15px;
   padding: 20px;
   margin: 0 auto;

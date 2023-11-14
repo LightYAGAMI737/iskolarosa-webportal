@@ -30,11 +30,11 @@
                 <p>Are you sure you want to discard this post? Any unsaved changes will be lost.</p>
             </center>
             <div style="padding: 3px;">
-            <button type="button" style="margin-right: 15px;" class="cancel-button" onclick="closediscard()">
+            <button type="button" style="margin-right: 15px;" class="cancel-button" onclick="editdiscardclosepopup()">
                 <i class="ri-close-fill"></i>
                 <span>Cancel</span>
             </button>
-                <button type="button" class="confirm-button" name="discard" onclick="discardPost()">
+                <button type="button" class="confirm-button" name="discard" onclick="gobackreloadedit()">
                     <i class="ri-check-fill"></i>
                     <span>Discard</span>
                 </button>

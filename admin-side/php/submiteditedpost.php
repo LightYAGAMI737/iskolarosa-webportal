@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $postTitle = $_POST['post_title'];
     $tag = $_POST['tag'];
     $postDescription = $_POST['post_description'];
-    $scheduledAt = $_POST['post_schedule_at'];
+    $scheduledAt = ($_POST['post_schedule_at'] === '0000-00-00') ? '0000-00-00' : $_POST['post_schedule_at'];
 
     // Handle file upload
     if (isset($_FILES['post_image']) && $_FILES['post_image']['error'] === UPLOAD_ERR_OK) {

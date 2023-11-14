@@ -80,7 +80,6 @@
       <?php
          include './php/fetch_editpost.php';
          include './php/deletephotopopup.php';
-         include './php/create_post_popup.php';
          include './php/editsubmitpopup.php';
          include './php/side_bar_main.php';
          ?>
@@ -128,15 +127,13 @@
             <?php } ?>
             <br>
             <br>    
-            <label for="scheduled_at">Schedule Post (Optional):</label>
-            <input type="datetime-local" id="scheduled_at" name="post_schedule_at" onkeydown="preventInput(event)" min="<?php echo date('Y-m-d\TH:i'); ?>" max="<?php echo date('Y-12-31\TH:i'); ?>" onchange="validateSchedule()">
-            <p id="scheduleError" style="color: red;"></p>
+           
             <!-- submit post button -->
             <div class="button-section">
             <button type="button" class="create createpostBtn" onclick="openeditsubmitPopup()" disabled>Update Post</button>
             <!-- discard button -->
             <div class="button-section">
-            <button type="button" class="discard createpostBtn" onclick="opendiscard()">Discard</button>
+            <button type="button" class="discard createpostBtn" onclick="openeditdiscardPopup()">Discard</button>
             </div>
             </div>
             </div>
@@ -151,7 +148,6 @@
       <!-- partial -->
       <script src='js/unpkg-layout.js'></script>
       <script  src="./js/side_bar.js"></script>
-      <script  src="./js/create_post_popup.js"></script>
       <script  src="./js/deletephotopopup.js"></script>
       <script  src="./js/editsubmitpopup.js"></script>
       <script>
@@ -203,25 +199,7 @@
             }
                 }
       </script>
-      <script>
-         function validateSchedule() {
-             const scheduledAtInput = document.getElementById('scheduled_at');
-             const scheduleError = document.getElementById('scheduleError');
-             
-             const selectedDateTime = new Date(scheduledAtInput.value);
-             const currentDateTime = new Date();
-             
-             if (selectedDateTime < currentDateTime) {
-                 scheduleError.textContent = 'Scheduled time must be after current time.';
-                 scheduledAtInput.classList.add("invalid");
-                 scheduledAtInput.value = ''; // Clear the input value
-         
-             } else {
-                 scheduledAtInput.classList.remove("invalid");
-                 scheduleError.textContent = '';
-             }
-         }
-      </script>
+    
       <script>
          // Function to check if any input has the 'invalid' class
          function checkInvalidInputs() {

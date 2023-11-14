@@ -259,7 +259,7 @@ if (selectAllCheckboxForDelete) {
          
            truncatableElements.forEach((element) => {
              const originalText = element.textContent;
-             const maxLength = 50;
+             const maxLength = 35;
          
              if (originalText.length > maxLength) {
                const truncatedText = originalText.slice(0, maxLength) + "...";
