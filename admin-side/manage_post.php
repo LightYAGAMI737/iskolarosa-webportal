@@ -190,7 +190,7 @@ function redirectToEditPost(createPostId) {
 const deleteButton = document.querySelector('.delete-button');
 
 // Get all the checkbox elements
-const Deletecheckboxes = Array.from(document.querySelectorAll('input[type="checkbox"]'));
+const Deletecheckboxes = Array.from(document.querySelectorAll('input[name="selected_posts[]"]'));
 
 // Disable the delete button by default
 deleteButton.disabled = true;
@@ -205,6 +205,20 @@ Deletecheckboxes.forEach((checkbox) => {
     deleteButton.disabled = !isAnyCheckboxChecked;
   });
 });
+
+// Add a change event listener to the "select-all" checkbox
+const selectAllCheckboxForDelete = document.getElementById('select-all');
+if (selectAllCheckboxForDelete) {
+  selectAllCheckboxForDelete.addEventListener('change', () => {
+    // Set the state of all checkboxes based on the state of the "select-all" checkbox
+    Deletecheckboxes.forEach((checkbox) => {
+      checkbox.checked = selectAllCheckboxForDelete.checked;
+    });
+
+    // Enable or disable the delete button based on whether any checkbox is checked
+    deleteButton.disabled = !selectAllCheckboxForDelete.checked;
+  });
+}
 
          function selectAllCheckboxes() {
          const selectAllCheckbox = document.getElementById('select-all');

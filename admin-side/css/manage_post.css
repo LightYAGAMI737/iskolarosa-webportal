@@ -28,7 +28,7 @@ button[disabled]{
   opacity: 0.5;
   cursor: not-allowed;
 }
-#select-all {
+#select-all[disabled]{
   opacity: 0.5;
   cursor: not-allowed;
 }
