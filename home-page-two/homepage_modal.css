@@ -1,0 +1,130 @@
+.ModalOut {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+}
+/* Add this style to the existing CSS */
+.modal-content {
+    display: flex;
+    flex-direction: row;
+    overflow-y: auto;
+}
+
+.modal-column {
+    flex: 1;
+    padding: 10px;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+/* Add a margin to create space between columns */
+.modal-column + .modal-column {
+    margin-left: 20px;
+}
+
+/* Add border and border-radius */
+.modal-column {
+    border: 1px solid #000000;
+    border-radius: 15px;
+    overflow-y: auto;
+}
+
+.modal-column p{
+    white-space: break-spaces ;
+}
+
+/* Style the scrollbar */
+.modal-column::-webkit-scrollbar {
+    width: 7px; /* Set the width of the scrollbar */
+    margin: 10px;
+}
+
+.modal-column::-webkit-scrollbar-thumb {
+    background-color: #8F8F8F; /* Set the color of the scrollbar thumb */
+    border-radius: 10px; /* Set the border radius of the scrollbar thumb */
+}
+
+.modal-column::-webkit-scrollbar-track {
+    background-color: transparent; /* Set the color of the scrollbar track */
+}
+
+.ModalIn {
+    width: 80%;
+}
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 480px;
+    text-align: center;
+}
+.closeButton {
+    margin-left: auto; /* Push the closeButton to the left */
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+
+.ModalIn {
+    background: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    width: 1200px;
+    height: 600px;
+    position: relative; /* Change from absolute to relative */
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex; /* Add display: flex */
+    flex-direction: column; /* Set flex-direction to column */
+    align-items: center; /* Center items horizontally */
+}
+
+button#okConfirm,
+button.applynow-button {
+    width: 120px !important;
+    height: 40px !important;
+    border: none !important;
+    cursor: pointer !important;
+    font-size: 16px !important;
+    border-radius: 15px !important;
+    position: relative !important;
+    text-align: center !important;
+    padding-left: 20px !important;
+    align-items: center !important;
+    line-height: 0px !important;
+}
+
+button.applynow-button,
+button#okConfirm {
+    background-color: #FEC021 !important;
+    color: black !important;
+}
+
+button.applynow-button:hover {
+    background-color: #daa41e;
+}
+
+.disabled {
+    pointer-events: none !important;
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+}
+
+/* New styles for the applynow-button */
+button.applynow-button {
+    margin-top: auto; /* Push the button to the bottom */
+}

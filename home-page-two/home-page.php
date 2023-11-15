@@ -1,3 +1,16 @@
+<?php
+   include '../admin-side/php/config_iskolarosa_db.php';
+
+   date_default_timezone_set('Asia/Manila'); // Replace 'Your_Timezone' with the desired timezone, e.g., 'Asia/Manila'
+   
+   $currentDateTime = date('Y-m-d H:i:s'); // Get the current date and time in 24-hour format
+ //  echo "Current Date and Time: $currentDateTime (FOR TESTING LANG PO ITO)"; // Echo the current date and time for debugging
+   
+   // Fetch posts from the database where the scheduled time is in the past or equal to the current date and time
+   $sql = "SELECT * FROM create_post WHERE post_schedule_at <= '$currentDateTime' ORDER BY post_created_at DESC";
+   $result = mysqli_query($conn, $sql);
+   
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,13 +21,15 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Secular+One">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
     <link rel="stylesheet" href="home-page.css">
+    <link rel="stylesheet" href="homepage_modal.css">
     <link rel='stylesheet' href='../admin-side/css/remixicon.css'>
-
     
-    <title>Homepage</title>
+    <title>HOME | iSKOLAROSA </title>
 </head>
 <body>
-
+<?php 
+    include 'homepage_modal.php';
+?>
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container">
     <a class="navbar-brand" href="#">
@@ -26,7 +41,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item" style="background-color: #A5040A; border-radius: 15px; ">
-                    <a class="nav-link active" href="#">Home</a>
+                    <a class="nav-link active" href="home-page.php">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Quick Guide</a>
@@ -53,7 +68,7 @@
                 <div class="bottom-left-row">
                     <div class="left-card">
                         <p>Application Qualification & Requirements</p>
-                        <button class="btn">
+                        <button type="button" class="btn" onclick="openHomePageModal()">
                           <i class="ri-graduation-cap-fill" style="color: #A5040A"></i> 
                           <span>College Educational Assistance Program</span>
                         </button>
@@ -72,48 +87,67 @@
                         <p>Announcement</p>
                     </div>
                     <div class="announcement-outer-card" >
+                    <?php
+               // Check if there's no data fetched
+               if (mysqli_num_rows($result) == 0) {
+               ?>
+               <!-- Empty state image and message -->
+               <div class="empty-state">
+                  <img src="../empty-state-img/home_announcement.png" alt="No Posts" class="empty-state-image">
+                  <p class="empty-state-text">
+                     <strong>No Posts</strong><br>
+                     It looks like there are no announcements at the moment.<br>
+                     Check back later for updates and important information
+                  </p>
+               </div>
+               <?php
+               } else {
+                  while ($row = mysqli_fetch_assoc($result)) {
+                     $postTitle = $row['post_title'];
+                     $postDescription = $row['post_description'];
+                     $postTag = $row['tag'];
+                     $imageURL = "../uploaded-img/" . basename($row['post_image_path']);
+                     $postCreatedAt = date('F d, Y', strtotime($row['post_created_at']));
+               ?>
+                        <div class="announcement-inner-card">
 
-                        <div class="announcement-inner-card">
-                            <!-- Your announcement cards go here -->
-                            <p>Announcement</p>
-                            <p>Announcement</p>
-                            <p>Announcement</p>
+                            <div class="posted-title">
+                                <p class="#"><?php echo trim($postTitle); ?></p>
+                            </div>
+
+                            <div class="posted-tag <?php echo ($postTag == 'lppp') ? 'lppp-tag' : ''; ?>">
+                                <span><?php echo $postTag; ?></span>
+                            </div>
+                            <div class="posted-description">
+                                <p>
+                                    <?php echo trim($postDescription); ?>
+                                </p>
+                            </div>
+
+
+                            <?php if (!empty($row['post_image_path'])) { ?>
+                                <div class="posted-image">
+                                    <img src="<?php echo $imageURL; ?>" alt="Post Image" class="img-fluid expandable-image" data-image-id="<?php echo $postID; ?>">
+                                </div>
+                            <?php } ?>
+
+                            <div class="posted-date">
+                                <p>Posted on <?php echo $postCreatedAt; ?></p>
+                            </div>
                         </div>
-                        <div class="announcement-inner-card">
-                            <!-- Your announcement cards go here -->
-                            <p>Announcement</p>
-                            <p>Announcement</p>
-                            <p>Announcement</p>
-                        </div>
-                        <div class="announcement-inner-card">
-                            <!-- Your announcement cards go here -->
-                            <p>Announcement</p>
-                            <p>Announcement</p>
-                            <p>Announcement</p>
-                        </div>
-                        <div class="announcement-inner-card">
-                            <!-- Your announcement cards go here -->
-                            <p>Announcement</p>
-                            <p>Announcement</p>
-                            <p>Announcement</p>
-                        </div>     <div class="announcement-inner-card">
-                            <!-- Your announcement cards go here -->
-                            <p>Announcement</p>
-                            <p>Announcement</p>
-                            <p>Announcement</p>
-                        </div>     
-                        <div class="announcement-inner-card">
-                            <!-- Your announcement cards go here -->
-                            <p>Announcement</p>
-                            <p>Announcement</p>
-                            <p>Announcement</p>
-                        </div>
+                        
+                        <?php
+                        
+                  }
+               }
+               ?>
                     </div>
                 </div>
             </div>
           </div>
       </div>
-      
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+        <script src="homepage_modal.js"></script>
+
       </body>
       </html>
