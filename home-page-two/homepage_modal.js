@@ -1,13 +1,21 @@
     document.addEventListener('DOMContentLoaded', function() {
-        const HomePageModal = document.getElementById("HomePageModal");
+        const HomePageModalCEAP = document.getElementById("HomePageModalCEAP");
+        const HomePageModalLPPP = document.getElementById("HomePageModalLPPP");
 
-        function openHomePageModal() {
-            HomePageModal.style.display = "block";
+        function openHomePageModalCEAP() {
+            HomePageModalCEAP.style.display = "block";
         }
 
-        function closeHomePageModal() {
-                HomePageModal.style.display = "none";
+         function openHomePageModalLPPP() {
+            HomePageModalLPPP.style.display = "block";
         }
+
+            function closeHomePageModalCEAP() {
+            HomePageModalCEAP.style.display = "none";
+            }
+        function closeHomePageModalLPPP() {
+            HomePageModalLPPP.style.display = "none";
+            }
 
         const StatusapplynowButtons = document.querySelectorAll('.applynow-button');
         StatusapplynowButtons.forEach(function(button) {
@@ -19,7 +27,7 @@
         });
 
         // function openapplynowationPopup() {
-        //     closeHomePageModal();
+        //     closeHomePageModalCEAP();
         //     const applynowPopup = document.getElementById("ConfrimMsgPopUp");
         //     applynowPopup.style.display = "block";
 
@@ -33,8 +41,13 @@
         // }
 
         // Event listener for the button
-        const openHomePageModalButton = document.querySelector('.btn');
-        const closeHomePageModalButton = document.querySelector('.close-button');
-        openHomePageModalButton.addEventListener('click', openHomePageModal);
-        closeHomePageModalButton.addEventListener('click', closeHomePageModal);
+        const openHomePageModalCEAPButton = document.querySelector('.ceap');
+        const openHomePageModalLPPPButton = document.querySelector('.lppp');
+        const closeHomePageModalCEAPButton = document.querySelector('.ceap-btn-close');
+        const closeHomePageModalLPPPButton = document.querySelector('.lppp-btn-close');
+        openHomePageModalCEAPButton.addEventListener('click', openHomePageModalCEAP);
+        openHomePageModalLPPPButton.addEventListener('click', openHomePageModalLPPP);
+        closeHomePageModalCEAPButton.addEventListener('click', closeHomePageModalCEAP);
+        closeHomePageModalLPPPButton.addEventListener('click', closeHomePageModalLPPP);
     });
+

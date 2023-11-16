@@ -16,7 +16,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <base href="https://iskolarosa.com/iskolarosa/home-page-two/">
+    <!-- <base href="https://iskolarosa.com/iskolarosa/home-page-two/"> -->
+    <title>HOME | iSKOLAROSA </title>
+    <link rel="icon" href="../admin-side/system-images/iskolarosa-logo.png" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Secular+One">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
@@ -24,7 +26,7 @@
     <link rel="stylesheet" href="homepage_modal.css">
     <link rel='stylesheet' href='../admin-side/css/remixicon.css'>
     
-    <title>HOME | iSKOLAROSA </title>
+ 
 </head>
 <body>
 <?php 
@@ -35,6 +37,7 @@
     <a class="navbar-brand" href="#">
             <img src="iskolarosa-logo.png" alt="My Logo" class="img-logo">
         </a>
+        <a href="#" class="brand">iSKOLAROSA</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -68,11 +71,11 @@
                 <div class="bottom-left-row">
                     <div class="left-card">
                         <p>Application Qualification & Requirements</p>
-                        <button type="button" class="btn" onclick="openHomePageModal()">
+                        <button type="button" class="btn ceap" onclick="openHomePageModalCEAP()">
                           <i class="ri-graduation-cap-fill" style="color: #A5040A"></i> 
                           <span>College Educational Assistance Program</span>
                         </button>
-                        <button class="btn mt-2">
+                        <button class="btn lppp mt-2" onclick="openHomePageModalLPPP()">
                           <i class="ri-graduation-cap-fill" style="color: #FEC021" ></i> 
                           Libreng Pagpapaaral sa Pribadong Paaralan
                         </button>
