@@ -44,3 +44,22 @@ $(document).ready(function () {
         window.location.href = "admin_index.php";
     });
 });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const emailInput = document.getElementById('floatingInput');
+        const emailCheckMsg = document.querySelector('.emailCheckMsg');
+
+        // Add an input event listener to the email input
+        emailInput.addEventListener('input', function () {
+            // Trim the input value
+            const trimmedEmail = emailInput.value.trim();
+
+            // Update the input value with the trimmed value
+            emailInput.value = trimmedEmail;
+
+            // Check if the trimmed email is not empty
+            if (trimmedEmail !== '') {
+                emailCheckMsg.textContent = ''; // Clear any previous error message
+            }
+        });
+    });
