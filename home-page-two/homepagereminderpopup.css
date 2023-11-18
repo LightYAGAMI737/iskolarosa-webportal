@@ -127,20 +127,50 @@ button.confirm-button:hover {
     }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 700px) {
+    .ModalInHeader {
+        width: 435px;
+    }
     .RemindersIn {
         padding: 10px;
+        height: 80%;
+        overflow-y: auto;
+        width: 430px;
+        overflow-x: hidden;
     }
 
+    .reminders {
+        margin: 5px 65px;
+    }
     button.cancel-button,
-    button#okConfirm,
     button.confirm-button {
-        width: 100% !important;
+        width: 30% !important;
         margin-bottom: 10px;
     }
 
+    button.cancel-button i,
+    button.confirm-button i {
+    font-size: 20px;
+    } 
+      .column {
+        margin-bottom: 0px;
+      }
     .document i {
         margin-right: 5px;
         font-size: 16px;
     }
+    
+        .RemindersIn::-webkit-scrollbar {
+            width: 7px; 
+            margin: 10px;
+        }
+
+        .RemindersIn::-webkit-scrollbar-thumb {
+            background-color: #8F8F8F; 
+            border-radius: 10px; 
+        }
+
+        .RemindersIn::-webkit-scrollbar-track {
+            background-color: transparent; 
+        }
 }
