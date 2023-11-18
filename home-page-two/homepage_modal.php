@@ -75,7 +75,7 @@ mysqli_close($conn);
     </div>
     <div class="applBTN" style="padding: 3px; margin-top: 20px;">
             <!-- CEAP Apply Now Button -->
-            <button type="submit" class="applynow-button" id="ApplynowCEAP" name="submit" onclick="openCEAPApplyNowBtn()" disabled>
+            <button type="button" class="applynow-button confirmBTN" id="ApplynowCEAP" name="submit" onclick="openCEAPApplyNowBtn()" disabled>
                 <span>Apply Now</span>
             </button>
         </div>
@@ -111,7 +111,7 @@ mysqli_close($conn);
     </div>
         <div class="applBTN" style="padding: 3px; margin-top: 20px;">
             <!-- LPPP Apply Now Button -->
-            <button type="submit" class="applynow-button" id="ApplynowLPPP" name="submit" onclick="openLPPPApplyNowBtn()" disabled>
+            <button type="button" class="applynow-button confirmBTN" id="ApplynowLPPP" name="submit" onclick="openLPPPApplyNowBtn()" disabled>
                 <span>Apply Now</span>
             </button>
         </div>
@@ -126,12 +126,6 @@ mysqli_close($conn);
     if (toggleValueCEAP === 1) {
         applyNowButtonCEAP.removeAttribute('disabled');
     }
-
-    applyNowButtonCEAP.addEventListener('click', function () {
-        // Add your logic for the CEAP Apply Now button click event
-        // This will only execute if the button is enabled
-        // Example: openCEAPApplyNowBtn();
-    });
 </script>
 
 <!-- LPPP Apply Now Button -->
@@ -143,9 +137,117 @@ mysqli_close($conn);
         applyNowButtonLPPP.removeAttribute('disabled');
     }
 
-    applyNowButtonLPPP.addEventListener('click', function () {
-        // Add your logic for the LPPP Apply Now button click event
-        // This will only execute if the button is enabled
-        // Example: openLPPPApplyNowBtn();
-    });
 </script>
+
+
+<!-- applynow CEAP next button popup -->
+<div class="RemindersOut" id="applynowNextButton">
+    <div class="RemindersIn">
+        <i class="ri-notification-2-fill" style="font-size: 6em; color: #F54021;"></i>
+        <strong>
+            <h2>Reminders</h2>
+        </strong>
+            <p style="margin-bottom: 2px;">1. Make sure to answer this form correctly and completely.<br>
+                2. Fields with asterisk (*) must be filled up.<br>
+                3. Make sure you've prepared all the documents needed for uploading: <br></p>
+        <div class="reminders">
+            <div class="column">
+            <!-- <p>Applicant:</p> -->
+                <div class="document">
+                    <i class="ri-check-fill"></i>
+                    <p>Applicant's Voters Certificate.</p>
+                </div>
+                <div class="document">
+                    <i class="ri-check-fill"></i>
+                    <p>2x2 Picture.</p>
+                </div>
+                <div class="document">
+                    <i class="ri-check-fill"></i>
+                    <p>Current semester's Grade.</p>
+                </div>
+                <div class="document">
+                    <i class="ri-check-fill"></i>
+                    <p>Certificate of Registration.</p>
+                </div>
+            </div>
+            <div class="column">
+            <!-- <p>Guardian:</p> -->
+                <div class="document">
+                    <i class="ri-check-fill"></i>
+                    <p>Guardian's Voters Certificate.</p>
+                </div>
+                <div class="document">
+                    <i class="ri-check-fill"></i>
+                    <p>Guardian's Income Tax Return.</p>
+                </div>
+                <div class="document">
+                    <i class="ri-check-fill"></i>
+                    <p>Residency.</p>
+                </div>
+            </div>
+        </div>
+        <div style="padding: 3px;  margin-top: 10px;">
+            <button type="button" class="cancel-button" style="margin-right: 15px; background-color: #C0C0C0;">
+                <i class="ri-close-fill"></i>
+                <span>Cancel</span>
+            </button>
+            <button type="submit" class="confirm-button confirmBTN" id="confirm-button-CEAP" name="submit" onclick="" disabled>
+                <i class="ri-check-fill"></i>
+                <span>OK</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- applynow LPPP next button popup -->
+<div class="RemindersOut" id="applynowLPPPNextButton">
+    <div class="RemindersIn">
+        <i class="ri-notification-2-fill" style="font-size: 6em; color: #F54021;"></i>
+        <strong>
+            <h2>Reminders</h2>
+        </strong>
+            <p style="margin-bottom: 2px;">1. Make sure to answer this form correctly and completely.<br>
+                2. Fields with asterisk (*) must be filled up.<br>
+                3. Make sure you've prepared all the documents needed for uploading: <br></p>
+        <div class="reminders">
+            <div class="column">
+            <!-- <p>Applicant:</p> -->
+                <div class="document">
+                    <i class="ri-check-fill"></i>
+                    <p>2x2 Picture.</p>
+                </div>
+                <div class="document">
+                    <i class="ri-check-fill"></i>
+                    <p>Current semester's Grade.</p>
+                </div>
+            </div>
+            <div class="column">
+            <!-- <p>Guardian:</p> -->
+                <div class="document">
+                    <i class="ri-check-fill"></i>
+                    <p>Guardian's Voters Certificate.</p>
+                </div>
+                <div class="document">
+                    <i class="ri-check-fill"></i>
+                    <p>Guardian's Income Tax Return.</p>
+                </div>
+                <div class="document">
+                    <i class="ri-check-fill"></i>
+                    <p>Residency.</p>
+                </div>
+            </div>
+        </div>
+        <div style="padding: 3px;  margin-top: 10px;">
+            <button type="button" class="cancel-button" style="margin-right: 15px; background-color: #C0C0C0;">
+                <i class="ri-close-fill"></i>
+                <span>Cancel</span>
+            </button>
+            <button type="submit" class="confirm-button confirmBTN" id="confirm-button-LPPP" name="submit" onclick="" disabled>
+                <i class="ri-check-fill"></i>
+                <span>OK</span>
+            </button>
+        </div>
+    </div>
+</div>

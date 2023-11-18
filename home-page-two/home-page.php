@@ -16,7 +16,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <base href="https://iskolarosa.com/iskolarosa/home-page-two/">
+    <!-- <base href="https://iskolarosa.com/iskolarosa/home-page-two/"> -->
     <title>HOME | iSKOLAROSA </title>
     <link rel="icon" href="../admin-side/system-images/iskolarosa-logo.png" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="home-page.css">
     <link rel="stylesheet" href="homepage_modal.css">
     <link rel='stylesheet' href='../admin-side/css/remixicon.css'>
+    <link rel='stylesheet' href='homepagereminderpopup.css'>
     
  
 </head>
@@ -150,7 +151,7 @@
           </div>
       </div>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-        <script src="homepage_modal.js"></script>
+    <script src="homepage_modal.js"></script>
 
       </body>
       </html>
