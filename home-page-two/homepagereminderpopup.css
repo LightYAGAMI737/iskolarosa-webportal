@@ -107,7 +107,7 @@ button.confirm-button:hover {
 }
 
 /* Responsive Styles */
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 991px) {
     .RemindersIn {
         padding: 15px;
     }

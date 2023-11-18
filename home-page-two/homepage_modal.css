@@ -167,7 +167,7 @@ button.applynow-button {
     margin-bottom: -5px;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 991px) {
         .boxLeftRight {
           flex-direction: column;
         }
