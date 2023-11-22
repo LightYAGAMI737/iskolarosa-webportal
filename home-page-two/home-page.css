@@ -41,9 +41,10 @@ body {
 
 .navbar-nav .nav-item .nav-link.active {
     color: white !important;
-    max-width: 90px !important;
-    transition: background-color 0.3s;  
-    background-color: #A5040A !important;
+    max-width: 120px !important;
+    border-radius: 15px !important;
+    transition: background-color 0.3s !important;
+    background-color: #A5040A !important; 
     border-radius: 15px !important;
 }
 
@@ -51,7 +52,14 @@ body {
     background-color: #400000;
     color: white;
 }
+.navbar-nav {
+    display: flex;
+    justify-content: center;
+}
 
+.navbar-nav .nav-item {
+    margin: 0 10px;
+}
 .flex-container {
     display: flex;
     flex-direction: column;
@@ -233,14 +241,7 @@ body {
 }
 
 
-.navbar-nav {
-    display: flex;
-    justify-content: center;
-}
 
-.navbar-nav .nav-item {
-    margin: 0 10px;
-}
 
 @media (max-width: 768px) {
     .top-left-row {
@@ -254,7 +255,7 @@ body {
     }
 }
 
-@media (max-width: 991px) {
+@media (max-width: 990px) {
     .navbar-nav {
         background-color: rgba(236, 236, 236, 0.6); /* Adjust the alpha value (0.7) for the desired level of opacity */
     }

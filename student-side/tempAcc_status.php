@@ -58,10 +58,9 @@ $tempAccountResultTable = mysqli_stmt_get_result($stmtTable);
    <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>iSKOLAROSA</title>
+      <title>iSKOLAROSA | Status</title>
       <link rel="icon" href="../admin-side/system-images/iskolarosa-logo.png" type="image/png">
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Secular+One">
+      <link href="./css/bootstrap.min.css" rel="stylesheet">
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
       <link rel="stylesheet" href="../admin-side/css/remixicon.css">
       <link rel="stylesheet" href="./css/tempAcc_nav.css">
@@ -227,7 +226,8 @@ $tempAccountResultTable = mysqli_stmt_get_result($stmtTable);
 
       </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+      <script src="./js/bootstrap.min.js"></script>
+
 
 <!-- Add this JavaScript code after your PHP code and HTML -->
 <script>

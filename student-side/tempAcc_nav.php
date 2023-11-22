@@ -21,7 +21,7 @@ $currentFile = basename($_SERVER['PHP_SELF']);
 // Set 'active' class based on the current file
 $homeClass = ($currentFile == 'home-page-loggedin.php') ? 'active' : '';
 $statusClass = ($currentFile == 'tempAcc_status.php') ? 'active' : '';
-$guideClass = ($currentFile == 'quick_guide.php') ? 'active' : '';
+$guideClass = ($currentFile == 'tempAcc_quickguide.php') ? 'active' : '';
 $contactClass = ($currentFile == 'contact_us.php') ? 'active' : '';
 $logoutClass = ($currentFile == 'logout.php') ? 'active' : '';
 ?>
@@ -44,7 +44,7 @@ $logoutClass = ($currentFile == 'logout.php') ? 'active' : '';
                     <a class="nav-link <?php echo $statusClass; ?>" href="tempAcc_status.php">Status</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?php echo $guideClass; ?>" href="#">Quick Guide</a>
+                    <a class="nav-link <?php echo $guideClass; ?>" href="tempAcc_quickguide.php">Quick Guide</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link <?php echo $contactClass; ?>" href="#">Contact Us</a>
