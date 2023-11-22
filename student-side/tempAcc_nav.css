@@ -1,0 +1,61 @@
+body {
+    background-image: url('../../home-page-two/background2.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center center;
+}
+.empty-state {
+    padding: 73px;
+}
+.empty-state-image {
+    height: 250px;
+}
+.img-logo {
+    width: 70px;
+    height: 70px;
+    margin-right: 20px;
+}
+
+.navbar-brand {
+    font-size: 24px;
+    margin-right: 20px;
+}
+
+.navbar-nav {
+    margin-left: auto;
+}
+
+.navbar {
+    font-family: 'Inter', sans-serif;
+    --bs-navbar-brand-padding-y: 0 !important;
+}
+
+
+.navbar-nav .nav-item .nav-link {
+    color: #A5040A;
+    width: 120px;
+    text-align: center;
+    font-weight: bolder;
+}
+
+.navbar-nav .nav-item .nav-link.active {
+    color: white !important;
+    max-width: 90px !important;
+    transition: background-color 0.3s !important;
+    background-color: #A5040A !important; 
+    border-radius: 15px !important;
+}
+
+.navbar-nav .nav-item .nav-link.active:hover {
+    background-color: #400000;
+    color: white;
+}
+.navbar-nav {
+    display: flex;
+    justify-content: center;
+}
+
+.navbar-nav .nav-item {
+    margin: 0 10px;
+}
