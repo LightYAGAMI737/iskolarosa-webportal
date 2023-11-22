@@ -35,7 +35,7 @@
     <div class="div">
         <h5>Password<span class="required"> *</span></h5>
         <input type="password" name="password" class="input" id="passwordField" required>
-        <i class="ri-eye-fill" id="togglePassword"></i>
+        <i class="ri-eye-off-fill" id="togglePassword"></i>
     </div>
 </div>
     <a href="forgotpassword.php">Forgot Password?</a>

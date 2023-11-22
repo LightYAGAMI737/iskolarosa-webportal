@@ -256,10 +256,10 @@ const confirmPasswordToggle = document.getElementById("password-toggle-confirmPa
 function togglePassword() {
     if (passwordInputshowhide.type === "password") {
         passwordInputshowhide.type = "text";
-        passwordToggle.innerHTML = '<i class="ri-eye-off-fill"></i>'; // Change to a crossed-out eye
+        passwordToggle.innerHTML = '<i class="ri-eye-fill"></i>'; // Change to a crossed-out eye
     } else {
         passwordInputshowhide.type = "password";
-        passwordToggle.innerHTML = '<i class="ri-eye-fill"></i>'; // Change back to a regular eye
+        passwordToggle.innerHTML = '<i class="ri-eye-off-fill"></i>'; // Change back to a regular eye
     }
 }
 

@@ -161,7 +161,7 @@
     <div class="password-input">
         <input type="password" id="password" name="password" placeholder="Enter password" maxlength="20" required>
         <span class="password-toggle" onclick="togglePassword()">
-            <i class="ri-eye-fill"></i>
+            <i class="ri-eye-off-fill"></i>
         </span>
     </div>
     <span id="passwordError" class="error-message"></span>
@@ -172,7 +172,7 @@
     <div class="password-input">
         <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password" maxlength="20" required>
         <span class="password-toggle" id="password-toggle-confirmPassword" onclick="toggleConfirmPassword()">
-            <i class="ri-eye-fill"></i>
+            <i class="ri-eye-off-fill"></i>
         </span>
     </div>
     <span id="confirmPasswordError" class="error-message"></span>

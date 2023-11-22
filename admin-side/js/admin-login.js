@@ -29,11 +29,11 @@ togglePassword.addEventListener("click", function () {
 
     // Change the eye icon based on the password field type
     if (type === "password") {
-        togglePassword.classList.remove("ri-eye-off-fill");
-        togglePassword.classList.add("ri-eye-fill");
-    } else {
         togglePassword.classList.remove("ri-eye-fill");
         togglePassword.classList.add("ri-eye-off-fill");
+    } else {
+        togglePassword.classList.remove("ri-eye-off-fill");
+        togglePassword.classList.add("ri-eye-fill");
     }
 });
 
