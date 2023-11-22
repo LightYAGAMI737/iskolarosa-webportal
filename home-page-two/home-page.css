@@ -42,7 +42,6 @@ body {
 .navbar-nav .nav-item .nav-link.active {
     color: white !important;
     max-width: 90px !important;
-    border-radius: 15px;
     transition: background-color 0.3s;  
     background-color: #A5040A !important;
     border-radius: 15px !important;
