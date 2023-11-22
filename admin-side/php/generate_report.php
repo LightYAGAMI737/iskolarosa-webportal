@@ -1,6 +1,6 @@
 <?php
 require_once '../tcpdf-main/tcpdf.php';
-require_once '../php/config_iskolarosa_db.php'; // Include your database connection script
+require_once 'config_iskolarosa_db.php'; // Include your database connection script
 
 // Create a new PDF document
 $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8');
