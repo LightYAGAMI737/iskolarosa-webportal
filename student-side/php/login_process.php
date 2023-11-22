@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         mysqli_stmt_close($stmtControlNumber);
 
                         mysqli_close($conn);
-                        header("Location: ../temporary_account_status.php");
+                        header("Location: ../tempAcc_status.php");
                         exit();
                     }
                 }
