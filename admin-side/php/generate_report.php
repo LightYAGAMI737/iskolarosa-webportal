@@ -1,5 +1,5 @@
 <?php
-require_once '../tcpdf-main/tcpdf.php';
+require_once '../TCPDF-main/tcpdf.php';
 require_once 'config_iskolarosa_db.php'; // Include your database connection script
 
 // Create a new PDF document
