@@ -9,7 +9,7 @@
       <link rel="stylesheet" href="css/index.css">
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+      <link rel="stylesheet" href="../admin-side/css/remixicon.css">
       <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
       <script src="js/app.js" defer></script>
       <style>
@@ -43,7 +43,7 @@
                      <div class="module__wrapper__form__content__login__field-input js-password">
                         <input type="password" name="password" id="password">
                         <label for="password">Password</label>
-                        <span class="password-toggle" id="password-toggle" onclick="togglePassword()"><i class="fas fa-eye"></i></span>
+                        <span class="password-toggle" id="password-toggle" onclick="togglePassword()"><i class="ri-eye-off-fill"></i></span>
                      </div>
                      <?php
 // Check for an error parameter in the URL
@@ -84,18 +84,18 @@ if (isset($_GET['error'])) {
          </div>
       </section>
       <script>
-         function togglePassword() {
-             const passwordInput = document.getElementById('password');
-             const passwordToggle = document.getElementById('password-toggle');
-         
-             if (passwordInput.type === 'password') {
-                 passwordInput.type = 'text';
-                 passwordToggle.classList.add('show');
-             } else {
-                 passwordInput.type = 'password';
-                 passwordToggle.classList.remove('show');
-             }
-         }
+ function togglePassword() {
+        const passwordInput = document.getElementById('password');
+        const passwordToggle = document.getElementById('password-toggle');
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            passwordToggle.innerHTML = '<i class="ri-eye-fill"></i>'; // Change to a crossed-out eye
+        } else {
+            passwordInput.type = "password";
+            passwordToggle.innerHTML = '<i class="ri-eye-off-fill"></i>'; // Change back to a regular eye
+        }
+    }
       </script>
    </body>
 </html>
