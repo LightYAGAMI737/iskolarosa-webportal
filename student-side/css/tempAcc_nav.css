@@ -59,3 +59,22 @@ body {
 .navbar-nav .nav-item {
     margin: 0 10px;
 }
+
+/* css for personal account nav */
+
+.dropdown-toggle {
+    background-color: #A5040A !important;
+    color: #fff !important; 
+}
+.dropdown-menu{
+    left: -130px !important;
+    padding: 5px;
+}
+.dropdown-item:hover {
+    border-radius: 15px;
+    background: #ECECEC;
+    color: #000;
+}
+.dropdown-item i {
+    margin-right: 10px;
+}
