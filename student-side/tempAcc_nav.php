@@ -29,7 +29,7 @@ $logoutClass = ($currentFile == 'logout.php') ? 'active' : '';
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container">
         <a class="navbar-brand" href="#">
-            <img src="../home-page-two/iskolarosa-logo.png" alt="My Logo" class="img-logo">
+            <img src="../admin-side/system-images/iskolarosa-logo.png" alt="My Logo" class="img-logo">
         </a>
         <a href="#" class="brand">iSKOLAROSA</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

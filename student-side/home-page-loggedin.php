@@ -4,7 +4,14 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-   include '../admin-side/php/config_iskolarosa_db.php';
+if (!isset($_SESSION['control_number'])) {
+    // You can either show a message or redirect to the login page
+    echo 'You need to log in to access this page.';
+    // OR
+     header("Location: index.php"); // Redirect to the login page
+    exit();
+}   
+include '../admin-side/php/config_iskolarosa_db.php';
 
    date_default_timezone_set('Asia/Manila'); // Replace 'Your_Timezone' with the desired timezone, e.g., 'Asia/Manila'
    
@@ -27,10 +34,10 @@ if (session_status() === PHP_SESSION_NONE) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Secular+One">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
-    <link rel="stylesheet" href="../home-page-two/home-page.css">
-    <link rel="stylesheet" href="../home-page-two/homepage_modal.css">
     <link rel='stylesheet' href='../admin-side/css/remixicon.css'>
-    <link rel='stylesheet' href='../home-page-two/homepagereminderpopup.css'>
+    <link rel="stylesheet" href="../home-page-two/css/home-page.css">
+    <link rel="stylesheet" href="../home-page-two/css/homepage_modal.css">
+    <link rel='stylesheet' href='../home-page-two/css/homepagereminderpopup.css'>
     
  
 </head>
