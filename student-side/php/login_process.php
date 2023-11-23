@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 
 // Assuming you have a database connection established
 // Replace "YOUR_HOST", "YOUR_USERNAME", "YOUR_PASSWORD", and "YOUR_DATABASE" with your actual database credentials.
-include 'config_iskolarosa_db.php';
+include '../../admin-side/php/config_iskolarosa_db.php';
 
 // Start the session to access the session variables
 session_start();
