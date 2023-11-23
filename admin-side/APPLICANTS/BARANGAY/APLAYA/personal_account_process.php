@@ -27,7 +27,6 @@ if ($result->num_rows > 0) {
             $row['middle_name'],
             $row['suffix_name'],
             $row['date_of_birth'],
-            $row['age'],
             $row['gender'],
             $row['civil_status'],
             $row['place_of_birth'],
@@ -84,7 +83,7 @@ if ($result->num_rows > 0) {
         }
 
        // Perform the bulk insert into the personal_account table
-        $insert_sql = "INSERT INTO ceap_personal_account (ceap_personal_account_id, control_number, last_name, first_name, middle_name, suffix_name, date_of_birth, age, gender, civil_status, place_of_birth, religion, contact_number, active_email_address, house_number, province, municipality, barangay, guardian_firstname, guardian_lastname, guardian_occupation, guardian_relationship, guardian_monthly_income, guardian_annual_income, elementary_school, elementary_year, secondary_school, secondary_year, senior_high_school, senior_high_year, course_enrolled, no_of_units, year_level, current_semester, graduating, school_name, school_type, expected_year_of_graduation, school_address, student_id_no, uploadVotersParent, uploadVotersApplicant, uploadITR, uploadResidency, uploadCOR, uploadGrade, uploadPhotoJPG, status, interview_date,interview_hour,interview_minute,interview_period, status_updated_at, username, ceap_password, hashed_password, first_time_login)
+        $insert_sql = "INSERT INTO ceap_personal_account (ceap_personal_account_id, control_number, last_name, first_name, middle_name, suffix_name, date_of_birth, gender, civil_status, place_of_birth, religion, contact_number, active_email_address, house_number, province, municipality, barangay, guardian_firstname, guardian_lastname, guardian_occupation, guardian_relationship, guardian_monthly_income, guardian_annual_income, elementary_school, elementary_year, secondary_school, secondary_year, senior_high_school, senior_high_year, course_enrolled, no_of_units, year_level, current_semester, graduating, school_name, school_type, expected_year_of_graduation, school_address, student_id_no, uploadVotersParent, uploadVotersApplicant, uploadITR, uploadResidency, uploadCOR, uploadGrade, uploadPhotoJPG, status, interview_date,interview_hour,interview_minute,interview_period, status_updated_at, username, ceap_password, hashed_password, first_time_login)
                         VALUES " . implode(",", $personal_accounts);
 
         if ($conn->query($insert_sql) === TRUE) {

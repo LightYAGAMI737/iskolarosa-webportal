@@ -28,31 +28,36 @@
     
     // Fetch the applicant's information
     if (mysqli_num_rows($tempAccountResult) > 0) {
-    // Information of applicant-name-control number
-    $applicantData = mysqli_fetch_assoc($tempAccountResult);
-    $last_name = $applicantData['last_name'];
-    $first_name = $applicantData['first_name'];
-    $middle_name = $applicantData['middle_name'];
-    $suffix_name = $applicantData['suffix_name'];
-    $control_number = $applicantData['control_number'];
-    $status = $applicantData['status'];
+        // Information of applicant-name-control number
+        $applicantData = mysqli_fetch_assoc($tempAccountResult);
+        $last_name = $applicantData['last_name'];
+        $first_name = $applicantData['first_name'];
+        $middle_name = $applicantData['middle_name'];
+        $suffix_name = $applicantData['suffix_name'];
+        $control_number = $applicantData['control_number'];
+        $status = $applicantData['status'];
+    } else {
+        // No applicant found
+        header("Location: index.php"); // Redirect to the login page
+        exit(); // Stop execution as there is no data to display
     }
-// Prepare the second query
-$tempAccountSqlTable = "
-    SELECT DISTINCT p.last_name, p.first_name, p.control_number, t.status, t.reason, t.status_updated_at, t.interview_date, e.employee_username AS updated_by
-    FROM ceap_reg_form p
-    JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
-    LEFT JOIN applicant_status_logs l ON p.ceap_reg_form_id = l.ceap_reg_form_id
-    LEFT JOIN employee_logs e ON l.employee_logs_id = e.employee_logs_id
-    WHERE p.control_number = '$control_number'
-    ORDER BY t.status_updated_at DESC";
 
-$stmtTable = mysqli_prepare($conn, $tempAccountSqlTable);
-mysqli_stmt_execute($stmtTable);
-$tempAccountResultTable = mysqli_stmt_get_result($stmtTable);
+    // Prepare the second query
+    $tempAccountSqlTable = "
+        SELECT DISTINCT p.last_name, p.first_name, p.control_number, t.status, t.reason, t.status_updated_at, t.interview_date, e.employee_username AS updated_by
+        FROM ceap_reg_form p
+        JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
+        LEFT JOIN applicant_status_logs l ON p.ceap_reg_form_id = l.ceap_reg_form_id
+        LEFT JOIN employee_logs e ON l.employee_logs_id = e.employee_logs_id
+        WHERE p.control_number = '$control_number'
+        ORDER BY t.status_updated_at DESC";
 
+    $stmtTable = mysqli_prepare($conn, $tempAccountSqlTable);
+    mysqli_stmt_execute($stmtTable);
+    $tempAccountResultTable = mysqli_stmt_get_result($stmtTable);
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -73,7 +78,7 @@ $tempAccountResultTable = mysqli_stmt_get_result($stmtTable);
       <div class="content-bg">
          <div class="content-header">
             <div class="applicant-name">
-                <span>
+                <span class="name-uppercase">
                     <?php
                     $fullName = $last_name . ', ' . $first_name;
 

@@ -98,7 +98,7 @@ if ($stmt) {
             mysqli_close($conn);
 
             // Redirect to the personal account page for authenticated users
-            header("Location: ../personal_account/personal_account_status.php");
+            header("Location: ../personal_account/personalAcc_status.php");
             exit();
         }
     }

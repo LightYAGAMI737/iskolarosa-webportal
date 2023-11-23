@@ -173,7 +173,6 @@ $tempAccountResultTable = mysqli_stmt_get_result($stmtTable);
                     $interview_dateFormatted = date('F d, Y', strtotime($interview_date));
                     $date = $tempAccountRow['status_updated_at'];
                     $dateFormatted = date('F d, Y', strtotime($date));
-                    $updatedBy = $tempAccountRow['updated_by']; // You need to fetch and populate this value
                     $reason = $tempAccountRow['reason'];
 
                     switch ($status) {
@@ -212,7 +211,7 @@ $tempAccountResultTable = mysqli_stmt_get_result($stmtTable);
                     echo '<td>' . $dateFormatted . '</td>';
                     echo '<td>' . strtoupper($status) . '</td>';
                     echo '<td>' . $description . '</td>'; // Use the variable here
-                    echo '<td>' . $tempAccountRow['updated_by'] . '</td>';
+                    echo '<td>' . '' . '</td>';
                     echo '</tr>';
                 }
             ?>
@@ -228,7 +227,7 @@ $tempAccountResultTable = mysqli_stmt_get_result($stmtTable);
 
 <!-- Add this JavaScript code after your PHP code and HTML -->
 <script>
-    documenp.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
         // Fetch the status and text from PHP
         var status = '<?php echo $status; ?>';
         var text = '';

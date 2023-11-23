@@ -73,12 +73,12 @@ mysqli_close($conn);
             </div>
     </div>
     </div>
-    <div class="applBTN" style="padding: 3px; margin-top: 20px;">
-            <!-- CEAP Apply Now Button -->
+    <!-- CEAP Apply Now Button -->
+    <!-- <div class="applBTN" style="padding: 3px; margin-top: 20px;">
             <button type="button" class="applynow-button confirmBTN" id="ApplynowCEAP" name="submit" onclick="openCEAPApplyNowBtn()" disabled>
                 <span>Apply Now</span>
             </button>
-        </div>
+        </div> -->
     </div>
     </div>
 </div>
@@ -109,12 +109,12 @@ mysqli_close($conn);
             </div>
     </div>
     </div>
-        <div class="applBTN" style="padding: 3px; margin-top: 20px;">
             <!-- LPPP Apply Now Button -->
+        <!-- <div class="applBTN" style="padding: 3px; margin-top: 20px;">
             <button type="button" class="applynow-button confirmBTN" id="ApplynowLPPP" name="submit" onclick="openLPPPApplyNowBtn()" disabled>
                 <span>Apply Now</span>
             </button>
-        </div>
+        </div> -->
     </div>
     </div>
 </div>
