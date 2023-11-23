@@ -69,12 +69,16 @@ body {
 .dropdown-menu{
     left: -130px !important;
     padding: 5px;
+    color: #000 !important; 
 }
 .dropdown-item:hover {
     border-radius: 15px;
-    background: #ECECEC;
-    color: #000;
+    background-color: #ECECEC;
 }
 .dropdown-item i {
     margin-right: 10px;
+}
+.dropdown-item.active {
+    background-color: #A5040A !important;
+    border-radius: 15px;
 }

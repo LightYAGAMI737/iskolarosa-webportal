@@ -23,6 +23,8 @@ $homeClass = ($currentFile == 'personalAcc_home.php') ? 'active' : '';
 $statusClass = ($currentFile == 'personalAcc_status.php') ? 'active' : '';
 $guideClass = ($currentFile == 'personalAcc_quickguide.php') ? 'active' : '';
 $contactClass = ($currentFile == 'contact_us.php') ? 'active' : '';
+$profileClass = ($currentFile == 'personalAcc_profile.php') ? 'active' : '';
+$changepassClass = ($currentFile == 'personalAcc_changepass.php') ? 'active' : '';
 $logoutClass = ($currentFile == 'logout.php') ? 'active' : '';
 ?>
 
@@ -56,11 +58,11 @@ $logoutClass = ($currentFile == 'logout.php') ? 'active' : '';
                         </button>
                         <ul class="dropdown-menu">
                             <li>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item <?php echo $profileClass; ?>" href="personalAcc_profile.php">
                                 <i class="ri-graduation-cap-fill"></i>Profile</a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item <?php echo $changepassClass; ?>" href="personalAcc_changepass.php">
                                 <i class="ri-lock-password-fill"></i>Change Password</a>
                             </li>
                             <li><hr class="dropdown-divider"></li>
