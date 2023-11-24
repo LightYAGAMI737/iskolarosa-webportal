@@ -1,34 +1,67 @@
-// Function to check the toggle state using XHR
-function checkToggleState() {
+// Function to check the toggle state and update info using XHR
+function checkToggleAndInfo() {
     const xhr = new XMLHttpRequest();
 
-    xhr.open('GET', '../../admin-side/php/checkToggleState.php', true);
+    // Choose the appropriate URL based on your requirement
+    xhr.open('GET', '../php/checkUpdateInfo.php', true);
 
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
-                const response = xhr.responseText.trim();
+                const response = JSON.parse(xhr.responseText);
+                const submitUpdatedInfo = document.getElementById('submitUpdatedInfo');
+                const first_page = document.getElementById('first-page');
+                const page_two = document.getElementById('page-two');
+                const page_three = document.getElementById('page-three');
+                const page_four = document.getElementById('page-four');
+                // Get toggleValue and updatedInfo from the response
+                const toggleValue = response.toggleValue;
+                const updatedInfo = response.updatedInfo;
 
-                // Check if the toggle_value is 1
-                if (response === '1') {
-                    console.log('Toggle value is 1.');
-                    const inputElements = document.querySelectorAll('input, select');
+                // Get all input and select elements
+                const inputElements = document.querySelectorAll('input, select');
 
-                    // Set the "readonly" attribute for each element
-                    inputElements.forEach(element => {
-                        element.removeAttribute('disabled', true);
-                    });
-                } else if (response === '0') {
-                    console.error('Toggle value is 0. Making inputs readonly.');
-
-                    // Get all input and select elements
-                    const inputElements = document.querySelectorAll('input, select');
-
-                    // Set the "readonly" attribute for each element
+                // Your logic based on toggleValue and updatedInfo
+                if (toggleValue == '1' && updatedInfo == '1') {
+                    // If both toggleValue and updatedInfo are 1, setAttribute to disabled, true
                     inputElements.forEach(element => {
                         element.setAttribute('disabled', true);
+                        page_four.style.display = "block";
+                        submitUpdatedInfo.style.display = "none";                        
+                        first_page.style.display = "none";
+                        page_two.style.display = "none";
+                        page_three.style.display = "none";
+                        
+                    });
+                } else if (toggleValue == '1' && updatedInfo == '0') {
+                    // If toggleValue is 1 and updatedInfo is 0, removeAttribute disabled
+                    inputElements.forEach(element => {
+                        element.removeAttribute('disabled');
+                    });
+                } else if (toggleValue == '0' && updatedInfo == '0') {
+                    // If toggleValue and updatedInfo are 0, setAttribute to disabled, true
+                    inputElements.forEach(element => {
+                        element.setAttribute('disabled', true);
+                        page_four.style.display = "block";
+                        submitUpdatedInfo.style.display = "none";                        
+                        first_page.style.display = "none";
+                        page_two.style.display = "none";
+                        page_three.style.display = "none";
+                    });
+                } else if (toggleValue == '0' && updatedInfo == '1') {
+                    // If toggleValue is 0 and updatedInfo is 1, setAttribute to disabled, true
+                    inputElements.forEach(element => {
+                        element.setAttribute('disabled', true);
+                        page_four.style.display = "block";
+                        submitUpdatedInfo.style.display = "none";                        
+                        first_page.style.display = "none";
+                        page_two.style.display = "none";
+                        page_three.style.display = "none";
                     });
                 }
+
+                console.log('Toggle value:', toggleValue);
+                console.log('Updated info:', updatedInfo);
             } else {
                 console.error(`Error: XMLHttpRequest failed with status ${xhr.status}.`);
             }
@@ -38,8 +71,9 @@ function checkToggleState() {
     xhr.send();
 }
 
-// Call the function to check the toggle state
-checkToggleState();
+// Call the function to check the toggle state and update info
+checkToggleAndInfo();
+
 
 
 const contactNumberInput = document.getElementById('contact_number');

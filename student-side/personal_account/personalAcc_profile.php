@@ -39,12 +39,14 @@ function calculateAge($birthdate)
       <link href="../css/bootstrap.min.css" rel="stylesheet">
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
       <link rel="stylesheet" href="../../admin-side/css/remixicon.css">
+      <link rel="stylesheet" href="../../admin-side/css/status_popup.css">
       <link rel="stylesheet" href="../css/tempAcc_nav.css">
       <link rel="stylesheet" href="../css/personalAcc_profile.css">
    </head>
    <body>
       <?php
          include 'personalAcc_nav.php';
+         include '../php/updateInfoPopup.php';
          ?>
     <div class="heading">
         <h4>iSkolar Profile</h4>
@@ -72,6 +74,7 @@ function calculateAge($birthdate)
             </div>
             </div>
             <div class="content-in-profile">
+               <form id="ApplicantUpdateInfo" action="../php/personalAcc_updateInfo.php" enctype="multipart/form-data" method="post">
                 <fieldset id="first-page">
                     <div>
                         <p class="info-head">PERSONAL DETAILS</p>
@@ -114,7 +117,7 @@ function calculateAge($birthdate)
                             <tr>
                             <td>Civil Status:</td>
                             <td>
-                                <select name="civil_status">
+                                <select name="civil_status" id="civil_status">
                                     <option value="Single" <?php if ($civil_status == 'Single') echo 'selected'; ?>>Single</option>
                                     <option value="Married" <?php if ($civil_status == 'Married') echo 'selected'; ?>>Married</option>
                                     <option value="Divorced" <?php if ($civil_status == 'Divorced') echo 'selected'; ?>>Divorced</option>
@@ -142,7 +145,7 @@ function calculateAge($birthdate)
                             <tr>
                                 <td>Barangay:</td>
                                 <td>
-                                    <select name="barangay">
+                                    <select name="barangay" id="barangay">
                                         <option value="APLAYA" <?php if ($barangay == 'APLAYA') echo 'selected'; ?>>APLAYA</option>
                                         <option value="BALIBAGO" <?php if ($barangay == 'BALIBAGO') echo 'selected'; ?>>BALIBAGO</option>
                                         <!-- Add more barangay options as needed -->
@@ -199,7 +202,7 @@ function calculateAge($birthdate)
                             <tr>
                                 <td>School Type: </td>
                                 <td>
-                                    <select name="school_type">
+                                    <select name="school_type" id="school_type"> 
                                         <option value="Public" <?php if ($school_type == 'Public') echo 'selected'; ?>>Public</option>
                                         <option value="Private" <?php if ($school_type == 'Private') echo 'selected'; ?>>Private</option>
                                     </select>
@@ -214,7 +217,7 @@ function calculateAge($birthdate)
                             <tr>
                                 <td>Current Year Level:</td>
                                 <td>
-                                    <select name="year_level">
+                                    <select name="year_level" id="year_level">
                                         <option value="one" <?php if ($year_level == 'one') echo 'selected'; ?>>1</option>
                                         <option value="two" <?php if ($year_level == 'two') echo 'selected'; ?>>2</option>
                                         <option value="three" <?php if ($year_level == 'three') echo 'selected'; ?>>3</option>
@@ -227,7 +230,7 @@ function calculateAge($birthdate)
                             <tr>
                                 <td>Current Semester: </td>
                                 <td>
-                                    <select name="current_semester">
+                                    <select name="current_semester" id="current_semester">
                                         <option value="one" <?php if ($current_semester == 'one') echo 'selected'; ?>>1</option>
                                         <option value="two" <?php if ($current_semester == 'two') echo 'selected'; ?>>2</option>
                                         <option value="three" <?php if ($current_semester == 'three') echo 'selected'; ?>>3</option>
@@ -257,7 +260,7 @@ function calculateAge($birthdate)
                             <tr>
                                 <td>expected_year_of_graduation?: </td>
                                 <td>
-                                    <select name="expected_year_of_graduation">
+                                    <select name="expected_year_of_graduation" id="expected_year_of_graduation">
                                         <option value="2029" <?php if ($expected_year_of_graduation == '2029') echo 'selected'; ?>>2029</option>
                                         <option value="2025" <?php if ($expected_year_of_graduation == '2025') echo 'selected'; ?>>2025</option>
                                     </select>
@@ -332,12 +335,50 @@ function calculateAge($birthdate)
                     <button type="button" id="pageThreeBtn" onclick="nextPage('page-four')">Next</button>
                     </div>
                 </fieldset>
+                <fieldset id="page-four" style="display: none;">
+                <div>
+                        <p class="info-head">Review Your Information</p>
+                    </div>
+                    <div class="content-applicant-info">
+                     <div id="review-container">
+                     
+                    </div>
+
+                     </div>
+                     <div class="NavBtn" id="submitUpdatedInfo">
+                    <!-- Add Previous button for page one -->
+                    <button type="button" class="prev" onclick="prevPage('page-three')">Previous</button>
+                    <!-- Add Next button for page three -->
+                    <button type="button" id="SubmitUpdatedInfoCEAP" onclick="openceapUpdateInfopopup()" disabled>Submit</button>
+                    </div>
+                </fieldset>
             </div>
         </div>
+        </form>
     </div>
 
       <script src="../js/bootstrap.min.js"></script>
       <script src="../js/validateProfile.js"></script>
+      <script>
+            var last_name = "<?php echo $last_name; ?>";
+            var first_name = "<?php echo $first_name; ?>";
+            var middle_name = "<?php echo $middle_name; ?>";
+            var suffix_name = "<?php echo empty($suffix_name) ? 'N/A' : $suffix_name; ?>";
+            var date_of_birth = "<?php echo formatBirthdate($date_of_birth); ?>";
+            var age_applicant = "<?php echo calculateAge($date_of_birth); ?>";
+            var place_of_birth = "<?php echo $place_of_birth; ?>";
+            var municipality_applicant = "<?php echo $municipality; ?>";
+            var province_applicant = "<?php echo $province; ?>";
+            var elementary_school = "<?php echo $elementary_school; ?>";
+            var elementary_year = "<?php echo $elementary_year; ?>";
+            var secondary_school = "<?php echo $secondary_school; ?>";
+            var secondary_year = "<?php echo $secondary_year; ?>";
+            var senior_high_school = "<?php echo $senior_high_school; ?>";
+            var senior_high_year = "<?php echo $senior_high_year; ?>";
+            <?php include '../js/personalAccReviewInfo.js'; ?>
+
+       </script>
+
 
 
 <!-- Add this JavaScript code after your PHP code and HTML -->
