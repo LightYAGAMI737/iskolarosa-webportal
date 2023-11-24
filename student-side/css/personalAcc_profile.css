@@ -126,6 +126,10 @@ select[disabled] {
     color: #000 !important;
     background-color: #fff;
 }
+
+.invalid {
+    border-color: #A5040A;
+}
 /* Optional: Add some spacing between table cells on smaller screens */
 @media (max-width: 767px) {
     .applicant-info-left th,

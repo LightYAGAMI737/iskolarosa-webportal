@@ -10,60 +10,8 @@
         exit();
     }
 
-    $status='';
-                            
-    if (isset($_SESSION['control_number'])) {
-    $control_number = $_SESSION['control_number'];
-    
-    // Retrieve data from the ceap_personal_account table based on control_number
-    $tempAccountSql = "SELECT *
-    FROM ceap_personal_account p
-    WHERE p.control_number = ?";
-    $stmt = mysqli_prepare($conn, $tempAccountSql);
-    mysqli_stmt_bind_param($stmt, "s", $control_number);
-    mysqli_stmt_execute($stmt);
-    $tempAccountResult = mysqli_stmt_get_result($stmt);
+    include '../php/fetchedApplicantInfo.php';
 
-    
-    // Fetch the applicant's information
-    if (mysqli_num_rows($tempAccountResult) > 0) {
-    // Information of applicant-name-control number
-    $applicantData = mysqli_fetch_assoc($tempAccountResult);
-    $control_number = $applicantData['control_number'];
-    $status = $applicantData['status'];
-    $last_name = $applicantData['last_name'];
-    $first_name = $applicantData['first_name'];
-    $middle_name = $applicantData['middle_name'];
-    $suffix_name = $applicantData['suffix_name'];
-    $date_of_birth = $applicantData['date_of_birth'];
-    $place_of_birth = $applicantData['place_of_birth'];
-    $contact_number = $applicantData['contact_number'];
-    $active_email_address = $applicantData['active_email_address'];
-    $civil_status = $applicantData['civil_status'];
-    $religion = $applicantData['religion'];
-    $house_number = $applicantData['house_number'];
-    $barangay = $applicantData['barangay'];
-    $municipality = $applicantData['municipality'];
-    $province = $applicantData['province'];
-    $elementary_school = $applicantData['elementary_school'];
-    $elementary_year = $applicantData['elementary_year'];
-    $secondary_school = $applicantData['secondary_school'];
-    $secondary_year = $applicantData['secondary_year'];
-    $senior_high_school = $applicantData['senior_high_school'];
-    $senior_high_year = $applicantData['senior_high_year'];
-    $school_address = $applicantData['school_address'];
-    $school_type = $applicantData['school_type'];
-    $school_name = $applicantData['school_name'];
-    $course_enrolled = $applicantData['course_enrolled'];
-    $year_level = $applicantData['year_level'];
-    $current_semester = $applicantData['current_semester'];
-    $no_of_units = $applicantData['no_of_units'];
-    $school_name = $applicantData['school_name'];
-    $graduating = $applicantData['graduating'];
-    $expected_year_of_graduation = $applicantData['expected_year_of_graduation'];
-    $student_id_no = $applicantData['student_id_no'];
-    }
-}
 // Function to calculate age based on the birthdate<?php
 // Function to format the birthdate
 function formatBirthdate($birthdate)
@@ -238,13 +186,13 @@ function calculateAge($birthdate)
                             </tr>
                             <tr>
                                 <td>Tertiary/University School Name: </td>
-                                <td><input type="text" name="school_address" id="school_address" placeholder="House No. / Blk / Lot No." minlength="2" maxlength="100" value="<?php echo $school_address; ?>" oninput="validateMinLength(this, 2)"></td>
+                                <td><input type="text" name="school_name" id="school_name" placeholder="Tertiary/University School Name" minlength="2" maxlength="100" value="<?php echo $school_name; ?>" oninput="validateMinLength(this, 2)"></td>
                                 <tr><td></td>
-                                <td><span id="school_address_error"></span></td></tr>
+                                <td><span id="school_name_error"></span></td></tr>
                             </tr>
                             <tr>
                                 <td>School Address: </td>
-                                <td><input type="text" name="school_address" id="school_address" placeholder="House No. / Blk / Lot No." minlength="2" maxlength="100" value="<?php echo $school_address; ?>" oninput="validateMinLength(this, 2)"></td>
+                                <td><input type="text" name="school_address" id="school_address" placeholder="School Address" minlength="2" maxlength="100" value="<?php echo $school_address; ?>" oninput="validateMinLength(this, 2)"></td>
                                 <tr><td></td>
                                 <td><span id="school_address_error"></span></td></tr>
                             </tr>
@@ -259,7 +207,7 @@ function calculateAge($birthdate)
                             </tr>
                             <tr>
                                 <td>Course Enrolled: </td>
-                                <td><input type="text" name="course_enrolled" id="course_enrolled" placeholder="House No. / Blk / Lot No." minlength="2" maxlength="100" value="<?php echo $course_enrolled; ?>" oninput="validateMinLength(this, 2)"></td>
+                                <td><input type="text" name="course_enrolled" id="course_enrolled" placeholder="Course Enrolled" minlength="2" maxlength="100" value="<?php echo $course_enrolled; ?>" oninput="validateMinLength(this, 2)"></td>
                                 <tr><td></td>
                                 <td><span id="course_enrolled_error"></span></td></tr>
                             </tr>
@@ -286,12 +234,7 @@ function calculateAge($birthdate)
                                     </select>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>No of Units:  </td>
-                                <td><input type="text" name="no_of_units" id="no_of_units" placeholder="House No. / Blk / Lot No." minlength="2" maxlength="100" value="<?php echo $no_of_units; ?>" oninput="validateMinLength(this, 2)"></td>
-                                <tr><td></td>
-                                <td><span id="no_of_units_error"></span></td></tr>
-                            </tr>
+                  
                             </table>
                         </div>
                         <div class="applicant-info-right">
@@ -299,11 +242,17 @@ function calculateAge($birthdate)
                             <tr>
                                 <td>Graduating?: </td>
                                 <td>
-                                    <select name="graduating">
-                                        <option value="Yes" <?php if ($graduating == 'Yes') echo 'selected'; ?>>Yes</option>
-                                        <option value="No" <?php if ($graduating == 'No') echo 'selected'; ?>>No</option>
+                                    <select name="graduating" id="graduating">
+                                        <option value="yes" <?php if ($graduating == 'yes') echo 'selected'; ?>>Yes</option>
+                                        <option value="no" <?php if ($graduating == 'no') echo 'selected'; ?>>No</option>
                                     </select>
                                 </td>
+                            </tr>
+                            <tr>
+                                <td>No of Units:  </td>
+                                <td><input type="text" name="no_of_units" id="no_of_units" placeholder="No of Units" minlength="2" maxlength="100" value="<?php echo $no_of_units; ?>"></td>
+                                <tr><td></td>
+                                <td><span id="no_of_units_error"></span></td></tr>
                             </tr>
                             <tr>
                                 <td>expected_year_of_graduation?: </td>
@@ -316,7 +265,7 @@ function calculateAge($birthdate)
                             </tr>
                             <tr>
                                 <td>Student ID No.:  </td>
-                                <td><input type="text" name="student_id_no" id="student_id_no" placeholder="House No. / Blk / Lot No." minlength="2" maxlength="100" value="<?php echo $student_id_no; ?>" oninput="validateMinLength(this, 2)"></td>
+                                <td><input type="text" name="student_id_no" id="student_id_no" placeholder="Student ID No." minlength="2" maxlength="100" value="<?php echo $student_id_no; ?>" oninput="validateMinLength(this, 2)"></td>
                                 <tr><td></td>
                                 <td><span id="student_id_no_error"></span></td></tr>
                             </tr>
@@ -327,7 +276,60 @@ function calculateAge($birthdate)
                     <!-- Add Previous button for page one -->
                     <button type="button" class="prev" onclick="prevPage('first-page')">Previous</button>
                     <!-- Add Next button for page three -->
-                    <button type="button" onclick="nextPage('page-three')">Next</button>
+                    <button type="button" id="pageTwoBtn" onclick="nextPage('page-three')">Next</button>
+                    </div>
+                </fieldset>
+                <fieldset id="page-three" style="display: none;">
+                    <div>
+                        <p class="info-head">FAMILY BACKGROUND</p>
+                    </div>
+                    <div class="content-applicant-info">
+                        <div class="applicant-info-left">
+                            <table>
+                            <tr>
+                                <td>Guradian Last Name: </td>
+                                <td><input type="text" name="guardian_lastname" id="guardian_lastname" placeholder="Guardian Last Name" minlength="2" maxlength="100" value="<?php echo $guardian_lastname; ?>"></td>
+                                <tr><td></td>
+                                <td><span id="guardian_lastname_error"></span></td></tr>
+                            </tr>
+                            <tr>
+                                <td>Guradian First Name: </td>
+                                <td><input type="text" name="guardian_firstname" id="guardian_firstname" placeholder="Guardian First Name" minlength="2" maxlength="100" value="<?php echo $guardian_firstname; ?>"></td>
+                                <tr><td></td>
+                                <td><span id="guardian_firstname_error"></span></td></tr>
+                            </tr>
+                            <tr>
+                                <td>Relationship: </td>
+                                <td><input type="text" name="guardian_relationship" id="guardian_relationship" placeholder="Relationship" minlength="2" maxlength="100" value="<?php echo $guardian_relationship; ?>"></td>
+                                <tr><td></td>
+                                <td><span id="guardian_relationship_error"></span></td></tr>
+                            </tr>
+                            <tr>
+                                <td>Occupation: </td>
+                                <td><input type="text" name="guardian_occupation" id="guardian_occupation" placeholder="Occupation" minlength="2" maxlength="100" value="<?php echo $guardian_occupation; ?>"></td>
+                                <tr><td></td>
+                                <td><span id="guardian_occupation_error"></span></td></tr>
+                            </tr>
+                            <tr>
+                                <td>Monthly Income: </td>
+                                <td><input type="text" name="guardian_monthly_income" id="guardian_monthly_income" placeholder="Monthly Income" minlength="2" maxlength="100" value="<?php echo $guardian_monthly_income; ?>"></td>
+                                <tr><td></td>
+                                <td><span id="guardian_monthly_income_error"></span></td></tr>
+                            </tr>
+                            <tr>
+                                <td>Annual Income: </td>
+                                <td><input type="text"  style="border: none;"  name="guardian_annual_income" id="guardian_annual_income" placeholder="Annual Income" minlength="2"  readonly maxlength="100" value="<?php echo $guardian_annual_income; ?>"></td>
+                                <tr><td></td>
+                                <td><span id="guardian_annual_income_error"></span></td></tr>
+                            </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="NavBtn">
+                    <!-- Add Previous button for page one -->
+                    <button type="button" class="prev" onclick="prevPage('page-two')">Previous</button>
+                    <!-- Add Next button for page three -->
+                    <button type="button" id="pageThreeBtn" onclick="nextPage('page-four')">Next</button>
                     </div>
                 </fieldset>
             </div>
