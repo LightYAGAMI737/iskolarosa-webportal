@@ -5,7 +5,8 @@
     const endTimeInput = document.getElementById('endTime');
     const qualifications = document.getElementById('qualifications')
     const requirements = document.getElementById('requirements')
-    const submitConfigBtn = document.getElementById('submitConfigBtn');
+    const submitConfigBtnCEAP = document.getElementById('submitConfigBtnCEAP');
+    const submitConfigBtnLPPP = document.getElementById('submitConfigBtnLPPP');
     const errorSpan = document.querySelector('.TimeandDateError');
     
     // Function to format the current date as YYYY-MM-DD
@@ -160,66 +161,3 @@ document.getElementById('startTime').addEventListener('input', checkTimeValidity
 document.getElementById('endDate').addEventListener('input', checkTimeValidity);
 document.getElementById('endTime').addEventListener('input', checkTimeValidity);
 
-// Function to check if all required fields are filled and text areas have at least 15 characters
-function checkRequiredFields() {
-    const requiredFields = document.querySelectorAll('[required]');
-    const textAreas = document.querySelectorAll('textarea');
-
-    const areAllFieldsFilled = Array.from(requiredFields).every((field) => field.value.trim() !== '');
-    const textAreasValid = Array.from(textAreas).every((area) => area.value.trim().length >= 15);
-
-    if (areAllFieldsFilled && textAreasValid) {
-        submitConfigBtn.removeAttribute("disabled");
-    } else {
-        submitConfigBtn.setAttribute("disabled", "true");
-    }
-}
-
-// Add event listeners to input and textarea fields
-const inputFields = document.querySelectorAll('input[type="date"], input[type="time"], textarea');
-inputFields.forEach(function (field) {
-    field.addEventListener('input', checkRequiredFields);
-});
-
-
-// Function to check the toggle state using XHR
-function checkToggleState() {
-    const xhr = new XMLHttpRequest();
-
-    xhr.open('GET', './php/checkToggleState.php', true);
-
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                const response = xhr.responseText.trim();
-
-                // Log the current state of the submit button
-                console.log(`Current state of submit button: ${submitConfigBtn.disabled ? 'enabled' : 'disabled'}`);
-
-                // Check if the toggle_value is 1
-                if (response === '1') {
-                    submitConfigBtn.disabled = true;
-                    // Add an event listener to the toggle button
-                    toggleButton.addEventListener('change', function () {
-                        if (!toggleButton.checked) {
-                            submitConfigBtn.disabled = false;
-                        }else{
-                            submitConfigBtn.disabled = true;
-                             startDateInput.setAttribute("disabled", "true")
-                        }
-                    });
-                } else if (response === '0')  {
-                    console.error('Error: Toggle value is not 1.');
-                    submitConfigBtn.disabled = true;
-                }
-            } else {
-                console.error(`Error: XMLHttpRequest failed with status ${xhr.status}.`); 
-            }
-        }
-    };
-
-    xhr.send();
-}
-
-// Call the function to check the toggle state
-checkToggleState();

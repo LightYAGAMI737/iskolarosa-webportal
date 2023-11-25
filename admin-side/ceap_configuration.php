@@ -88,21 +88,25 @@
       <link rel="stylesheet" href="css/status_popup.css">
       <link rel="stylesheet" href="css/errorpopup.css">
       <script>
-         // Prevent manual input in date fields
-         function preventInput(event) {
-             event.preventDefault();
-         }
-         
-         window.onload = function() {
-             const currentDate = new Date();
-             const currentYear = currentDate.getFullYear();
-             const lastDayOfYear = new Date(currentYear, 11, 31); // Month is 0-based
-             const formattedLastDay = lastDayOfYear.toISOString().split('T')[0];
-         
-             document.getElementById('startDate').setAttribute('max', formattedLastDay);
-             document.getElementById('endDate').setAttribute('max', formattedLastDay);
-         };
-      </script>
+    // Prevent manual input in date fields
+    function preventInput(event) {
+        event.preventDefault();
+    }
+    window.onload = function () {
+    const currentDate = new Date();
+    
+    // Calculate the date 6 months from the current date
+    const sixMonthsLater = new Date(currentDate);
+    sixMonthsLater.setMonth(currentDate.getMonth() + 6);
+
+    const formattedMaxDate = sixMonthsLater.toISOString().split('T')[0];
+
+    document.getElementById('startDate').setAttribute('max', formattedMaxDate);
+    document.getElementById('endDate').setAttribute('max', formattedMaxDate);
+};
+
+</script>
+
    </head>
    <body>
       <?php
@@ -137,17 +141,23 @@
                <span id="currentDateTime"></span>
             </center>
             <script>
-               // Function to update the current date and time
-               function updateCurrentDateTime() {
-                   const currentDateTimeElement = document.getElementById('currentDateTime');
-                   const options = { timeZone: 'Asia/Manila', hour12: true, hour: 'numeric', minute: 'numeric', second: 'numeric', year: 'numeric', month: 'numeric', day: 'numeric' };
-                   const currentDateTime = new Date().toLocaleString([], options);
-                   currentDateTimeElement.textContent = currentDateTime;
-               }
-               
-               // Update the current date and time initially and then every second
-               updateCurrentDateTime();
-               setInterval(updateCurrentDateTime, 1000); // Update every 1 second
+      function updateCurrentDateTime() {
+    const currentDateTimeElement = document.getElementById('currentDateTime');
+    const options = { timeZone: 'Asia/Manila', hour12: true, hour: 'numeric', minute: 'numeric', second: 'numeric' };
+    const currentDate = new Date();
+    const day = currentDate.getDate().toString().padStart(2, '0'); // Add leading zero if needed
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Month is zero-based
+    const year = currentDate.getFullYear();
+
+    const currentDateTime = currentDate.toLocaleString([], options);
+    const formattedDate = `${day}/${month}/${year}`;
+
+    currentDateTimeElement.textContent = `${formattedDate} ${currentDateTime}`;
+}
+
+updateCurrentDateTime();
+setInterval(updateCurrentDateTime, 1000); // Update every 1 second
+
             </script>
             <div class="toggle-applicant">
                <label for="toggleButton" class="toggle-label">
@@ -169,7 +179,6 @@
                ?>
             <p class="application-dates">
                <label for="startDate">Application starts at:</label>
-
                <input type="date" id="startDate" name="startDate" disabled required value="<?php echo ($startDate); ?>" onkeydown="preventInput(event)"  onchange="checkTimeValidity()" <?php if (!empty($startDate)) echo 'disabled'; ?>>
                <input type="time" id="startTime" name="startTime" disabled  required value="<?php echo ($startTime); ?>" onkeydown="preventInput(event)"  onchange="checkTimeValidity()">
                <label for="endDate">and ends at:</label>
@@ -220,7 +229,7 @@
                </div>
             </div>
             <div class="button-container"> 
-               <button type="button" id="submitConfigBtn" class="btn" onclick="openCEAPConfigurationPopup()">Submit</button>
+               <button type="button" id="submitConfigBtnCEAP" class="btn" onclick="openCEAPConfigurationPopup()">Submit</button>
             </div>
          </div>
       </form>
@@ -231,10 +240,77 @@
       <div class="overlay"></div>
       </div>
       <!-- partial -->
+            
       <script src='js/unpkg-layout.js'></script>
       <script  src="./js/side_bar.js"></script>
+      <script  src="./js/configuration.js"></script>
+
+      <script>
+
+         // Function to check if all required fields are filled and text areas have at least 15 characters
+function checkRequiredFields() {
+    const requiredFields = document.querySelectorAll('[required]');
+    const textAreas = document.querySelectorAll('textarea');
+
+    const areAllFieldsFilled = Array.from(requiredFields).every((field) => field.value.trim() !== '');
+    const textAreasValid = Array.from(textAreas).every((area) => area.value.trim().length >= 15);
+
+    if (areAllFieldsFilled && textAreasValid) {
+        submitConfigBtnCEAP.removeAttribute("disabled");
+    } else {
+        submitConfigBtnCEAP.setAttribute("disabled", "true");
+    }
+}
+
+// Add event listeners to input and textarea fields
+const inputFields = document.querySelectorAll('input[type="date"], input[type="time"], textarea');
+inputFields.forEach(function (field) {
+    field.addEventListener('input', checkRequiredFields);
+});
+
+// Function to check the toggle state using XHR
+function checkToggleStateCEAP() {
+    const xhr = new XMLHttpRequest();
+
+    xhr.open('GET', './php/checkToggleStateCEAP.php', true);
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                const response = xhr.responseText.trim();
+
+                // Log the current state of the submit button
+                console.log(`Current state of submit button: ${submitConfigBtnCEAP.disabled ? 'enabled' : 'disabled'}`);
+
+                // Check if the toggle_value is 1
+                if (response === '1') {
+                    submitConfigBtnCEAP.disabled = true;
+                    // Add an event listener to the toggle button
+                    toggleButton.addEventListener('change', function () {
+                        if (!toggleButton.checked) {
+                            submitConfigBtnCEAP.disabled = false;
+                        }else{
+                            submitConfigBtnCEAP.disabled = true;
+                             startDateInput.setAttribute("disabled", "true")
+                        }
+                    });
+                } else if (response === '0')  {
+                    console.error('Error: Toggle value is not 1.');
+                    submitConfigBtnCEAP.disabled = true;
+                }
+            } else {
+                console.error(`Error: XMLHttpRequest failed with status ${xhr.status}.`); 
+            }
+        }
+    };
+
+    xhr.send();
+}
+// Call the function to check the toggle state
+checkToggleStateCEAP();
+      </script>
+
       <script  src="./js/status_popup.js"></script>
       <script  src="./js/configurationPopup.js"></script>
-      <script  src="./js/configuration.js"></script>
    </body>
 </html>
