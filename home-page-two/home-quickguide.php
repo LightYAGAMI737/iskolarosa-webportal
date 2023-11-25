@@ -45,10 +45,10 @@
 
         <div class="card">
                 <h5>Step 1:</h5>
-                <h6>To submit your application, kindly visit the official website (iskolarosa.laguna.ph).
+                <h6>To submit your application, kindly visit the official website (iskolarosa.com).
                     Once the announcement has been made regarding the availability of applications for CEAP or LPPP, please proceed to the 
                     "Application Qualification and Requirements" section and read through the details presented before clicking on "Apply Now" to begin the application process. </h6><br>
-                <p>Upang maipasa ang iyong aplikasyon, pakibisita ang opisyal na website (iskolarosa.laguna.ph). 
+                <p>Upang maipasa ang iyong aplikasyon, pakibisita ang opisyal na website (iskolarosa.com). 
                     Kapag mayroon nang anunsyo tungkol sa pagkakaroon ng aplikasyon para sa CEAP o LPPP, mangyaring pumunta sa seksyon ng 
                     "Kwalipikasyon at mga Kinakailangan sa Aplikasyon" at basahin ang mga detalye na ipinresenta bago i-klik ang "Mag-Apply Ngayon" upang simulan ang proseso ng aplikasyon.</p>
             </div>
@@ -57,7 +57,7 @@
             <div class="card">
                 <h5>Step 2:</h5>
                 <h6>LOREM IPSUM IPSUM LOREM IPSUM IPSUM LOREM IPSUM IPSUM LOREM IPSUM IPSUM LOREM IPSUM IPSUM LOREM IPSUM IPSUM LOREM IPSUM IPSUM LOREM IPSUM IPSUM LOREM IPSUM IPSUM  </h6><br>
-                <p>Upang maipasa ang iyong aplikasyon, pakibisita ang opisyal na website (iskolarosa.laguna.ph). 
+                <p>Upang maipasa ang iyong aplikasyon, pakibisita ang opisyal na website (iskolarosa.com). 
                     Kapag mayroon nang anunsyo tungkol sa pagkakaroon ng aplikasyon para sa CEAP o LPPP, mangyaring pumunta sa seksyon ng 
                     "Kwalipikasyon at mga Kinakailangan sa Aplikasyon" at basahin ang mga detalye na ipinresenta bago i-klik ang "Mag-Apply Ngayon" upang simulan ang proseso ng aplikasyon.</p>
             </div>
@@ -66,7 +66,7 @@
             <div class="card">
                 <h5>Step 3:</h5>
                 <h6>LOREM IPSUM IPSUM LOREM IPSUM IPSUM LOREM IPSUM IPSUM LOREM IPSUM IPSUM LOREM IPSUM IPSUM LOREM IPSUM IPSUM LOREM IPSUM IPSUM LOREM IPSUM IPSUM LOREM IPSUM IPSUM  </h6><br>
-                <p>Upang maipasa ang iyong aplikasyon, pakibisita ang opisyal na website (iskolarosa.laguna.ph). 
+                <p>Upang maipasa ang iyong aplikasyon, pakibisita ang opisyal na website (iskolarosa.com). 
                     Kapag mayroon nang anunsyo tungkol sa pagkakaroon ng aplikasyon para sa CEAP o LPPP, mangyaring pumunta sa seksyon ng 
                     "Kwalipikasyon at mga Kinakailangan sa Aplikasyon" at basahin ang mga detalye na ipinresenta bago i-klik ang "Mag-Apply Ngayon" upang simulan ang proseso ng aplikasyon.</p>
             </div>
