@@ -205,6 +205,7 @@ function submitUpdatedInfoForm() {
           openCeapUpdatedInfoPopup();
         } else {
           console.log('Request successful, but an error occurred. Response: ' + xhr.responseText);
+          openCeapUpdatedInfoPopup();
           // You can handle specific error cases here
         }
       } else {
