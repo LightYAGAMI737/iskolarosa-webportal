@@ -101,7 +101,7 @@ input, select {
 
 .NavBtn button {
     background-color: #A5040A;
-    width: 110px;
+    width: 130px;
     border-radius: 15px;
     color: #fff;
     border: none;
@@ -129,6 +129,10 @@ select[disabled] {
 
 .invalid {
     border-color: #A5040A;
+}
+
+table {
+    text-transform: uppercase !important;
 }
 /* Optional: Add some spacing between table cells on smaller screens */
 @media (max-width: 767px) {

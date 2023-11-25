@@ -1,3 +1,4 @@
+
 // Function to display user input inside the fieldset
 function displayUserInput() {
     //personal
@@ -159,9 +160,62 @@ function enableAfterCooldown(button, cooldownTime) {
 
 // Attach the enableAfterCooldown function to the "Next" button's click event
 document.getElementById("pageTwoBtn").addEventListener("click", function() {
-    enableAfterCooldown(document.getElementById("SubmitUpdatedInfoCEAP"), 2000); // 20000 milliseconds = 20 seconds
+    enableAfterCooldown(document.getElementById("SubmitUpdatedInfoCEAP"), 20000); // 20000 milliseconds = 20 seconds
 });
 
+
+document.addEventListener("DOMContentLoaded", function () {
+  var confirmButton = document.getElementById('SubmitUpdatedInfoCEAP');
+  var cooldownSeconds = 20;
+  var countdownInterval;
+
+  // Function to update the button text and handle cooldown
+  function startCooldown() {
+      // Clear the previous interval if it exists
+      clearInterval(countdownInterval);
+
+      // Disable the confirm button initially
+      confirmButton.disabled = true;
+
+      // Update the button text to show the countdown
+      function updateCountdown() {
+          if (cooldownSeconds > 0) {
+              confirmButton.innerHTML = `<span>Submit (${cooldownSeconds})</span>`;
+          } else {
+              clearInterval(countdownInterval);
+              confirmButton.disabled = false;
+              confirmButton.classList.remove("cooldown");
+              confirmButton.innerHTML = `<span>Submit</span>`; // Reset the button text
+          }
+      }
+
+      // Enable the confirm button after 20 seconds
+      setTimeout(function () {
+          confirmButton.disabled = false;
+          confirmButton.classList.remove("cooldown");
+          confirmButton.innerHTML = `<span>Submit</span>`; // Reset the button text
+      }, cooldownSeconds * 1000);
+
+      // Add cooldown styling during the 20 seconds
+      confirmButton.classList.add("cooldown");
+
+      // Set up the countdown timer
+      countdownInterval = setInterval(function () {
+          cooldownSeconds--;
+          updateCountdown();
+      }, 1000);
+
+      // Initial update
+      updateCountdown();
+  }
+
+  const pageThreeBtnNext = document.getElementById('pageThreeBtn');
+
+  // Event listener for the applyNowButtonCEAP click event
+  pageThreeBtnNext.addEventListener('click', function () {
+      startCooldown(); // Start the cooldown after clicking the apply now button
+  });
+});
 
 const ceapUpdateInfopopup = document.getElementById('ceapUpdateInfoPopUp');
 function openceapUpdateInfopopup(){
@@ -206,7 +260,6 @@ function submitUpdatedInfoForm() {
         } else {
           console.log('Request successful, but an error occurred. Response: ' + xhr.responseText);
           openCeapUpdatedInfoPopup();
-          // You can handle specific error cases here
         }
       } else {
         // Handle errors here, providing meaningful error messages or actions
@@ -241,5 +294,5 @@ setTimeout(goBack, 20000);
 }
 
 function goBack() {
-  window.location.href = "../home-page/home_page.php";
+  window.location.href = "personalAcc_status.php";
 }
