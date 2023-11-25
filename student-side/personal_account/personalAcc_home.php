@@ -85,7 +85,7 @@ include '../../admin-side/php/config_iskolarosa_db.php';
                ?>
                <!-- Empty state image and message -->
                <div class="empty-state">
-                  <img src="../empty-state-img/home_announcement.png" alt="No Posts" class="empty-state-image">
+                  <img src="../../empty-state-img/home_announcement.png" alt="No Posts" class="empty-state-image">
                   <p class="empty-state-text">
                      <strong>No Posts</strong><br>
                      It looks like there are no announcements at the moment.<br>
@@ -98,7 +98,7 @@ include '../../admin-side/php/config_iskolarosa_db.php';
                      $postTitle = $row['post_title'];
                      $postDescription = $row['post_description'];
                      $postTag = $row['tag'];
-                     $imageURL = "../uploaded-img/" . basename($row['post_image_path']);
+                     $imageURL = "../../uploaded-img/" . basename($row['post_image_path']);
                      $postCreatedAt = date('F d, Y', strtotime($row['post_created_at']));
                ?>
                         <div class="announcement-inner-card">
@@ -115,7 +115,7 @@ include '../../admin-side/php/config_iskolarosa_db.php';
                                     <?php echo trim($postDescription); ?>
                                 </p>
                             </div>
-
+                           
 
                             <?php if (!empty($row['post_image_path'])) { ?>
                                 <div class="posted-image">

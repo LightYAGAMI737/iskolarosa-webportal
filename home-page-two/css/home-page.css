@@ -138,7 +138,6 @@ body {
     font-family: 'Inter', sans-serif !important;
 }
 .posted-tag {
-    float: left;
     font-weight: bolder;
     text-transform: uppercase;
     background: #A5040A;
@@ -147,6 +146,7 @@ body {
     height: 25px;
     padding: 0px;
     border-radius: 15px;
+    margin-bottom: -15px;
 }
 .lppp-tag {
     background: #FEC021 !important;
@@ -170,18 +170,19 @@ body {
     font-size: 18px;
 }
 
-.posted-description {
+/* .posted-description {
     float: left;
-}
+} */
 .posted-description p {
-    margin: 0;
+    margin: 10px 0px;
     text-align: left;
     font-family: 'Inter', sans-serif;
     font-weight: normal;
-    word-wrap: break-word;
-    white-space: break-spaces;
+    white-space: pre-line; /* Use pre-line to preserve newline characters */
+    overflow: hidden;
     text-overflow: ellipsis;
 }
+
 
 .posted-date {
     float: right;
