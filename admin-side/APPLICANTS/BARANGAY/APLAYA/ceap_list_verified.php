@@ -36,14 +36,18 @@
    }
    
    // Set variables
-   $currentStatus = 'verified';
+   $currentStatus = 'Verified';
    $currentPage = 'ceap_list';
-   $currentBarangay ='aplaya';
    $currentSubPage = 'new applicant';
-   
-   // Construct the SQL query using heredoc syntax
-   $query = <<<SQL
-   SELECT t.*, 
+
+   $currentDirectory = basename(__DIR__);
+$currentBarangay = $currentDirectory;
+
+// Assuming $currentStatus is also a variable you need to sanitize
+$currentStatus = mysqli_real_escape_string($conn, $currentStatus);
+
+// Prepare the SQL query using prepared statements
+$query = "SELECT t.*, 
           UPPER(p.first_name) AS first_name, 
           UPPER(p.last_name) AS last_name, 
           UPPER(p.barangay) AS barangay, 
@@ -52,24 +56,25 @@
           UPPER(t.status) AS status
    FROM ceap_reg_form p
    INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
-   WHERE p.barangay = 'aplaya' && t.status = 'Verified'
-   SQL;
+   WHERE p.barangay = ? AND t.status = ?";
+
+$stmt = mysqli_prepare($conn, $query);
+mysqli_stmt_bind_param($stmt, "ss", $currentBarangay, $currentStatus);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
    
-   $result = mysqli_query($conn, $query);
-   
-   
-   // Query to count 'verified' accounts
-   $verifiedCountQuery = "SELECT COUNT(*) AS verifiedCount, UPPER(p.barangay) AS barangay, 
-   UPPER(t.status) AS status
-   FROM ceap_reg_form p
-   INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
-   WHERE p.barangay = 'aplaya' && t.status = 'Verified'";
-   
-   $stmtVerifiedCount = mysqli_prepare($conn, $verifiedCountQuery);
-   mysqli_stmt_execute($stmtVerifiedCount);
-   $verifiedCountResult = mysqli_stmt_get_result($stmtVerifiedCount);
-   $verifiedCountRow = mysqli_fetch_assoc($verifiedCountResult);
-   
+
+$verifiedCountQuery = "SELECT COUNT(*) AS verifiedCount, UPPER(p.barangay) AS barangay, UPPER(t.status) AS status
+FROM ceap_reg_form p
+INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
+WHERE p.barangay = ? AND t.status = ?";
+
+$stmtVerifiedCount = mysqli_prepare($conn, $verifiedCountQuery);
+mysqli_stmt_bind_param($stmtVerifiedCount, "ss", $currentBarangay, $currentStatus);
+mysqli_stmt_execute($stmtVerifiedCount);
+$verifiedCountResult = mysqli_stmt_get_result($stmtVerifiedCount);
+$verifiedCountRow = mysqli_fetch_assoc($verifiedCountResult);
+
    // Store the count of 'verified' accounts in a variable
    $verifiedCount = $verifiedCountRow['verifiedCount'];
    
@@ -107,7 +112,8 @@
             // Check if the user's role is not "Staff"
             if ($_SESSION['role'] !== 1) {
                 // Only display the button if the user's role is not "Staff" and there are verified applicants
-                if (hasVerifiedStatusInDatabase($conn)) {
+                $hasVerifiedStatus = hasVerifiedStatusInDatabase($conn, $currentBarangay, $currentStatus);
+                if ($hasVerifiedStatus) {
                     echo '<button type="button" class="btn btn-primary btn-rad" id="openModalBtn">Set Interview</button>';
                 } else {
                     echo '<button type="button" class="btn btn-primary btn-rad" id="openModalBtn" disabled style="background-color: #ccc; cursor: not-allowed;">Set Interview</button>';
@@ -118,22 +124,27 @@
          <button type="button" class="btn btn-primary" onclick="searchApplicants()">Search</button>
          <!-- Add a button to trigger the modal -->
          <?php
-            function hasVerifiedStatusInDatabase($conn) {
-                $query = "SELECT COUNT(*) FROM temporary_account AS t
-                          INNER JOIN ceap_reg_form AS p ON t.ceap_reg_form_id = p.ceap_reg_form_id
-                          WHERE t.status = 'Verified' AND UPPER(p.barangay) = 'APLAYA'";
-                
-                $result = mysqli_query($conn, $query);
-                
-                if ($result) {
-                    $count = mysqli_fetch_row($result)[0];
-                    return $count > 0;
-                } else {
-                    // Handle the query error if needed
-                    echo "Error: " . mysqli_error($conn);
-                    return false;
-                }
-            }
+     function hasVerifiedStatusInDatabase($conn, $currentBarangay, $currentStatus) {
+        // Prepare the SQL query using prepared statements
+        $query = "SELECT COUNT(*) FROM temporary_account AS t
+                  INNER JOIN ceap_reg_form AS p ON t.ceap_reg_form_id = p.ceap_reg_form_id
+                  WHERE t.status = ? AND UPPER(p.barangay) = ?";
+    
+        $stmt = mysqli_prepare($conn, $query);
+        mysqli_stmt_bind_param($stmt, "ss", $currentStatus, $currentBarangay);
+        if (mysqli_stmt_execute($stmt)) {
+            $result = mysqli_stmt_get_result($stmt);
+            $count = mysqli_fetch_row($result)[0];
+            mysqli_stmt_close($stmt);
+            return $count > 0;
+        } else {
+            echo "Error: " . mysqli_error($conn);
+            mysqli_stmt_close($stmt);
+            return false;
+        }
+        
+    }
+    
              ?>
       </div>
       <!-- Set Interview Modal (hidden by default) -->
@@ -210,8 +221,8 @@
                   <th>CONTROL NUMBER</th>
                   <th>LAST NAME</th>
                   <th>FIRST NAME</th>
-                  <th>BARANGAY</th>
-                  <th>STATUS</th>
+                  <!-- <th>BARANGAY</th>
+                  <th>STATUS</th> -->
                </tr>
                <?php
                   $counter = 1;
@@ -223,8 +234,8 @@
                               echo '<td>' . strtoupper($row['control_number']) . '</td>';
                               echo '<td>' . strtoupper($row['last_name']) . '</td>';
                               echo '<td>' . strtoupper($row['first_name']) . '</td>';
-                              echo '<td>' . strtoupper($row['barangay']) . '</td>';
-                              echo '<td>' . strtoupper($row['status']) . '</td>';
+                            //   echo '<td>' . strtoupper($row['barangay']) . '</td>';
+                            //   echo '<td>' . strtoupper($row['status']) . '</td>';
                               echo '</tr>';
                            }
                            ?>

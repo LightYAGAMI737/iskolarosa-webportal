@@ -194,7 +194,7 @@
 
       <li class="menu-item">
          <a href="../APLAYA/ceap_list.php">
-         <?php if ($currentBarangay === 'aplaya') : ?>
+         <?php if ($currentBarangay === 'APLAYA') : ?>
                <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
             <?php endif; ?>
          <span class="menu-title">APLAYA</span>
@@ -209,7 +209,7 @@
          </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'caingin') : ?>
+      <?php if ($currentBarangay === 'CAINGIN') : ?>
                <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
             <?php endif; ?>
          <a href="../CAINGIN/ceap_list.php">
@@ -217,7 +217,7 @@
          </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'dila') : ?>
+      <?php if ($currentBarangay === 'DILA') : ?>
                <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
             <?php endif; ?>
          <a href="../DILA/ceap_list.php">
@@ -225,7 +225,7 @@
          </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'dita') : ?>
+      <?php if ($currentBarangay === 'DITA') : ?>
                <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
             <?php endif; ?>
          <a href="../DITA/ceap_list.php">
@@ -233,7 +233,7 @@
          </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'don jose') : ?>
+      <?php if ($currentBarangay === 'DON JOSE') : ?>
                <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
             <?php endif; ?>
          <a href="../DONJOSE/ceap_list.php">
@@ -241,7 +241,7 @@
          </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'ibaba') : ?>
+      <?php if ($currentBarangay === 'IBABA') : ?>
                <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
             <?php endif; ?>
          <a href="../IBABA/ceap_list.php">
@@ -249,7 +249,7 @@
          </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'kanluran') : ?>
+      <?php if ($currentBarangay === 'KANLURAN') : ?>
                <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
             <?php endif; ?>
          <a href="../KANLURAN/ceap_list.php">
@@ -257,7 +257,7 @@
          </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'labas') : ?>
+      <?php if ($currentBarangay === 'LABAS') : ?>
                <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
             <?php endif; ?>
          <a href="../LABAS/ceap_list.php">
@@ -265,7 +265,7 @@
          </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'macabling') : ?>
+      <?php if ($currentBarangay === 'MACABLING') : ?>
                <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
             <?php endif; ?>
          <a href="../MACABLING/ceap_list.php">
@@ -273,7 +273,7 @@
          </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'malitlit') : ?>
+      <?php if ($currentBarangay === 'MALITLIT') : ?>
                <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
             <?php endif; ?>
          <a href="../MALITLIT/ceap_list.php">
@@ -281,7 +281,7 @@
          </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'malusak') : ?>
+      <?php if ($currentBarangay === 'MALUSAK') : ?>
                <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
             <?php endif; ?>
          <a href="../MALUSAK/ceap_list.php">
@@ -289,7 +289,7 @@
          </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'market area') : ?>
+      <?php if ($currentBarangay === 'MARKET AREA') : ?>
                <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
             <?php endif; ?>
          <a href="../MARKETAREA/ceap_list.php">
@@ -297,7 +297,7 @@
          </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'pooc') : ?>
+      <?php if ($currentBarangay === 'POOC') : ?>
                <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
             <?php endif; ?>
          <a href="../POOC/ceap_list.php">
@@ -305,7 +305,7 @@
          </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'pulong santa cruz') : ?>
+      <?php if ($currentBarangay === 'PULONG SANTA CRUZ') : ?>
                <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
             <?php endif; ?>
          <a href="../PULONGSANTACRUZ/ceap_list.php">
@@ -313,7 +313,7 @@
          </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'santo domingo') : ?>
+      <?php if ($currentBarangay === 'SANTO DOMINGO') : ?>
                <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
             <?php endif; ?>
          <a href="../SANTODOMINGO/ceap_list.php">
@@ -321,7 +321,7 @@
          </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'sinalhan') : ?>
+      <?php if ($currentBarangay === 'SINALHAN') : ?>
                <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
             <?php endif; ?>
          <a href="../SINALHAN/ceap_list.php">
@@ -329,7 +329,7 @@
          </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'tagapo') : ?>
+      <?php if ($currentBarangay === 'TAGAPO') : ?>
                <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
             <?php endif; ?>
          <a href="../TAGAPO/ceap_list.php">
@@ -349,21 +349,21 @@
          <li class="nav-item">
             <button>
             <strong>
-            <a class="nav-link status <?php if ($currentStatus === 'in progress')  echo 'active'; ?>" href="ceap_list.php">IN PROGRESS</a>
+            <a class="nav-link status <?php if ($currentStatus === 'In Progress')  echo 'active'; ?>" href="ceap_list.php">IN PROGRESS</a>
             </strong>
             </button>
          </li>
          <li class="nav-item">
             <button>
             <strong>
-            <a class="nav-link status <?php if ($currentStatus === 'disqualified') echo 'active'; ?>" href="ceap_list_disqualify.php">DISQUALIFIED</a>
+            <a class="nav-link status <?php if ($currentStatus === 'Disqualified') echo 'active'; ?>" href="ceap_list_disqualify.php">DISQUALIFIED</a>
             </strong>
             </button>
          </li>
          <li class="nav-item">
             <button>
             <strong>
-            <a class="nav-link status <?php if ($currentStatus === 'verified') echo 'active'; ?>" href="ceap_list_verified.php">VERIFIED</a>
+            <a class="nav-link status <?php if ($currentStatus === 'Verified') echo 'active'; ?>" href="ceap_list_verified.php">VERIFIED</a>
             </strong>
             </button>
          </li>
@@ -381,14 +381,14 @@
          <li class="nav-item">
             <button>
             <strong>
-            <a class="nav-link status <?php if ($currentStatus === 'grantee') echo 'active'; ?>" href="ceap_list_grantee.php">GRANTEE</a>
+            <a class="nav-link status <?php if ($currentStatus === 'Grantee') echo 'active'; ?>" href="ceap_list_grantee.php">GRANTEE</a>
             </strong>
             </button>
          </li>
          <li class="nav-item">
             <button>
             <strong>
-            <a class="nav-link status <?php if ($currentStatus === 'fail') echo 'active'; ?>" href="ceap_list_fail.php">NOT GRANTEE</a>
+            <a class="nav-link status <?php if ($currentStatus === 'Fail') echo 'active'; ?>" href="ceap_list_fail.php">NOT GRANTEE</a>
             </strong>
             </button>
          </li>

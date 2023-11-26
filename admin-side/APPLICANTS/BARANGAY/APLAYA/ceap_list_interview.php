@@ -40,11 +40,15 @@
    // Set variables
    $currentStatus = 'interview';
    $currentPage = 'ceap_list';
-   $currentBarangay ='aplaya';
    $currentSubPage = 'new applicant';
+
+   $currentDirectory = basename(__DIR__);
+   $currentBarangay = $currentDirectory;
    
+   // Assuming $currentStatus is also a variable you need to sanitize
+   $currentStatus = mysqli_real_escape_string($conn, $currentStatus);
    // Construct the SQL query using heredoc syntax
-   $query = <<<SQL
+   $query = "
    SELECT t.*, 
        UPPER(p.first_name) AS first_name, 
        UPPER(p.last_name) AS last_name, 
@@ -55,25 +59,29 @@
        t.interview_date
    FROM ceap_reg_form p
    INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
-   WHERE p.barangay = 'aplaya' AND t.status = 'interview'
-   SQL;
+   WHERE p.barangay = ? AND t.status = ?";
+
+$stmt = mysqli_prepare($conn, $query);
+mysqli_stmt_bind_param($stmt, "ss", $currentBarangay, $currentStatus);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
    
-   $result = mysqli_query($conn, $query);
-   
+date_default_timezone_set('Asia/Manila');
 // Get the current date in the format 'Y-m-d'
 $currentDate = date('Y-m-d');
 
 // Query to count applicants with interview dates today
 $countQuery = "SELECT COUNT(*) AS todayCount, UPPER(p.barangay) AS barangay, 
-   p.control_number, 
-   p.date_of_birth, 
-   UPPER(t.status) AS status,
-   t.interview_date
+    p.control_number, 
+    p.date_of_birth, 
+    UPPER(t.status) AS status,
+    t.interview_date
 FROM ceap_reg_form p
 INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
-WHERE p.barangay = 'aplaya' AND t.status = 'interview' AND t.interview_date = ?";
+WHERE p.barangay = ? AND t.status = ? AND t.interview_date = ?";
+
 $stmtCount = mysqli_prepare($conn, $countQuery);
-mysqli_stmt_bind_param($stmtCount, "s", $currentDate);
+mysqli_stmt_bind_param($stmtCount, "sss", $currentBarangay, $currentStatus, $currentDate);
 mysqli_stmt_execute($stmtCount);
 $todayCountResult = mysqli_stmt_get_result($stmtCount);
 $todayCountRow = mysqli_fetch_assoc($todayCountResult);
@@ -120,44 +128,43 @@ $todayInterviewCount = $todayCountRow['todayCount'];
       <!-- search and reschedule -->
       <div class="form-group">
       <?php
-            // Check if the user's role is not "Staff"
-            if ($_SESSION['role'] !== 1) {
-                // Only display the button if the user's role is not "Staff" and there are verified applicants
-                if (hasInterviewStatusInDatabase($conn)) {
-                    echo '<button id="rescheduleButton" type="button" class="btn btn-primary">Reschedule</button>';
-                } else {
-                    echo '<button id="rescheduleButton" type="button" class="btn btn-primary" disabled style="background-color: #ccc; cursor: not-allowed;">Reschedule</button>';
+                // Check if the user's role is not "Staff"
+                if ($_SESSION['role'] !== 1) {
+                    // Only display the button if the user's role is not "Staff" and there are verified applicants
+                    $hasInterviewStatus = hasInterviewStatusInDatabase($conn, $currentBarangay, $currentStatus);
+
+                    if ($hasInterviewStatus) {
+                        echo '<button id="rescheduleButton" type="button" class="btn btn-primary">Reschedule</button>';
+                    } else {
+                        echo '<button id="rescheduleButton" type="button" class="btn btn-primary" disabled style="background-color: #ccc; cursor: not-allowed;">Reschedule</button>';
+                    }
                 }
-            }
-            ?>
+                ?>
          <input type="text" name="search" class="form-control" id="search" placeholder="Search by Control Number or Last name"  oninput="formatInput(this)">
          <button type="button" class="btn btn-primary" onclick="searchApplicants()">Search</button>
          <!-- Add a button to trigger the Reschedmodal -->
-         <?php
-function hasInterviewStatusInDatabase($conn) {
-    $interviewDate= date('Y-m-d');
-    
-    $query = "SELECT COUNT(*) FROM temporary_account AS t
-              INNER JOIN ceap_reg_form AS p ON t.ceap_reg_form_id = p.ceap_reg_form_id
-              WHERE t.status = 'interview' AND UPPER(p.barangay) = 'APLAYA' AND t.interview_date = ? ";
-    
-    
-    $stmt = mysqli_prepare($conn, $query);
-    
-    if ($stmt) {
-        mysqli_stmt_bind_param($stmt, "s", $interviewDate); 
-        mysqli_stmt_execute($stmt);
-        mysqli_stmt_bind_result($stmt, $count);
-        mysqli_stmt_fetch($stmt);
-        mysqli_stmt_close($stmt);
-        return $count > 0;
-    } else {
-        
-        echo "Error: " . mysqli_error($conn);
-        return false;
-    }
-}
-?>
+            <?php
+                function hasInterviewStatusInDatabase($conn, $currentBarangay, $currentStatus) {
+                    $interviewDate = date('Y-m-d');
+
+                    $query = "SELECT COUNT(*) FROM temporary_account AS t
+                    INNER JOIN ceap_reg_form AS p ON t.ceap_reg_form_id = p.ceap_reg_form_id
+                    WHERE t.status = ? AND UPPER(p.barangay) = ? AND t.interview_date = ?";
+
+                    $stmt = mysqli_prepare($conn, $query);
+                    mysqli_stmt_bind_param($stmt, "sss", $currentStatus, $currentBarangay, $interviewDate);
+                    if (mysqli_stmt_execute($stmt)) {
+                        $result = mysqli_stmt_get_result($stmt);
+                        $count = mysqli_fetch_row($result)[0];
+                        mysqli_stmt_close($stmt);
+                        return $count > 0;
+                    } else {
+                        echo "Error: " . mysqli_error($conn);
+                        mysqli_stmt_close($stmt);
+                        return false;
+                    }
+                }
+    ?>
 
       </div>
       <!-- Reschedule Modal (hidden by default) -->
@@ -246,8 +253,8 @@ function hasInterviewStatusInDatabase($conn) {
                   <th>CONTROL NUMBER</th>
                   <th>LAST NAME</th>
                   <th>FIRST NAME</th>
-                  <th>BARANGAY</th>
-                  <th>STATUS</th>
+                  <!-- <th>BARANGAY</th>
+                  <th>STATUS</th> -->
                   <th>INTERVIEW DATE</th>
                </tr>
                <?php
@@ -261,8 +268,8 @@ function hasInterviewStatusInDatabase($conn) {
                               echo '<td>' . strtoupper($row['control_number']) . '</td>';
                               echo '<td>' . strtoupper($row['last_name']) . '</td>';
                               echo '<td>' . strtoupper($row['first_name']) . '</td>';
-                              echo '<td>' . strtoupper($row['barangay']) . '</td>';
-                              echo '<td>' . strtoupper($row['status']) . '</td>';
+                            //   echo '<td>' . strtoupper($row['barangay']) . '</td>';
+                            //   echo '<td>' . strtoupper($row['status']) . '</td>';
                               echo '<td>' . strtoupper($row['interview_date']) . '</td>';
                               echo '</tr>';
                            }
@@ -281,12 +288,12 @@ function hasInterviewStatusInDatabase($conn) {
       <div class="overlay"></div>
       </div>
       <!-- partial -->
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       <script src='../../../js/unpkg-layout.js'></script>
       <script  src="../../../js/side_bar.js"></script>
       <script  src="../../../js/VerifiedandInterview.js"></script>
       <script  src="../../../js/rescheduleInterview.js"></script>
       <script  src="../../../js/openReschedulePopup.js"></script>
-      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       <script>
 $(document).ready(function() {
     // Add an event listener to the search input field

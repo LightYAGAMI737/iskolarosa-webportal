@@ -1,4 +1,4 @@
-function RescheduleAplaya() {
+function RescheduleInterview() {
     // Gather the data you want to send
     const RescheduleinterviewDate = document.getElementById('interview_date').value;
     const RescheduleinterviewHours = document.getElementById('interview_hours').value;
@@ -17,14 +17,15 @@ function RescheduleAplaya() {
     console.log('Data to be sent:', data); // Log the data you're sending
 
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', 'rescheduleAPLAYA.php', true);
+    xhr.open('POST', 'rescheduleINTERVIEW.php', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             console.log('Response received:', xhr.responseText); // Log the response
             if (xhr.status === 200) {
-                if (xhr.responseText === 'success') {
+                const responseParts = xhr.responseText.split('|');
+                if (responseParts[0] === 'success') {
                     console.log('Success: closeRescheduleAPLAYA');
                     setTimeout(openConfirmationPopup, 1000);
                 } else {
@@ -37,6 +38,7 @@ function RescheduleAplaya() {
             }
         }
     };
+    
 
     // Create a URL-encoded form data string
     const formData = new URLSearchParams(data).toString();

@@ -3,15 +3,22 @@
     session_start();
 }
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    include '../../../php/config_iskolarosa_db.php';
+   
+    $currentStatus = 'Verified';
+    $currentDirectory = basename(__DIR__);
+    $currentBarangay = $currentDirectory;
+    // Assuming $currentStatus is also a variable you need to sanitize
+    $currentStatus = mysqli_real_escape_string($conn, $currentStatus);
+    
     // Process and update interview dates
     $interviewDate = $_POST['interview_date'];
     $interview_hours = $_POST['interview_hours'];
     $interview_minutes = $_POST['interview_minutes'];
     $interview_ampm = $_POST['interview_ampm'];
     $limit = $_POST['limit'];
-
-    include 'config_iskolarosa_db.php';
-
+    
     if (!empty($interviewDate) && !empty($interview_hours) && !empty($interview_minutes) && !empty($interview_ampm) && !empty($limit)) {
         $interviewDate = mysqli_real_escape_string($conn, $interviewDate);
         $limit = intval($limit);
@@ -19,10 +26,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $qualifiedQuery = "SELECT t.*, UPPER(p.first_name) AS first_name, UPPER(p.last_name) AS last_name, UPPER(p.barangay) AS barangay, p.control_number, p.date_of_birth, p.ceap_reg_form_id
         FROM ceap_reg_form p
         INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
-        WHERE t.status = 'Verified' AND p.barangay = 'APLAYA'
+        WHERE t.status = ? AND p.barangay = ?
         LIMIT ?";
+        
         $stmt = mysqli_prepare($conn, $qualifiedQuery);
-        mysqli_stmt_bind_param($stmt, "i", $limit);
+        mysqli_stmt_bind_param($stmt, "ssi", $currentStatus, $currentBarangay, $limit);
         mysqli_stmt_execute($stmt);
         $qualifiedResult = mysqli_stmt_get_result($stmt);
     

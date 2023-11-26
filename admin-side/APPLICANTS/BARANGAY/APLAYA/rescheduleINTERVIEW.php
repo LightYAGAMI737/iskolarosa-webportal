@@ -3,26 +3,33 @@ include '../../../php/config_iskolarosa_db.php';
 
 // Check if the reschedule form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     $limit = $_POST['limit']; // Number of applicants to reschedule
     $rescheduleDate = $_POST['interview_date'];
     $rescheduleHours = $_POST['interview_hours'];
     $rescheduleMinutes = $_POST['interview_minutes'];
     $reschedulePeriod = $_POST['interview_ampm'];
-    
-    // Create variables for constant values
-    $barangay = 'APLAYA';
+
+    // Set the timezone to Asia/Manila
+    date_default_timezone_set('Asia/Manila');
     $currentDate = date('Y-m-d');
+
+    $currentStatus = 'interview';
+    $currentDirectory = basename(__DIR__);
+    $currentBarangay = $currentDirectory;
+    // Assuming $currentStatus is also a variable you need to sanitize
+    $currentStatus = mysqli_real_escape_string($conn, $currentStatus);
 
     // Create a prepared statement to select the applicants to be rescheduled
     $rescheduleQuery = "SELECT t.* 
         FROM temporary_account t
         INNER JOIN ceap_reg_form p
         ON p.ceap_reg_form_id = t.ceap_reg_form_id
-        WHERE p.barangay = ? AND t.status = 'Interview' AND t.interview_date = ?
+        WHERE p.barangay = ? AND t.status = ? AND t.interview_date = ?
         LIMIT ?";
 
     $stmt = mysqli_prepare($conn, $rescheduleQuery);
-    mysqli_stmt_bind_param($stmt, 'ssi', $barangay, $currentDate, $limit);
+    mysqli_stmt_bind_param($stmt, 'sssi', $currentBarangay, $currentStatus, $currentDate, $limit);
     mysqli_stmt_execute($stmt);
     $rescheduleResult = mysqli_stmt_get_result($stmt);
 
@@ -46,9 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Log success message for debugging
     error_log("Success: Rescheduled $limit applicants.");
 
-    // Display success message or perform any additional actions
+    // Include currentBarangay in the response
     echo "success";
     exit();
 }
-
 ?>
