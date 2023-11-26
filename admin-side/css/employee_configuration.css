@@ -1,0 +1,120 @@
+body {
+  font-family: 'Poppins', sans-serif;
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  backdrop-filter: blur(2px);
+}
+.nav-link {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  padding: 10px 15px;
+  border-radius: 15px;
+  width: 180px !important;
+
+}
+h1 {
+  text-align: center;
+  margin-top: 20px;
+}
+
+[disabled]{
+  border: none;
+}
+.readonly {
+  border: none;
+  background-color: transparent;
+}
+.editBtn,
+.updateBtn,
+.deleteBtn {
+    background-color: #A5040A; 
+    color: white; 
+    padding: 8px 16px; 
+    margin-right: 8px; 
+    cursor: pointer; 
+    border: none; 
+    border-radius: 15px; 
+}
+.deleteBtn {
+  float: right !important;
+}
+.editBtn:hover,
+.deleteBtn:hover,
+.updateBtn:hover {
+    background-color: #400000; 
+}
+
+.updateBtn:hover[disabled]
+ {
+    background-color: #A5040A; 
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  height: 88px;
+  margin-bottom: 15px;
+}
+
+.form-group {
+  flex: 1 1 33.33%;
+  padding: 0 10px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group input,
+.form-group select,
+.form-group button {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.form-group button {
+  background-color: #A5040A;
+  color: #fff;
+  cursor: pointer;
+  padding: 8px;
+  font-size: 14px;
+  width: 100px; /* Adjust the width as needed */
+  margin-left: auto;
+  display: block;
+}
+/* Add the desired width for the .employee-table */
+.employee-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.employee-table th,
+.employee-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.employee-table th {
+  background-color: #f2f2f2;
+}
+
+.employee-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.employee-table tr:hover {
+  background-color: #f2f2f2;
+}
+.form-group label.required::after {
+  content: " *";
+  color: #A5040A;
+}
