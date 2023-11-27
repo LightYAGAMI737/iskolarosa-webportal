@@ -126,7 +126,7 @@
                         <label class="required" for="barangay">Barangay</label>
                         <select name="barangay" id="barangay" required>
                            <option value="APLAYA">APLAYA</option>
-                           <!-- <option value="BALIBAGO">BALIBAGO</option>
+                           <option value="BALIBAGO">BALIBAGO</option>
                            <option value="CAINGIN">CAINGIN</option>
                            <option value="DILA">DILA</option>
                            <option value="DITA">DITA</option>
@@ -142,7 +142,7 @@
                            <option value="PULONG SANTA CRUZ">PULONG SANTA CRUZ</option>
                            <option value="SANTO DOMINGO">SANTO DOMINGO</option>
                            <option value="SINALHAN">SINALHAN</option>
-                           <option value="TAGAPO">TAGAPO</option> -->
+                           <option value="TAGAPO">TAGAPO</option>
                         </select>
                      </div>
                      <div class="input-container">
