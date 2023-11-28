@@ -14,20 +14,10 @@ function handleEmptyValue($value) {
  function sendEmail($email, $username)
  {
  
-     $mail = new PHPMailer\PHPMailer\PHPMailer(); // Create a new PHPMailer instance
- 
-    // SMTP settings (replace these with your SMTP server details)
-    $mail->isSMTP();
-    $mail->Host = 'smtp.gmail.com'; // Replace this with your SMTP server address
-    $mail->SMTPAuth = true;
-    $mail->Username = 'lancelirabackupfiles@gmail.com'; // Replace this with your SMTP username
-    $mail->Password = 'ccrvxxdtujkbqanw'; // Replace this with your SMTP password
-    $mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_SMTPS; // Use SMTPS for port 465
-    $mail->Port = 465; // Use port 465 for SMTPS
-    
+     require_once '../admin-side/php/PHPMailerConfigure.php';
+
        // Email content format
        $mail->IsHTML(true); // Set email format to HTML
- 
      // Set up email content with inline CSS styles
      $emailContent = '<html>
  <head>
@@ -96,7 +86,7 @@ function handleEmptyValue($value) {
          return false; // Failed to send email
      }
  }
-if (isset($_POST['submit'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $last_name = $_POST['last_name'];
     $first_name = $_POST['first_name'];
     $middle_name = $_POST['middle_name'];
@@ -252,41 +242,20 @@ if (mysqli_num_rows($duplicateCheckResultNameDOB) > 0) {
               if (mysqli_stmt_execute($stmtUpdate)) {
               $emailSent = sendEmail($active_email_address, $control_number);
               if ($emailSent) {
-                  // Set success message
-                  $message = "Registration Successful! <br> Check your email for your Control Number. <br><p style='font-size: 20px;'>You can close this window now.</p> ";
-              } else {
-                  // Set error message
-                  $message = "Failed to send email. Please check your email configuration.";
-              }
-          } else {
-              // Set error message
-              $message = "Error: " . mysqli_error($conn);
-          }
-        }    
-      }
-          mysqli_close($conn);
+                echo 'success';
+            } else {
+                echo "error";
+            }
+        } else {
+            // Handle the error if the update query fails
+            echo "Error updating lppp_reg_form table: " . mysqli_error($conn);
         }
-      }
+     } else {
+         // Handle the error if the insert query for temporary_account fails
+         echo "Error inserting into lppp_temporary_account table: " . mysqli_error($conn);
+     }
+}
+    }
+}
 
 ?>
-
-
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>iSKOLORSA | Control Number</title>
-    <link rel="stylesheet" href="css/control_number.css">
-  </head>
-
-  <body>
-    <div id="message-container">
-      <!-- PHP code will output success or error messages here -->
-      <?php
-        if (isset($message)) {
-          echo '<div class="ceapRegForm">' . $message . '</div>';
-        }
-      ?>
-    </div>
-  </body>
-</html>
-

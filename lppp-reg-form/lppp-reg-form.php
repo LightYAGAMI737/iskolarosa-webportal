@@ -10,6 +10,7 @@
       <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css'>
       <link rel="stylesheet" type="text/css" href="css/popup.css">
       <link rel="stylesheet" href="css/style.css">
+      <link rel="stylesheet" href="../admin-side/css/status_popup.css">
       <style>
 .suffix-options {
     display: none;
@@ -34,41 +35,18 @@
 
 
          </style>
+
    </head>
    <body>
+      <?php
+         include './php/submitLPPPpopup.php';
+         ?>
    <div class="header">
       <h3>LIBRENG PAGPAPAARAL SA PRIBADONG PAARALAN (LPPP)</h3>
       <h4>APPLICATION FORM</h4>
       <h5>To be filled-up by the Parents / Guardian</h5>
       </div>
    <form id="msform" enctype="multipart/form-data" action="lpppregformdatabaseinsert.php" method="post">
-
-       <!-- submit popup button -->
-    <div class="sub-containerPopup" id="sub-containerPopup">
-    <div class="subpopup" id="subpopup"><br>
-            <i class="ri-error-warning-line"style="font-size: 8em; color: #F54021;"></i>
-            <strong><h2>Submit Now?</h2></strong>
-            <center><p>You are about to submit your Application Form. Please review your information carefully. Are you sure you want to submit your application?</p></center>
-            <div style="padding: 3px;">
-           <button type="button" onclick="closesub()" style="margin-right: 15px; background-color: #C0C0C0;"><i class="ri-close-fill" style="font-size: 20px; margin-left: -76px;"></i><p style="margin-left: 16px; margin-top: -31px;">Cancel</p></button>
-            <button type="submit" name="submit" id="submit" class="submit action-button" onclick="opensubConfirmpopup()"><i class="ri-check-line" style="font-size: 20px; margin-left: -85px;"></i><p style="margin-left: 16px; margin-top: -31px;">Confirm</p></button>
-            </div>
-        </div>
-    </div>
-   <!--ending submit popup button  -->
-   <!-- popup confirmation -->
-        <!-- <div class="subconfirmcontainerpopup session_alerts" id="subconfirmcontainerpopup">
-        <div class="subconfirmpopup" id="subconfirmpopup"><br>
-            <i class="ri-checkbox-circle-line" style="color: #0BA350; font-size: 5em;"></i>
-            <strong><h2>Application Submitted</h2></strong>
-            <p>Thank you for submitting your application! An email with a temporary account has been sent to your email address. You can now login to check your application status.</p>
-            <div style="padding: 10px;">
-            <button type="button"  onclick="closesubconfirmPopup()" style="margin-right: 15px;">Ok</button>
-            </div>
-        </div>
-        </div> -->
-        <!-- ending popup confirmation -->  
-      <!-- partial:index.partial.html -->
       <!-- MultiStep Form -->
       <div class="row">
       <div class="col-md-6 col-md-offset-3">
@@ -203,7 +181,7 @@
                   <div class="text-row">
                      <div class="input-container upload">
                         <label class="required">Upload 2x2 Picture (jpg, 2mb)</label>
-                        <input type="file" name="uploadPhotoJPG" accept=".jpg/jpeg" required/>
+                        <input type="file" name="uploadPhotoJPG" accept="image/jpeg" required/>
                         <span class="error-message" id="uploadPhotoJPG_error"></span>
                      </div>
                   </div>
@@ -316,7 +294,7 @@
                      </div>
                   </div>
                   <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
-                  <input type="button" id="popupsubmit" class="submit action-button"  onclick="opensub()" value="Submit" disabled>
+                  <input type="button" id="popupsubmit" class="submit action-button"  onclick="openLPPPpopup()" value="Submit" disabled>
                </fieldset>
          </form>
          </div>
@@ -355,5 +333,6 @@
       <script src="./js/validatenext_stepone.js"></script>
       <script src="./js/validatenext_steptwo.js"></script>
       <script src="./js/validatenext_stepthree.js"></script>
+      <script src="./js/lpppPopup.js"></script>
    </body>
 </html>

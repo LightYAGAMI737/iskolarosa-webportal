@@ -253,6 +253,6 @@ setTimeout(goBack, 20000);
 }
 
 function goBack() {
-  window.location.href = "../home-page/home_page.php";
+  window.location.href = "../home-page-two/home-page.php";
 }
 
