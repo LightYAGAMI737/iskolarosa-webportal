@@ -233,7 +233,7 @@
          </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'DON JOSE') : ?>
+      <?php if ($currentBarangay === 'DONJOSE') : ?>
                <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
             <?php endif; ?>
          <a href="../DONJOSE/ceap_list.php">
@@ -289,7 +289,7 @@
          </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'MARKET AREA') : ?>
+      <?php if ($currentBarangay === 'MARKETAREA') : ?>
                <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
             <?php endif; ?>
          <a href="../MARKETAREA/ceap_list.php">
@@ -305,7 +305,7 @@
          </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'PULONG SANTA CRUZ') : ?>
+      <?php if ($currentBarangay === 'PULONGSANTACRUZ') : ?>
                <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
             <?php endif; ?>
          <a href="../PULONGSANTACRUZ/ceap_list.php">
@@ -313,7 +313,7 @@
          </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'SANTO DOMINGO') : ?>
+      <?php if ($currentBarangay === 'SANTODOMINGO') : ?>
                <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
             <?php endif; ?>
          <a href="../SANTODOMINGO/ceap_list.php">
