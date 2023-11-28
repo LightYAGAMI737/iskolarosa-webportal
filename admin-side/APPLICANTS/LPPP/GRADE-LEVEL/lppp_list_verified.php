@@ -39,7 +39,7 @@ if (!hasPermission($_SESSION['role'], $requiredPermission)) {
 // Set variables
 $currentStatus = 'verified';
 $currentPage = 'lppp_list';
-$currentSubPage = '';
+$currentSubPage = 'GRADE 7';
 
 
 if (isset($_POST['saveBtn'])) {

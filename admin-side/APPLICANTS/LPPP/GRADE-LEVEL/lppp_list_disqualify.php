@@ -37,7 +37,7 @@
    // Set variables
    $currentStatus = 'disqualified';
    $currentPage = 'lppp_list';
-   $currentSubPage = '';
+   $currentSubPage = 'GRADE 7';
    
    // Construct the SQL query using heredoc syntax
    $query = <<<SQL

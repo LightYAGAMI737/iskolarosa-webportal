@@ -35,7 +35,7 @@
   }
 $currentStatus = 'fail';
 $currentPage = 'lppp_list';
-$currentSubPage = '';
+$currentSubPage = 'GRADE 7';
 
 include '../../../php/config_iskolarosa_db.php';
 

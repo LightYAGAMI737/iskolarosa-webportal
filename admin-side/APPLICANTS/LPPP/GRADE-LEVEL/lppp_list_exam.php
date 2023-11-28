@@ -92,7 +92,7 @@
    // Set variables
    $currentStatus = 'exam';
    $currentPage = 'lppp_list';
-   $currentSubPage = '';
+   $currentSubPage = 'GRADE 7';
    
    
    // Construct the SQL query using heredoc syntax

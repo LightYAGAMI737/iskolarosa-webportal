@@ -8,7 +8,7 @@ if (!isset($_SESSION['username'])) {
 }
 
 $currentPage = 'lppp_list';
-$currentSubPage = '';
+$currentSubPage = 'LPPP';
 
 include '../../../php/config_iskolarosa_db.php';
 
