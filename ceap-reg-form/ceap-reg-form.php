@@ -124,23 +124,23 @@
                      </div>
                      <div class="input-container">
                         <label class="required" for="barangay">Barangay</label>
-                        <select name="barangay" id="barangay" required>
+                          <select name="barangay" id="barangay" required>
                            <option value="APLAYA">APLAYA</option>
                            <option value="BALIBAGO">BALIBAGO</option>
                            <option value="CAINGIN">CAINGIN</option>
                            <option value="DILA">DILA</option>
                            <option value="DITA">DITA</option>
-                           <option value="DON JOSE">DON JOSE</option>
+                           <option value="DONJOSE">DON JOSE</option>
                            <option value="IBABA">IBABA</option>
                            <option value="KANLURAN">KANLURAN</option>
                            <option value="LABAS">LABAS</option>
                            <option value="MACABLING">MACABLING</option>
                            <option value="MALITLIT">MALITLIT</option>
                            <option value="MALUSAK">MALUSAK</option>
-                           <option value="MARKET AREA">MARKET AREA</option>
+                           <option value="MARKETAREA">MARKET AREA</option>
                            <option value="POOC">POOC</option>
-                           <option value="PULONG SANTA CRUZ">PULONG SANTA CRUZ</option>
-                           <option value="SANTO DOMINGO">SANTO DOMINGO</option>
+                           <option value="PULONGSANTACRUZ">PULONG SANTA CRUZ</option>
+                           <option value="SANTODOMINGO">SANTO DOMINGO</option>
                            <option value="SINALHAN">SINALHAN</option>
                            <option value="TAGAPO">TAGAPO</option>
                         </select>
