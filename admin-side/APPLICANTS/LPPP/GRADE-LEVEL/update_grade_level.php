@@ -1,5 +1,5 @@
 <?php
-include '../../php/config_iskolarosa_db.php';
+include '../../../php/config_iskolarosa_db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_info'])) {
     $ceapRegFormId = $_POST['id'];
