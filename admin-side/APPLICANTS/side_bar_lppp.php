@@ -177,7 +177,7 @@ include '../../../php/logoutpopup.php';
 <div class="layout">
 <main class="content">
 <div class="header-label post">
-<H1>Libreng Pagpapaaral sa Pribadong Paaralan (LPPP)</H1>
+<H1>Libreng Pag-aaral sa Pribadong Paaralan (LPPP)</H1>
 </div>
 <div>
 <a id="btn-toggle" href="#" class="sidebar-toggler break-point-sm">

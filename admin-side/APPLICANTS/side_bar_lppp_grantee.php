@@ -105,32 +105,32 @@ include '../../../php/logoutpopup.php';
     <div class="sub-menu-list">
             <ul>
                 <li class="menu-item">
-                    <a href="../LPPP/GRADE-LEVEL/lppp_list.php" <?php if ($currentSubPage === 'GRADE 7') echo 'class="active"'; ?>>
+                    <a href="../GRADE-LEVEL/lppp_list.php" <?php if ($currentSubPage === 'GRADE 7') echo 'class="active"'; ?>>
                         <span class="menu-title">Grade 7</span>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="../LPPP/GRADE-LEVEL/grade_8_list.php" <?php if ($currentSubPage === 'GRADE 8') echo 'class="active"'; ?>>
+                    <a href="../GRADE-LEVEL/grade_8_list.php" <?php if ($currentSubPage === 'GRADE 8') echo 'class="active"'; ?>>
                         <span class="menu-title">Grade 8</span>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="../LPPP/GRADE-LEVEL/grade_9_list.php" <?php if ($currentSubPage === 'GRADE 9') echo 'class="active"'; ?>>
+                    <a href="../GRADE-LEVEL/grade_9_list.php" <?php if ($currentSubPage === 'GRADE 9') echo 'class="active"'; ?>>
                         <span class="menu-title">Grade 9</span>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="../LPPP/GRADE-LEVEL/grade_10_list.php" <?php if ($currentSubPage === 'GRADE 10') echo 'class="active"'; ?>>
+                    <a href="../GRADE-LEVEL/grade_10_list.php" <?php if ($currentSubPage === 'GRADE 10') echo 'class="active"'; ?>>
                         <span class="menu-title">Grade 10</span>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="../LPPP/GRADE-LEVEL/grade_11_list.php" <?php if ($currentSubPage === 'GRADE 11') echo 'class="active"'; ?>>
+                    <a href="../GRADE-LEVEL/grade_11_list.php" <?php if ($currentSubPage === 'GRADE 11') echo 'class="active"'; ?>>
                         <span class="menu-title">Grade 11</span>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="../LPPP/GRADE-LEVEL/grade_12_list.php" <?php if ($currentSubPage === 'GRADE 12') echo 'class="active"'; ?>>
+                    <a href="../GRADE-LEVEL/grade_12_list.php" <?php if ($currentSubPage === 'GRADE 12') echo 'class="active"'; ?>>
                         <span class="menu-title">Grade 12</span>
                     </a>
                 </li>
@@ -146,7 +146,7 @@ include '../../../php/logoutpopup.php';
            <i class="ri-user-search-fill"></i>
 
            </span>
-           <span class="menu-title">LPPP</span>
+           <span class="menu-title">LPP</span>
            </a>
         </li>
         <?php
@@ -175,7 +175,7 @@ include '../../../php/logoutpopup.php';
 <div class="layout">
 <main class="content">
 <div class="header-label post">
-<H1>Libreng Pagpapaaral sa Pribadong Paaralan (LPPP)</H1>
+<H1>Libreng Pag-aaral sa Pribadong Paaralan (LPPP)</H1>
 </div>
 <div>
 <a id="btn-toggle" href="#" class="sidebar-toggler break-point-sm">
