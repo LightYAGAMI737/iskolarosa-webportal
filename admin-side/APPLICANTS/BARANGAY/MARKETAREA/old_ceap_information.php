@@ -245,7 +245,7 @@ foreach ($pdfFiles as $key => $pdfFile) {
 
         // Optional: Set resolution and background color
         // $imagick->setResolution(300, 300);
-        // $imagick->setImageBackgroundColor('white');
+        $imagick->setImageBackgroundColor('white');
 
         $imagick->setImageCompressionQuality(100);
         $imagick->setImageFormat('jpg');
