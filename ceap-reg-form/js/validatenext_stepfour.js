@@ -155,23 +155,56 @@ document.getElementById("guardian_annual_income").addEventListener("input", disp
 
 displayUserInput();
 
+document.addEventListener("DOMContentLoaded", function () {
+    var confirmButton = document.getElementById('submitReview');
+    var cooldownSeconds = 20;
+    var countdownInterval;
 
-// Function to enable the button after a specified cooldown time
-function enableAfterCooldown(button, cooldownTime) {
-    button.classList.add("disabled");
-    button.setAttribute("disabled", "disabled");
-    console.log("Button is now disabled");
+    // Function to update the button text and handle cooldown
+    function startCooldown() {
+        // Disable the confirm button initially
+        confirmButton.disabled = true;
 
-    setTimeout(function() {
-        button.classList.remove("disabled");
-        button.removeAttribute("disabled");
-        console.log("Button is now enabled");
-    }, cooldownTime);
-}
+        // Update the button text to show the countdown
+        function updateCountdown() {
+            confirmButton.innerHTML = `<span>Submit (${cooldownSeconds})</span>`;
+        }
 
-// Attach the enableAfterCooldown function to the "Next" button's click event
-document.getElementById("nextButtonStep_three").addEventListener("click", function() {
-    enableAfterCooldown(document.getElementById("submitReview"), 20000); // 20000 milliseconds = 20 seconds
+        // Enable the confirm button after 5 seconds
+        setTimeout(function () {
+            confirmButton.disabled = false;
+            confirmButton.classList.remove("cooldown");
+            confirmButton.innerHTML = `<span>Submit</span>`; // Reset the button text
+            clearInterval(countdownInterval); // Clear the interval once the cooldown is over
+        }, cooldownSeconds * 1000);
+
+        // Add cooldown styling during the 5 seconds
+        confirmButton.classList.add("cooldown");
+
+        // Set up the countdown timer
+        countdownInterval = setInterval(function () {
+            cooldownSeconds--;
+            if (cooldownSeconds >= 0) {
+                updateCountdown();
+            }
+        }, 1000);
+        // Initial update
+        updateCountdown();
+    }
+
+    const stepthreeBTN = document.getElementById('nextButtonStep_three')
+    stepthreeBTN.addEventListener('click', function () {
+        startCooldown(); 
+    });
+
+    // Add an event listener for the "Previous" button
+    const previousBTN = document.getElementById('previous-stepthree')
+    previousBTN.addEventListener('click', function () {
+        clearInterval(countdownInterval); // Clear the countdown interval when going back
+        cooldownSeconds = 20; // Reset the cooldown timer
+        confirmButton.classList.remove("cooldown");
+        confirmButton.innerHTML = `<span>Submit</span>`; // Reset the button text
+    });
 });
 
 

@@ -121,7 +121,6 @@ schoolGraduatedInputs.forEach(input => {
     });
 });
 
-
 // validate units
 const graduatingSelect = document.getElementById("graduating");
 const unitsInput = document.getElementById("no_of_units");
@@ -134,19 +133,24 @@ function validateUnits() {
     const graduating = graduatingSelect.value;
     const units = parseInt(unitsInput.value);
 
-    if (graduating === "no" && units <= 14) {
+    if (isNaN(units) || units < 6 || units > 40) {
+        unitsInput.classList.add("invalid");
+        unitsErrorSpan.textContent = "Enter valid no. of units (6-40).";
+        unitsErrorSpan.style.fontSize = "13px";
+    }else if (graduating === "no" && units < 15) {
         unitsInput.classList.add("invalid");
         unitsErrorSpan.textContent = "Minimum of 15 units required.";
-        unitsErrorSpan.style.fontSize = "13px"; 
-    } else if (graduating === "yes" && units <= 5) {
+        unitsErrorSpan.style.fontSize = "13px";
+    } else if (graduating === "yes" && units < 6) {
         unitsInput.classList.add("invalid");
         unitsErrorSpan.textContent = "Minimum of 6 units required.";
-        unitsErrorSpan.style.fontSize = "13px"; 
+        unitsErrorSpan.style.fontSize = "13px";
     } else {
         unitsInput.classList.remove("invalid");
         unitsErrorSpan.textContent = ""; // Clear the error message
     }
 }
+
 
 
  $(document).ready(function() {

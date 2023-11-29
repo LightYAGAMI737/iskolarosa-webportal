@@ -16,7 +16,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <base href="https://iskolarosa.com/iskolarosa/home-page-two/">
+    <!-- <base href="https://iskolarosa.com/iskolarosa/home-page-two/"> -->
     <title>HOME | iSKOLAROSA </title>
     <link rel="icon" href="../admin-side/system-images/iskolarosa-logo.png" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -38,7 +38,7 @@
     <a class="navbar-brand" href="#">
             <img src="../admin-side/system-images/iskolarosa-logo.png" alt="My Logo" class="img-logo">
         </a>
-        <a href="#" class="brand">iSKOLAROSA</a>
+        <!-- <a href="#" class="brand">iSKOLAROSA</a> -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>

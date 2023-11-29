@@ -128,35 +128,6 @@
      padding: 10px 5px;
      margin: 10px 5px;
 }
- #msform .action-button .cooldown {
-     position: relative !important;
-}
-/* Apply the animation to the button */
- .submit.cooldown:disabled {
-     opacity: 0.5 !important;
-     pointer-events: none !important;
-     background: #802f32 !important;
-     color: #fff !important;
-     box-shadow: inset 3px 3px 10px 0px rgba(0, 0, 0, 0.2) !important;
-}
- .submit.cooldown:disabled:after {
-     content: ''!important;
-     position: absolute!important;
-     bottom: 0!important;
-     width: 100%!important;
-     left: 0!important;
-     height: 5px!important;
-     background: #723e40 !important;
-     animation: cooldownAnimation 20s linear!important;
-}
- @keyframes cooldownAnimation {
-     0% {
-         width: 100% !important;
-    }
-     10% {
-         width: 0 !important;
-    }
-}
  #msform .action-button:hover, #msform .action-button:focus {
      box-shadow: 0 0 0 2px rgb(255, 255, 255), 0 0 0 3px #A5040A;
 }
@@ -240,6 +211,10 @@
  .next[disabled] {
      background-color: gray !important;
      cursor: not-allowed !important;
+}
+#submitReview[disabled]{
+    opacity: 0.5;
+    cursor: not-allowed;
 }
  .invalid {
      border: 1px solid #A5040A !important;

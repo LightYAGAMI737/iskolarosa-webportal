@@ -26,7 +26,7 @@ function updateNextButtonStatus() {
 // Attach input and blur event listeners to step one fields
 stepOneFields.forEach(field => {
     field.addEventListener('input', updateNextButtonStatus);
-    field.addEventListener('blur', updateNextButtonStatus);
+    field.addEventListener('change', updateNextButtonStatus);
 });
 
 
@@ -38,29 +38,29 @@ fieldsToValidate.forEach(input => {
 
     input.addEventListener('input', function() {
         
-        this.value = this.value.replace(/[^a-zA-Z0-9\s-]/g, ''); // Allow letters, numbers, spaces, and dashes
+        this.value = this.value.replace(/[^a-zA-Z0-9\s-]/g, '');
 
-        const words = this.value.split(/\s+/); // Split by spaces
+        const words = this.value.split(/\s+/);
         const sanitizedWords = words.map(word => {
             return word.replace(/-+/g, '-') // Remove multiple dashes in a row
-                       .replace(/\s+/g, ' '); // Remove multiple spaces in a row
+                       .replace(/\s+/g, ' ');
         });
-        const finalValue = sanitizedWords.join(' '); // Rejoin words with spaces
+        const finalValue = sanitizedWords.join(' ');
         
         const minLength = 2;
         const maxLength = 25;
         
         if (finalValue.length >= minLength && finalValue.length <= maxLength) {
             this.classList.remove('invalid');
-            errorSpan.textContent = ''; // Clear the error message
+            errorSpan.textContent = '';
         } else {
             this.classList.add('invalid');
-            errorSpan.textContent = 'Invalid input.'; // Display the error message
+            errorSpan.textContent = 'Invalid input.';
         }
         updateNextButtonStatus();
     });
     
-    input.addEventListener('blur', function() {
+    input.addEventListener('change', function() {
         const value = this.value.trim();
         if (value === '') {
             this.classList.remove('invalid');
@@ -77,17 +77,18 @@ fieldsToValidate.forEach(input => {
             if (finalValue.length >= minLength && finalValue.length <= maxLength) {
                 this.value = finalValue;
                 this.classList.remove('invalid');
-                errorSpan.textContent = ''; // Clear the error message
+                errorSpan.textContent = '';
             } else {
                 this.classList.add('invalid');
-                errorSpan.textContent = 'Invalid input length.'; // Display the error message
+                errorSpan.textContent = 'Invalid input length.';
             }
             updateNextButtonStatus();
         }
     });
 });
+
 const emailInput = document.getElementById('active_email_address');
-let emailIsValid = false; // Flag to track email validation status
+let emailIsValid = false;
 
 // Variable to track if the field has been blurred
 let emailFieldBlurred = false;
@@ -97,36 +98,37 @@ emailInput.addEventListener('input', () => {
     const sanitizedValue = value.replace(/[^a-zA-Z0-9@._+-]/g, '');
     emailInput.value = sanitizedValue;
 
-    const errorSpan = document.getElementById('active_email_address_error'); // Get the error message span
+    const errorSpan = document.getElementById('active_email_address_error');
 
     // Check if the email input is valid
     if (sanitizedValue.length === 0 || /^[\w\.-]+@\w+\.\w+$/.test(sanitizedValue) && sanitizedValue.endsWith('.com')) {
         emailIsValid = true;
-        errorSpan.textContent = ''; // Clear the error message
+        errorSpan.textContent = '';
     } else {
         emailIsValid = false;
         if (emailFieldBlurred) {
-            errorSpan.textContent = 'Invalid email address.'; // Display the error message if the field has been blurred
+            errorSpan.textContent = 'Invalid email address.';
         }
     }
     updateNextButtonStatus();
 });
 
-emailInput.addEventListener('blur', () => {
-    const errorSpan = document.getElementById('active_email_address_error'); // Get the error message span
+emailInput.addEventListener('change', () => {
+    const errorSpan = document.getElementById('active_email_address_error');
     if (!emailIsValid) {
-        emailInput.classList.add('invalid'); // Add "invalid" class if email is invalid when leaving the field
-        errorSpan.textContent = 'Invalid email address.'; // Display the error message
+        emailInput.classList.add('invalid');
+        errorSpan.textContent = 'Invalid email address.';
     } else {
-        emailInput.classList.remove('invalid'); // Remove "invalid" class if email is valid when leaving the field
-        errorSpan.textContent = ''; // Clear the error message
+        emailInput.classList.remove('invalid');
+        errorSpan.textContent = '';
     }
-    emailFieldBlurred = true; // Set the flag to true when the field is blurred
+    emailFieldBlurred = true;
     updateNextButtonStatus();
 });
 
+
 const contactNumberInput = document.getElementById('contact_number');
-let contactNumberIsValid = false; // Flag to track contact number validation status
+let contactNumberIsValid = false;
 
 contactNumberInput.addEventListener('input', () => {
     const value = contactNumberInput.value;
@@ -145,14 +147,14 @@ contactNumberInput.addEventListener('input', () => {
     }
 });
 
-contactNumberInput.addEventListener('blur', () => {
-    const errorSpan = document.getElementById('contact_number_error'); // Get the error message span
+contactNumberInput.addEventListener('change', () => {
+    const errorSpan = document.getElementById('contact_number_error');
     if (!contactNumberIsValid) {
-        contactNumberInput.classList.add('invalid'); // Add "invalid" class if contact number is invalid when leaving the field
-        errorSpan.textContent = 'Invalid contact number.'; // Display the "invalid" error message
+        contactNumberInput.classList.add('invalid');
+        errorSpan.textContent = 'Invalid contact number.';
     } else {
-        contactNumberInput.classList.remove('invalid'); // Remove "invalid" class if contact number is valid when leaving the field
-        errorSpan.textContent = ''; // Clear the error message
+        contactNumberInput.classList.remove('invalid');
+        errorSpan.textContent = '';
     }
     updateNextButtonStatus();
 });
@@ -188,32 +190,32 @@ const pictureInput = document.querySelector('input[name="uploadPhotoJPG"]');
 
 voterCertificateInput.addEventListener('change', () => {
     const file = voterCertificateInput.files[0];
-    const maxSize = 1024 * 1024; // 1MB in bytes
-    const errorSpan = document.getElementById('uploadVotersApplicant_error'); // Get the error message span
+    const maxSize = 1024 * 1024;
+    const errorSpan = document.getElementById('uploadVotersApplicant_error');
 
     if (file && file.type === 'application/pdf' && file.size <= maxSize) {
         voterCertificateInput.classList.remove('invalid');
-        errorSpan.textContent = ''; // Clear the error message
+        errorSpan.textContent = '';
     } else {
         voterCertificateInput.classList.add('invalid');
-        errorSpan.textContent = 'Upload a valid PDF file (up to 1MB).'; // Display the error message
-        voterCertificateInput.value = null; // Clear the file field
+        errorSpan.textContent = 'Upload a valid PDF file (up to 1MB).';
+        voterCertificateInput.value = null;
     }
     updateNextButtonStatus();
 });
 
 pictureInput.addEventListener('change', () => {
     const file = pictureInput.files[0];
-    const maxSize = 2 * 1024 * 1024; // 2MB in bytes
-    const errorSpan = document.getElementById('uploadPhotoJPG_error'); // Get the error message span
+    const maxSize = 2 * 1024 * 1024;
+    const errorSpan = document.getElementById('uploadPhotoJPG_error');
 
     if (file && (file.type === 'image/jpeg' || file.type === 'image/jpg') && file.size <= maxSize) {
         pictureInput.classList.remove('invalid');
-        errorSpan.textContent = ''; // Clear the error message
+        errorSpan.textContent = '';
     } else {
         pictureInput.classList.add('invalid');
-        errorSpan.textContent = 'Upload a valid JPEG/JPG image (up to 2MB).'; // Display the error message
-        pictureInput.value = null; // Clear the file field
+        errorSpan.textContent = 'Upload a valid JPEG/JPG image (up to 2MB).';
+        pictureInput.value = null;
     }
     updateNextButtonStatus();
 });
@@ -221,23 +223,15 @@ pictureInput.addEventListener('change', () => {
 // Validate house number
 const houseNumberInput = document.getElementById("house_number");
 
-houseNumberInput.addEventListener("blur", function () {
+houseNumberInput.addEventListener("change", function () {
     validateInput(this);
-});
-
-houseNumberInput.addEventListener("focus", function () {
-    this.classList.remove("invalid");
 });
 
 // Validate place of birth
 const placeOfBirthInput = document.getElementById("place_of_birth");
 
-placeOfBirthInput.addEventListener("blur", function () {
+placeOfBirthInput.addEventListener("change", function () {
     validateInput(this);
-});
-
-placeOfBirthInput.addEventListener("focus", function () {
-    this.classList.remove("invalid");
 });
 
 // Function to validate input with minimum length
@@ -248,12 +242,12 @@ function validateInput(inputElement) {
         inputElement.classList.add("invalid");
         const errorSpanId = inputElement.getAttribute("id") + "_error";
         const errorSpan = document.getElementById(errorSpanId);
-        errorSpan.textContent = "At lest 5 characters.";
+        errorSpan.textContent = "At least 5 characters.";
     } else {
         inputElement.classList.remove("invalid");
         const errorSpanId = inputElement.getAttribute("id") + "_error";
         const errorSpan = document.getElementById(errorSpanId);
-        errorSpan.textContent = ""; // Clear the error message
+        errorSpan.textContent = "";
     }
     updateNextButtonStatus();
 
@@ -311,6 +305,8 @@ document.addEventListener('click', (event) => {
         suffixOptionsContainer.style.display = 'none';
     }
 });
+
+
 function displayTooltip() {
     const tooltips = document.getElementById('tooltips');
     const requiredFields = document.querySelectorAll('#step_one [required]');
@@ -359,11 +355,11 @@ inputElements.forEach(input => {
         // Store the placeholder attribute in a data attribute only if it exists
         if (this.getAttribute('placeholder')) {
             this.setAttribute('data-placeholder', this.getAttribute('placeholder'));
-            this.removeAttribute('placeholder'); // Remove the placeholder attribute
+            this.removeAttribute('placeholder');
         }
     });
 
-    input.addEventListener('blur', function () {
+    input.addEventListener('change', function () {
         // Restore the placeholder attribute from the data attribute if it exists
         if (this.getAttribute('data-placeholder')) {
             this.setAttribute('placeholder', this.getAttribute('data-placeholder'));

@@ -7,7 +7,6 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
       <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css'>
-      <link rel="stylesheet" type="text/css" href="css/popup.css">
       <link rel="stylesheet" href="css/style.css">
       <link rel="stylesheet" href="../admin-side/css/status_popup.css">
 
@@ -66,7 +65,7 @@
                   <!--new row-->
                   <div class="text-row">
                      <div class="input-container">
-                        <label class="required" for="gender">Gender</label>
+                        <label class="required" for="gender">Birth Sex</label>
                         <select name="gender" id="gender" required>
                            <option value="Male">Male</option>
                            <option value="Female">Female</option>
@@ -124,7 +123,7 @@
                      </div>
                      <div class="input-container">
                         <label class="required" for="barangay">Barangay</label>
-                          <select name="barangay" id="barangay" required>
+                        <select name="barangay" id="barangay" required>
                            <option value="APLAYA">APLAYA</option>
                            <option value="BALIBAGO">BALIBAGO</option>
                            <option value="CAINGIN">CAINGIN</option>
@@ -399,8 +398,8 @@
                      <div id="review-container">
                      </div>
 
-                  <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
-                  <input type="button" id="submitReview" class="submit action-button cooldown" value="Submit" onclick="openceapconfirmpopup()">
+                  <input type="button" name="previous" id="previous-stepthree" class="previous action-button-previous" value="Previous"/>
+                  <button type="button" id="submitReview" class="submit action-button cooldown" value="Submit" onclick="openceapconfirmpopup()"></button>
                </fieldset>
 
       </form>
@@ -412,7 +411,7 @@
       <script src="./js/validatenext_stepone.js"></script>
       <script src="./js/validatenext_steptwo.js"></script>
       <script src="./js/validatenext_stepthree.js"></script>
-      <script src="./js/validatenext_stepfour.js"></script>
       <script src="./js/check_duplicate.js"></script>
+      <script src="./js/validatenext_stepfour.js"></script>
    </body>
 </html>
