@@ -37,30 +37,25 @@
    // Set variables
    $currentStatus = 'in progress';
    $currentPage = 'ceap_list';
-   
-   // Get the barangay parameter from the URL
-   if (isset($_GET['barangay'])) {
-       $currentSubPage = $_GET['barangay'];
-   } else {
-       $currentSubPage = 'aplaya';
-   }
-   
-   // Construct the SQL query using heredoc syntax
-   $query = <<<SQL
-   SELECT t.*, 
-          UPPER(p.first_name) AS first_name, 
-          UPPER(p.last_name) AS last_name, 
-          UPPER(p.barangay) AS barangay, 
-          p.control_number, 
-          p.date_of_birth, 
-          UPPER(t.status) AS status
-   FROM ceap_reg_form p
-   INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id WHERE status!='deleted'
-   SQL;
-   
-   $result = mysqli_query($conn, $query);
-   ?>
+   $currentSubPage = 'CEAP';
+ // Construct the SQL query using heredoc syntax
+ $query = <<<SQL
+ SELECT t.*, 
+        UPPER(p.first_name) AS first_name, 
+        UPPER(p.last_name) AS last_name, 
+        UPPER(p.barangay) AS barangay, 
+        p.control_number, 
+        p.date_of_birth, 
+        UPPER(t.status) AS status
+ FROM ceap_reg_form p
+ INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id WHERE status!='deleted'
+ SQL;
+ 
+ $result = mysqli_query($conn, $query);
 
+ $queryPersonalAcc = "SELECT * FROM ceap_personal_account WHERE status = 'Grantee'";
+ $resultPersonalAcc = mysqli_query($conn, $queryPersonalAcc);
+?>
 
 
 
@@ -87,7 +82,7 @@
 <h1>College Educational Assistance Program (CEAP)</h1>
 </div>
       <div class="form-group">
-      <input type="text" name="search" class="form-control" id="search" placeholder="Search by Control Number or Last name"  oninput="formatInput(this)">
+      <input type="text" name="search" class="form-control" id="search" placeholder="Search by Control Number, Last name, or Status"  oninput="formatInput(this)">
 
          <button type="button" class="btn btn-primary" onclick="searchApplicants()">Search</button>
       </div>
@@ -105,20 +100,32 @@
                   <th>STATUS</th>
                </tr>
                <?php
-                  $counter = 1;
-                  
-                           // Display applicant info using a table
-                           while ($row = mysqli_fetch_assoc($result)) {
-                              echo '<tr class="applicant-row contents" onclick="seeMore(\'' . $row['ceap_reg_form_id'] . '\')" style="cursor: pointer;">';
-                              echo '<td><strong>' . $counter++ . '</strong></td>';
-                              echo '<td>' . strtoupper($row['control_number']) . '</td>';
-                              echo '<td>' . strtoupper($row['last_name']) . '</td>';
-                              echo '<td>' . strtoupper($row['first_name']) . '</td>';
-                              echo '<td>' . strtoupper($row['barangay']) . '</td>';
-                              echo '<td>' . strtoupper($row['status']) . '</td>';
-                              echo '</tr>';
-                           }
-                           ?>
+    $counter = 1;
+
+    // Display applicant info using a table from the first query
+    while ($row = mysqli_fetch_assoc($result)) {
+        echo '<tr class="applicant-row contents" onclick="seeMore(\'' . $row['ceap_reg_form_id'] . '\')" style="cursor: pointer;">';
+        echo '<td><strong>' . $counter++ . '</strong></td>';
+        echo '<td>' . strtoupper($row['control_number']) . '</td>';
+        echo '<td>' . strtoupper($row['last_name']) . '</td>';
+        echo '<td>' . strtoupper($row['first_name']) . '</td>';
+        echo '<td>' . strtoupper($row['barangay']) . '</td>';
+        echo '<td>' . strtoupper($row['status']) . '</td>';
+        echo '</tr>';
+    }
+
+    // Display applicant info using a table from the second query
+    while ($rowPersonalAcc = mysqli_fetch_assoc($resultPersonalAcc)) {
+        echo '<tr class="applicant-row contents" onclick="seeMorePersonalAcc(\'' . $rowPersonalAcc['ceap_personal_account_id'] . '\')" style="cursor: pointer;">';
+        echo '<td><strong>' . $counter++ . '</strong></td>';
+        echo '<td>' . strtoupper($rowPersonalAcc['control_number']) . '</td>';
+        echo '<td>' . strtoupper($rowPersonalAcc['last_name']) . '</td>';
+        echo '<td>' . strtoupper($rowPersonalAcc['first_name']) . '</td>';
+        echo '<td>' . strtoupper($rowPersonalAcc['barangay']) . '</td>';
+        echo '<td>' . strtoupper($rowPersonalAcc['status']) . '</td>';
+        echo '</tr>';
+    }
+    ?>
             </table>
             <div id="noApplicantFound" style="display: none; text-align: center; margin-top: 10px;">
                No applicant found.
@@ -137,6 +144,10 @@
          function seeMore(id) {
              // Redirect to a page where you can retrieve the reserved data based on the given ID
              window.location.href = "ceap_information.php?ceap_reg_form_id=" + id;
+         }
+         function seeMorePersonalAcc(id) {
+             // Redirect to a page where you can retrieve the reserved data based on the given ID
+             window.location.href = "old_ceap_information.php?ceap_personal_account_id=" + id;
          }
          
       </script>

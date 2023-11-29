@@ -37,11 +37,13 @@
    // Set variables
    $currentPage = 'logs';
    $currentSubPage = '';
-   
-   
+
+date_default_timezone_set('Asia/Manila');
+
 // Fetch logs from employee_logs
-$queryEmployeeLogs = "SELECT * FROM employee_logs";
+$queryEmployeeLogs = "SELECT * FROM employee_logs ORDER BY timestamp DESC";
 $resultEmployeeLogs = mysqli_query($conn, $queryEmployeeLogs);
+
 $query = <<<SQL
 SELECT
     a.applicant_status_logs_id,
@@ -58,9 +60,8 @@ JOIN
 JOIN
     employee_logs AS e ON a.employee_logs_id = e.employee_logs_id
 ORDER BY
-    a.timestamp ASC
+    a.timestamp DESC
 SQL;
-
 
 // Execute the SQL query and handle errors
 $resultApplicantStatusLogs = mysqli_query($conn, $query);
@@ -85,6 +86,14 @@ if (!$resultApplicantStatusLogs) {
       <link rel="stylesheet" href="./css/side_bar.css">
       <link rel="stylesheet" href="./css/ceap_list.css">
       <link rel="stylesheet" href="./css/logs.css">
+      <style>
+    .truncate-text {
+        max-width: 150px; /* Set the maximum width for the column */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
    </head>
    <body>
       <?php 
@@ -95,7 +104,7 @@ if (!$resultApplicantStatusLogs) {
 
       <!-- home content-->    
       <div class="header-label">
-<h1>Logs</h1>
+<h1>Activity Logs</h1>
 </div>
       <!-- <div class="form-group">
       <input type="text" name="search" class="form-control" id="search" placeholder="Search by Control Number or Last name"  oninput="formatInput(this)">
@@ -107,29 +116,40 @@ if (!$resultApplicantStatusLogs) {
     <h2 style="text-align: center">Employee Logs</h2>
     <div class="employee-logs-table">
         <div class="table-container"> <!-- Added a container div for scrolling -->
-            <table>
-                <thead>
-                <tr>
-                    <th>Log ID</th>
-                    <th>Username</th>
-                    <th>Action</th>
-                    <th>Timestamp</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php
-                while ($row = mysqli_fetch_assoc($resultEmployeeLogs)) {
-                    echo "<tr>";
-                    echo "<td style='text-align: center'>" . $row['employee_logs_id'] . "</td>";
-                    echo "<td>" . $row['employee_username'] . "</td>";
-                    echo "<td class='truncate-text'>" . $row['action'] . "</td>";
-                    echo "<td>" . $row['timestamp'] . "</td>";
-                    echo "</tr>";
-                }
-                ?><!-- Example usage: -->
-                
-                </tbody>
-            </table>
+        <table>
+    <thead>
+        <tr>
+            <th>No.</th>
+            <th>Username</th>
+            <th>Action</th>
+            <th>Timestamp</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        $counter = 1; // Initialize the counter
+        while ($row = mysqli_fetch_assoc($resultEmployeeLogs)) {
+            echo "<tr>";
+            echo "<td style='text-align: center'>" . $counter . "</td>"; // Display the counter
+            echo "<td>" . $row['employee_username'] . "</td>";
+            
+            $actionText = $row['action'];
+            $maxChars = 60;
+
+            if (strlen($actionText) > $maxChars) {
+                $actionText = substr($actionText, 0, $maxChars) . "..."; // Truncate and add ellipsis
+            }
+
+            echo "<td class='truncate-text'>" . $actionText . "</td>";
+
+            $formattedTimestamp =  date('d/m/y, h:i A',strtotime($row['timestamp']));
+            echo "<td>" . $formattedTimestamp . "</td>";
+            echo "</tr>";
+            $counter++; // Increment the counter for the next row
+        }
+        ?>
+    </tbody>
+</table>
         </div>
     </div>
 </div>
@@ -139,30 +159,33 @@ if (!$resultApplicantStatusLogs) {
     <h2 style="text-align: center">Applicant Status Logs</h2>
     <div class="table-container"> <!-- Added a container div for scrolling -->
         <table>
-            <thead>
-            <tr>
-                <th>Log ID</th>
-                <th>Control Number</th>
-                <th>Previous Status</th>
-                <th>Updated Status</th>
-                <th>Updated By</th>
-                <th>Timestamp</th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php
-            while ($row = mysqli_fetch_assoc($resultApplicantStatusLogs)) {
-                echo "<tr>";
-                echo "<td style='text-align: center'>" . $row['applicant_status_logs_id'] . "</td>";
-                echo "<td>" . $row['control_number'] . "</td>"; // Display the control_number
-                echo "<td>" . $row['previous_status'] . "</td>";
-                echo "<td>" . $row['updated_status'] . "</td>";
-                echo "<td>" . $row['employee_username'] . "</td>";
-                echo "<td>" . $row['timestamp'] . "</td>";
-                echo "</tr>";
-            }
-            ?>
-            </tbody>
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Control Number</th>
+                        <th>Previous Status</th>
+                        <th>Updated Status</th>
+                        <th>Updated By</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php
+                $counter = 1; // Initialize the counter
+                while ($row = mysqli_fetch_assoc($resultApplicantStatusLogs)) {
+                    echo "<tr>";
+                    echo "<td style='text-align: center'>" . $counter . "</td>"; // Display the counter
+                    echo "<td>" . $row['control_number'] . "</td>";
+                    echo "<td>" . $row['previous_status'] . "</td>";
+                    echo "<td>" . $row['updated_status'] . "</td>";
+                    echo "<td>" . $row['employee_username'] . "</td>";
+                    $formattedTimestamp =  date('d/m/y, h:i A',strtotime($row['timestamp']));
+                    echo "<td>" . $formattedTimestamp . "</td>";
+                    echo "</tr>";
+                    $counter++; // Increment the counter for the next row
+                }
+                ?>
+                </tbody>
         </table>
     </div>
 </div>
