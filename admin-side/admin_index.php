@@ -25,7 +25,7 @@
         </div>
         <div class="div">
     <h5>Username<span class="required"> *</span></h5>
-    <input type="text" name="username" class="input" required>
+    <input type="text" name="username" class="input username" required>
 </div>
 </div>
 <div class="input-div pass">

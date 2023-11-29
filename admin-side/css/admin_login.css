@@ -19,7 +19,9 @@ input:required::before {
     content: "* ";
     color: red;
 }
-
+.username {
+	text-transform: uppercase;
+}
 .wave{
 	position: fixed;
 	bottom: 0;

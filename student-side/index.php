@@ -38,7 +38,7 @@
                   <form method="post"  action ="./php/login_process.php" class="module__wrapper__form__content__login">
                      <div class="separator"></div>
                      <div class="module__wrapper__form__content__login__field-input js-username">
-                        <input type="text" name="username" autocomplete="off">
+                        <input type="text" name="username" class="username" autocomplete="off">
                         <label for="username">Control Number (2023-1234-APLA)</label>
                      </div>
                      <div class="module__wrapper__form__content__login__field-input js-password">
