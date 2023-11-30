@@ -6,17 +6,23 @@ if (isset($_SESSION['username'])) {
     // Connect to the database (replace the placeholders with actual values)
     include '../php/config_iskolarosa_db.php';
 
-    // Get the admin username from the session
-    $employee_username = $_SESSION['username'];
+    // Get the username from the session
+    $username = $_SESSION['username'];
+
+    // Update the logged_in flag to 0 (not logged in) in the employee_list table
+    $updateStmt = $conn->prepare("UPDATE employee_list SET logged_in = 0 WHERE username = ?");
+    $updateStmt->bind_param("s", $username);
+    $updateStmt->execute();
+    $updateStmt->close();
 
     // Define the action as a logout
     $action = "Logged out";
 
-    // Insert a new log entry into the admin_logs table
-    $sql = "INSERT INTO employee_logs (employee_username, action) VALUES (?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ss", $employee_username, $action);
-    $stmt->execute();
+    // Insert a new log entry into the employee_logs table
+    $logStmt = $conn->prepare("INSERT INTO employee_logs (employee_username, action) VALUES (?, ?)");
+    $logStmt->bind_param("ss", $username, $action);
+    $logStmt->execute();
+    $logStmt->close();
 
     // Unset all session variables
     session_unset();
