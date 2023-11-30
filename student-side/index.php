@@ -61,9 +61,9 @@ if (isset($_GET['error'])) {
 }
 ?>
       
-                     <!-- <div class="module__wrapper__form__content__login__forgot-pass">
-                        <a href="../ceap_reg_form/forgot_password.php">Forgot password?</a>
-                     </div> -->
+                     <div class="module__wrapper__form__content__login__forgot-pass">
+                        <a href="./php/forgotpassword.php">Forgot password?</a>
+                     </div>
                              <div class="module__wrapper__form__content__login__field-btn">
                         <button><input type='submit' value='Login' style="background-color: transparent; color:white;"></button>
                      </div>

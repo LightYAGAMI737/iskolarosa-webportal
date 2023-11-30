@@ -4,8 +4,8 @@ const newPasswordError = document.getElementById('new_password_error');
 const confirmPasswordError = document.getElementById('confirm_password_error');
 const submitButton = document.getElementById('submitForgotPassword');
 
-newPassword.addEventListener('input', validatePassword);
-confirmPassword.addEventListener('input', validatePassword);
+newPassword.addEventListener('change', validatePassword);
+confirmPassword.addEventListener('change', validatePassword);
 
 function validatePassword() {
     const password = newPassword.value;
