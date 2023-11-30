@@ -19,6 +19,7 @@
     text-align: left;
     max-width: 200px; /* Maximum width for cells */
     word-wrap: break-word; /* Allow text to wrap to the next line */
+    text-transform: uppercase !important;
 }
 
 .applicant-info th {
