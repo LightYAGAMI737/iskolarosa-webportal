@@ -58,8 +58,6 @@ function sendEmail($email, $control_number, $status, $reason)
         <div>Warm Regards,<br>
         City Scholarship Office</div>
         <br>
-        <div>[iSKOLAROSA LOGO]</div>
-        <br>
         <div class="disclaimer">
         <center>
             <strong>DISCLAIMER AND CONFIDENTIALITY NOTICE:</strong><br><br>
