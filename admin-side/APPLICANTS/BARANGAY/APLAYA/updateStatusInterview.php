@@ -5,6 +5,7 @@
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     include '../../../php/config_iskolarosa_db.php';
+    require_once '../../../php/email_update_status_interview.php'; 
    
     $currentStatus = 'Verified';
     $currentDirectory = basename(__DIR__);
@@ -84,12 +85,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmtLog->bind_param("ssii", $previousStatus, $status, $ceapRegFormId, $employeeLogsId);
                 $stmtLog->execute();
 
-                echo 'success';
-            } else {
-                echo 'error';
-            }
-            $updateCount++;
-        }
+                // Fetch the applicant's email address and control number from the database
+                $applicantEmailQuery = "SELECT active_email_address, control_number FROM ceap_reg_form WHERE ceap_reg_form_id = ?";
+                $stmtApplicantEmail = $conn->prepare($applicantEmailQuery);
+                $stmtApplicantEmail->bind_param("i", $ceapRegFormId); // Corrected variable name
+                $stmtApplicantEmail->execute();
+                $stmtApplicantEmail->bind_result($applicantEmail, $control_number);
+                $stmtApplicantEmail->fetch();
+                $stmtApplicantEmail->close();
+
+                // Send an email to the applicant
+                $recipientEmail = $applicantEmail; // Use the fetched applicant email
+                $emailSent = sendEmailInterview($recipientEmail, $control_number, $status, $interviewDate);
+
+                if ($emailSent) {
+                    echo 'success'; // Update, log, and email sending were successful
+                } else {
+                    echo 'email_error'; // Email sending failed, but the update and log were successful
+                }
+                } else {
+                    echo 'error'; // Update failed
+                }
+                $updateCount++;
+
+}
+
     }
 }
 ?>

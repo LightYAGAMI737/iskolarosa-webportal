@@ -22,13 +22,14 @@ document.getElementById('confirmSetInterview').addEventListener('click', functio
             if (xhr.status === 200) {
                 if (xhr.responseText === 'success') 
                 {
-                  setTimeout(openConfirmationPopup, 1000);
+                console.log('Request success: ' + xhr.status + ' ' + xhr.responseText);
+                setTimeout(openConfirmationPopup, 1000);
                 } else {
-                  setTimeout(openConfirmationPopup, 1000);
-                }
+                console.log('Request failed: ' + xhr.status + ' ' + xhr.responseText);
+                } 
             } else {
-                console.log('Request failed: ' + xhr.status + ' ' + xhr.statusText);
-                alert('Request failed: ' + xhr.status + ' ' + xhr.statusText);
+                console.log('Request failed: ' + xhr.status + ' ' + xhr.responseText);
+                alert('Request failed: ' + xhr.status + ' ' + xhr.responseText);
             }
         }
     };
