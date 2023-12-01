@@ -26,6 +26,7 @@ document.getElementById('confirmSetInterview').addEventListener('click', functio
                 setTimeout(openConfirmationPopup, 1000);
                 } else {
                 console.log('Request failed: ' + xhr.status + ' ' + xhr.responseText);
+                setTimeout(openConfirmationPopup, 1000);
                 } 
             } else {
                 console.log('Request failed: ' + xhr.status + ' ' + xhr.responseText);
