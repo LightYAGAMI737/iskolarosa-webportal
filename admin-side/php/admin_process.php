@@ -2,24 +2,16 @@
 // Start the session
 session_start();
 
+date_default_timezone_set('Asia/Manila');
+
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Connect to the database (replace the placeholders with actual values)
     include '../php/config_iskolarosa_db.php';
-
+    
     // Get the submitted username and password
     $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
     $password = $_POST["password"];
-
-    // Check if the user is already logged in on another device
-    $existingSession = mysqli_query($conn, "SELECT * FROM employee_list WHERE username = '$username' AND logged_in = 1");
-    
-    if (mysqli_num_rows($existingSession) > 0) {
-        // User is already logged in on another device
-        $error = "User is already logged in on another device.";
-        header('Location: ../admin_index.php?error=' . urlencode($error));
-        exit();
-    }
 
     // Prepare the SQL query to retrieve the employee data based on the username and account_status
     $sql = "SELECT * FROM employee_list WHERE username = ?";
@@ -39,20 +31,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         // Check account_status
         if ($employee['account_status'] == '1') {
+            
             // Verify the password
             if (password_verify($password, $employee["password"])) {
                 // Password is correct, store user data in session
 
-                // Check if the user is already logged in
-                if ($employee['logged_in'] == 1) {
+                // Check if there's an active session based on the user's session data
+                if (isset($employee['session_id']) && $employee['session_id'] !== session_id()) {
                     // User is already logged in on another device
                     $error = "User is already logged in on another device.";
                     header('Location: ../admin_index.php?error=' . urlencode($error));
                     exit();
                 }
 
-                // Update the logged_in flag in the employee_list table
-                mysqli_query($conn, "UPDATE employee_list SET logged_in = 1 WHERE username = '$username'");
+                // Update the session_id in the employee_list table
+                $session_id = session_id();
+                mysqli_query($conn, "UPDATE employee_list SET session_id = '$session_id', last_activity = CURRENT_TIMESTAMP WHERE username = '$username'");
 
                 $_SESSION["user_id"] = $employee["employee_id_no"];
                 $_SESSION["user_department"] = $employee["role_id"];

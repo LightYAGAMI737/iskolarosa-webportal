@@ -1,6 +1,8 @@
 <?php
 // Start the session
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 include './php/config_iskolarosa_db.php';
 include './php/functions.php';
@@ -10,6 +12,7 @@ if (!isset($_SESSION['username'])) {
     echo 'You need to log in to access this page.';
     exit();
 }
+
 
 // Define the required permission
 $requiredPermission = 'view_ceap_applicants';
@@ -249,8 +252,5 @@ lpppGenderChart.draw(google.visualization.arrayToDataTable(lpppGenderData), opti
     google.charts.setOnLoadCallback(drawCharts);
 </script>
 
-<script>
-
-</script>
 </body>
 </html>

@@ -400,27 +400,61 @@
 </nav>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    // JavaScript function to toggle the visibility of menu items
-    function toggleMenu(event) {
-        var menu = document.querySelector(".left-column .dropdown-content"); // Updated selector
-        var button = document.querySelector(".left-column .dropdown-btn"); // Updated selector
-        
-        if (menu.style.display === "block") {
-            menu.style.display = "none";
-            button.classList.remove("active");
-        } else {
-            menu.style.display = "block";
-            button.classList.add("active");
+        // Set the session timeout duration in seconds
+        const sessionTimeoutSeconds = 300;
+
+        // Function to check session timeout
+        function checkSessionTimeout() {
+            const lastActivityTime = localStorage.getItem('lastActivityTime');
+
+            if (lastActivityTime) {
+                const currentTime = new Date().getTime();
+                const elapsedTime = currentTime - parseInt(lastActivityTime, 10);
+                const timeoutMilliseconds = sessionTimeoutSeconds * 1000;
+
+                if (elapsedTime > timeoutMilliseconds) {
+                    // Redirect to logout.php when the session times out
+                    window.location.href = 'logout.php';
+                }
+            }
         }
-        
-        // Prevent the default behavior of the button (e.g., following a link)
-        event.preventDefault();
-    }
 
-    // Attach the click event handler to your button
-    var button = document.querySelector(".left-column .dropdown-btn"); // Updated selector
-    button.addEventListener("click", toggleMenu);
-});
+        // Function to update last activity time in local storage
+        function updateLastActivityTime() {
+            localStorage.setItem('lastActivityTime', new Date().getTime().toString());
+        }
 
-   </script>
+        // Add event listeners for various user interactions
+        document.addEventListener('mousemove', updateLastActivityTime);
+        document.addEventListener('keydown', updateLastActivityTime);
+
+        // Check session timeout on an interval
+        setInterval(checkSessionTimeout, 300000); // Check every second (adjust as needed)
+    </script>
+
+<script>
+        // Function to update last activity time in the database
+        function AJXupdateLastActivityTime() {
+            // Use AJAX or fetch to send a request to the server to update last_activity
+            // Example using fetch:
+            fetch('../../../php/update_last_activity.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({}),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to update last activity time');
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        }
+
+        // Add event listeners for various user interactions
+        document.addEventListener('mousemove', AJXupdateLastActivityTime);
+        document.addEventListener('keydown', AJXupdateLastActivityTime);
+    </script>

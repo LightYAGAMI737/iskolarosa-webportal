@@ -9,20 +9,11 @@ if (isset($_SESSION['username'])) {
     // Get the username from the session
     $username = $_SESSION['username'];
 
-    // Update the logged_in flag to 0 (not logged in) in the employee_list table
-    $updateStmt = $conn->prepare("UPDATE employee_list SET logged_in = 0 WHERE username = ?");
+    // Update the session_id column to null in the employee_list table
+    $updateStmt = $conn->prepare("UPDATE employee_list SET session_id = NULL WHERE username = ?");
     $updateStmt->bind_param("s", $username);
     $updateStmt->execute();
     $updateStmt->close();
-
-    // Define the action as a logout
-    $action = "Logged out";
-
-    // Insert a new log entry into the employee_logs table
-    $logStmt = $conn->prepare("INSERT INTO employee_logs (employee_username, action) VALUES (?, ?)");
-    $logStmt->bind_param("ss", $username, $action);
-    $logStmt->execute();
-    $logStmt->close();
 
     // Unset all session variables
     session_unset();

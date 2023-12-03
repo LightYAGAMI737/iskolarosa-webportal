@@ -59,5 +59,27 @@ if (isset($_GET['error'])) {
         </div>
     </div>
     <script type="text/javascript" src="js/admin-login.js"></script>
+
+<script>
+function checkLastUpdate() {
+    fetch('./php/lastActivity.php', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({}),
+})
+.then(response => {
+    if (!response.ok) {
+        throw new Error('Fetch failed: ' + response.statusText);
+    }
+})
+.catch(error => {
+    console.error(error);
+});
+
+}
+setInterval(checkLastUpdate, 1000 * 240); // Check every 30 seconds
+    </script>
 </body>
 </html>
