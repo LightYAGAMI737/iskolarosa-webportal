@@ -227,8 +227,9 @@ include '../../../php/logoutpopup.php';
             })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Failed to update last activity time');
+                    throw new Error(`Failed to update last activity time. Status: ${response.status}`);
                 }
+                return response.json(); // If the server sends JSON in the response
             })
             .catch(error => {
                 console.error(error);

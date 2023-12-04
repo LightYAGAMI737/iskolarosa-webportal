@@ -187,11 +187,9 @@ include 'logoutpopup.php';
 <i class="ri-menu-line ri-xl"></i>
 </a>
 
-
 <script>
         // Set the session timeout duration in seconds
         const sessionTimeoutSeconds = 300;
-
         // Function to check session timeout
         function checkSessionTimeout() {
             const lastActivityTime = localStorage.getItem('lastActivityTime');
@@ -235,8 +233,9 @@ include 'logoutpopup.php';
             })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Failed to update last activity time');
+                    throw new Error(`Failed to update last activity time. Status: ${response.status}`);
                 }
+                return response.json(); // If the server sends JSON in the response
             })
             .catch(error => {
                 console.error(error);

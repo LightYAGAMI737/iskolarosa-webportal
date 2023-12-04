@@ -35,18 +35,26 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             // Verify the password
             if (password_verify($password, $employee["password"])) {
                 // Password is correct, store user data in session
-
+                $current_time = date("h:i:s A");
                 // Check if there's an active session based on the user's session data
-                if (isset($employee['session_id']) && $employee['session_id'] !== session_id()) {
-                    // User is already logged in on another device
-                    $error = "User is already logged in on another device.";
-                    header('Location: ../admin_index.php?error=' . urlencode($error));
-                    exit();
+                if (
+                    isset($employee['session_id']) && //have isset session_id 
+                    $employee['session_id'] !== session_id() && // different browser
+                    strtotime($employee['last_activity']) > strtotime($current_time) - 300) { //last activity is less than 5 min
+                        // User is already logged in on another device
+                        $error = "User is already logged in on another device.";
+                        header('Location: ../admin_index.php?error=' . urlencode($error));
+                        exit();
+                }elseif (
+                    isset($employee['session_id']) && //have isset session_id 
+                    $employee['session_id'] !== session_id() && // different browser
+                    strtotime($employee['last_activity']) < strtotime($current_time) - 300) { //last activity is more than 5 min 
+                    // Update the session_id in the employee_list table
+                        $session_id = session_id();
+                        mysqli_query($conn, "UPDATE employee_list SET session_id = '$session_id', last_activity = CURRENT_TIMESTAMP WHERE username = '$username'");
                 }
-
-                // Update the session_id in the employee_list table
-                $session_id = session_id();
-                mysqli_query($conn, "UPDATE employee_list SET session_id = '$session_id', last_activity = CURRENT_TIMESTAMP WHERE username = '$username'");
+                        $session_id = session_id();
+                        mysqli_query($conn, "UPDATE employee_list SET session_id = '$session_id', last_activity = CURRENT_TIMESTAMP WHERE username = '$username'");
 
                 $_SESSION["user_id"] = $employee["employee_id_no"];
                 $_SESSION["user_department"] = $employee["role_id"];

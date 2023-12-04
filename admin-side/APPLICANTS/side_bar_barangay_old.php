@@ -428,7 +428,7 @@
             // Use AJAX or fetch to send a request to the server to update last_activity
             // Example using fetch:
             fetch('../../../php/update_last_activity.php', {
-                method: 'POST',
+               method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -436,14 +436,14 @@
             })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Failed to update last activity time');
+                    throw new Error(`Failed to update last activity time. Status: ${response.status}`);
                 }
+                return response.json(); // If the server sends JSON in the response
             })
             .catch(error => {
                 console.error(error);
             });
         }
-
         // Add event listeners for various user interactions
         document.addEventListener('mousemove', AJXupdateLastActivityTime);
         document.addEventListener('keydown', AJXupdateLastActivityTime);
