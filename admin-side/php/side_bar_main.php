@@ -221,31 +221,33 @@ include 'logoutpopup.php';
     </script>
 
 <script>
-        // Function to update last activity time in the database
-        function AJXupdateLastActivityTime() {
-            // Use AJAX or fetch to send a request to the server to update last_activity
-            // Example using fetch:
-            fetch('./php/update_last_activity.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({}),
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Failed to update last activity time. Status: ${response.status}`);
-                }
-                return response.json(); // If the server sends JSON in the response
-            })
-            .catch(error => {
-                console.error(error);
-            });
+// Function to update last activity time in the database
+function AJXupdateLastActivityTime() {
+    // Use AJAX or fetch to send a request to the server to update last_activity
+    // Example using fetch:
+    fetch('./php/update_last_activity.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({}),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Failed to update last activity time. Status: ${response.status}`);
         }
+        return response.json(); // If the server sends JSON in the response
+    })
+    .catch(error => {
+        console.error(error);
+    });
+}
 
-        // Add event listeners for various user interactions
-        document.addEventListener('mousemove', AJXupdateLastActivityTime);
-        document.addEventListener('keydown', AJXupdateLastActivityTime);
-              // Check session timeout on an interval
-              setInterval(AJXupdateLastActivityTime, 500);
+// Call AJXupdateLastActivityTime every 20 seconds
+setInterval(AJXupdateLastActivityTime, 20 * 1000);
+
+// Add event listeners for various user interactions
+document.addEventListener('mousemove', AJXupdateLastActivityTime);
+document.addEventListener('keydown', AJXupdateLastActivityTime);
+
     </script>
