@@ -10,8 +10,4 @@ if (!$conn) {
     die("Connection Failed: " . mysqli_connect_error());
 }
 
-// Set the session time zone to 'Asia/Manila'
-$query = "SET time_zone = '+08:00'";
-mysqli_query($conn, $query);
-
 ?>
