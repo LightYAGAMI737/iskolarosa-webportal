@@ -247,5 +247,5 @@ include 'logoutpopup.php';
         document.addEventListener('mousemove', AJXupdateLastActivityTime);
         document.addEventListener('keydown', AJXupdateLastActivityTime);
               // Check session timeout on an interval
-              setInterval(AJXupdateLastActivityTime, 5);
+              setInterval(AJXupdateLastActivityTime, 500);
     </script>
