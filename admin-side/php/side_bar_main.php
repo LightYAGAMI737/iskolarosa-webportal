@@ -236,7 +236,10 @@ function AJXupdateLastActivityTime() {
         if (!response.ok) {
             throw new Error(`Failed to update last activity time. Status: ${response.status}`);
         }
-        return response.json(); // If the server sends JSON in the response
+        return response.text(); // Now expecting text (current time) instead of JSON
+    })
+    .then(data => {
+        console.log(data); // Log the data received from the server (current time)
     })
     .catch(error => {
         console.error(error);

@@ -20,8 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute();
     $stmt->close();
 
-    // Returning a success message (not necessary if you don't need to return anything)
-    echo json_encode(['success' => true]);
+ // Echo the current time instead of a success message
+ echo $current_time;
 }
 
 ?>
