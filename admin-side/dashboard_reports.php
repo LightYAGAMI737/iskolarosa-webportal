@@ -58,6 +58,7 @@
       <link rel='stylesheet' href='./css/unpkg-layout.css'>
       <link rel="stylesheet" href="./css/side_bar.css">
       <link rel="stylesheet" href="./css/dashboard_charts.css">
+      <link rel="stylesheet" href="./css/dashboard_reports.css">
 
    </head>
    <body>
@@ -83,8 +84,14 @@
         </ul>
     </div>
 </nav>
+
 <div class="background">
     <form id="downloadForm" action="./php/generate_report.php" method="POST">
+        <div class="container-reports">
+            <div class="programs">
+        <div class="label-header">
+            <label for="sortingOrder">Program:</label>
+        </div>
         <div class="ceaplpppradio">
             <label for="ceapRadio">
                 <input type="radio" id="ceapRadio" name="dataChoice" value="ceap" checked>
@@ -95,25 +102,35 @@
                 LPPP
             </label>
         </div>
-
-        <div class="sorting-options">
+        </div>
+        <div class="sorting-order">
+        <div class="label-header">
             <label for="sortingOrder">Sort Order:</label>
+        </div>
+        <div class="sorting-options">
             <input type="radio" id="ascending" name="sortingOrder" value="ASC" checked>
             <label for="ascending">Ascending</label>
             <input type="radio" id="descending" name="sortingOrder" value="DESC">
             <label for="descending">Descending</label>
         </div>
-
-        <div class="filterselectdata">
-            <label for="filterOption">Choose Filtering Options:</label>
-            <select id="filterOption" name="filterOption[]">
-                <option value="totalCountGender">Total Count of Gender (Male/Female)</option>
-                <option value="totalCountStatus">Total Count of Applicant Status</option>
-                <option value="totalCountBarangay">Total Count of Applicant each Barangay</option>
-                <option value="totalCountSchool">Total Count of Applicant each School</option>
-            </select>
         </div>
+        <div class="datato-download">
+        <div class="label-header">
+            <label for="filterOption">Choose Filtering Options:</label>
+        </div>
+        <div class="filterselectdata">
+    <select id="filterOption" name="filterOption[]" class="select-dropdown">
+        <option value="totalCountGender">Total Count of Gender (Male/Female)</option>
+        <option value="totalCountStatus">Total Count of Applicant Status</option>
+        <option value="totalCountBarangay">Total Count of Applicant each Barangay</option>
+        <option value="totalCountSchool">Total Count of Applicant each School</option>
+    </select>
+</div>
+        </div>
+        <div class="submitBTN">
         <button type="submit">Download Data</button>
+        </div>
+        </div>
     </form>
 </div>
 

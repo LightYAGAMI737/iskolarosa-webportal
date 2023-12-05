@@ -1,0 +1,65 @@
+.container-reports {
+    display: flex;
+    flex-direction: row;
+    align-items: center; /* Optional: Adjust as needed to center content vertically */
+    justify-content: space-evenly; /* Optional: Adjust as needed to distribute space between elements */
+}
+.label-header {
+    margin-bottom: 10px;
+}
+.ceaplpppradio,
+.sorting-options,
+.filterselectdata {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start; /* Optional: Align items to the start (left) of the container */
+}
+
+.ceaplpppradio label,
+.sorting-options label,
+.filterselectdata label {
+    margin-bottom: 5px; /* Optional: Add some spacing between labels and inputs */
+}
+
+.filterselectdata select {
+    border-radius: 15px;
+    padding: 2px 20px;
+}
+
+.ceaplpppradio input[type="radio"],
+.sorting-options input[type="radio"]{
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    margin-right: 6px;
+    position: relative;
+    top: 5px;
+    border: 1px solid #000;
+    cursor: pointer;
+}
+.sorting-options input[type="radio"]{
+    top: -2px !important;
+}
+.ceaplpppradio input[type="radio"]:checked,
+.sorting-options input[type="radio"]:checked{
+    background-color: #a5040a;
+    border: 1px solid #000;
+}
+
+.submitBTN button {
+    width: 150px; /* Adjust the width as needed */
+    height: 40px; /* Adjust the height as needed */
+    background-color: #a5040a; /* Set the background color */
+    color: #fff; /* Set the text color */
+    border: none; /* Remove the default button border */
+    border-radius: 15px; /* Optional: Add rounded corners */
+    cursor: pointer;
+}
+
+.submitBTN button:hover {
+    background-color: #892002; /* Change background color on hover */
+}
+
