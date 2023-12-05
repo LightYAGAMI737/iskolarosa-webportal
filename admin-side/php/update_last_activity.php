@@ -4,7 +4,7 @@ session_start();
 date_default_timezone_set('Asia/Manila');
 
 // Get the current time in 'H:i:s' format
-$current_time = date("H:i:s");
+$current_time = date("Y-m-d H:i:s");
 
 // Check if the user is logged in
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
