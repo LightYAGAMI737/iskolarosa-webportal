@@ -18,10 +18,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $conn->prepare("UPDATE employee_list SET last_activity = ? WHERE employee_id_no = ?");
     $stmt->bind_param("ss", $current_time, $employee_id_no);
     $stmt->execute();
+    if ($stmt->errno) {
+        echo "SQL Error: " . $stmt->error;
+    }
+    
     $stmt->close();
 
  // Echo the current time instead of a success message
  echo $current_time;
+ echo "Employee ID: " . $_SESSION['employee_id_no'];
 }
 
 ?>
