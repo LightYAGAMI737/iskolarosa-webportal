@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+date_default_timezone_set('Asia/Manila');
+
 // Check if the user is logged in
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Connect to the database (replace the placeholders with actual values)
