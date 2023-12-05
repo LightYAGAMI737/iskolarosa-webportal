@@ -237,6 +237,9 @@ include 'logoutpopup.php';
                 }
                 return response.json(); // If the server sends JSON in the response
             })
+            .then(data => {
+                console.log(data); // Log the data received from the server
+            })
             .catch(error => {
                 console.error(error);
             });
