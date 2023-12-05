@@ -56,10 +56,11 @@
     color: #fff; /* Set the text color */
     border: none; /* Remove the default button border */
     border-radius: 15px; /* Optional: Add rounded corners */
+    margin-top: 20px;
     cursor: pointer;
 }
 
 .submitBTN button:hover {
-    background-color: #892002; /* Change background color on hover */
+    background-color: #400000; /* Change background color on hover */
 }
 
