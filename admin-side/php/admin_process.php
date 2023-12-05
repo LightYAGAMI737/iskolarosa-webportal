@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             ) { // last activity is less than 5 min
                                 // User is already logged in on another device
                                 $error = "User is already logged in on another device.";
-                                header('Location: ../admin_index.php?error=' . urlencode($current_time) . '&last_activity=' . urlencode($employee['last_activity']));
+                                header('Location: ../admin_index.php?error=' . urlencode($error));
                                 exit();
                             } elseif (
                                 isset($employee['session_id']) && // have isset session_id
