@@ -11,12 +11,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Connect to the database (replace the placeholders with actual values)
     include 'config_iskolarosa_db.php';
 
-    // Get the username from the session
-    $username = $_SESSION['username'];
+    // Get the employee_id_no from the session
+    $employee_id_no = $_SESSION['employee_id_no'];
 
     // Update the last_activity column with the current time
     $stmt = $conn->prepare("UPDATE employee_list SET last_activity = ? WHERE employee_id_no = ?");
-    $stmt->bind_param("ss", $current_time, $username);
+    $stmt->bind_param("ss", $current_time, $employee_id_no);
     $stmt->execute();
     $stmt->close();
 
