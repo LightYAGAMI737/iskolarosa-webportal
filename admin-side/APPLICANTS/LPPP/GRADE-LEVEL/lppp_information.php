@@ -8,13 +8,13 @@ if (!isset($_SESSION['username'])) {
 }
 
 $currentPage = 'lppp_list';
-$currentSubPage = '';
+$currentSubPage = 'LPPP';
 
 include '../../../php/config_iskolarosa_db.php';
 
 // Get the lppp_reg_form_id parameter from the URL
 if (isset($_GET['lppp_reg_form_id'])) {
-    $ceapRegFormId = $_GET['lppp_reg_form_id'];
+    $LPPPregFormID = $_GET['lppp_reg_form_id'];
 } else {
     echo 'No applicant selected.';
     exit();
@@ -44,11 +44,14 @@ if (mysqli_num_rows($result) > 0) {
       <link rel='stylesheet' href='../../../css/remixicon.css'>
       <link rel='stylesheet' href='../../../css/unpkg-layout.css'>
       <link rel="stylesheet" href="../../../css/side_bar.css">
+      <link rel="stylesheet" href="../../../css/status_popup.css">
       <link rel="stylesheet" href="../../../css/ceap_information.css">
    </head>
    <body>
       <?php 
          include '../../side_bar_lppp_grantee.php';
+         include '../../../php/LPPPStatus_Popup.php';
+         include '../../../php/confirmStatusPopup.php';
          ?>
          
       <!-- home content-->    
@@ -141,18 +144,18 @@ if (!extension_loaded('imagick')) {
 $fileCounter = 0;
 
 $pdfFiles = array(
-    'uploadVotersApplicant' => '../../../../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_VotersApplicant.pdf',
-    'uploadVotersParent' => '../../../../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_VotersParent.pdf',
-    'uploadITR' => '../../../../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_ITR.pdf',
-    'uploadResidency' => '../../../../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Residency.pdf',
-    'uploadCOR' => '../../../../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_COR.pdf',
-    'uploadGrade' => '../../../../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Grade.pdf'
+    'uploadVotersApplicant' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_VotersApplicant.pdf',
+    'uploadVotersParent' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_VotersParent.pdf',
+    'uploadITR' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_ITR.pdf',
+    'uploadResidency' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Residency.pdf',
+    'uploadCOR' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_COR.pdf',
+    'uploadGrade' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Grade.pdf'
 );
 
 // Output image file paths
 $imageFiles = array();
 foreach ($pdfFiles as $key => $pdfFile) {
-    $outputImage = '../../../../ceap-reg-form/converted-images/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_' . $key . '.jpg';
+    $outputImage = '../../../../lppp-reg-form/converted-images/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_' . $key . '.jpg';
 
     try {
         $imagick = new Imagick();
@@ -245,7 +248,16 @@ foreach ($pdfFiles as $key => $pdfFile) {
          </div>
       </div>
       <!-- end applicant info -->
-        
+        <!-- Modal for entering reason -->
+        <div id="reasonModalLPPP" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeReasonModalLPPP()">&times;</span>
+                <h2>Enter Reason</h2>
+                <input type="text" name="reason" id="disqualificationReasonLPPP" minlength="10" maxlength="255" placeholder="Enter reason for disqualification">
+                <button id="submitReasonLPPP" onclick="submitStatusAndReason()" class="disabled">Submit</button>
+            </div>
+        </div>
+
          <footer class="footer">
        
          <?php
@@ -271,8 +283,8 @@ if ($result) {
 
         // Check the status and determine which buttons to display
         if ($applicantStatus === 'In Progress') {
-            echo '<button onclick="updateStatus(\'Disqualified\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">Disqualified</button>';
-            echo '<button onclick="updateStatus(\'Verified\', ' . $id . ')" style="background-color: #FEC021;" class="status-button">Verified</button>';
+            echo '<button onclick="openReasonModalLPPP(\'Disqualified\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">Disqualified</button>';
+            echo '<button onclick="openLPPPVerifiedPopup()" style="background-color: #FEC021;" class="status-button">Verified</button>';
         } elseif ($applicantStatus === 'exam') {
             echo '<form id="scoreForm">';
             echo '<label for="applicantScore">Enter Applicant Score:</label>';
@@ -281,7 +293,6 @@ if ($result) {
             echo '<input type="submit" value="Submit">';
             echo '</form>';
         } elseif ($applicantStatus === 'interview' && $applicantInterviewDate === '0000-00-00') {
-            // ... your code for interview status with '0000-00-00' date ...
         } elseif ($applicantStatus === 'interview') {
             echo '<button onclick="updateStatus(\'Fail\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">Not Grantee</button>';
             echo '<button onclick="updateStatus(\'Grantee\', ' . $id . ')" style="background-color: #FEC021;" class="status-button">Grantee</button>';
@@ -304,9 +315,13 @@ if ($result) {
          <div class="overlay"></div>
       </div>
       <!-- partial -->
-      <script src='../../../js/unpkg-layout.js'></script><script  src="../../../js/side_bar.js"></script>
-
-
+      <script src='../../../js/unpkg-layout.js'></script>
+      <script  src="../../../js/side_bar.js"></script>
+      <script  src="../../../js/LPPPStatus_Popup.js"></script>
+      <script  src="../../../js/LPPPReasonModal.js"></script>
+      <script type="text/javascript">
+         var LPPPregFormID = <?php echo $LPPPregFormID; ?>;
+      </script>
       
 <script>
  
@@ -378,11 +393,11 @@ function goBack() {
             var newStatus = applicantScore >= 75 ? 'interview' : 'Fail';
             
             // Call the updateStatus function to update status via AJAX
-            updateStatus(newStatus, applicantId);
+            updateStatusLPPP(newStatus, applicantId);
         });
     }
 
-    function updateStatus(status, applicantId) {
+    function updateStatusLPPP(status, applicantId) {
         // Send an AJAX request to update the applicant status
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "../../../php/updateStatusLPPP.php", true); // Replace with the actual URL
@@ -392,8 +407,7 @@ function goBack() {
                 // Handle the response here
                 var response = xhr.responseText.trim(); // Trim whitespace from the response text
                 if (response === 'success') {
-                    alert('Status updated successfully.');
-                    goBack();
+                   openconfirmationLPPPpopup();
                 } else {
                     alert('Failed to update status.');
                     // You can handle error cases here if needed
