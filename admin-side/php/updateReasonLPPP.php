@@ -2,11 +2,12 @@
 // Start the session
 session_start();
 
-include 'config_iskolarosa_db.php';
 require_once 'email_update_status_reason.php'; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Sanitize user input
+include 'config_iskolarosa_db.php';
+
 // Sanitize user input
 $status = htmlspecialchars($_POST["status"], ENT_QUOTES, 'UTF-8');
 $applicantId = filter_input(INPUT_POST, "id", FILTER_VALIDATE_INT);
@@ -61,16 +62,19 @@ $employeeUsername = $_SESSION["username"];
           // Send an email to the applicant
           $recipientEmail = $applicantEmail; // Use the fetched applicant email
           $emailSent = sendEmail($recipientEmail, $control_number, $status, $reason);
-  
+         
           if ($emailSent) {
-              echo 'success'; // Update, log, and email sending were successful
-          } else {
-              echo 'email_error'; // Email sending failed, but the update and log were successful
-          }
-         } else {
-              echo 'error'; // Update failed
-          }
-  }
+            echo 'success'; // Update, log, and email sending were successful
+        } else {
+            echo 'email_error'; // Email sending failed, but the update and log were successful
+        }
+    } else {
+        $error = mysqli_error($conn);
+        error_log("SQL Execution Error: " . $error, 0);
+        http_response_code(500);
+        echo "SQL Execution Error: " . $error;
+    }
+}
   
   mysqli_close($conn);
 ?>

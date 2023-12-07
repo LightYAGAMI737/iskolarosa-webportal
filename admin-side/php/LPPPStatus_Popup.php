@@ -40,7 +40,7 @@
 </div>
 
 <!-- Disqualified popup  -->
-<div class="popupOut" id="DisqualifiedPopUp">
+<div class="popupOut" id="LPPPDisqualifiedPopUp">
     <div class="popupIn">
         <i class="ri-question-fill" style="font-size: 6em; color: #F54021;"></i>
         <strong>
