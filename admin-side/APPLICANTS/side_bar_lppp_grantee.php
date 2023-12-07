@@ -185,7 +185,7 @@ include '../../../php/logoutpopup.php';
 
 <script>
         // Set the session timeout duration in seconds
-        const sessionTimeoutSeconds = 3;
+        const sessionTimeoutSeconds = 300;
 
         // Function to check session timeout
         function checkSessionTimeout() {
@@ -213,7 +213,7 @@ include '../../../php/logoutpopup.php';
         document.addEventListener('keydown', updateLastActivityTime);
 
         // Check session timeout on an interval
-        setInterval(checkSessionTimeout, 3); // Check every second (adjust as needed)
+        setInterval(checkSessionTimeout, 300000); // Check every second (adjust as needed)
     </script>
 
 <script>
