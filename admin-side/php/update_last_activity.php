@@ -3,7 +3,7 @@ session_start();
 
 date_default_timezone_set('Asia/Manila');
 
-// Get the current time in 'H:i:s' format
+// Get the current time in 'Y-m-d H:i:s' format
 $current_time = date("Y-m-d H:i:s");
 
 // Check if the user is logged in
@@ -19,14 +19,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param("ss", $current_time, $username);
     $stmt->execute();
     if ($stmt->errno) {
-        echo "SQL Error: " . $stmt->error;
+        echo json_encode(["error" => "SQL Error: " . $stmt->error]);
+    } else {
+        // Echo a JSON response with the current time and username
+        echo json_encode(["current_time" => $current_time, "username" => $_SESSION['username']]);
     }
     
     $stmt->close();
-
- // Echo the current time instead of a success message
- echo $current_time;
- echo "Employee ID: " . $_SESSION['username'];
 }
-
 ?>
