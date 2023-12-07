@@ -49,9 +49,9 @@ if (mysqli_num_rows($result) > 0) {
    </head>
    <body>
       <?php 
-         include '../../side_bar_lppp_grantee.php';
-         include '../../../php/LPPPStatus_Popup.php';
-         include '../../../php/confirmStatusPopup.php';
+            include '../../../php/confirmStatusPopup.php';
+            include '../../../php/LPPPStatus_Popup.php';
+            include '../../side_bar_lppp_grantee.php';
          ?>
          
       <!-- home content-->    
