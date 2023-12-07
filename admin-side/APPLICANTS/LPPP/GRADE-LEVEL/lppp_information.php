@@ -49,8 +49,9 @@ if (mysqli_num_rows($result) > 0) {
    </head>
    <body>
       <?php 
-            include '../../../php/LPPPStatus_Popup.php';
-            include '../../side_bar_lppp_grantee.php';
+         include '../../../php/confirmStatusPopup.php';
+         include '../../../php/LPPPStatus_Popup.php';
+         include '../../side_bar_lppp_grantee.php';
          ?>
          
       <!-- home content-->    
@@ -109,11 +110,7 @@ if (mysqli_num_rows($result) > 0) {
         
         <?php foreach ($applicantInfo as $field => $value) : ?>
             <?php if (in_array($field, [
-                'elementary_school', 'elementary_year', 'elementary_honors',
-                'secondary_school', 'secondary_year', 'secondary_honors',
-                'senior_high_school', 'senior_high_year', 'senior_high_honors',
-                'course_enrolled', 'no_of_units', 'year_level', 'current_semester',
-                'graduating', 'school_name', 'school_type', 'expected_year_of_graduation',
+                'elementary_school', 'elementary_year',
                 'school_address', 'student_id_no'
             ])) : ?>
                 <tr>
@@ -124,6 +121,42 @@ if (mysqli_num_rows($result) > 0) {
         <?php endforeach; ?>
     </table>
 </div>
+<?php
+$queryScore = "SELECT status, applicant_score FROM lppp_temporary_account WHERE lppp_temporary_account_id = ?";
+$stmtScore = mysqli_prepare($conn, $queryScore);
+mysqli_stmt_bind_param($stmtScore, "i", $id); // "i" indicates an integer parameter
+mysqli_stmt_execute($stmtScore);
+$resultScore = mysqli_stmt_get_result($stmtScore);
+
+if (mysqli_num_rows($resultScore) > 0) {
+    $applicantInfoScore = mysqli_fetch_assoc($resultScore);
+
+    // Check if the status is "interview" before displaying the table
+    if ($applicantInfoScore['status'] === 'interview') {
+?>
+        <!-- Table 4: Applicant Score -->
+        <div class="applicant-info">
+            <h2>Applicant Score</h2>
+            <table>
+                <?php foreach ($applicantInfoScore as $field => $value) : ?>
+                    <?php if (in_array($field, [
+                        'applicant_score',
+                    ])) : ?>
+                        <tr>
+                            <th><?php echo ucwords(str_replace('_', ' ', $field)) . ': '; ?></th>
+                            <td><?php echo $value; ?></td>
+                        </tr>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </table>
+        </div>
+<?php
+    } 
+} else {
+    echo 'Applicant not found.';
+    exit();
+}
+?>
 
  <!-- table for displaying the uploaded files as images -->
  <div class="uploaded-files">
@@ -131,52 +164,37 @@ if (mysqli_num_rows($result) > 0) {
                <tr>
                   <td>
                      <div class="file-group">
-                     <?php
-// Ensure Imagick is installed and enabled
-if (!extension_loaded('imagick')) {
-    echo 'Imagick extension is not available.';
-    // Handle the situation where Imagick is not available
-    exit;
-}
-
-// Loop through uploaded files and display them in groups of three
-$fileCounter = 0;
-
-$pdfFiles = array(
-    'uploadVotersApplicant' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_VotersApplicant.pdf',
-    'uploadVotersParent' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_VotersParent.pdf',
-    'uploadITR' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_ITR.pdf',
-    'uploadResidency' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Residency.pdf',
-    'uploadCOR' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_COR.pdf',
-    'uploadGrade' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Grade.pdf'
-);
-
-// Output image file paths
-$imageFiles = array();
-foreach ($pdfFiles as $key => $pdfFile) {
-    $outputImage = '../../../../lppp-reg-form/converted-images/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_' . $key . '.jpg';
-
-    try {
-        $imagick = new Imagick();
-        $imagick->readImage($pdfFile);
-        $imagick->setIteratorIndex(0); // Adjust the page index if needed
-
-        // Optional: Set resolution and background color
-        // $imagick->setResolution(300, 300);
-        // $imagick->setImageBackgroundColor('white');
-
-        $imagick->setImageCompressionQuality(100);
-        $imagick->setImageFormat('jpg');
-        $imagick->writeImage($outputImage);
-        $imagick->destroy();
-
-        // Log success
-        echo "<script>console.log('Conversion success for $key. Output Image: $outputImage');</script>";
-    } catch (Exception $e) {
-        // Log error
-        echo "<script>console.error('Error converting $key:', '" . $e->getMessage() . "', PDF File: $pdfFile, Output Image: $outputImage');</script>";
-    }
-}
+                        <?php
+                           // Loop through uploaded files and display them in groups of three
+                           $fileCounter = 0;
+                           
+                           // Path to Ghostscript executable
+                           $ghostscriptPath = 'C:\Program Files\gs10.01.2\bin\gswin64c.exe';  // Replace with your Ghostscript path
+                           
+                           $pdfFiles = array(
+                           'uploadVotersParent' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_VotersParent.pdf',
+                           'uploadITR' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_ITR.pdf',
+                           'uploadResidency' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Residency.pdf',
+                           'uploadCOR' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_COR.pdf',
+                           'uploadGrade' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Grade.pdf'
+                           );
+                           
+                           // Output image file paths
+                           $imageFiles = array();
+                           
+                           // Convert PDF files to images
+                           foreach ($pdfFiles as $key => $pdfFile) {
+                           $outputImage = '../../../../lppp-reg-form/converted-images/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_' . $key . '.jpg'; // Replace with the desired output image path and extension
+                           $imageFiles[$key] = $outputImage;
+                           
+                           // Command to convert PDF to image using Ghostscript
+                           $command = '"' . $ghostscriptPath . '" -dSAFER -dBATCH -dNOPAUSE -sDEVICE=jpeg -r300 -sOutputFile="' . $outputImage . '" "' . $pdfFile . '"';
+                           
+                           // Execute the Ghostscript command
+                           exec($command);
+                           
+                           
+                           }
                            echo "<h2 class='to_center'>Scanned Documents</h2>";
                            // Voters applicant
                            echo '<table class="table" style="width: 80%;">';
@@ -261,7 +279,7 @@ foreach ($pdfFiles as $key => $pdfFile) {
        
          <?php
 // Fetch the applicant's status from the database
-$query = "SELECT status, interview_date FROM lppp_temporary_account WHERE lppp_reg_form_id = ?";
+$query = "SELECT status, interview_date, applicant_score FROM lppp_temporary_account WHERE lppp_reg_form_id = ?";
 $stmt = mysqli_prepare($conn, $query);
 
 // Assuming $id is the applicant's ID
@@ -286,10 +304,10 @@ if ($result) {
             echo '<button onclick="openLPPPVerifiedPopup()" style="background-color: #FEC021;" class="status-button">Verified</button>';
         } elseif ($applicantStatus === 'exam') {
             echo '<form id="scoreForm">';
-            echo '<label for="applicantScore">Enter Applicant Score:</label>';
-            echo '<input type="number" id="applicantScore" name="applicantScore" min="0" max="100" required>';
+            echo '<label for="applicantScore" class="ScoreLabel">Enter Applicant Score (0-100):</label>';
+            echo '<input type="number" class="ScoreInput" id="applicantScore" name="applicantScore" min="0" max="100" required>';
             echo '<input type="hidden" id="applicantId" value="' . $id . '">';
-            echo '<input type="submit" value="Submit">';
+            echo '<button type="button" id="ScoreFormBTN" class="ScoreBTN" value="Submit">Submit</button>';
             echo '</form>';
         } elseif ($applicantStatus === 'interview' && $applicantInterviewDate === '0000-00-00') {
         } elseif ($applicantStatus === 'interview') {
@@ -381,41 +399,61 @@ function goBack() {
 </script>
 <script>
     var scoreForm = document.getElementById("scoreForm");
-    if (scoreForm) {
-        scoreForm.addEventListener("submit", function(event) {
-            event.preventDefault(); // Prevent the form from submitting
-            
-            var applicantScore = parseInt(document.getElementById("applicantScore").value);
-            var applicantId = document.getElementById("applicantId").value;
-            
-            // Determine the new status based on the entered score
-            var newStatus = applicantScore >= 75 ? 'interview' : 'Fail';
-            
-            // Call the updateStatus function to update status via AJAX
-            updateStatusLPPP(newStatus, applicantId);
-        });
-    }
+if (scoreForm) {
+    var scoreBtn = document.getElementById("ScoreFormBTN");
 
-    function updateStatusLPPP(status, applicantId) {
-        // Send an AJAX request to update the applicant status
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "../../../php/updateStatusLPPP.php", true); // Replace with the actual URL
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+    scoreBtn.addEventListener("click", function (event) {
+        event.preventDefault(); // Prevent the form from submitting
+
+        var applicantScore = parseInt(document.getElementById("applicantScore").value);
+        var applicantId = document.getElementById("applicantId").value;
+
+        // Additional validation for applicantScore
+        if (isNaN(applicantScore) || applicantScore < 0 || applicantScore > 100) {
+            alert('Please enter a valid score between 0 and 100.');
+            return;
+        }
+        // Determine the new status based on the entered score
+        var newStatus = applicantScore >= 75 ? 'interview' : 'Fail';
+
+        // Log the values to the console
+        console.log('Applicant Score:', applicantScore);
+        console.log('Applicant ID:', applicantId);
+        console.log('New Status:', newStatus);
+
+        // Call the updateStatus function to update status via AJAX
+        updateStatusLPPP(newStatus, applicantScore, applicantId);
+    });
+}
+
+function updateStatusLPPP(status, applicantScore, applicantId) {
+    // Send an AJAX request to update the applicant status and score
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "../../../php/updateStatusLPPP.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            console.log('XHR Status:', xhr.status);
+            if (xhr.status === 200) {
                 // Handle the response here
-                var response = xhr.responseText.trim(); // Trim whitespace from the response text
+                var response = xhr.responseText.trim();
+                console.log('Response from server:', response);
                 if (response === 'success') {
-                   openconfirmationLPPPpopup();
+                    openconfirmationLPPPpopup();
                 } else {
-                    alert('Failed to update status.');
-                    // You can handle error cases here if needed
-       
+                    alert('Failed to updates status.');
+                    console.error('Failed to make the request. HTTP status:', xhr.status);
                 }
+            } else {
+                console.error('Failed to make the request. HTTP status:', xhr.status);
             }
-        };
-        xhr.send("status=" + status + "&id=" + applicantId);
-    }
+        }
+    };
+    xhr.send("status=" + status + "&applicantScore=" + applicantScore + "&id=" + applicantId);
+}
+
 </script>
+
+
    </body>
 </html>

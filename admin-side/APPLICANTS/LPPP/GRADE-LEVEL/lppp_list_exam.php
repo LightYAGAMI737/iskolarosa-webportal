@@ -121,6 +121,27 @@ $result = mysqli_query($conn, $query);
  // Store the count of 'verified' accounts in a variable
  $lpppverifiedCount = $lpppverifiedCountRow['lpppverifiedCount'];
  
+
+
+date_default_timezone_set('Asia/Manila');
+// Get the current date in the format 'Y-m-d'
+$currentDateResched = date('Y-m-d');
+
+// Query to count applicants with exam dates today
+$countQuery = "SELECT COUNT(*) AS todayCount,
+    UPPER(status) AS status, exam_date
+FROM lppp_temporary_account 
+WHERE  status = ? AND exam_date = ?";
+
+$stmtCount = mysqli_prepare($conn, $countQuery);
+mysqli_stmt_bind_param($stmtCount, "ss", $currentStatus, $currentDateResched);
+mysqli_stmt_execute($stmtCount);
+$todayCountResult = mysqli_stmt_get_result($stmtCount);
+$todayCountRow = mysqli_fetch_assoc($todayCountResult);
+
+// Store the count in a variable
+$todayexamCount = $todayCountRow['todayCount'];
+
 ?>
 <!DOCTYPE html>
 <html lang="en" >
@@ -134,6 +155,13 @@ $result = mysqli_query($conn, $query);
       <link rel="stylesheet" href="../../../css/ceap_list.css">
       <link rel="stylesheet" href="../../../css/ceap_interview.css">
       <link rel="stylesheet" href="../../../css/ceap_verified.css">
+      <link rel="stylesheet" href="../../../css/status_popup.css">
+      <style>
+        button[disabled] {
+            background-color: #ccc !important;
+            cursor: not-allowed;
+        }
+        </style>
       <script>
         // Prevent manual input in date fields
         function preventInput(event) {
@@ -143,6 +171,7 @@ $result = mysqli_query($conn, $query);
    </head>
    <body>
       <?php 
+                include '../../../php/LPPPStatus_Popup.php';
                 include '../../side_bar_lppp.php';
 
          ?>
@@ -152,27 +181,46 @@ $result = mysqli_query($conn, $query);
 <!-- search and reschedule -->
       <div class="form-group">
 
-        <!-- Reschedule Button -->
-        <?php
-// Check if there are verified applicants
-$hasVerifiedApplicants = hasVerifiedStatusInDatabase($conn);
+      <?php
+date_default_timezone_set('Asia/Manila'); // Set the default timezone to Asia/Manila
+$currentDate = date('Y-m-d'); // Get the current date without the time part
+
+function hasExamInDatabase($conn) {
+    global $currentDate; // Access the $currentDate variable inside the function
+
+    $lpppquery = "SELECT COUNT(*) FROM lppp_temporary_account WHERE status = 'exam' AND exam_date = ?";
+    
+    // Use prepared statement to avoid SQL injection
+    $stmt = mysqli_prepare($conn, $lpppquery);
+    mysqli_stmt_bind_param($stmt, "s", $currentDate);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $lpppcount);
+    mysqli_stmt_fetch($stmt);
+    mysqli_stmt_close($stmt);
+
+    return $lpppcount > 0;
+}
+
 // Check if there are exam applicants for the current date
 $hasExamApplicants = hasExamInDatabase($conn);
 // Disable the "Reschedule" button if there are no exam applicants
 $rescheduleButtonDisabled = !$hasExamApplicants ? 'disabled' : '';
+?>
+        <!-- Reschedule Button -->
+        <?php
+// Check if there are verified applicants
+$hasVerifiedApplicants = hasVerifiedStatusInDatabase($conn);
 
 // Disable the "Set Interview" button if there are no verified applicants
 $setInterviewButtonDisabled = !$hasVerifiedApplicants ? 'disabled' : '';
 ?>
 
 <div class="reschedule-button">
-    <button id="rescheduleButton" type="button" class="btn btn-primary"  onclick="openRescheduleModal()" <?php echo $rescheduleButtonDisabled; ?>>Reschedule</button>
+    <button id="rescheduleButton" type="button" class="btn btn-primary" onclick="openRescheduleModal()" <?php echo $rescheduleButtonDisabled; ?>>Reschedule</button>
 </div>
 
 <input type="text" name="search" class="form-control" id="search" placeholder="Search by Control Number or Last name" oninput="formatInput(this)">
-
 <button type="button" class="btn btn-primary" style="margin-right: 10px;" onclick="searchApplicants()">Search</button>
-
 <button type="button" class="btn btn-primary btn-rad" id="openModalBtn" <?php echo $setInterviewButtonDisabled; ?>>Set Interview</button>
 
 
@@ -187,18 +235,6 @@ $setInterviewButtonDisabled = !$hasVerifiedApplicants ? 'disabled' : '';
 }
 ?>
 
-
-<?php
-  function hasexamInDatabase($conn) {
-    $lpppquery = "SELECT COUNT(*) FROM lppp_temporary_account WHERE status = 'exam' AND exam_date = CURDATE()";
-    $result = mysqli_query($conn, $lpppquery);
-    $lpppcount = mysqli_fetch_row($result)[0];
-    return $lpppcount > 0;
-
-    // Placeholder value for demonstration
-    return false;
-}
-?>
 </div>
 
 <?php
@@ -211,85 +247,65 @@ $setInterviewButtonDisabled = !$hasVerifiedApplicants ? 'disabled' : '';
  
  // Store the count of 'resched' accounts in a variable
  $lpppreschedCount = $lpppreschedCountRow['lpppreschedCount'];
- 
- ?>
+
+?>
    
 
 <!-- Set reschedule Modal (hidden by default) -->
 <div id="reschedulemyModal" class="modal">
    <div class="modal-content">
-      <span class="close" id="closeModalBtn">&times;</span>
+      <span class="close" id="closeModalBtnReschedule">&times;</span>
       <div class="modal-body">
-         <form method="post" action="rescheduleEXAM.php">
-         <h3 style="text-align: center;">Reschedule today's applicant.</h3>
-
-            <div class="form-group">
-               <label for="exam_date">Date</label>
-               <input type="date" name="exam_date" id="exam_date" class="form-control" required onkeydown="preventInput(event)"
-           <?php
-               echo 'min="' . date('Y-m-d') . '"';
-               echo ' max="' . date('Y-12-31') . '"';
-           ?>>
-</div>
-            <div class="form-group">
-               <label>Time</label>
-               <div style="display: flex; align-items: center;">
-                  <input type="number" name="exam_hour" id="exam_hour" class="form-control" min="1" max="12" required>
-                  <span style="margin: 0 5px;">:</span>
-                  <input type="number" name="exam_minutes" id="exam_minutes" minlength="2" class="form-control" min="0" max="59" required>
-                  <select class="form-control" name="exam_ampm" id="exam_ampm" required>
-                     <option value="AM">AM</option>
-                     <option value="PM">PM</option>
-                  </select>
-               </div>
-            </div>
-            <div class="form-group">
-               <label for="limit">Qty</label>
-               <input type="number" class="form-control" name="limit" id="reschedlimit" min="1" max="<?php echo $lpppreschedCount; ?>"     required>
-            </div>
-            <div class="form-group">
-               <button type="submit" name="rescheduleBtn" id="rescheduleBtn" style="background-color:#FEC021 !important; color: black;" class="btn btn-primary">Reschedule</button>
-            </div>
-         </form>
+      <form method="post" id="rescheduleExamModal" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+               <h3 style="text-align: center;">Reschedule today's applicants</h3>
+                  <div class="form-group">
+                     <label for="exam_date">Date</label>
+                     <input type="date" name="exam_date" id="exam_date" class="form-control" required onkeydown="preventInput(event)"
+                        <?php
+                           echo 'min="' . date('Y-m-d') . '"';
+                           echo ' max="' . date('Y-12-31') . '"';
+                           ?>>
+                  </div>
+                  <div class="form-group">
+                     <label>Time</label>
+                     <div style="display: flex; align-items: center;">
+                        <input type="number" name="exam_hours" id="exam_hours" class="form-control" min="1" max="12" required>
+                        <span style="margin: 0 5px;">:</span>
+                        <input type="number" name="exam_minutes" id="exam_minutes" class="form-control" min="0" max="59" required>
+                        <select class="form-control" name="exam_ampm" id="exam_ampm" required>
+                           <option value="AM">AM</option>
+                           <option value="PM">PM</option>
+                        </select>
+                     </div>
+                  </div>
+                  <span id="error-message" style="text-align: center; display: flex; justify-content: center;"></span>
+                  <div class="form-group">
+                     <label for="limit">Qty</label>
+                     <input type="number" class="form-control" name="limit" id="reschedlimit" min="1" max="<?php echo $todayexamCount; ?>" required>
+                  </div>
+                  <span id="error-message-limit" style="color: red; text-align: center; display: flex; justify-content: center;"></span>
+                  <div class="form-group">
+                     <button type="button" class="btn btn-primary" id="rescheduleBtnExamLPPP" onclick="openRescheduleExamLPPP(), closeRescheduleModal()" disabled>Reschedule</button>
+                  </div>
+               </form>
       </div>
    </div>
 </div>
 
-<script>
-   
-    const limitInput = document.getElementById('reschedlimit');
-
-    limitInput.addEventListener('input', function() {
-        const userInput = limitInput.value.trim();
-        let sanitizedInput = userInput.replace(/^0+|(\..*)\./gm, '$0');
-
-        if (sanitizedInput === '' || isNaN(sanitizedInput)) {
-            limitInput.value = '';
-        } else {
-            const parsedInput = parseInt(sanitizedInput);
-
-            // Ensure the value is within the valid range
-            const validValue = Math.min(Math.max(parsedInput, 1), 200);
-
-            limitInput.value = validValue;
-        }
-    });
-</script>
-
  <!-- Set Interview Modal (hidden by default) -->
- <div id="myModal" class="modal">
+ <div id="InterviewmyModal" class="modal">
    <div class="modal-content">
       <span class="close" id="closeModalBtn">&times;</span>
       <div class="modal-body">
          <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
             <div class="form-group">
                <label for="interview_date">Date</label>
-              <input type="date" name="interview_date" id="interview_date" class="form-control" required onkeydown="preventInput(event)"
-           <?php
-               echo 'min="' . date('Y-m-d') . '"';
-               echo ' max="' . date('Y-12-31') . '"';
-           ?>>
-</div>
+               <input type="date" name="interview_date" id="interview_date" class="form-control" required onkeydown="preventInput(event)"
+                <?php
+                    echo 'min="' . date('Y-m-d') . '"';
+                    echo ' max="' . date('Y-12-31') . '"';
+                ?>>
+            </div>
             <div class="form-group">
                <label>Time</label>
                <div style="display: flex; align-items: center;">
@@ -303,8 +319,8 @@ $setInterviewButtonDisabled = !$hasVerifiedApplicants ? 'disabled' : '';
                </div>
             </div>
             <div class="form-group">
-               <label for="limit">Qty</label>
-               <input type="number" class="form-control" name="limit" id="limit" min="1" max="<?php echo $lpppverifiedCount; ?>" required>
+               <label for="limit">Qty.</label>
+               <input type="number" class="form-control" name="limit" id="SetInterviewlimit" min="1" max="<?php echo $lpppverifiedCount; ?>" required>
             </div>
             <div class="form-group">
                <button type="submit" name="saveBtn" id="saveBtn" class="btn btn-primary">Set</button>
@@ -313,26 +329,6 @@ $setInterviewButtonDisabled = !$hasVerifiedApplicants ? 'disabled' : '';
       </div>
    </div>
 </div>
-<script>
-   
-    const limitInput = document.getElementById('limit');
-
-    limitInput.addEventListener('input', function() {
-        const userInput = limitInput.value.trim();
-        let sanitizedInput = userInput.replace(/^0+|(\..*)\./gm, '$0');
-
-        if (sanitizedInput === '' || isNaN(sanitizedInput)) {
-            limitInput.value = '';
-        } else {
-            const parsedInput = parseInt(sanitizedInput);
-
-            // Ensure the value is within the valid range
-            const validValue = Math.min(Math.max(parsedInput, 1), 200);
-
-            limitInput.value = validValue;
-        }
-    });
-</script>
   <!-- end search and reschedule -->
 
 <!-- table for displaying the applicant list -->
@@ -349,18 +345,6 @@ $setInterviewButtonDisabled = !$hasVerifiedApplicants ? 'disabled' : '';
               echo '</div>';
             } else {
               ?>
-        <div class="filter-icon">
-            <label for="filterLabel" id="filterLabel"  onclick="toggleFilterDropdown()">
-                <i class="ri-filter-line"></i> Filter
-            </label>
-            <div class="filter-dropdown" id="filterDropdown">
-                <ul>
-                    <li><a href="#" id="interview_date_for_month" onclick="filterApplicants('interview_date_for_month')">interview Date for Month</a></li>
-                    <li><a href="#" id="interview_date_today" onclick="filterApplicants('interview_date_today')">interview Date Today</a></li>
-                </ul>
-            </div>
-            
-        </div>
       <table>
          <tr>
             <th>NO.</th>
@@ -369,7 +353,7 @@ $setInterviewButtonDisabled = !$hasVerifiedApplicants ? 'disabled' : '';
             <th>FIRST NAME</th>
             <th>BARANGAY</th>
             <th>STATUS</th>
-            <th>EXAM</th>
+            <th>EXAM DATE</th>
             <th>INTERVIEW DATE</th>
          </tr>
          <?php
@@ -407,27 +391,27 @@ $counter = 1;
          <div class="overlay"></div>
       </div>
       <!-- partial -->
-      <script src='../../../js/unpkg-layout.js'></script><script  src="../../../js/side_bar.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script src='../../../js/unpkg-layout.js'></script>
+      <script  src="../../../js/side_bar.js"></script>
+      <script  src="../../../js/LPPPExam.js"></script>
+      <script  src="../../../js/rescheduleExam.js"></script>
+      <script  src="../../../js/LPPPInterview.js"></script>
 
-
-      
 <script>
- 
+
  function seeMore(id) {
-     // Redirect to a page where you can retrieve the reserved data based on the given ID
-     window.location.href = "lppp_information.php?lppp_reg_form_id=" + id;
- }
+    // Redirect to a page where you can retrieve the reserved data based on the given ID
+    window.location.href = "lppp_information.php?lppp_reg_form_id=" + id;
+}    
 
-</script>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
 $(document).ready(function() {
     // Add an event listener to the search input field
     $('#search').on('input', function() {
         searchApplicants();
     });
 });
+
 function formatInput(inputElement) {
     // Remove multiple consecutive white spaces
     inputElement.value = inputElement.value.replace(/\s+/g, ' ');
@@ -459,255 +443,120 @@ function searchApplicants() {
 }
 </script>
 
-
 <script>
-function filterApplicants(selectedFilter) {
-    // Store the selected filter in localStorage
-    localStorage.setItem('selectedFilter', selectedFilter);
+    const rescheduledateInputEXAM = document.getElementById('exam_date');
+    const reschedulehoursInputEXAM = document.getElementById('exam_hours');
+    const rescheduleminutesInputEXAM = document.getElementById('exam_minutes');
+    const rescheduleperiodInputEXAM = document.getElementById('exam_ampm');
+    const reschedulelimitInputEXAM = document.getElementById('reschedlimit');
+    const rescheduleerrorMessageEXAM = document.getElementById('error-message');
+    const rescheduleerrorMessageEXAMLimit = document.getElementById('error-message-limit');
 
-    // Get all rows in the table
-    var rows = $('.applicant-row');
+    // Add input event listeners to date/time inputs
+    rescheduledateInputEXAM.addEventListener('input', validateDateTimeInputResched);
+    reschedulehoursInputEXAM.addEventListener('input', validateDateTimeInputResched);
+    rescheduleminutesInputEXAM.addEventListener('input', validateDateTimeInputResched);
+    rescheduleperiodInputEXAM.addEventListener('input', validateDateTimeInputResched);
 
-    if (selectedFilter === 'interview_date_today') {
-        var today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+    // Add input event listener to the limit input
+    reschedulelimitInputEXAM.addEventListener('input', validaterescheduleLimitInput);
 
-        // Show all rows before applying the filter
-        rows.show();
+    function validateDateTimeInputResched() {
+    const selectedDate = new Date(rescheduledateInputEXAM.value);
+    const hours = parseInt(reschedulehoursInputEXAM.value);
+    const minutes = parseInt(rescheduleminutesInputEXAM.value);
+    const period = rescheduleperiodInputEXAM.value;
 
-        // Hide rows where interview_date is not today
-        rows.each(function () {
-            var interviewDate = $(this).data('interview-date');
-            if (interviewDate !== today) {
-                $(this).hide();
-            }
-        });
-    } else if (selectedFilter === 'interview_date_for_month') {
-        // Show all rows before applying the filter
-        rows.show();
+    // Log the selected period to the console
+    console.log('Selected Period:', period);
 
-        // Sort rows by interview_date
-        rows.sort(function(a, b) {
-            var interviewDateA = $(a).data('interview-date');
-            var interviewDateB = $(b).data('interview-date');
-            return interviewDateA.localeCompare(interviewDateB);
-        });
+    let adjustedHours = hours; // Declare a new variable to store the adjusted hours
 
-        // Append sorted rows to the table
-        $('.applicant-info table').append(rows);
+    if (period === 'PM') {
+        adjustedHours += 12;
     }
 
-    // Update the filter dropdown label
-    var filterLabel = document.getElementById("filterLabel");
-    if (selectedFilter === 'interview_date_today') {
-        filterLabel.innerHTML = '<i class="ri-filter-line"></i> Filter';
-    } else if (selectedFilter === 'interview_date_for_month') {
-        filterLabel.innerHTML = '<i class="ri-filter-line"></i> Filter';
+    const isDateTimeValid =
+        !isNaN(selectedDate) &&
+        !isNaN(adjustedHours) && // Use adjustedHours
+        !isNaN(minutes);
+
+    // Get the input elements for date, hours, minutes, and period
+    const inputElements = [rescheduledateInputEXAM, reschedulehoursInputEXAM, rescheduleminutesInputEXAM, rescheduleperiodInputEXAM];
+
+    if (isDateTimeValid) {
+        // If input is valid, remove 'invalid' class
+        inputElements.forEach((element) => {
+            element.classList.remove('invalid');
+        });
+
+        selectedDate.setHours(adjustedHours, minutes, 0, 0);
+        const currentDate = new Date();
+
+        if (selectedDate >= currentDate) {
+            rescheduleerrorMessageEXAM.textContent = '';
+        }  else {
+            inputElements.forEach((element) => {
+                element.classList.add('invalid');
+            });
+            rescheduleerrorMessageEXAM.textContent = 'Invalid Date and time';
+            rescheduleerrorMessageEXAM.style.color= 'red';
+        }
+    } else {
+        // If input is invalid, add 'invalid' class
+        inputElements.forEach((element) => {
+            element.classList.add('invalid');
+        });
+        rescheduleerrorMessageEXAM.textContent = 'Ensure the date and time are not earlier than the current time.';
+        rescheduleerrorMessageEXAM.style.color= 'gray';
+
     }
 }
 
-// Retrieve the selected filter option from localStorage and apply the filter
-$(document).ready(function() {
-    var selectedFilter = localStorage.getItem('selectedFilter');
-    if (selectedFilter) {
-        filterApplicants(selectedFilter);
+function validaterescheduleLimitInput() {
+    const limit = parseInt(reschedulelimitInputEXAM.value);
+    const isLimitValid =
+        !isNaN(limit) &&
+        limit >= 1 &&
+        limit <= <?php echo $todayexamCount; ?>;
+
+    // Add or remove 'invalid' class based on validation
+    if (isLimitValid) {
+        reschedulelimitInputEXAM.classList.remove('invalid');
+        rescheduleerrorMessageEXAMLimit.textContent = '';
+    } else {
+        reschedulelimitInputEXAM.classList.add('invalid');
+        rescheduleerrorMessageEXAMLimit.textContent = 'Quantity cannot exceed to <?php echo $todayexamCount; ?>.';
+        rescheduleerrorMessageEXAM.style.color= 'red';
+
     }
-});
-
-</script>
-
-<script>
-    function toggleFilterDropdown() {
-        var filterDropdown = document.getElementById("filterDropdown");
-        if (filterDropdown.style.display === "none") {
-            filterDropdown.style.display = "block";
-        } else {
-            filterDropdown.style.display = "none";
-        }
-    }
-
-    // Close the dropdown when clicking outside of it
-    window.onclick = function(event) {
-        if (!event.target.matches('#filterLabel')) {
-            var dropdown = document.getElementById("filterDropdown");
-            if (dropdown.style.display === "block") {
-                dropdown.style.display = "none";
-            }
-        }
-    }
-
-    function openRescheduleModal() {
-    var modal = document.getElementById("reschedulemyModal");
-    modal.style.display = "block";
 }
 
-</script>
+// Get references to the required input fields and the save button
+const requiredInputsEXAM = document.querySelectorAll('#rescheduleExamModal [required]');
+const rescheduleBtnExam = document.getElementById('rescheduleBtnExamLPPP');
 
-<script>
-    // Function to open the reschedule modal
-    function openRescheduleModal() {
-        var rescheduleButton = document.getElementById("rescheduleButton");
-        if (!rescheduleButton.disabled) {
-            var modal = document.getElementById("reschedulemyModal");
-            modal.style.display = "block";
-        }
-    }
-
-    // Function to close the modal
-    function closeRescheduleModal() {
-        var modal = document.getElementById("reschedulemyModal");
-        modal.style.display = "none";
-    }
-
-    // Close the modal when the close button is clicked
-    document.getElementById("closeModalBtn").addEventListener("click", function() {
-        closeRescheduleModal();
+// Function to check if all required inputs are valid
+function checkRequiredInputsReschedule() {
+    const allInputsValidReschedule = Array.from(requiredInputsEXAM).every((input) => {
+        return input.value.trim() !== '' && !input.classList.contains('invalid');
     });
 
-    // Close the modal when clicking outside of it
-    window.onclick = function(event) {
-        var modal = document.getElementById("reschedulemyModal");
-        if (event.target === modal) {
-            closeRescheduleModal();
-        }
+    if (allInputsValidReschedule) {
+        rescheduleBtnExam.removeAttribute('disabled');
+    } else {
+        rescheduleBtnExam.setAttribute('disabled', 'true');
     }
+}
 
-    // Check if there are any applicants with exam date set to today and status 'exam'
-    checkTodayExam();
-
-    function checkTodayExam() {
-        var today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
-         
-         var hasTodayInterview = false; // Flag to track if there are applicants with today's interview
-     
-         $('.contents').each(function () {
-             var examDate = $(this).data('exam-date');
-             if (examDate === today) {
-                 hasTodayexam = true;
-                 return false; // Exit the loop early since we found a match
-             }
-         });
-     
-         // Disable the "Reschedule" button if no applicants have exam_date today
-         var rescheduleButton = document.getElementById("rescheduleButton");
-         if (!hasTodayexam) {
-             rescheduleButton.disabled = true;
-         }
-     }
-     
-     // DOMContentLoaded event
-     document.addEventListener("DOMContentLoaded", function() {
-         filterApplicants('exam_date_today');
-         const hoursInput = document.getElementById("exam_hours");
-         hoursInput.addEventListener("input", function() {
-             const hoursValue = parseInt(hoursInput.value);
-             if (isNaN(hoursValue) || hoursValue < 1 || hoursValue > 12) {
-                 hoursInput.value = '';
-             }
-         });
-     
-         const minutesInput = document.getElementById("exam_minutes");
-     minutesInput.addEventListener("input", function() {
-     let minutesValue = minutesInput.value;
-     
-     // Remove leading zeros, except when the input is '0' or '00'
-     minutesValue = minutesValue.replace(/^0+(?!$)/, '');
-     
-     // Ensure the value is within the valid range (0 to 59)
-     const parsedMinutesValue = parseInt(minutesValue);
-     if (isNaN(parsedMinutesValue) || parsedMinutesValue < 0 || parsedMinutesValue > 59) {
-         minutesInput.value = '';
-     } else {
-         // Add leading zeros if the value is less than 10
-         minutesInput.value = parsedMinutesValue < 10 ? `0${parsedMinutesValue}` : parsedMinutesValue.toString();
-     }
-     });
-     });
-</script>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const hoursInput = document.getElementById("interview_hour");
-    hoursInput.addEventListener("input", function() {
-      
-        const hoursValue = parseInt(hoursInput.value);
-        if (isNaN(hoursValue) || hoursValue < 1 || hoursValue > 12) {
-            hoursInput.value = '';
-        }
-    });
-
-    const minutesInput = document.getElementById("interview_minutes");
-    minutesInput.addEventListener("input", function() {
-         let minutesValue = minutesInput.value;
-         
-         // Remove leading zeros, except when the input is '0' or '00'
-         minutesValue = minutesValue.replace(/^0+(?!$)/, '');
-         
-         // Ensure the value is within the valid range (0 to 59)
-         const parsedMinutesValue = parseInt(minutesValue);
-         if (isNaN(parsedMinutesValue) || parsedMinutesValue < 0 || parsedMinutesValue > 59) {
-         minutesInput.value = '';
-         } else {
-         // Add leading zeros if the value is less than 10
-         minutesInput.value = parsedMinutesValue < 10 ? `0${parsedMinutesValue}` : parsedMinutesValue.toString();
-         }
-    });
+// Add input event listeners to required input fields
+requiredInputsEXAM.forEach((input) => {
+    input.addEventListener('input', checkRequiredInputsReschedule);
 });
 
+// Initial check
+checkRequiredInputsReschedule();
+
 </script>
-
-<script>
-   // Get modal elements using plain JavaScript
-   var modal = document.getElementById("myModal");
-   var openModalBtn = document.getElementById("openModalBtn");
-   var closeModalBtn = document.getElementById("closeModalBtn");
-
-   // Show modal when the button is clicked
-   openModalBtn.addEventListener("click", function() {
-      modal.style.display = "block";
-   });
-
-   // Close modal when the close button is clicked
-   closeModalBtn.addEventListener("click", function() {
-      modal.style.display = "none";
-   });
-
-   // Close modal when clicking outside the modal content
-   window.addEventListener("click", function(event) {
-      if (event.target === modal) {
-         modal.style.display = "none";
-      }
-   });
-</script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const hoursInput = document.getElementById("exam_hour");
-        hoursInput.addEventListener("input", function() {
-      
-      const hoursValue = parseInt(hoursInput.value);
-      if (isNaN(hoursValue) || hoursValue < 1 || hoursValue > 12) {
-          hoursInput.value = '';
-      }
-  });
-
-  const minutesInput = document.getElementById("exam_minutes");
-  minutesInput.addEventListener("input", function() {
-       let minutesValue = minutesInput.value;
-       
-       // Remove leading zeros, except when the input is '0' or '00'
-       minutesValue = minutesValue.replace(/^0+(?!$)/, '');
-       
-       // Ensure the value is within the valid range (0 to 59)
-       const parsedMinutesValue = parseInt(minutesValue);
-       if (isNaN(parsedMinutesValue) || parsedMinutesValue < 0 || parsedMinutesValue > 59) {
-       minutesInput.value = '';
-       } else {
-       // Add leading zeros if the value is less than 10
-       minutesInput.value = parsedMinutesValue < 10 ? `0${parsedMinutesValue}` : parsedMinutesValue.toString();
-       }
-        });
-    });
-
-    </script>
 </body>
 </html>

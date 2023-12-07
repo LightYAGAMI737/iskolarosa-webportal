@@ -115,7 +115,36 @@
     border-radius: 15px;
     cursor: pointer;
 }
+.ScoreLabel {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #333; /* Adjust the color as needed */
+}
 
+.ScoreInput {
+    width: 10%;
+    padding: 10px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    font-size: 16px;
+    border: 1px solid #ccc; /* Adjust the border color as needed */
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.ScoreBTN {
+    background-color: #FEC021;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+}
 .status-button:hover {
     background-color: #400000;
 }

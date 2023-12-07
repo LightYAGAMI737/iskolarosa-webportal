@@ -1,31 +1,34 @@
 <?php
 // Include configuration and functions
 session_start();
-include '../../php/config_iskolarosa_db.php';
+include '../../../php/config_iskolarosa_db.php';
 
 // Check if the reschedule form is submitted
-if (isset($_POST['rescheduleBtn'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
    // Process and update exam dates
    $examDate = $_POST['exam_date'];
-   $exam_hour = $_POST['exam_hour']; 
+   $exam_hour = $_POST['exam_hours']; 
    $exam_minutes = $_POST['exam_minutes']; 
    $exam_ampm = $_POST['exam_ampm'];
    $limit = $_POST['limit'];
 
+
    if (!empty($examDate) && !empty($exam_hour) && !empty($exam_minutes) && !empty($exam_ampm) && !empty($limit)) {
        $examDate = mysqli_real_escape_string($conn, $examDate);
        $limit = intval($limit);
+       date_default_timezone_set('Asia/Manila'); // Set the default timezone to Asia/Manila
+       $currentDateRes = date('Y-m-d');
 
        $qualifiedQuery = "SELECT t.*, UPPER(p.first_name) AS first_name, UPPER(p.last_name) AS last_name, UPPER(p.barangay) AS barangay, p.control_number, p.date_of_birth, p.lppp_reg_form_id
        FROM lppp_reg_form p
        INNER JOIN lppp_temporary_account t ON p.lppp_reg_form_id = t.lppp_reg_form_id
-       WHERE t.status = 'exam'
-       LIMIT ?";
+       WHERE t.status = 'exam' AND exam_date = ? LIMIT ?";
    
-       $stmt = mysqli_prepare($conn, $qualifiedQuery);
-       mysqli_stmt_bind_param($stmt, "i", $limit);
-       mysqli_stmt_execute($stmt);
-       $qualifiedResult = mysqli_stmt_get_result($stmt);
+        $stmt = mysqli_prepare($conn, $qualifiedQuery);
+        // Assuming $currentDateRes is a string and $limit is an integer
+        mysqli_stmt_bind_param($stmt, "si", $currentDateRes, $limit);
+        mysqli_stmt_execute($stmt);
+        $qualifiedResult = mysqli_stmt_get_result($stmt);
 
        $updateCount = 0; // Track the number of applicants updated
        while ($row = mysqli_fetch_assoc($qualifiedResult)) {
