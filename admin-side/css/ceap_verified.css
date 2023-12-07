@@ -31,7 +31,16 @@
     opacity: 0.5; /* Reduced opacity for disabled state */
     cursor: not-allowed; /* Disabled cursor style */
  }
-
+ #saveBtnEXAMLPPP {
+    background-color: #FEC021;
+    border-color: #FEC021;
+    color: black;
+    border-radius: 15px !important;
+}
+#saveBtnEXAMLPPP[disabled] {
+    opacity: 0.5; /* Reduced opacity for disabled state */
+    cursor: not-allowed; /* Disabled cursor style */
+ }
 #openModalBtn {
     background-color: #FEC021;
     border-color: #FEC021;

@@ -1,6 +1,7 @@
    // JavaScript code to handle the popup
    const LPPPVerifiedpopup = document.getElementById("LPPPverifiedPopUp");
    const Granteepopup = document.getElementById("GranteePopUp");
+   const examLPPPpopup = document.getElementById("examLPPPPopUp");
    const interviewpopup = document.getElementById("interviewPopUp");
    const CEAPconfigPopup = document.getElementById("CEAPconfigurationPopUp");
    const LPPPconfigPopup = document.getElementById("LPPPconfigurationPopUp");
@@ -14,6 +15,9 @@
         interviewpopup.style.display = "block";
     }
 
+    function openexamLPPPPopup() {
+        examLPPPpopup.style.display = "block";
+    }
    function openGranteePopup() {
        Granteepopup.style.display = "block";
    }

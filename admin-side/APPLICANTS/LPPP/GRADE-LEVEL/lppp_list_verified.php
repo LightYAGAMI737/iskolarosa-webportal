@@ -41,59 +41,6 @@ $currentStatus = 'verified';
 $currentPage = 'lppp_list';
 $currentSubPage = 'GRADE 7';
 
-
-if (isset($_POST['saveBtn'])) {
-   // Process and update interview dates
-   $interviewDate = $_POST['exam_date'];
-   $exam_hour = $_POST['exam_hour']; 
-   $exam_minutes = $_POST['exam_minutes']; 
-   $interview_ampm = $_POST['interview_ampm'];
-   $limit = $_POST['limit'];
-
-   if (!empty($interviewDate) && !empty($exam_hour) && !empty($exam_minutes) && !empty($interview_ampm) && !empty($limit)) {
-       $interviewDate = mysqli_real_escape_string($conn, $interviewDate);
-       $limit = intval($limit);
-
-     
-   $qualifiedQuery = "SELECT t.*, UPPER(p.first_name) AS first_name, UPPER(p.last_name) AS last_name, UPPER(p.barangay) AS barangay, p.control_number, p.date_of_birth, p.lppp_reg_form_id
-   FROM lppp_reg_form p
-   INNER JOIN lppp_temporary_account t ON p.lppp_reg_form_id = t.lppp_reg_form_id
-   WHERE t.status = 'Verified'
-   LIMIT ?";
-$stmt = mysqli_prepare($conn, $qualifiedQuery);
-mysqli_stmt_bind_param($stmt, "i", $limit);
-mysqli_stmt_execute($stmt);
-$qualifiedResult = mysqli_stmt_get_result($stmt);
-
-$updateCount = 0; // Track the number of applicants updated
-while ($row = mysqli_fetch_assoc($qualifiedResult)) {
-if ($updateCount >= $limit) {
-break; // Stop updating once the limit is reached
-}
-$adminUsername = $_SESSION['username'];
-$ceapRegFormId = $row['lppp_reg_form_id'];
-
-$updateTimeQuery = "UPDATE lppp_temporary_account SET exam_date = ?, exam_hour = ?, exam_minute = ?, exam_period = ?, updated_by = ? WHERE lppp_reg_form_id = ?";
-$stmtTimeUpdate = mysqli_prepare($conn, $updateTimeQuery);
-mysqli_stmt_bind_param($stmtTimeUpdate, "siiisi", $interviewDate, $exam_hour, $exam_minutes, $interview_ampm, $adminUsername, $ceapRegFormId);
-mysqli_stmt_execute($stmtTimeUpdate);
-
-// Update the status to 'interview'
-$statusUpdateQuery = "UPDATE lppp_temporary_account SET status = 'exam' WHERE lppp_reg_form_id = ?";
-$stmtStatusUpdate = mysqli_prepare($conn, $statusUpdateQuery);
-mysqli_stmt_bind_param($stmtStatusUpdate, "i", $ceapRegFormId);
-mysqli_stmt_execute($stmtStatusUpdate);
-
-$updateCount++;
-
-}
-
-// Redirect to prevent form resubmission
-header("Location: " . $_SERVER['REQUEST_URI']);
-exit();
-}
-}
-
 // Construct the SQL query using heredoc syntax
 $query = <<<SQL
 SELECT t.*, 
@@ -131,6 +78,7 @@ $result = mysqli_query($conn, $query);
       <link rel='stylesheet' href='../../../css/unpkg-layout.css'>
       <link rel="stylesheet" href="../../../css/side_bar.css">
       <link rel="stylesheet" href="../../../css/ceap_list.css">
+      <link rel="stylesheet" href="../../../css/status_popup.css">
       <link rel="stylesheet" href="../../../css/ceap_verified.css">
       <script>
         // Prevent manual input in date fields
@@ -141,8 +89,10 @@ $result = mysqli_query($conn, $query);
    </head>
    <body>
       <?php 
+        include '../../../php/LPPPstatus_popup.php';
+        include '../../../php/confirmStatusPopUp.php';
         include '../../side_bar_lppp.php';
-         ?>
+      ?>
       <!-- home content--> 
       <!-- search bar and set interview modal -->   
       <div class="form-group">
@@ -168,9 +118,8 @@ if ($_SESSION['role'] !== 1) {
     $result = mysqli_query($conn, $query);
     $count = mysqli_fetch_row($result)[0];
     return $count > 0;
-
     // Placeholder value for demonstration
-    return false;
+    //return false;
 }
 
 ?>
@@ -181,6 +130,21 @@ if ($_SESSION['role'] !== 1) {
    <div class="modal-content">
       <span class="close" id="closeModalBtn">&times;</span>
       <div class="modal-body">
+    <label for="current_time"><h2>Set Exam Date</h2></label>
+               <!-- <span id="currentDateTime"></span>
+               <script>
+                  // Function to update the current date and time
+                  function updateCurrentDateTimeLPPP() {
+                      const currentDateTimeElement = document.getElementById('currentDateTime');
+                      const options = { timeZone: 'Asia/Manila', hour12: true, hour: 'numeric', minute: 'numeric', second: 'numeric', year: 'numeric', month: 'numeric', day: 'numeric' };
+                      const currentDateTime = new Date().toLocaleString([], options);
+                      currentDateTimeElement.textContent = currentDateTime;
+                  }
+                  
+                  // Update the current date and time initially and then every second
+                  updateCurrentDateTimeLPPP();
+                  setInterval(updateCurrentDateTimeLPPP, 1000); // Update every 1 second
+               </script> -->
          <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
             <div class="form-group">
                <label for="exam_date">Date</label>
@@ -189,25 +153,27 @@ if ($_SESSION['role'] !== 1) {
                echo 'min="' . date('Y-m-d') . '"';
                echo ' max="' . date('Y-12-31') . '"';
            ?>>
-</div>
+            </div>
             <div class="form-group">
                <label>Time</label>
                <div style="display: flex; align-items: center;">
                   <input type="number" name="exam_hour" id="exam_hour" class="form-control" min="1" max="12" required>
                   <span style="margin: 0 5px;">:</span>
                   <input type="number" name="exam_minutes" id="exam_minutes" minlength="2" class="form-control" min="0" max="59" required>
-                  <select class="form-control" name="interview_ampm" id="interview_ampm" required>
+                  <select class="form-control" name="exam_ampm" id="exam_ampm" required>
                      <option value="AM">AM</option>
                      <option value="PM">PM</option>
                   </select>
                </div>
             </div>
+            <span id="error-message-LPPP" style="text-align: center; display: flex; justify-content: center;"></span>
             <div class="form-group">
-               <label for="limit">Qty</label>
+               <label for="limit">Qty.</label>
                <input type="number" class="form-control" name="limit" id="limit" min="1"  max="<?php echo $lpppverifiedCount; ?>" required>
             </div>
+            <span id="error-message-LPPP-limit" style="text-align: center; display: flex; justify-content: center;"></span>
             <div class="form-group">
-               <button type="submit" name="saveBtn" id="saveBtn" class="btn btn-primary">Set</button>
+               <button type="button" name="saveBtnEXAMLPPP" id="saveBtnEXAMLPPP" class="btn btn-primary" onclick="openexamLPPPPopup(), closeModalEXAMLPPP()" disabled>Set</button>
             </div>
          </form>
       </div>
@@ -289,7 +255,10 @@ if ($_SESSION['role'] !== 1) {
       <div class="overlay"></div>
       </div>
       <!-- partial -->
-      <script src='../../../js/unpkg-layout.js'></script><script  src="../../../js/side_bar.js"></script>
+      <script src='../../../js/unpkg-layout.js'></script>
+      <script  src="../../../js/side_bar.js"></script>
+      <script  src="../../../js/LPPPStatus_Popup.js"></script>
+      <script  src="../../../js/updateStatusExamLPPP.js"></script>
 
       <script>
          function seeMore(id) {
@@ -363,36 +332,120 @@ if ($_SESSION['role'] !== 1) {
    });
 </script>
 
-    <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const hoursInput = document.getElementById("exam_hour");
-        hoursInput.addEventListener("input", function() {
-        
-            const hoursValue = parseInt(hoursInput.value);
-            if (isNaN(hoursValue) || hoursValue < 1 || hoursValue > 12) {
-                hoursInput.value = '';
-            }
+<script>
+    const EXAMdateInput = document.getElementById('exam_date');
+    const EXAMhoursInput = document.getElementById('exam_hour');
+    const EXAMminutesInput = document.getElementById('exam_minutes');
+    const EXAMperiodInput = document.getElementById('exam_ampm');
+    const EXAMlimitInput = document.getElementById('limit');
+    const errorMessage = document.getElementById('error-message-LPPP');
+    const errorMessageLimit = document.getElementById('error-message-LPPP-limit');
+
+    // Add input event listeners to date/time inputs
+    EXAMdateInput.addEventListener('input', validateDateTimeInput);
+    EXAMhoursInput.addEventListener('input', validateDateTimeInput);
+    EXAMminutesInput.addEventListener('input', validateDateTimeInput);
+    EXAMperiodInput.addEventListener('input', validateDateTimeInput);
+
+    // Add input event listener to the limit input
+    EXAMlimitInput.addEventListener('input', validateLimitInput);
+
+    function validateDateTimeInput() {
+    const selectedDate = new Date(EXAMdateInput.value);
+    const hours = parseInt(EXAMhoursInput.value);
+    const minutes = parseInt(EXAMminutesInput.value);
+    const period = EXAMperiodInput.value;
+
+    // Log the selected period to the console
+    console.log('Selected Period:', period);
+
+    let adjustedHours = hours; // Declare a new variable to store the adjusted hours
+
+    if (period === 'PM') {
+        adjustedHours += 12;
+    }
+
+    const isDateTimeValid =
+        !isNaN(selectedDate) &&
+        !isNaN(adjustedHours) && // Use adjustedHours
+        !isNaN(minutes);
+
+    // Get the input elements for date, hours, minutes, and period
+    const inputElements = [EXAMdateInput, EXAMhoursInput, EXAMminutesInput, EXAMperiodInput];
+
+    if (isDateTimeValid) {
+        // If input is valid, remove 'invalid' class
+        inputElements.forEach((element) => {
+            element.classList.remove('invalid');
         });
 
-        const minutesInput = document.getElementById("exam_minutes");
-        minutesInput.addEventListener("input", function() {
-         let minutesValue = minutesInput.value;
-         
-         // Remove leading zeros, except when the input is '0' or '00'
-         minutesValue = minutesValue.replace(/^0+(?!$)/, '');
-         
-         // Ensure the value is within the valid range (0 to 59)
-         const parsedMinutesValue = parseInt(minutesValue);
-         if (isNaN(parsedMinutesValue) || parsedMinutesValue < 0 || parsedMinutesValue > 59) {
-         minutesInput.value = '';
-         } else {
-         // Add leading zeros if the value is less than 10
-         minutesInput.value = parsedMinutesValue < 10 ? `0${parsedMinutesValue}` : parsedMinutesValue.toString();
-         }
+        selectedDate.setHours(adjustedHours, minutes, 0, 0);
+        const currentDate = new Date();
+
+        if (selectedDate >= currentDate) {
+            errorMessage.textContent = '';
+        }  else {
+            inputElements.forEach((element) => {
+                element.classList.add('invalid');
+            });
+            errorMessage.textContent = 'Invalid Date and time';
+            errorMessage.style.color = 'red';
+        }
+    } else {
+        // If input is invalid, add 'invalid' class
+        inputElements.forEach((element) => {
+            element.classList.add('invalid');
         });
+        errorMessage.textContent = 'Ensure the date and time are not earlier than the current time.';
+        errorMessage.style.color = 'gray';
+
+    }
+}
+
+function validateLimitInput() {
+    const limit = parseInt(limitInput.value);
+    const isLimitValid =
+        !isNaN(limit) &&
+        limit >= 1 &&
+        limit <= <?php echo $lpppverifiedCount; ?>;
+
+    // Add or remove 'invalid' class based on validation
+    if (isLimitValid) {
+        EXAMlimitInput.classList.remove('invalid');
+        errorMessageLimit.textContent = '';
+    } else {
+        EXAMlimitInput.classList.add('invalid');
+        errorMessageLimit.textContent = 'Quantity cannot exceed to <?php echo$lpppverifiedCount; ?>.';
+        errorMessageLimit.style.color = 'red';
+    }
+}
+
+// Get references to the required input fields and the save button
+const requiredInputs = document.querySelectorAll('[required]'); // Get all required fields
+const saveBtnEXAMLPPP = document.getElementById('saveBtnEXAMLPPP');
+
+// Function to check if all required inputs are valid
+function checkRequiredInputs() {
+    const allInputsValid = Array.from(requiredInputs).every((input) => {
+        return input.value.trim() !== '' && !input.classList.contains('invalid');
     });
 
-    </script>
+    if (allInputsValid) {
+        saveBtnEXAMLPPP.removeAttribute('disabled');
+    } else {
+        saveBtnEXAMLPPP.setAttribute('disabled', 'true');
+    }
+}
+
+// Add input event listeners to required input fields
+requiredInputs.forEach((input) => {
+    input.addEventListener('input', checkRequiredInputs);
+});
+
+// Initial check
+checkRequiredInputs();
+
+</script>
 
    </body>
 </html>
