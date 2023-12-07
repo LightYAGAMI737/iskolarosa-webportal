@@ -1,4 +1,3 @@
-
 const reasonInput = document.getElementById("disqualificationReasonLPPP");
 const submitButton = document.getElementById("submitReasonLPPP");
 reasonInput.addEventListener("input", function () {
@@ -10,20 +9,20 @@ reasonInput.addEventListener("input", function () {
       submitButton.setAttribute("disabled", "disabled");
    }
 });
-const disqualifiedpopup = document.getElementById("DisqualifiedPopUp");
+const LPPPDisqualifiedPopUp = document.getElementById("LPPPDisqualifiedPopUp");
 
-function openDisqualifiedPopup(status, reason, applicantId) {
+function openLPPPDisqualifiedPopUp(status, reason, applicantId) {
    document.getElementById("reasonModalLPPP").style.display = "none";
-   disqualifiedpopup.style.display = "block";
+   LPPPDisqualifiedPopUp.style.display = "block";
 }
 
-function closeDisqualifiedpopupLPPP() {
-   disqualifiedpopup.style.display = "none";
+function closeLPPPDisqualifiedPopUp() {
+   LPPPDisqualifiedPopUp.style.display = "none";
    openReasonModalLPPP(); // You should pass any required parameters to openReasonModalLPPP if needed
 }
 const cancelCloseButtons = document.querySelectorAll("#disqualified-cancel-button"); // Use querySelectorAll to select all matching elements
 cancelCloseButtons.forEach((cancelButton) => {
-   cancelButton.addEventListener("click", closeDisqualifiedpopupLPPP);
+   cancelButton.addEventListener("click", closeLPPPDisqualifiedPopUp);
 });
 const closeSymbol = document.querySelector(".close");
 if (closeSymbol) {
@@ -49,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const status = "Disqualified"; // You can adjust this value as needed
             const reason = document.getElementById("disqualificationReasonLPPP").value;
             const applicantId = LPPPregFormID; // Access the value from PHP
-            submitStatusAndReason(status, reason, applicantId);
+            submitStatusAndReasonLPPP(status, reason, applicantId);
         });
     }
 });
@@ -61,7 +60,7 @@ function openReasonModalLPPP(status) {
    const modal = document.getElementById("reasonModalLPPP");
    if (modal) {
       modal.style.display = "block";
-      // Pass the status to the openDisqualifiedPopup function only if it's defined and not empty
+      // Pass the status to the openLPPPDisqualifiedPopUp function only if it's defined and not empty
       if (status) {
          const submitReasonButton = document.getElementById("submitReasonLPPP");
          if (submitReasonButton) {
@@ -69,7 +68,7 @@ function openReasonModalLPPP(status) {
                reason = document.getElementById("disqualificationReasonLPPP").value;
                if (reason.trim() !== '') {
                   const applicantId = LPPPregFormID;
-                  openDisqualifiedPopup(status, reason, applicantId);
+                  openLPPPDisqualifiedPopUp(status, reason, applicantId);
                } else {
                   alert('Please enter a reason.');
                }
@@ -83,9 +82,7 @@ function openReasonModalLPPP(status) {
    }
 }
 
-
-
-function submitStatusAndReason(status, reason, applicantId) {
+function submitStatusAndReasonLPPP(status, reason, applicantId) {
    // Send an AJAX request to update both status and reason
    var xhr = new XMLHttpRequest();
    xhr.open("POST", "../../../php/updateReasonLPPP.php", true);
@@ -95,17 +92,18 @@ function submitStatusAndReason(status, reason, applicantId) {
          var response = xhr.responseText.trim();
          console.log("Response from AJAX:", response); // Log the response
          if (response === 'success') {
-            closeDisqualifiedpopupLPPP();
+            closeLPPPDisqualifiedPopUp();
             closeReasonModalLPPP();
             openconfirmationLPPPpopup();
          } else {
             alert('Failed to update status and reason.');
          }
       } else if (xhr.readyState === XMLHttpRequest.DONE && xhr.status !== 200) {
-         console.error("AJAX request failed with status:", xhr.status); // Log AJAX errors
+         console.error("AJAX request failed with status:", xhr.status);
+         console.log("Response FAILE from AJAX:", response); // Log the response
+          // Log AJAX errors
       }
    };
    // Send the AJAX request with status, reason, and applicantId
    xhr.send("status=" + status + "&id=" + applicantId + "&reason=" + reason);
 }
-
