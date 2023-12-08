@@ -70,6 +70,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo 'error'; // Update failed
         }
 }
-
+echo 'success';
 mysqli_close($conn);
 ?>
