@@ -3,7 +3,7 @@
 session_start();
 
 include 'config_iskolarosa_db.php';
-require_once 'email_update_status_reason.php'; 
+require 'email_update_status_reason.php'; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Sanitize user input
