@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
    if (LPPPconfirmButton) {
        LPPPconfirmButton.addEventListener("click", function () {
            const status = "Disqualified"; // You can adjust this value as needed
-           const reason = document.getElementById("disqualificationReason").value;
+           const reason = document.getElementById("disqualificationReasonLPPP").value;
            const applicantId = LPPPregFormID; // Access the value from PHP
            submitStatusAndReasonLPPP(status, reason, applicantId);
        });
