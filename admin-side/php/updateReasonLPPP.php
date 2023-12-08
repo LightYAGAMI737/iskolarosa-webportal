@@ -47,24 +47,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $logQuery = "INSERT INTO applicant_status_logs (previous_status, updated_status, lppp_reg_form_id, employee_logs_id) VALUES (?, ?, ?, ?)";
         $stmtLog = $conn->prepare($logQuery);
         $stmtLog->bind_param("ssii", $previousStatus, $status, $applicantId, $employeeLogsId);
-        
-        // Check for errors after preparing the log statement
-        if (!$stmtLog) {
-            http_response_code(500);
-            echo 'Failed to prepare log statement';
-            exit;
-        }
-
-        $stmtLog->execute();
-
-        // Check for errors after executing the log statement
-        if ($stmtLog->error) {
-            http_response_code(500);
-            echo 'Log execution error: ' . $stmtLog->error;
-            exit;
-        }
-
-        $stmtLog->close();
 
         // Fetch the applicant's email address and control number from the database
         $applicantEmailQuery = "SELECT active_email_address, control_number FROM lppp_reg_form WHERE lppp_reg_form_id = ?";
@@ -74,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmtApplicantEmail->bind_result($applicantEmail, $control_number);
         $stmtApplicantEmail->fetch();
         $stmtApplicantEmail->close();
-
+  
         // Send an email to the applicant
         $recipientEmail = $applicantEmail; // Use the fetched applicant email
         $emailSent = sendEmail($recipientEmail, $control_number, $status, $reason);
@@ -82,15 +64,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($emailSent) {
             echo 'success'; // Update, log, and email sending were successful
         } else {
-            http_response_code(500);
-            echo 'Email sending failed';
+            echo 'email_error'; // Email sending failed, but the update and log were successful
         }
-    } else {
-        http_response_code(500);
-        echo 'Update execution error: ' . $stmt->error;
-    }
-
-    $stmt->close();
-    mysqli_close($conn);
+       } else {
+            echo 'error'; // Update failed
+        }
 }
+
+mysqli_close($conn);
 ?>
