@@ -3,7 +3,7 @@
 session_start();
 
 include 'config_iskolarosa_db.php';
-
+echo ' heloo';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Sanitize user input
     $status = htmlspecialchars($_POST["status"], ENT_QUOTES, 'UTF-8');
