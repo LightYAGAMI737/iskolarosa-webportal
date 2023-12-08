@@ -420,30 +420,34 @@ function openReasonModalLPPP(status) {
       console.error("Element with ID 'reasonModalLPPP' not found.");
    }
 }
-
 function submitStatusAndReasonLPPP(status, reason, applicantId) {
-   // Send an AJAX request to update both status and reason
-   var xhr = new XMLHttpRequest();
-   xhr.open("POST", "../../../php/updateReasonLPPP.php", true);
-   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-   xhr.onreadystatechange = function () {
-      if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-         var response = xhr.responseText.trim();
-         console.log("Response from AJAX:", response); // Log the response
-         if (response === 'success') {
-            closeLPPPDisqualifiedPopUp();
-            closeReasonModalLPPP();
-            openconfirmationLPPPpopup();
-         } else {
-            alert('Failed to update status and reason.');
-         }
-      } else if (xhr.readyState === XMLHttpRequest.DONE && xhr.status !== 200) {
-         console.error("AJAX request failed with status:", xhr.status); // Log AJAX errors
-      }
-   };
-   // Send the AJAX request with status, reason, and applicantId
-   xhr.send("status=" + status + "&id=" + applicantId + "&reason=" + reason);
+    // Send an AJAX request to update both status and reason
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "../../../php/updateReasonLPPP.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                var response = xhr.responseText.trim();
+                console.log("Response from AJAX:", response); // Log the response
+                if (response === 'success') {
+                    closeLPPPDisqualifiedPopUp();
+                    closeReasonModalLPPP();
+                    openconfirmationLPPPpopup();
+                } else {
+                    alert('Failed to update status and reason.');
+                }
+            } else {
+                console.error("AJAX request failed with status:", xhr.status); // Log AJAX errors
+                console.error("Server error message:", xhr.responseText); // Log server error message
+                alert('Server error. Please check the console for details.'); // Display a generic error to the user
+            }
+        }
+    };
+    // Send the AJAX request with status, reason, and applicantId
+    xhr.send("status=" + status + "&id=" + applicantId + "&reason=" + reason);
 }
+
 
  function seeMore(id) {
     // Redirect to the page for updating grade_level based on the given ID
