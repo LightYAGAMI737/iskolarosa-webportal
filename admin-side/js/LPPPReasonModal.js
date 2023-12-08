@@ -42,7 +42,7 @@ function closeReasonModalLPPP() {
 
 //disqualified and fail
 let reason;
-function openReasonModal(status) {
+function openReasonModalLPPP(status) {
    const modal = document.getElementById("reasonModalLPPP");
    if (modal) {
       modal.style.display = "block";
@@ -53,8 +53,8 @@ function openReasonModal(status) {
             submitReasonButton.onclick = function () {
                reason = document.getElementById("disqualificationReasonLPPP").value;
                if (reason.trim() !== '') {
-                  const applicantId = ceapRegFormId;
-                  openDisqualifiedPopup(status, reason, applicantId);
+                  const applicantId = LPPPregFormID;
+                  openLPPPDisqualifiedPopUp(status, reason, applicantId);
                } else {
                   alert('Please enter a reason.');
                }

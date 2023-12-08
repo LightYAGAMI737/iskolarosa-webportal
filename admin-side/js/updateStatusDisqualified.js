@@ -83,8 +83,6 @@ function openReasonModal(status) {
    }
 }
 
-
-
 function submitStatusAndReason(status, reason, applicantId) {
    // Send an AJAX request to update both status and reason
    var xhr = new XMLHttpRequest();
