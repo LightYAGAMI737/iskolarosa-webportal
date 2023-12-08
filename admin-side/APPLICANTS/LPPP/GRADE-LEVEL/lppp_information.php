@@ -449,8 +449,6 @@ function submitStatusAndReasonLPPP(status, reason, applicantId) {
                 console.error("AJAX request failed with status:", xhr.status); // Log AJAX errors
                 console.error("Server error message:", xhr.responseText); // Log server error message
             }
-        }
-    };
     // Send the AJAX request with status, reason, and applicantId
     xhr.send("status=" + status + "&id=" + applicantId + "&reason=" + reason);
 }
