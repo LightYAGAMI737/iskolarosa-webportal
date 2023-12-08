@@ -420,21 +420,15 @@ function openReasonModalLPPP(status) {
       console.error("Element with ID 'reasonModalLPPP' not found.");
    }
 }
-function submitStatusAndReasonLPPP(status, reason, applicantId) {
-    // Log the data to be sent
-    console.log("Data to be sent:", {
-        status: status,
-        reason: reason,
-        applicantId: applicantId
-    });
 
+function submitStatusAndReasonLPPP(status, reason, applicantId) {
     // Send an AJAX request to update both status and reason
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "../../../php/updateLPPPReason.php", true);
-    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-    // Handle the response from the server
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
                 var response = xhr.responseText.trim();
                 console.log("Response from AJAX:", response); // Log the response
                 if (response === 'success') {
@@ -449,10 +443,13 @@ function submitStatusAndReasonLPPP(status, reason, applicantId) {
                 console.error("AJAX request failed with status:", xhr.status); // Log AJAX errors
                 console.error("Server error message:", xhr.responseText); // Log server error message
             }
+        }
+    };
     // Send the AJAX request with status, reason, and applicantId
     xhr.send("status=" + status + "&id=" + applicantId + "&reason=" + reason);
 }
-}
+
+
  function seeMore(id) {
     // Redirect to the page for updating grade_level based on the given ID
     window.location.href = "lppp_grantee_information.php?lppp_reg_form_id=" + id;
