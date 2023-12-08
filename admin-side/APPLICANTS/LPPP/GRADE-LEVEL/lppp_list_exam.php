@@ -395,7 +395,7 @@ $counter = 1;
       <script src='../../../js/unpkg-layout.js'></script>
       <script  src="../../../js/side_bar.js"></script>
       <script  src="../../../js/LPPPExam.js"></script>
-      <script  src="../../../js/rescheduleExam.js"></script>
+      <script  src="../../../js/rescheduleEXAM.js"></script>
       <script  src="../../../js/LPPPInterview.js"></script>
 
 <script>
