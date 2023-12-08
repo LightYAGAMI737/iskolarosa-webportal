@@ -424,7 +424,7 @@ function submitStatusAndReasonLPPP(status, reason, applicantId) {
     // Send an AJAX request to update both status and reason
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "../../../php/updateReasonLPPP.php", true);
-    
+
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -442,7 +442,6 @@ function submitStatusAndReasonLPPP(status, reason, applicantId) {
                 var response = xhr.responseText.trim();
                 console.error("AJAX request failed with status:", xhr.status); // Log AJAX errors
                 console.error("Server error message:", xhr.responseText); // Log server error message
-                alert('Server error. Please check the console for details.'); // Display a generic error to the user
             }
         }
     };
