@@ -44,7 +44,7 @@ limitInput.addEventListener('input', function() {
 
 
 document.addEventListener("DOMContentLoaded", function() {
-    const hoursInput = document.getElementById("set_interview_hours");
+    const hoursInput = document.getElementById("interview_hours");
     hoursInput.addEventListener("input", function() {
       
         const hoursValue = parseInt(hoursInput.value);
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    const minutesInput = document.getElementById("set_interview_minutes");
+    const minutesInput = document.getElementById("interview_minutes");
     minutesInput.addEventListener("input", function() {
          let minutesValue = minutesInput.value;
          

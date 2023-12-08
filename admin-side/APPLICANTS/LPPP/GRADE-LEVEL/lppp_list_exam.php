@@ -202,7 +202,7 @@ $setInterviewButtonDisabled = !$hasVerifiedApplicants ? 'disabled' : '';
       <span class="close" id="closeModalBtnReschedule">&times;</span>
       <div class="modal-body">
       <form method="post" id="rescheduleExamModal" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-               <h2 style="text-align: center;">Reschedule today's applicants</h2>
+               <h2 style="text-align: center;">Reschedule today's applicants</h2>  
                <p style="margin-top: -15px; text-align: center; opacity: 0.8;">For applicants that have <strong>"Exam"</strong> status</p>
                   <div class="form-group">
                      <label for="exam_date">Date</label>
@@ -250,7 +250,7 @@ $setInterviewButtonDisabled = !$hasVerifiedApplicants ? 'disabled' : '';
                <p style="margin-top: -15px; text-align: center; opacity: 0.8;">For applicants that have <strong>"Interview"</strong> status</p>
                   <div class="form-group">
                      <label for="interview_date">Date</label>
-                     <input type="date" name="interview_date" id="interview_date" class="form-control" required onkeydown="preventInput(event)"
+                     <input type="date" name="interview_date" id="set_interview_date" class="form-control" required onkeydown="preventInput(event)"
                         <?php
                            echo 'min="' . date('Y-m-d') . '"';
                            echo ' max="' . date('Y-12-31') . '"';
@@ -259,10 +259,10 @@ $setInterviewButtonDisabled = !$hasVerifiedApplicants ? 'disabled' : '';
                   <div class="form-group">
                      <label>Time</label>
                      <div style="display: flex; align-items: center;">
-                        <input type="number" name="interview_hours" id="interview_hours" class="form-control" min="1" max="12" required>
+                        <input type="number" name="interview_hours" id="set_interview_hours" class="form-control" min="1" max="12" required>
                         <span style="margin: 0 5px;">:</span>
-                        <input type="number" name="interview_minutes" id="interview_minutes" class="form-control" min="0" max="59" required>
-                        <select class="form-control" name="interview_ampm" id="interview_ampm" required>
+                        <input type="number" name="interview_minutes" id="set_interview_minutes" class="form-control" min="0" max="59" required>
+                        <select class="form-control" name="interview_ampm" id="set_interview_ampm" required>
                            <option value="AM">AM</option>
                            <option value="PM">PM</option>
                         </select>
@@ -349,9 +349,9 @@ $counter = 1;
       <script  src="../../../js/side_bar.js"></script>
       <script  src="../../../js/LPPPExam.js"></script>
       <script  src="../../../js/LPPPInterview.js"></script>
+      <script  src="../../../js/LPPPSetInterview.js"></script>
       <script  src="../../../js/LPPPStatus_Popup.js"></script>
       <script  src="../../../js/rescheduleEXAM.js"></script>
-      <script  src="../../../js/LPPPSetInterview.js"></script>
 
 <script>
 
@@ -515,10 +515,10 @@ checkRequiredInputsReschedule();
 
 
 <script>
-    const interviewdateInput = document.getElementById('interview_date');
-    const interviewhoursInput = document.getElementById('interview_hours');
-    const interviewminutesInput = document.getElementById('interview_minutes');
-    const interviewperiodInput = document.getElementById('interview_ampm');
+    const interviewdateInput = document.getElementById('set_interview_date');
+    const interviewhoursInput = document.getElementById('set_interview_hours');
+    const interviewminutesInput = document.getElementById('set_interview_minutes');
+    const interviewperiodInput = document.getElementById('set_interview_ampm');
     const interviewlimitInput = document.getElementById('SetInterviewlimit');
     const interviewerrorMessage = document.getElementById('interview-error-message');
     const interviewerrorMessageLimit = document.getElementById('interview-error-message-limit');

@@ -14,17 +14,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($interviewDate) && !empty($interview_hour) && !empty($interview_minutes) && !empty($interview_ampm) && !empty($limit)) {
         $interviewDate = mysqli_real_escape_string($conn, $interviewDate);
         $limit = intval($limit);
- 
+
+        date_default_timezone_set('Asia/Manila'); // Set the default timezone to Asia/Manila
+        $intCurDate = date('Y-m-d');
+    
         $qualifiedQuery = "SELECT t.*, t.applicant_score, UPPER(p.first_name) AS first_name, UPPER(p.last_name) AS last_name, UPPER(p.barangay) AS barangay, p.control_number, p.date_of_birth, p.lppp_reg_form_id
         FROM lppp_reg_form p
         INNER JOIN lppp_temporary_account t ON p.lppp_reg_form_id = t.lppp_reg_form_id
-        WHERE t.status = 'interview' AND applicant_score >= 75 AND interview_date = '0000-00-00'
+        WHERE t.status = 'interview' AND applicant_score >= 75 AND interview_date = ? 
         LIMIT ?";
     
- $stmt = mysqli_prepare($conn, $qualifiedQuery);
- mysqli_stmt_bind_param($stmt, "i", $limit);
- mysqli_stmt_execute($stmt);
- $qualifiedResult = mysqli_stmt_get_result($stmt);
+        $stmt = mysqli_prepare($conn, $qualifiedQuery);
+        mysqli_stmt_bind_param($stmt, "si", $intCurDate, $limit);
+        mysqli_stmt_execute($stmt);
+        $qualifiedResult = mysqli_stmt_get_result($stmt);
  
  $updateCount = 0; // Track the number of applicants updated
  while ($row = mysqli_fetch_assoc($qualifiedResult)) {

@@ -1,23 +1,23 @@
-function LPPPSetInterview() {
+function LPPPSetReschedInterview() {
     // Gather the data you want to send
-    const SetinterviewDate = document.getElementById('set_interview_date').value;
-    const SetinterviewHours = document.getElementById('set_interview_hours').value;
-    const SetinterviewMinutes = document.getElementById('set_interview_minutes').value;
-    const SetinterviewAmPm = document.getElementById('set_interview_ampm').value;
-    const Setlimit = document.getElementById('SetInterviewlimit').value;
+    const SetReschedinterviewDate = document.getElementById('interview_date').value;
+    const SetReschedinterviewHours = document.getElementById('interview_hours').value;
+    const SetReschedinterviewMinutes = document.getElementById('interview_minutes').value;
+    const SetReschedinterviewAmPm = document.getElementById('interview_ampm').value;
+    const SetReschedlimit = document.getElementById('SetReschedInterviewlimit').value;
 
     const data = {
-        interview_date: SetinterviewDate,
-        interview_hours: SetinterviewHours,
-        interview_minutes: SetinterviewMinutes,
-        interview_ampm: SetinterviewAmPm,
-        limit: Setlimit
+        Reschedinterview_date: SetReschedinterviewDate,
+        Reschedinterview_hours: SetReschedinterviewHours,
+        Reschedinterview_minutes: SetReschedinterviewMinutes,
+        Reschedinterview_ampm: SetReschedinterviewAmPm,
+        Reschedlimit: SetReschedlimit
     };
 
     console.log('Data to be sent:', data); // Log the data you're sending
 
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', 'LPPPSetInterview.php', true);
+    xhr.open('POST', 'LPPPSetRescheduleInterview.php', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     
     xhr.onreadystatechange = function () {
