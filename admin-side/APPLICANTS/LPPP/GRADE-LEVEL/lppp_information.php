@@ -446,7 +446,7 @@ function submitStatusAndReasonLPPP(status, reason, applicantId) {
         }
     };
     // Send the AJAX request with status, reason, and applicantId
-    xhr.send( status, reason, applicantId );
+    xhr.send("status=" + encodeURIComponent(status) + "&reason=" + encodeURIComponent(reason) + "&id=" + encodeURIComponent(applicantId));
 }
 
 
