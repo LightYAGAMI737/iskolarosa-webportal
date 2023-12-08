@@ -40,6 +40,18 @@ function closeReasonModalLPPP() {
    Reasonmodal.style.display = "none";
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+   const LPPPconfirmButton = document.getElementById("LPPPconfirmButton");
+   if (LPPPconfirmButton) {
+       LPPPconfirmButton.addEventListener("click", function () {
+           const status = "Disqualified"; // You can adjust this value as needed
+           const reason = document.getElementById("disqualificationReason").value;
+           const applicantId = LPPPregFormID; // Access the value from PHP
+           submitStatusAndReason(status, reason, applicantId);
+       });
+   }
+});
+
 //disqualified and fail
 let reason;
 function openReasonModalLPPP(status) {
