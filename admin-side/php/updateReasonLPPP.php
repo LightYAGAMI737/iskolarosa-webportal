@@ -2,11 +2,11 @@
 // Start the session
 session_start();
 
+include '../config_iskolarosa_db.php';
 require_once 'email_update_status_reason.php'; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Sanitize user input
-include 'config_iskolarosa_db.php';
 
 // Sanitize user input
 $status = htmlspecialchars($_POST["status"], ENT_QUOTES, 'UTF-8');
