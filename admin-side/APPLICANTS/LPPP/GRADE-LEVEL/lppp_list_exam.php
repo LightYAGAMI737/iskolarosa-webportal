@@ -203,6 +203,7 @@ $setInterviewButtonDisabled = !$hasVerifiedApplicants ? 'disabled' : '';
       <div class="modal-body">
       <form method="post" id="rescheduleExamModal" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                <h2 style="text-align: center;">Reschedule today's applicants</h2>
+               <p style="margin-top: -15px; text-align: center; opacity: 0.8;">For applicants that have <strong>"Exam"</strong> status</p>
                   <div class="form-group">
                      <label for="exam_date">Date</label>
                      <input type="date" name="exam_date" id="exam_date" class="form-control" required onkeydown="preventInput(event)"
