@@ -421,14 +421,14 @@ if (scoreForm) {
         console.log('New Status:', newStatus);
 
         // Call the updateStatus function to update status via AJAX
-        updateStatusLPPP(newStatus, applicantScore, applicantId);
+        updateStatusLPPPEXAM(newStatus, applicantScore, applicantId);
     });
 }
 
-function updateStatusLPPP(status, applicantScore, applicantId) {
+function updateStatusLPPPEXAM(status, applicantScore, applicantId) {
     // Send an AJAX request to update the applicant status and score
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "../../../php/updateStatusLPPP.php", true);
+    xhr.open("POST", "../../../php/updateStatusLPPPExam.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -451,6 +451,24 @@ function updateStatusLPPP(status, applicantScore, applicantId) {
     xhr.send("status=" + status + "&applicantScore=" + applicantScore + "&id=" + applicantId);
 }
 
+function updateStatusLPPP(status, applicantId) {
+        // Send an AJAX request to update the applicant status
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "../../../php/updateStatusLPPP.php", true); // Replace with the actual URL
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                // Handle the response here
+                var response = xhr.responseText.trim(); // Trim whitespace from the response text
+                if (response === 'success') {
+                    openconfirmationLPPPpopup();
+                } else {
+                    alert('Failed to update status.');
+                }
+            }
+        };
+        xhr.send("status=" + status + "&id=" + applicantId);
+    }
 </script>
 
 
