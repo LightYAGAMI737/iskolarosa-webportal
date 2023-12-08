@@ -2,7 +2,7 @@
 // Start the session
 session_start();
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     include 'config_iskolarosa_db.php';
     // Sanitize user input
