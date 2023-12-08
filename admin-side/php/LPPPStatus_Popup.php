@@ -69,21 +69,21 @@
 </div>
 
 <!-- Interview popup  -->
-<div class="popupOut" id="interviewPopUp">
+<div class="popupOut" id="interviewLPPPPopUp">
     <div class="popupIn">
         <i class="ri-question-fill" style="font-size: 6em; color: #F54021;"></i>
         <strong>
-            <h2>Update Applicant Status?</h2>
+            <h2>Set Interview Date?</h2>
         </strong>
         <center>
-            <p>Are you sure you want to proceed with the updating of applicant's status to <strong>Interview</strong>?  Please note that by doing so, you are confirming the accuracy of the provided information.</p>
+            <p>Are you sure you want to proceed with setting the interview date?  Please note that by doing so, you are confirming the accuracy of the provided information.</p>
         </center>
         <div style="padding: 3px;">
             <button type="button" class="cancel-button" style="margin-right: 15px; background-color: #C0C0C0;">
                 <i class="ri-close-fill"></i>
                 <span>Cancel</span>
             </button>
-            <button type="button" class="confirm-button saveBtn" id="confirmSetInterview">
+            <button type="button" class="confirm-button saveBtn"  onclick="LPPPSetInterview()">
                 <i class="ri-check-fill"></i>
                 <span>Confirm</span>
             </button>
@@ -142,7 +142,7 @@
     <div class="popupIn">
       <i class="ri-checkbox-circle-fill" style="font-size: 6em; color: #0BA350;"></i>
       <strong>
-        <h2>Status Updated Successfully</h2>
+        <h2>Status Updated Successfully.</h2>
       </strong>
       <center>
         <p>Applicant's status was updated successfully.</p>

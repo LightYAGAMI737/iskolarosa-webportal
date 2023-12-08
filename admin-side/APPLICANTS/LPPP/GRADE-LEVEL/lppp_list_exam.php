@@ -34,60 +34,6 @@
        echo $requiredPermissions[$requiredPermission];
        exit();
    }
-   
-
-
-   if (isset($_POST['saveBtn'])) {
-    // Process and update interview dates
-    $interviewDate = $_POST['interview_date'];
-    $interview_hour = $_POST['interview_hour']; 
-    $interview_minutes = $_POST['interview_minutes']; 
-    $interview_ampm = $_POST['interview_ampm'];
-    $limit = $_POST['limit'];
- 
-    if (!empty($interviewDate) && !empty($interview_hour) && !empty($interview_minutes) && !empty($interview_ampm) && !empty($limit)) {
-        $interviewDate = mysqli_real_escape_string($conn, $interviewDate);
-        $limit = intval($limit);
- 
-        $qualifiedQuery = "SELECT t.*, UPPER(p.first_name) AS first_name, UPPER(p.last_name) AS last_name, UPPER(p.barangay) AS barangay, p.control_number, p.date_of_birth, p.lppp_reg_form_id
-        FROM lppp_reg_form p
-        INNER JOIN lppp_temporary_account t ON p.lppp_reg_form_id = t.lppp_reg_form_id
-        WHERE t.status = 'interview' AND interview_date = '0000-00-00'
-        LIMIT ?";
-    
- $stmt = mysqli_prepare($conn, $qualifiedQuery);
- mysqli_stmt_bind_param($stmt, "i", $limit);
- mysqli_stmt_execute($stmt);
- $qualifiedResult = mysqli_stmt_get_result($stmt);
- 
- $updateCount = 0; // Track the number of applicants updated
- while ($row = mysqli_fetch_assoc($qualifiedResult)) {
- if ($updateCount >= $limit) {
- break; // Stop updating once the limit is reached
- }
- $adminUsername = $_SESSION['username'];
- $ceapRegFormId = $row['lppp_reg_form_id'];
- 
- $updateTimeQuery = "UPDATE lppp_temporary_account SET interview_date = ?, interview_hour = ?, interview_minute = ?, interview_period = ?, updated_by = ? WHERE lppp_reg_form_id = ?";
- $stmtTimeUpdate = mysqli_prepare($conn, $updateTimeQuery);
- mysqli_stmt_bind_param($stmtTimeUpdate, "siiisi", $interviewDate, $interview_hour, $interview_minutes, $interview_ampm, $adminUsername, $ceapRegFormId);
- mysqli_stmt_execute($stmtTimeUpdate);
- 
- // Update the status to 'interview'
- $statusUpdateQuery = "UPDATE lppp_temporary_account SET status = 'interview' WHERE lppp_reg_form_id = ?";
- $stmtStatusUpdate = mysqli_prepare($conn, $statusUpdateQuery);
- mysqli_stmt_bind_param($stmtStatusUpdate, "i", $ceapRegFormId);
- mysqli_stmt_execute($stmtStatusUpdate);
- 
- $updateCount++;
- 
- }
- 
- // Redirect to prevent form resubmission
- header("Location: " . $_SERVER['REQUEST_URI']);
- exit();
- }
- }
 
    // Set variables
    $currentStatus = 'exam';
@@ -112,14 +58,14 @@ SQL;
 
 $result = mysqli_query($conn, $query);
  // Query to count 'verified' accounts
- $lpppverifiedCountQuery = "SELECT COUNT(*) AS lpppverifiedCount FROM lppp_temporary_account WHERE status = 'interview'  AND interview_date ='0000-00-00' ";
- $stmtlpppVerifiedCount = mysqli_prepare($conn, $lpppverifiedCountQuery);
+ $interviewCountQuery = "SELECT COUNT(*) AS inteviewCount FROM lppp_temporary_account WHERE status = 'interview'  AND interview_date ='0000-00-00' ";
+ $stmtlpppVerifiedCount = mysqli_prepare($conn, $interviewCountQuery);
  mysqli_stmt_execute($stmtlpppVerifiedCount);
- $lpppverifiedCountResult = mysqli_stmt_get_result($stmtlpppVerifiedCount);
- $lpppverifiedCountRow = mysqli_fetch_assoc($lpppverifiedCountResult);
+ $interviewCountResult = mysqli_stmt_get_result($stmtlpppVerifiedCount);
+ $interviewCountRow = mysqli_fetch_assoc($interviewCountResult);
  
  // Store the count of 'verified' accounts in a variable
- $lpppverifiedCount = $lpppverifiedCountRow['lpppverifiedCount'];
+ $interviewCount = $interviewCountRow['inteviewCount'];
  
 
 
@@ -249,7 +195,6 @@ $setInterviewButtonDisabled = !$hasVerifiedApplicants ? 'disabled' : '';
  $lpppreschedCount = $lpppreschedCountRow['lpppreschedCount'];
 
 ?>
-   
 
 <!-- Set reschedule Modal (hidden by default) -->
 <div id="reschedulemyModal" class="modal">
@@ -257,7 +202,7 @@ $setInterviewButtonDisabled = !$hasVerifiedApplicants ? 'disabled' : '';
       <span class="close" id="closeModalBtnReschedule">&times;</span>
       <div class="modal-body">
       <form method="post" id="rescheduleExamModal" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-               <h3 style="text-align: center;">Reschedule today's applicants</h3>
+               <h2 style="text-align: center;">Reschedule today's applicants</h2>
                   <div class="form-group">
                      <label for="exam_date">Date</label>
                      <input type="date" name="exam_date" id="exam_date" class="form-control" required onkeydown="preventInput(event)"
@@ -293,42 +238,49 @@ $setInterviewButtonDisabled = !$hasVerifiedApplicants ? 'disabled' : '';
 </div>
 
  <!-- Set Interview Modal (hidden by default) -->
- <div id="InterviewmyModal" class="modal">
+ 
+<!-- Set reschedule Modal (hidden by default) -->
+<div id="InterviewmyModal" class="modal">
    <div class="modal-content">
-      <span class="close" id="closeModalBtn">&times;</span>
+      <span class="close" id="closeModalBtnInterview">&times;</span>
       <div class="modal-body">
-         <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-            <div class="form-group">
-               <label for="interview_date">Date</label>
-               <input type="date" name="interview_date" id="interview_date" class="form-control" required onkeydown="preventInput(event)"
-                <?php
-                    echo 'min="' . date('Y-m-d') . '"';
-                    echo ' max="' . date('Y-12-31') . '"';
-                ?>>
-            </div>
-            <div class="form-group">
-               <label>Time</label>
-               <div style="display: flex; align-items: center;">
-                  <input type="number" name="interview_hour" id="interview_hour" class="form-control" min="1" max="12" required>
-                  <span style="margin: 0 5px;">:</span>
-                  <input type="number" name="interview_minutes" id="interview_minutes" minlength="2" class="form-control" min="0" max="59" required>
-                  <select class="form-control" name="interview_ampm" id="interview_ampm" required>
-                     <option value="AM">AM</option>
-                     <option value="PM">PM</option>
-                  </select>
-               </div>
-            </div>
-            <div class="form-group">
-               <label for="limit">Qty.</label>
-               <input type="number" class="form-control" name="limit" id="SetInterviewlimit" min="1" max="<?php echo $lpppverifiedCount; ?>" required>
-            </div>
-            <div class="form-group">
-               <button type="submit" name="saveBtn" id="saveBtn" class="btn btn-primary">Set</button>
-            </div>
-         </form>
+      <form method="post" id="InterviewExamModal" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+               <h2 style="text-align: center;">Set Interview Date</h2>
+               <p style="margin-top: -15px; text-align: center; opacity: 0.8;">For applicants that have <strong>"Interview"</strong> status</p>
+                  <div class="form-group">
+                     <label for="interview_date">Date</label>
+                     <input type="date" name="interview_date" id="interview_date" class="form-control" required onkeydown="preventInput(event)"
+                        <?php
+                           echo 'min="' . date('Y-m-d') . '"';
+                           echo ' max="' . date('Y-12-31') . '"';
+                           ?>>
+                  </div>
+                  <div class="form-group">
+                     <label>Time</label>
+                     <div style="display: flex; align-items: center;">
+                        <input type="number" name="interview_hours" id="interview_hours" class="form-control" min="1" max="12" required>
+                        <span style="margin: 0 5px;">:</span>
+                        <input type="number" name="interview_minutes" id="interview_minutes" class="form-control" min="0" max="59" required>
+                        <select class="form-control" name="interview_ampm" id="interview_ampm" required>
+                           <option value="AM">AM</option>
+                           <option value="PM">PM</option>
+                        </select>
+                     </div>
+                  </div>
+                  <span id="interview-error-message" style="text-align: center; display: flex; justify-content: center;"></span>
+                  <div class="form-group">
+                     <label for="limit">Qty</label>
+                     <input type="number" class="form-control" name="limit" id="SetInterviewlimit" min="1" max="<?php echo $interviewCount; ?>" required>
+                  </div>
+                  <span id="interview-error-message-limit" style="color: red; text-align: center; display: flex; justify-content: center;"></span>
+                  <div class="form-group">
+                     <button type="button" class="btn btn-primary" id="InterviewBtnExamLPPP" onclick="openInterviewExamLPPP(), closeInterviewModal()" disabled>Set Interview</button>
+                  </div>
+               </form>
       </div>
    </div>
 </div>
+
   <!-- end search and reschedule -->
 
 <!-- table for displaying the applicant list -->
@@ -395,8 +347,10 @@ $counter = 1;
       <script src='../../../js/unpkg-layout.js'></script>
       <script  src="../../../js/side_bar.js"></script>
       <script  src="../../../js/LPPPExam.js"></script>
-      <script  src="../../../js/rescheduleEXAM.js"></script>
       <script  src="../../../js/LPPPInterview.js"></script>
+      <script  src="../../../js/LPPPStatus_Popup.js"></script>
+      <script  src="../../../js/rescheduleEXAM.js"></script>
+      <script  src="../../../js/LPPPSetInterview.js"></script>
 
 <script>
 
@@ -556,6 +510,122 @@ requiredInputsEXAM.forEach((input) => {
 
 // Initial check
 checkRequiredInputsReschedule();
+</script>
+
+
+<script>
+    const interviewdateInput = document.getElementById('interview_date');
+    const interviewhoursInput = document.getElementById('interview_hours');
+    const interviewminutesInput = document.getElementById('interview_minutes');
+    const interviewperiodInput = document.getElementById('interview_ampm');
+    const interviewlimitInput = document.getElementById('SetInterviewlimit');
+    const interviewerrorMessage = document.getElementById('interview-error-message');
+    const interviewerrorMessageLimit = document.getElementById('interview-error-message-limit');
+
+    // Add input event listeners to date/time inputs
+    interviewdateInput.addEventListener('input', validateDateTimeInputINTERV);
+    interviewhoursInput.addEventListener('input', validateDateTimeInputINTERV);
+    interviewminutesInput.addEventListener('input', validateDateTimeInputINTERV);
+    interviewperiodInput.addEventListener('input', validateDateTimeInputINTERV);
+
+    // Add input event listener to the limit input
+    interviewlimitInput.addEventListener('input', validateinterviewLimitInput);
+
+    function validateDateTimeInputINTERV() {
+    const selectedDate = new Date(interviewdateInput.value);
+    const hours = parseInt(interviewhoursInput.value);
+    const minutes = parseInt(interviewminutesInput.value);
+    const period = interviewperiodInput.value;
+
+    // Log the selected period to the console
+    console.log('Selected Period:', period);
+
+    let adjustedHours = hours; // Declare a new variable to store the adjusted hours
+
+    if (period === 'PM') {
+        adjustedHours += 12;
+    }
+
+    const isDateTimeValid =
+        !isNaN(selectedDate) &&
+        !isNaN(adjustedHours) && // Use adjustedHours
+        !isNaN(minutes);
+
+    // Get the input elements for date, hours, minutes, and period
+    const inputElements = [interviewdateInput, interviewhoursInput, interviewminutesInput, interviewperiodInput];
+
+    if (isDateTimeValid) {
+        // If input is valid, remove 'invalid' class
+        inputElements.forEach((element) => {
+            element.classList.remove('invalid');
+        });
+
+        selectedDate.setHours(adjustedHours, minutes, 0, 0);
+        const currentDate = new Date();
+
+        if (selectedDate >= currentDate) {
+            interviewerrorMessage.textContent = '';
+        }  else {
+            inputElements.forEach((element) => {
+                element.classList.add('invalid');
+            });
+            interviewerrorMessage.textContent = 'Invalid Date and time';
+            interviewerrorMessage.style.color= 'red';
+        }
+    } else {
+        // If input is invalid, add 'invalid' class
+        inputElements.forEach((element) => {
+            element.classList.add('invalid');
+        });
+        interviewerrorMessage.textContent = 'Ensure the date and time are not earlier than the current time.';
+        interviewerrorMessage.style.color= 'gray';
+
+    }
+}
+
+function validateinterviewLimitInput() {
+    const limit = parseInt(interviewlimitInput.value);
+    const isLimitValid =
+        !isNaN(limit) &&
+        limit >= 1 &&
+        limit <= <?php echo $interviewCount; ?>;
+
+    // Add or remove 'invalid' class based on validation
+    if (isLimitValid) {
+        interviewlimitInput.classList.remove('invalid');
+        interviewerrorMessageLimit.textContent = '';
+    } else {
+        interviewlimitInput.classList.add('invalid');
+        interviewerrorMessageLimit.textContent = 'Quantity cannot exceed to <?php echo $interviewCount; ?>.';
+        interviewerrorMessage.style.color= 'red';
+
+    }
+}
+
+// Get references to the required input fields and the save button
+const requiredInputs = document.querySelectorAll('#InterviewExamModal [required]');
+const interviewBtnExam = document.getElementById('InterviewBtnExamLPPP');
+
+// Function to check if all required inputs are valid
+function checkRequiredInputsINTERVule() {
+    const allInputsValidINTERVule = Array.from(requiredInputs).every((input) => {
+        return input.value.trim() !== '' && !input.classList.contains('invalid');
+    });
+
+    if (allInputsValidINTERVule) {
+        interviewBtnExam.removeAttribute('disabled');
+    } else {
+        interviewBtnExam.setAttribute('disabled', 'true');
+    }
+}
+
+// Add input event listeners to required input fields
+requiredInputs.forEach((input) => {
+    input.addEventListener('input', checkRequiredInputsINTERVule);
+});
+
+// Initial check
+checkRequiredInputsINTERVule();
 
 </script>
 </body>

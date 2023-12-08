@@ -72,7 +72,6 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 const openReschedExam = document.getElementById('RescheduleEXAMPopUp');
-
 function openRescheduleExamLPPP() {
     closeRescheduleModal();
     openReschedExam.style.display = "block";

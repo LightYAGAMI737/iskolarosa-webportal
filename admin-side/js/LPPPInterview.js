@@ -1,7 +1,7 @@
    // Get modal elements using plain JavaScript
    var modal = document.getElementById("InterviewmyModal");
    var openModalBtn = document.getElementById("openModalBtn");
-   var closeModalBtn = document.getElementById("closeModalBtn");
+   var closeModalBtnInterview = document.getElementById("closeModalBtnInterview");
 
    // Show modal when the button is clicked
    openModalBtn.addEventListener("click", function() {
@@ -9,13 +9,13 @@
    });
 
     // Function to close the modal
-    function closeModal() {
+    function closeInterviewModal() {
         modal.style.display = "none";
     }
 
     // Close the modal when the close button is clicked
-    document.getElementById("closeModalBtn").addEventListener("click", function() {
-        closeModal();
+    document.getElementById("closeModalBtnInterview").addEventListener("click", function() {
+        closeInterviewModal();
     });
 
    // Close modal when clicking outside the modal content
@@ -70,3 +70,36 @@ document.addEventListener("DOMContentLoaded", function() {
          }
     });
 });
+
+const InterviewEXAMconfirmButtons = document.querySelectorAll('.confirm-button');
+InterviewEXAMconfirmButtons.forEach(function(button) {
+    button.addEventListener('click', function() {
+        this.classList.add('disabled');
+        const InterviewEXAMcancelButton = this.parentElement.querySelector('.cancel-button');
+        InterviewEXAMcancelButton.classList.add('disabled');
+    });
+});
+
+
+const InterviewEXAMcancelButtons = document.querySelectorAll(".cancel-button");
+InterviewEXAMcancelButtons.forEach((InterviewEXAMcancelButton) => {
+InterviewEXAMcancelButton.addEventListener("click", closeRescheduleExamLPPP);
+});
+
+function openConfirmationEXAMPopup() {
+    closeLPPPStatusPopup();
+const confirmPopup = document.getElementById("ConfrimMsgPopUp");
+confirmPopup.style.display = "block";
+
+const okButton = document.getElementById("okConfirm");
+okButton.addEventListener("click", function () {
+  confirmPopup.style.display = "none";
+  goBackInterviewEXAMLPPP();
+});
+// Call the goBackInterviewEXAMLPPP function after a 5-second delay
+setTimeout(goBackInterviewEXAMLPPP, 5000);
+}
+
+function goBackInterviewEXAMLPPP() {
+  location.reload();
+}

@@ -2,7 +2,7 @@
    const LPPPVerifiedpopup = document.getElementById("LPPPverifiedPopUp");
    const Granteepopup = document.getElementById("GranteePopUp");
    const examLPPPpopup = document.getElementById("examLPPPPopUp");
-   const interviewpopup = document.getElementById("interviewPopUp");
+   const interviewLPPPPpopup = document.getElementById("interviewLPPPPopUp");
    const CEAPconfigPopup = document.getElementById("CEAPconfigurationPopUp");
    const LPPPconfigPopup = document.getElementById("LPPPconfigurationPopUp");
    const postdeletepopup = document.getElementById("DeletepostPopUp");
@@ -11,8 +11,8 @@
        LPPPVerifiedpopup.style.display = "block";
    }
 
-    function openInterviewPopup() {
-        interviewpopup.style.display = "block";
+    function openInterviewExamLPPP() {
+        interviewLPPPPpopup.style.display = "block";
     }
 
     function openexamLPPPPopup() {
@@ -29,8 +29,8 @@
     if (Granteepopup) {
         Granteepopup.style.display = "none";
     }
-    if (interviewpopup) {
-        interviewpopup.style.display = "none";
+    if (interviewLPPPPpopup) {
+        interviewLPPPPpopup.style.display = "none";
     }
     if (CEAPconfigPopup) {
         CEAPconfigPopup.style.display = "none";
