@@ -40,7 +40,6 @@ function closeReasonModalLPPP() {
    Reasonmodal.style.display = "none";
 }
 
-
 document.addEventListener("DOMContentLoaded", function () {
    const LPPPconfirmButton = document.getElementById("LPPPconfirmButton");
    if (LPPPconfirmButton) {
