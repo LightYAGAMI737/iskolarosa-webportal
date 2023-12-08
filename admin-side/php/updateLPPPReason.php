@@ -59,5 +59,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     mysqli_close($conn);
+}else {
+    http_response_code(500); // Internal Server Error
+    echo 'something: ' . $stmt->error; // Update failed
 }
 ?>
