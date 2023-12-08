@@ -85,7 +85,7 @@ function openReasonModalLPPP(status) {
 function submitStatusAndReasonLPPP(status, reason, applicantId) {
    // Send an AJAX request to update both status and reason
    var xhr = new XMLHttpRequest();
-   xhr.open("POST", "../../php/updateReasonLPPP.php", true);
+   xhr.open("POST", "../php/updateReasonLPPP.php", true);
    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
    xhr.onreadystatechange = function () {
       if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
