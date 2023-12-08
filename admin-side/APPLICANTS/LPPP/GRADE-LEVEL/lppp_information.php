@@ -331,10 +331,10 @@ if ($result) {
          <div class="overlay"></div>
       </div>
       <!-- partial -->
+      <script  src="../../../js/LPPPDisquaReasonModal.js"></script>
       <script src='../../../js/unpkg-layout.js'></script>
       <script  src="../../../js/side_bar.js"></script>
       <script  src="../../../js/LPPPStatus_Popup.js"></script>
-      <script  src="../../../js/LPPPReasonModal.js"></script>
       <script type="text/javascript">
          var LPPPregFormID = <?php echo $LPPPregFormID; ?>;
       </script>
