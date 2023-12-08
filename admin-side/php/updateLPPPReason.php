@@ -2,9 +2,9 @@
 // Start the session
 session_start();
 
-include 'config_iskolarosa_db.php';
-echo ' heloo';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    include 'config_iskolarosa_db.php';
     // Sanitize user input
     $status = htmlspecialchars($_POST["status"], ENT_QUOTES, 'UTF-8');
     $applicantId = filter_input(INPUT_POST, "id", FILTER_VALIDATE_INT);
