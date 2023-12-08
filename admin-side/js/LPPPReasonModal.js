@@ -100,9 +100,9 @@ function submitStatusAndReasonLPPP(status, reason, applicantId) {
          }
       } else if (xhr.readyState === XMLHttpRequest.DONE && xhr.status !== 200) {
          console.error("AJAX request failed with status:", xhr.status);
-         console.log("Response FAILE from AJAX:", response); // Log the response
-          // Log AJAX errors
-      }
+         console.log("Response FAILED from AJAX:", xhr.responseText); // Log the response
+         // Log AJAX errors
+     }
    };
    // Send the AJAX request with status, reason, and applicantId
    xhr.send("status=" + status + "&id=" + applicantId + "&reason=" + reason);
