@@ -89,7 +89,7 @@ $result = mysqli_query($conn, $query);
    </head>
    <body>
       <?php 
-        require '../../../php/LPPPstatus_popup.php';
+        require '../../../php/LPPPStatus_popup.php';
         include '../../side_bar_lppp.php';
       ?>
       <!-- home content--> 
