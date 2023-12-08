@@ -444,11 +444,7 @@ function submitStatusAndReasonLPPP(status, reason, applicantId) {
                 } else {
                     alert('Failed to update status and reason.');
                 }
-            } else {
-                var response = xhr.responseText.trim();
-                console.error("AJAX request failed with status:", xhr.status); // Log AJAX errors
-                console.error("Server error message:", xhr.responseText); // Log server error message
-            }
+            } 
         }
     };
     // Send the AJAX request with status, reason, and applicantId
