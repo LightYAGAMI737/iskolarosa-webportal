@@ -270,7 +270,7 @@ if (mysqli_num_rows($resultScore) > 0) {
                 <span class="close" onclick="closeReasonModalLPPP()">&times;</span>
                 <h2>Enter Reason</h2>
                 <input type="text" name="reason" id="disqualificationReasonLPPP" minlength="10" maxlength="255" placeholder="Enter reason for disqualification">
-                <button id="submitReasonLPPP" onclick="submitStatusAndReason()" class="disabled">Submit</button>
+                <button id="submitReasonLPPP" onclick="submitStatusAndReasonLPPP()" class="disabled">Submit</button>
             </div>
         </div>
 
@@ -310,7 +310,7 @@ if ($result) {
             echo '</form>';
         } elseif ($applicantStatus === 'interview' && $applicantInterviewDate === '0000-00-00') {
         } elseif ($applicantStatus === 'interview') {
-            echo '<button onclick="updateStatus(\'Fail\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">Not Grantee</button>';
+            echo '<button onclick="openReasonModalLPPP(\'Fail\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">Not Grantee</button>';
             echo '<button onclick="updateStatus(\'Grantee\', ' . $id . ')" style="background-color: #FEC021;" class="status-button">Grantee</button>';
         }
     } else {
