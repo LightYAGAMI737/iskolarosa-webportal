@@ -2,9 +2,9 @@
 // Start the session
 session_start();
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     include 'config_iskolarosa_db.php';
+
     // Sanitize user input
     $status = htmlspecialchars($_POST["status"], ENT_QUOTES, 'UTF-8');
     $applicantId = filter_input(INPUT_POST, "id", FILTER_VALIDATE_INT);
@@ -50,11 +50,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($stmtLog->execute()) {
             echo 'success'; // Update, log, and email sending were successful
         } else {
-            echo 'log_error'; // Logging failed
+            http_response_code(500); // Internal Server Error
+            echo 'log_error: ' . $stmtLog->error; // Logging failed
         }
     } else {
-        echo 'error'; // Update failed
+        http_response_code(500); // Internal Server Error
+        echo 'update_error: ' . $stmt->error; // Update failed
     }
+
     mysqli_close($conn);
 }
 ?>
