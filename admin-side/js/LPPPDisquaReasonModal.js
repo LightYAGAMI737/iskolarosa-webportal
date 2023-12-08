@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
            const status = "Disqualified"; // You can adjust this value as needed
            const reason = document.getElementById("disqualificationReason").value;
            const applicantId = LPPPregFormID; // Access the value from PHP
-           submitStatusAndReason(status, reason, applicantId);
+           submitStatusAndReasonLPPP(status, reason, applicantId);
        });
    }
 });
@@ -79,6 +79,7 @@ function openReasonModalLPPP(status) {
       console.error("Element with ID 'reasonModalLPPP' not found.");
    }
 }
+
 function submitStatusAndReasonLPPP(status, reason, applicantId) {
    // Send an AJAX request to update both status and reason
    var xhr = new XMLHttpRequest();
