@@ -421,6 +421,13 @@ function openReasonModalLPPP(status) {
    }
 }
 function submitStatusAndReasonLPPP(status, reason, applicantId) {
+    // Log the data to be sent
+    console.log("Data to be sent:", {
+        status: status,
+        reason: reason,
+        applicantId: applicantId
+    });
+
     // Send an AJAX request to update both status and reason
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "../../../php/updateLPPPReason.php", true);
@@ -447,7 +454,6 @@ function submitStatusAndReasonLPPP(status, reason, applicantId) {
     // Send the AJAX request with status, reason, and applicantId
     xhr.send("status=" + status + "&id=" + applicantId + "&reason=" + reason);
 }
-
 
  function seeMore(id) {
     // Redirect to the page for updating grade_level based on the given ID
