@@ -47,8 +47,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmtLog = $conn->prepare($logQuery);
         $stmtLog->bind_param("ssii", $previousStatus, $status, $applicantId, $employeeLogsId);
 
+        if ($stmtLog->execute()) {
             echo 'success'; // Update, log, and email sending were successful
-        }echo 'error';
+        } else {
+            echo 'log_error'; // Logging failed
+        }
+    } else {
+        echo 'error'; // Update failed
+    }
+    mysqli_close($conn);
 }
-mysqli_close($conn);
 ?>
