@@ -452,7 +452,7 @@ function submitStatusAndReasonLPPP(status, reason, applicantId) {
     // Send the AJAX request with status, reason, and applicantId
     xhr.send("status=" + status + "&id=" + applicantId + "&reason=" + reason);
 }
-
+}
  function seeMore(id) {
     // Redirect to the page for updating grade_level based on the given ID
     window.location.href = "lppp_grantee_information.php?lppp_reg_form_id=" + id;
