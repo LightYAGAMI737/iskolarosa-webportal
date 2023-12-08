@@ -331,7 +331,7 @@ if ($result) {
          <div class="overlay"></div>
       </div>
       <!-- partial -->
-      <script  src="../../../js/LPPPReasonModal.js"></script>
+      <script  src="../../../js/LPPPReasonDisqualiModal.js"></script>
       <script src='../../../js/unpkg-layout.js'></script>
       <script  src="../../../js/side_bar.js"></script>
       <script  src="../../../js/LPPPStatus_Popup.js"></script>
