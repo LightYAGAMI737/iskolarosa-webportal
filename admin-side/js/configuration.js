@@ -28,8 +28,6 @@
 
 // Function to enable or disable fields based on toggle state
 function ToggleOnEnableFields() {
-
-    
 // Function to enable or disable the textareas
 function toggleTextareas(disable) {
     document.getElementById("qualifications").disabled = disable;
@@ -91,12 +89,12 @@ toggleButton.addEventListener("input", function () {
         qualifications.setAttribute("disabled", "true")
         requirements.setAttribute("disabled", "true")
 
-        startDateInput.value = ""
-        startTimeInput.value = ""
-        endDateInput.value = ""
-        endTimeInput.value = ""
-        qualifications.value = ""
-        requirements.value = ""
+        // startDateInput.value = ""
+        // startTimeInput.value = ""
+        // endDateInput.value = ""
+        // endTimeInput.value = ""
+        // qualifications.value = ""
+        // requirements.value = ""
     }
 });
 

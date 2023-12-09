@@ -62,9 +62,11 @@ textarea {
 }
 
 .button-container {
-    text-align: center;
+     display: flex;
 }
-
+.editConfig {
+    display: none;
+}
 button {
     padding: 10px 20px;
     background-color: #FEC021;
@@ -74,6 +76,7 @@ button {
     cursor: pointer;
     width: 150px;
     transition: background-color 0.3s;
+    margin: 0 auto;
 }
 
 button:disabled {

@@ -229,7 +229,13 @@ setInterval(updateCurrentDateTime, 1000); // Update every 1 second
                </div>
             </div>
             <div class="button-container"> 
-               <button type="button" id="submitConfigBtnCEAP" class="btn" onclick="openCEAPConfigurationPopup()">Submit</button>
+                <button type="button" id="submitConfigBtnCEAP" class="btn" onclick="openCEAPConfigurationPopup()">Submit</button>
+                   <?php 
+                    if ($_SESSION['role'] == "3") {
+                        echo '<button type="button" id="editConfigBtnCEAP" class="btn editConfig" onclick="EditConfiguration()">Edit</button>';
+                        echo '<button type="button" id="cancelConfigBtnCEAP" class="btn editConfig" onclick="cancelConfiguration()">Cancel</button>';
+                    }
+                    ?>
             </div>
          </div>
       </form>
@@ -246,7 +252,7 @@ setInterval(updateCurrentDateTime, 1000); // Update every 1 second
       <script  src="./js/configuration.js"></script>
 
       <script>
-
+const editConfigBTN = document.getElementById('editConfigBtnCEAP');
          // Function to check if all required fields are filled and text areas have at least 15 characters
 function checkRequiredFields() {
     const requiredFields = document.querySelectorAll('[required]');
@@ -261,12 +267,6 @@ function checkRequiredFields() {
         submitConfigBtnCEAP.setAttribute("disabled", "true");
     }
 }
-
-// Add event listeners to input and textarea fields
-const inputFields = document.querySelectorAll('input[type="date"], input[type="time"], textarea');
-inputFields.forEach(function (field) {
-    field.addEventListener('input', checkRequiredFields);
-});
 
 // Function to check the toggle state using XHR
 function checkToggleStateCEAP() {
@@ -291,12 +291,19 @@ function checkToggleStateCEAP() {
                             submitConfigBtnCEAP.disabled = false;
                         }else{
                             submitConfigBtnCEAP.disabled = true;
-                             startDateInput.setAttribute("disabled", "true")
+                             startDateInput.setAttribute("disabled", "true");
                         }
                     });
                 } else if (response === '0')  {
-                    console.error('Error: Toggle value is not 1.');
+                    console.error('Error: Toggle value is 0');
                     submitConfigBtnCEAP.disabled = true;
+                }else if (response === '2') {
+                    console.error('Error: Toggle value is 2');
+                    submitConfigBtnCEAP.disabled = true;
+                    toggleButton.setAttribute("disabled", "true");
+                    submitConfigBtnCEAP.style.display = "none";
+                    editConfigBTN.style.display = "block";
+
                 }
             } else {
                 console.error(`Error: XMLHttpRequest failed with status ${xhr.status}.`); 
@@ -320,10 +327,10 @@ function updateDatabaseState() {
     xhr.onload = function () {
         if (xhr.status >= 200 && xhr.status < 300) {
             // Request was successful, you can log or handle the response
-           // console.log(xhr.responseText);
+            console.log(xhr.responseText);
         } else {
             // Request failed, handle the error
-            //console.error('Error updating database state. Status:', xhr.status, 'Response:', xhr.responseText);
+            console.error('Error updating database state. Status:', xhr.status, 'Response:', xhr.responseText);
         }
     };
 
@@ -336,7 +343,83 @@ function updateDatabaseState() {
 }
 
 // Set up a setInterval to periodically call the update function (every 5 minutes in this example)
-setInterval(updateDatabaseState, 1000); // Adjust the interval as needed
+setInterval(updateDatabaseState, 30000); // Adjust the interval as needed
+
+</script>
+<script>
+function EditConfiguration() {
+    var form = document.getElementById('configForm');
+    var formElements = form.elements;
+    var submitConfigBtnCEAP = document.getElementById('submitConfigBtnCEAP');
+    var editConfigBtn = document.getElementById('editConfigBtnCEAP');
+    var toggleButtonEdit = document.getElementById('toggleButton');
+    var startDateInput = document.getElementById('startDateInput'); // Adjust the ID based on your actual input
+    var cancelConfigBtnCEAP = document.getElementById('cancelConfigBtnCEAP'); // Adjust the ID based on your actual input
+
+    // Store the initial form state
+    var initialFormState = getFormState();
+
+    for (var i = 0; i < formElements.length; i++) {
+        formElements[i].disabled = false;
+    }
+
+    // Add event listener to form elements for the "input" event
+    form.addEventListener('input', function () {
+        var currentFormState = getFormState();
+ //   submitConfigBtnCEAP.disabled = JSON.stringify(currentFormState) === JSON.stringify(initialFormState);
+    });
+
+// Add event listeners to input and textarea fields
+const inputFields = document.querySelectorAll('input[type="date"], input[type="time"], textarea');
+inputFields.forEach(function (field) {
+    field.addEventListener('input', checkRequiredFields);
+});
+
+    // Add event listener to the toggle button for the "input" event
+    toggleButtonEdit.addEventListener('change', function () {
+        if (toggleButtonEdit.checked) {
+                EditConfiguration(); // Call the function to enable the fields
+        } else {
+            // Enable the submit button when the toggle button is unchecked
+            submitConfigBtnCEAP.disabled = false;
+        }
+    });
+    toggleButton.checked = true; // Make the checkbox checked
+    submitConfigBtnCEAP.style.display = "block";
+    submitConfigBtnCEAP.disabled = true;
+    editConfigBtn.style.display = "none";
+    cancelConfigBtnCEAP.style.display = "block";
+}
+
+// Function to get the current state of the form
+function getFormState() {
+    var form = document.getElementById('configForm');
+    var formElements = form.elements;
+
+    var formState = {};
+    for (var i = 0; i < formElements.length; i++) {
+        formState[formElements[i].name] = formElements[i].value;
+    }
+
+    return formState;
+}
+
+checkRequiredFields();
+
+function cancelConfiguration() {
+    var form = document.getElementById('configForm');
+    var formElements = form.elements;
+
+    for (var i = 0; i < formElements.length; i++) {
+        formElements[i].disabled = true;
+    }
+    var cancelConfigBtnCEAP = document.getElementById('cancelConfigBtnCEAP'); // Adjust the ID based on your actual input
+    cancelConfigBtnCEAP.style.display = "none";
+    submitConfigBtnCEAP.style.display = "none";
+    editConfigBTN.style.display = "block";
+    editConfigBTN.removeAttribute("disabled", "true");
+    toggleButton.checked = false; // Make the checkbox checked
+}
 
 </script>
 
