@@ -268,6 +268,12 @@ function checkRequiredFields() {
     }
 }
 
+// Add event listeners to input and textarea fields
+const inputFields = document.querySelectorAll('input[type="date"], input[type="time"], textarea');
+inputFields.forEach(function (field) {
+    field.addEventListener('input', checkRequiredFields);
+});
+
 // Function to check the toggle state using XHR
 function checkToggleStateCEAP() {
     const xhr = new XMLHttpRequest();
