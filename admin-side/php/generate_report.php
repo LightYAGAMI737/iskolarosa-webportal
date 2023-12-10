@@ -193,7 +193,7 @@ foreach ($sqlQueries as $sqlQuery) {
 foreach ($filterOption as $option) {
     switch ($option) {
         case 'totalCountGender':
-            $label = 'SEX';
+            $label = 'GENDER';
             break;
         case 'totalCountBarangay':
             $label = 'BARANGAY';
