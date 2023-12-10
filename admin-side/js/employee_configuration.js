@@ -120,7 +120,7 @@ if (!emailPattern.test(emailInput.value)) {
       var xhr = new XMLHttpRequest();
 
       // Prepare the request
-      xhr.open("POST", "../php/checkEmailEmployee.php", true);
+      xhr.open("POST", "./php/checkEmailEmployee.php", true);
       xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
       xhr.onreadystatechange = function () {
