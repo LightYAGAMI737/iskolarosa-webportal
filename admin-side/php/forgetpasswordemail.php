@@ -78,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if (mysqli_num_rows($resultEmployee) === 1) {
         $row = mysqli_fetch_assoc($resultEmployee);
-        $resetLink = "http://localhost/iskolarosa-7.0/admin-side/resetpasswordemployee.php?username=" . urlencode($row['username']);
+        $resetLink = "https://iskolarosa.com/iskolarosa/admin-side/resetpasswordemployee.php?username=" . urlencode($row['username']);
     } else {
         header("Location: forgotpassword.php?error=EmailNotFound");
         exit();
