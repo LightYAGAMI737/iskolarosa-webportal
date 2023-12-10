@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
     // File handling for the picture upload
-    $targetDir = "./employee-picture/"; // Change this to the directory where you want to store the images
+    $targetDir = "../employee-picture/"; // Change this to the directory where you want to store the images
     $targetFile = $targetDir . $lastName . "," . $firstName . ".jpg";
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($_FILES["picture"]["name"], PATHINFO_EXTENSION));
