@@ -2,12 +2,23 @@
 require_once '../TCPDF-main/tcpdf.php';
 require_once 'config_iskolarosa_db.php'; // Include your database connection script
 
-// Extend TCPDF to create a custom header
+// Set the time zone to Asia/Manila
+date_default_timezone_set('Asia/Manila');
+
+// Extend TCPDF to create a custom footer
 class MYPDF extends TCPDF {
+    private $dataChoice;
+
+    // Constructor to set dataChoice
+    public function __construct($dataChoice) {
+        parent::__construct();
+        $this->dataChoice = $dataChoice;
+    }
+
     public function Header() {
         // Set the header content here
-        $image_file = K_PATH_IMAGES.'../system-images/iskolarosa-logo.jpg';
-        
+        $image_file = K_PATH_IMAGES . '../system-images/iskolarosa-logo.jpg';
+
         // Calculate x-coordinate to center the image
         $pageWidth = $this->GetPageWidth();
         $imageWidth = 25; // Adjust the image width as needed
@@ -15,18 +26,68 @@ class MYPDF extends TCPDF {
 
         $this->Image($image_file, $xCoordinate, 10, 25, '', 'JPG', '', 'T', false, 300, '', false, false, 0, false, false, false);
         $this->Ln(30); // Add a line break to lower the position
+
         // Set font after the image
-        $this->SetFont('helvetica', 'B', 10);
-        $this->Cell(0, 15, 'REPUBLIC OF THE PHILIPPINES', 0, false, 'C', 0, '', 0, false, 'M', 'M');
-        $this->Ln(5); // Add a line break to lower the position
         $this->SetFont('helvetica', 'B', 12);
-        $this->Cell(0, 15, 'SCHOLARSHIP OFFICE OF SANTA ROSA', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+        $this->SetTextColor(165, 4, 10); // RGB values for #A5040A
+        $this->Cell(0, 15, 'iSKOLAROSA', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+        $this->Ln(5); // Add a line break to lower the position
+        $this->SetTextColor(0, 0, 0); // Reset text color to black (optional)
+        // Dynamically set the header based on $dataChoice
+        if ($this->dataChoice === 'ceap') {
+            $headerText = 'COLLEGE EDUCATIONAL ASSISTANCE PROGRAM (CEAP)';
+        } else if ($this->dataChoice === 'lppp') {
+            $headerText = 'LIBRENG PAGAARAL SA PRIBADONG PAARALAN (LPPP)';
+        } else {
+            $headerText = 'Default Header';
+        }
+
+        $this->SetFont('helvetica', 'B', 12);
+        $this->Cell(0, 15, $headerText, 0, false, 'C', 0, '', 0, false, 'M', 'M');
         $this->Ln(30); // Add a line break to lower the position
     }
+
+ // Footer
+ public function Footer() {
+    
+    // Republic of the Philippines
+    $this->SetFont('helvetica', '', 8);
+    $this->SetY(-25);
+    $this->Cell(0, 1, 'Republic of the Philippines', 0, false, 'L');
+    $this->Ln();
+    
+    // City of Santa Rosa, Province of Laguna
+    $this->Cell(0, 1, 'City of Santa Rosa, Province of Laguna', 0, false, 'L');
+    $this->Ln();
+
+    // Office of the City Mayor
+    $this->Cell(0, 1, 'Office of the City Mayor', 0, false, 'L');
+    $this->Ln();
+
+    // City Scholarship Office
+    $this->Cell(0, 1, 'City Scholarship Office', 0, false, 'L');
+    $this->Ln();
+
+    // “SERBISYONG MAKATAO, LUNGSOD NA MAKABAGO”
+    $this->Cell(0, 1, '“SERBISYONG MAKATAO, LUNGSOD NA MAKABAGO”', 0, false, 'L');
+    $this->Ln();
+
+    $this->SetY(-28);
+    
+    // Logo on the left side
+    $image_file = K_PATH_IMAGES . '../system-images/santarosa-logo.jpg';
+    $imageWidth = 20; // Adjust the image width as needed
+    $this->Image($image_file, $this->GetPageWidth() - 60, $this->GetY(), $imageWidth, '', 'JPG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+
+    // Logo on the right side
+    $image_filetwo = K_PATH_IMAGES . '../system-images/SMLM-logo.jpg';
+    $imageWidthtwo = 20; // Adjust the image width as needed
+    $this->Image($image_filetwo, $this->GetPageWidth() - 35, $this->GetY(), $imageWidthtwo, '', 'JPG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+}
 }
 
-// Create a new PDF document with 2.4cm margins on each side
-$pdf = new MYPDF('P', 'mm', 'A4', true, 'UTF-8',false);
+// Create a new PDF document with dataChoice
+$pdf = new MYPDF($_POST['dataChoice'], 'P', 'mm', 'A4', true, 'UTF-8', false);
 $pdf->SetMargins(24, 24, 24, true); // 2.4cm margins on each side
 
 // Set the document information
@@ -48,12 +109,22 @@ $html = '<style>
                 margin: 0 auto;
             }
             th, td {
-                border: 1px solid #dddddd;
+                border: 1px solid #8F8F8F;
                 text-align: left;
                 padding: 10px;
             }
             th {
-                background-color: #f2f2f2;
+                border: 1px solid #8F8F8F;
+                background-color: red;
+            }
+            p{
+                text-align: center;
+                width: 10px;
+            }
+            .date-generated {
+                text-align: right;
+                font-style: italic;
+                font-size: 11px;
             }
           </style>';
 
@@ -117,11 +188,39 @@ foreach ($sqlQueries as $sqlQuery) {
         }
 
         // Generate the HTML table header for the current label
+        $html .= '<p>This is to confirm the Santa Rosa City Government Scholars for the<br><strong>';
+
+foreach ($filterOption as $option) {
+    switch ($option) {
+        case 'totalCountGender':
+            $label = 'SEX';
+            break;
+        case 'totalCountBarangay':
+            $label = 'BARANGAY';
+            break;
+        case 'totalCountStatus':
+            $label = 'STATUS';
+            break;
+        case 'totalCountSchool':
+            $label = ($dataChoice === 'ceap') ? 'SCHOOL' : 'ELEMENTARY SCHOOL';
+            break;
+        default:
+            $label = 'UNKNOWN';
+            break;
+    }
+
+    // Add the label to the HTML
+    $html .= 'TOTAL COUNT OF ' . $label . '';
+}
+
+$html .= '</strong> as follows:</p>';
+   // Add the date generated
+   $html .= '<p class="date-generated">Generated on: <strong>' . date('F j, Y') . '</strong></p>'; 
         $html .= '
                     <table>
                     <tr>
-                        <th>' . $label . '</th>
-                        <th>TOTAL</th>
+                        <th style="background-color: #D9D9D9; height: 20px; width: 70%; padding: 20px 20px; text-align: center;" >' . $label . '</th>
+                        <th style="background-color: #D9D9D9; height: 20px; width: 30%; padding: 20px 20px; text-align: center;">TOTAL</th>
                     </tr>';
 
         // Generate the HTML table rows with calculated totals
@@ -135,6 +234,7 @@ foreach ($sqlQueries as $sqlQuery) {
         $html .= '</table>';
     }
 }
+
 // Add a black line after the header
 $pdf->SetLineWidth(0.2); // Set the line width as needed
 $pdf->SetDrawColor(93, 93, 93); // Set the color to black
