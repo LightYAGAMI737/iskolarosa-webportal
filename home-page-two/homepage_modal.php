@@ -63,13 +63,13 @@ mysqli_close($conn);
         <div class="leftColumn">
             <h3>Qualification:</h3>
             <div class="scrollable-content">
-                <p><?= $qualificationsCEAP ?></p>
+                <p class="text-break"><?= $qualificationsCEAP ?></p>
             </div>
         </div>
         <div class="rightColumn">
             <h3>Requirement:</h3>
             <div class="scrollable-content">
-                <p><?= $requirementsCEAP ?></p>
+                <p class="text-break"><?= $requirementsCEAP ?></p>
             </div>
     </div>
     </div>
@@ -99,13 +99,13 @@ mysqli_close($conn);
         <div class="leftColumn">
             <h3>Qualification:</h3>
             <div class="scrollable-content">
-                <p><?= $qualificationsLPPP ?></p>
+                <p class="text-break"><?= $qualificationsLPPP ?></p>
             </div>
         </div>
         <div class="rightColumn">
             <h3>Requirement:</h3>
             <div class="scrollable-content">
-                <p><?= $requirementsLPPP ?></p>
+                <p class="text-break"><?= $requirementsLPPP ?></p>
             </div>
     </div>
     </div>

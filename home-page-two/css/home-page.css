@@ -178,9 +178,6 @@ body {
     text-align: left;
     font-family: 'Inter', sans-serif;
     font-weight: normal;
-    white-space: pre-line; /* Use pre-line to preserve newline characters */
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 
