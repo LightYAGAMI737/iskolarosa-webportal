@@ -64,11 +64,11 @@ function validateNames(inputElement) {
 }
 
 // Add event listeners for the 'input' event for each input element
-document.getElementById('firstName').addEventListener("change", function () {
+document.getElementById('firstName').addEventListener("input", function () {
   validateNames(this);
 });
 
-document.getElementById('lastName').addEventListener("change", function () {
+document.getElementById('lastName').addEventListener("input", function () {
   validateNames(this);
 });
 
@@ -130,10 +130,9 @@ if (!emailPattern.test(emailInput.value)) {
           if (result === 'email_exist') {
             // Log to console or display an alert
             console.log('Email already exists');
-            // Update the content of the emailError span
+            emailInput.classList.add('invalid');
             emailError.textContent = 'Email already exists';
             emailError.style.display = "block";
-            emailInput.classList.add('invalid');
           } else if (result === 'email_unique') {
             // Email is unique, clear the error message
             emailError.textContent = '';
@@ -147,7 +146,7 @@ if (!emailPattern.test(emailInput.value)) {
       xhr.send("email=" + encodeURIComponent(emailInput.value));
     }
 // Event listener for input change
-document.getElementById("email").addEventListener("change", validateEmailAndCheck);
+document.getElementById("email").addEventListener("input", validateEmailAndCheck);
 
 
 // Validate picture
