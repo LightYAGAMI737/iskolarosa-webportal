@@ -44,11 +44,11 @@
         UPPER(p.first_name) AS first_name, 
         UPPER(p.last_name) AS last_name, 
         UPPER(p.barangay) AS barangay, 
-        p.control_number, 
+        p.control_number, is_deleted,
         p.date_of_birth, 
         UPPER(t.status) AS status
  FROM ceap_reg_form p
- INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id WHERE status!='deleted'
+ INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id WHERE is_deleted = '0'
  SQL;
  
  $result = mysqli_query($conn, $query);
@@ -97,7 +97,6 @@
                   <th>LAST NAME</th>
                   <th>FIRST NAME</th>
                   <th>BARANGAY</th>
-                  <th>STATUS</th>
                </tr>
                <?php
     $counter = 1;
@@ -110,7 +109,6 @@
         echo '<td>' . strtoupper($row['last_name']) . '</td>';
         echo '<td>' . strtoupper($row['first_name']) . '</td>';
         echo '<td>' . strtoupper($row['barangay']) . '</td>';
-        echo '<td>' . strtoupper($row['status']) . '</td>';
         echo '</tr>';
     }
 
@@ -122,7 +120,6 @@
         echo '<td>' . strtoupper($rowPersonalAcc['last_name']) . '</td>';
         echo '<td>' . strtoupper($rowPersonalAcc['first_name']) . '</td>';
         echo '<td>' . strtoupper($rowPersonalAcc['barangay']) . '</td>';
-        echo '<td>' . strtoupper($rowPersonalAcc['status']) . '</td>';
         echo '</tr>';
     }
     ?>
@@ -167,7 +164,7 @@
                  var controlNumber = $(this).find('td:nth-child(2)').text().toUpperCase();
                  var lastName = $(this).find('td:nth-child(3)').text().toUpperCase();
                  var status = $(this).find('td:nth-child(6)').text().toUpperCase();
-                 if (searchValue.trim() === '' || controlNumber.includes(searchValue) || lastName.includes(searchValue) ||  status.includes(searchValue)) {
+                 if (searchValue.trim() === '' || controlNumber.includes(searchValue) || lastName.includes(searchValue)) {
                      $(this).show();
                      found = true;
                  } else {

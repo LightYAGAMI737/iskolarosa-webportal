@@ -37,14 +37,7 @@
    // Set variables
    $currentStatus = 'in progress';
    $currentPage = 'lppp_list';
-   
-   // Get the barangay parameter from the URL
-   if (isset($_GET['barangay'])) {
-       $currentSubPage = $_GET['barangay'];
-   } else {
-       $currentSubPage = 'aplaya';
-   }
-   
+       $currentSubPage = 'LPPP';
    // Construct the SQL query using heredoc syntax
    $query = <<<SQL
    SELECT t.*, 

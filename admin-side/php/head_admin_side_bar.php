@@ -105,7 +105,7 @@ include 'logoutpopup.php';
                 <span class="menu-icon">
                 <i class="ri-inbox-archive-fill"></i>
                 </span>
-                <span class="menu-title">ARCHIVE</span>
+                <span class="menu-title">Archive</span>
                 </a>
              </li>
              <li class="menu-item">
@@ -113,7 +113,7 @@ include 'logoutpopup.php';
                 <span class="menu-icon">
                 <i class="ri-file-list-2-fill"></i>
                 </span>
-                <span class="menu-title">LOGS</span>
+                <span class="menu-title">Logs</span>
                 </a>
              </li>
                <li class="menu-item" style="margin-top: 100px !important;">

@@ -8,7 +8,7 @@ if (!isset($_SESSION['username'])) {
 }
 
 $currentPage = 'lppp_list';
-$currentSubPage = '';
+$currentSubPage = 'LPPP';
 
 include './php/config_iskolarosa_db.php';
 
@@ -280,7 +280,7 @@ function goBack() {
     function updateStatus(status, applicantId) {
 // Send an AJAX request to update the applicant status
 var xhr = new XMLHttpRequest();
-xhr.open("POST", "../php/updateStatus.php", true);
+xhr.open("POST", "./php/updateStatusLPPP.php", true);
 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 xhr.onreadystatechange = function () {
   if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
@@ -288,7 +288,6 @@ xhr.onreadystatechange = function () {
     var response = xhr.responseText.trim(); // Trim whitespace from the response text
     if (response === 'success') {
       alert('Status updated successfully.');
-      // Go back to the previous page
       goBack();
     } else {
       alert('Failed to update status.');
