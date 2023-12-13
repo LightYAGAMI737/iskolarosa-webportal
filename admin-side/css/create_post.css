@@ -1,6 +1,6 @@
 .create-post-form {
   max-width: 1200px;
-  margin: 0px 30px 30px 30px;
+  margin: 0px 30px 0px 30px;
   padding: 0 20px 10px 20px;
   border: 1px solid #ccc;
   border-radius: 15px;
@@ -43,7 +43,7 @@
 
 
 #description {
-  height: 495px;
+  height: 420px;
 }
 #scheduled_at {
   line-height: 20px;
@@ -57,7 +57,7 @@
   resize: none; /* Prevent resizing */
 }
 .right-section input[type="file"]{
-  height: 350px;
+  height: 270px;
   border: 1px solid #747474;
   background: white;
 }

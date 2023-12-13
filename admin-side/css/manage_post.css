@@ -76,11 +76,7 @@ button[disabled]{
   margin-right: 20px;
 }
 
-.post-title,
-.post-tag,
-.card-title,
-.description,
-.post-info-label {
+#tagID{
   text-transform: uppercase;
 }
 /* Add this CSS to your existing styles */
@@ -125,7 +121,6 @@ button[disabled]{
   -moz-appearance: none;
   width: 20px;
   height: 20px;
-  border: 1px solid #ccc;
   border-radius: 3px;
   margin-right: 6px;
   position: relative;

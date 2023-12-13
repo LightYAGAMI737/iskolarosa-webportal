@@ -147,7 +147,7 @@
                      <div class="post-tag">
                         <div class="post-info-label">Tag:</div>
                         <p class="card-text description" id="tag">
-                        <p><?php echo $tag; ?></p>
+                        <p id="tagID"><?php echo $tag; ?></p>
                         </p>
                      </div>
                      <div id="imagePath"></div>

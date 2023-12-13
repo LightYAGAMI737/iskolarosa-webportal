@@ -102,11 +102,11 @@
                      <br>
                   </div>
                   <div class="right-section">
-                     <label for="image">Upload Picture (Optional, JPG 5MB)</label>
+                     <label for="image">Upload Picture (JPG, 5MB)</label>
                      <input type="file" id="image" name="post_image" accept=".jpg, .jpeg" onchange="validateFile()">
                      <br>
                      <br>
-                     <label for="scheduled_at">Schedule Post (Optional):</label>
+                     <label for="scheduled_at">Schedule Post:</label>
                      <input type="datetime-local" id="scheduled_at" name="post_schedule_at" onkeydown="preventInput(event)"
                            min="<?php echo date('Y-m-d\TH:i'); ?>"
                            max="<?php echo date('Y-12-31\TH:i'); ?>"
