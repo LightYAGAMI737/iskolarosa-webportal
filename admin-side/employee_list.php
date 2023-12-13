@@ -55,9 +55,6 @@ if ($_SESSION['role'] === 3) {
    $result = mysqli_query($conn, $query);
    ?>
 
-
-
-
 <!DOCTYPE html>
 <html lang="en" >
    <head>
@@ -100,7 +97,7 @@ if ($_SESSION['role'] === 3) {
                <tr>
                   <th>NO.</th>
                   <th>EMPLOYEE ID NO.</th>
-                  <th>DEPARTMENT</th>
+                  <th>ROLE</th>
                   <th>LAST NAME</th>
                   <th>FIRST NAME</th>
                </tr>
