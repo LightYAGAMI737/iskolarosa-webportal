@@ -8,7 +8,7 @@ if (!isset($_SESSION['username'])) {
 }
 
 $currentPage = 'ceap_list';
-$currentSubPage = 'aplaya';
+$currentSubPage = 'CEAP';
 
 include './php/config_iskolarosa_db.php';
 
@@ -107,7 +107,6 @@ if (mysqli_num_rows($result) > 0) {
 /* Style the input fields */
 .applicant-info input[type="text"] {
     width: 100%;
-    padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
@@ -134,7 +133,9 @@ if (mysqli_num_rows($result) > 0) {
 fieldset {
     border: none;
 }
-
+fieldset:disabled input, select{
+    border: none !important;
+}
 </style>
    </head>
    <body>
@@ -159,8 +160,13 @@ fieldset {
     <form id="update-form" method="post" action="./php/update_personal_info.php">
         <fieldset id="personal-info-fields" disabled>    
             <table>
+            <tr>
+                <th>Status:</th>
+                <td> <?php echo $applicantStatus; ?> </td>
+            </tr>
                 <?php foreach ($applicantInfo as $field => $value) : ?>
                     <?php if (in_array($field, ['control_number', 'last_name', 'first_name', 'middle_name', 'suffix_name', 'date_of_birth', 'gender', 'civil_status', 'place_of_birth', 'religion', 'contact_number', 'active_email_address', 'house_number', 'province', 'municipality', 'barangay'])) : ?>
+                      
                         <tr>
                             <th><?php echo ucwords(str_replace('_', ' ', $field)) . ': '; ?></th>
                             <td>
