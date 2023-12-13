@@ -55,6 +55,9 @@ if ($_SESSION['role'] === 3) {
    $result = mysqli_query($conn, $query);
    ?>
 
+
+
+
 <!DOCTYPE html>
 <html lang="en" >
    <head>
@@ -65,6 +68,7 @@ if ($_SESSION['role'] === 3) {
       <link rel='stylesheet' href='./css/unpkg-layout.css'>
       <link rel="stylesheet" href="./css/side_bar.css">
       <link rel="stylesheet" href="./css/ceap_configuration.css">
+      <link rel="stylesheet" href="./css/employee_configuration.css">
       <link rel="stylesheet" href="./css/ceap_list.css">
    </head>
    <body>

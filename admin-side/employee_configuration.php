@@ -110,7 +110,7 @@ input:focus::placeholder {
             <div class="form-row">
             <div class="form-group">
     <label class="required" for="employeeId">Employee ID:</label>
-    <input type="text" id="employeeId" name="employee_id_no" minlength="5" maxlength="5" placeholder="Enter employee ID" required>
+    <input type="text" id="employeeId" name="employeeId" minlength="5" maxlength="5" placeholder="Enter employee ID" required>
     <span id="employeeIdErrors" class="error-message"></span>
 </div>
       <div class="form-group">
@@ -192,6 +192,7 @@ input:focus::placeholder {
       <div class="overlay"></div>
       </div>
       <!-- partial -->
+      <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
       <script src='https://unpkg.com/@popperjs/core@2'></script><script  src="./js/side_bar.js"></script>
       <script  src="./js/employee_configuration.js"></script>
       <script  src="./js/employeeConfigPopup.js"></script>

@@ -1,12 +1,19 @@
 // Declare employeeIdInput as a global variable
 var employeeIdInput = document.getElementById('employeeId');
-var employeeIdError = document.getElementById('employeeIdErrors'); // Declare employeeIdError as a global variable
+var employeeIdErrors = document.getElementById('employeeIdErrors'); // Declare employeeIdErrors as a global variable
 
 employeeIdInput.addEventListener("change", function () {
     // Remove special characters and keep only letters, numbers, and dashes
     employeeIdInput.value = employeeIdInput.value.replace(/[^A-Za-z0-9-]/g, '');
 
-    validateEmployeeId();
+    // Check if the input has a length of 5
+    if (employeeIdInput.value.length === 5) {
+        checkDuplicateEmployeeId();
+        
+    } else {
+        validateEmployeeId();
+
+    }
 });
 
 function validateEmployeeId() {
@@ -14,13 +21,48 @@ function validateEmployeeId() {
 
     // Check if the input has a length of 5
     if (employeeId.length !== 5) {
-        employeeIdError.textContent = 'Must be 5 characters.';
-        employeeIdError.style.display = 'block';
+        employeeIdErrors.textContent = 'Must be 5 characters.';
+        employeeIdErrors.style.display = 'block';
         employeeIdInput.classList.add('invalid');
     } else {
-        employeeIdError.textContent = '';
-        employeeIdError.style.display = 'none';
+        employeeIdErrors.textContent = '';
+        employeeIdErrors.style.display = 'none';
         employeeIdInput.classList.remove('invalid');
+    }
+}
+
+// Function to check for duplicate employee IDs
+function checkDuplicateEmployeeId() {
+    // Check if the input value is not empty
+    if (employeeIdInput.value.trim() !== "") {
+        // Create a new XMLHttpRequest object
+        var xhr = new XMLHttpRequest();
+
+        // Prepare the request
+        xhr.open("POST", "./php/check_duplicate_employeeId.php", true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                // Parse the response
+                var result = xhr.responseText;
+                if (result === 'employeeId_exist') {
+                    // Log to console or display an alert
+                    console.log('ID already exists');
+                    employeeIdInput.classList.add('invalid');
+                    employeeIdErrors.textContent = 'ID already exists';
+                    employeeIdErrors.style.display = "block";
+                } else if (result === 'employeeId_unique') {
+                    // ID is unique, clear the error message
+                    employeeIdErrors.textContent = '';
+                    employeeIdErrors.style.display = 'none';
+                    employeeIdInput.classList.remove('invalid');
+                }
+            }
+        };
+
+        // Send the request with the data
+        xhr.send("employeeId=" + encodeURIComponent(employeeIdInput.value));
     }
 }
 
