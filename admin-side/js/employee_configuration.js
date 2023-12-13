@@ -113,40 +113,62 @@ document.getElementById('firstName').addEventListener("input", function () {
 document.getElementById('lastName').addEventListener("input", function () {
   validateNames(this);
 });
-
-
 // Function to validate the contact number (PH mobile sim format)
 function validateContactNumber() {
-  var contactNumberInput = document.getElementById('contactNumber');
+  var contactNumberInputFormat = document.getElementById('contactNumber');
   var contactNumberError = document.getElementById('contactNumberError');
-  var regex = /^(09|\+639)\d{9}$/;
 
-  if (!regex.test(contactNumberInput.value)) {
+  if (contactNumberInput.value.length <= 12) {
     contactNumberError.textContent = 'Invalid contact number';
     contactNumberError.style.display = 'block';
-    contactNumberInput.classList.add('invalid');
+    contactNumberInputFormat.classList.add('invalid');
   } else {
     contactNumberError.textContent = '';
     contactNumberError.style.display = 'none';
-    contactNumberInput.classList.remove('invalid');
+    contactNumberInputFormat.classList.remove('invalid');
   }
 }
 
-// Add event listener for contact number input
+// Set initial value "09" and format with hyphens
 var contactNumberInput = document.getElementById('contactNumber');
-contactNumberInput.addEventListener('input', function() {
+contactNumberInput.value = '09';
+
+// Add event listener for contact number input
+contactNumberInput.addEventListener('input', function(event) {
   // Remove any non-digit characters from the input
   contactNumberInput.value = contactNumberInput.value.replace(/[^0-9]/g, '');
 
   // Limit the input to 11 digits
-  if (contactNumberInput.value.length > 11) {
-    contactNumberInput.value = contactNumberInput.value.slice(0, 11);
+  if (contactNumberInput.value.length > 13) {
+    contactNumberInput.value = contactNumberInput.value.slice(0, 13);
   }
-});
 
+  // Format with hyphens after the fourth and seventh digits
+  if (contactNumberInput.value.length >= 2) {
+    contactNumberInput.value = "09" + contactNumberInput.value.slice(2);
+  }
+  if (contactNumberInput.value.length >= 5) {
+    contactNumberInput.value =
+      contactNumberInput.value.slice(0, 4) + '-' + contactNumberInput.value.slice(4);
+  }
+  if (contactNumberInput.value.length >= 9) {
+    contactNumberInput.value =
+      contactNumberInput.value.slice(0, 8) + '-' + contactNumberInput.value.slice(8);
+  }
+  
+  // Prevent modification of initial "09"
+  if (contactNumberInput.selectionStart < 2) {
+    event.preventDefault();
+    contactNumberInput.setSelectionRange(2, 2);
+  }
+
+  // Validate the contact number after modification
+  validateContactNumber();
+});
 
 // Add event listeners to contact number fields
 document.getElementById('contactNumber').addEventListener("change", validateContactNumber);
+
 
 function validateEmailAndCheck() {
   var emailInput = document.getElementById("email");

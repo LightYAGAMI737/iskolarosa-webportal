@@ -127,7 +127,7 @@ input:focus::placeholder {
     <div class="form-row">
       <div class="form-group">
         <label class="required"  for="contactNumber">Contact Number:</label>
-        <input type="text" id="contactNumber" name="contact_Number" placeholder="09-xxxxxxxxx"  minlength="11" maxlength="11" required>
+        <input type="text" id="contactNumber" name="contact_Number" placeholder="09xx-xxx-xxxx"  minlength="13" maxlength="13" required>
         <span id="contactNumberError" class="error-message"></span>
       </div>
       <div class="form-group">

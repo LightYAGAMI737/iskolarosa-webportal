@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $selectedRoleId = $roleNameToId[$selectedRoleName];
 
     // Get form data with proper validation and sanitization
-    $employeeId = filter_input(INPUT_POST, 'employee_id_no', FILTER_SANITIZE_STRING);
+    $employeeId = filter_input(INPUT_POST, 'employeeId', FILTER_SANITIZE_STRING);
     $lastName = filter_input(INPUT_POST, 'last_Name', FILTER_SANITIZE_STRING);
     $firstName = filter_input(INPUT_POST, 'first_Name', FILTER_SANITIZE_STRING);
     $contactNumber = filter_input(INPUT_POST, 'contact_Number', FILTER_SANITIZE_STRING);
