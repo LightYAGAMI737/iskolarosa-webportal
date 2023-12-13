@@ -36,7 +36,7 @@
    
    // Set variables
    $currentPage = "configuration";
-   $currentSubPage = "";
+   $currentSubPage = "application";
    
    
    // Retrieve the toggle value from the database
@@ -325,7 +325,7 @@ checkToggleStateCEAP();
       </script>
 <!-- Include this script in your HTML file -->
 <script>
-// Function to periodically update the database state
+// Function to update the database state
 function updateDatabaseState() {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', './php/updateConfigStart.php', true);
@@ -348,9 +348,11 @@ function updateDatabaseState() {
     xhr.send();
 }
 
-// Set up a setInterval to periodically call the update function (every 5 minutes in this example)
-setInterval(updateDatabaseState, 30000); // Adjust the interval as needed
+// Call the function immediately on page load
+updateDatabaseState();
 
+// Set up a setInterval to periodically call the update function (every 5 minutes in this example)
+setInterval(updateDatabaseState, 5 * 60 * 1000); 
 </script>
 <script>
 function EditConfiguration() {

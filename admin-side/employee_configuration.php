@@ -113,32 +113,32 @@
 </div>
       <div class="form-group">
         <label class="required" for="lastName">Last Name:</label>
-        <input type="text" id="lastName" name="last_Name" placeholder="Enter last name" minlength="2" maxlength="25" required required onkeypress="validateNames()">
+        <input type="text" id="lastName" name="last_Name" placeholder="Dela Cruz" minlength="2" maxlength="25" required required onkeypress="validateNames()">
         <span id="lastNameError" class="error-message"></span>
       </div>
       <div class="form-group">
         <label class="required" for="firstName">First Name:</label>
-        <input type="text" id="firstName" name="first_Name" placeholder="Enter first name" minlength="2" maxlength="25" required required onkeypress="validateNames()">
+        <input type="text" id="firstName" name="first_Name" placeholder="Juan" minlength="2" maxlength="25" required required onkeypress="validateNames()">
         <span id="firstNameError" class="error-message"></span>
       </div>
     </div>
     <div class="form-row">
       <div class="form-group">
         <label class="required"  for="contactNumber">Contact Number:</label>
-        <input type="text" id="contactNumber" name="contact_Number" placeholder="Enter contact number"  minlength="11" maxlength="11" required>
+        <input type="text" id="contactNumber" name="contact_Number" placeholder="09-xxxxxxxxx"  minlength="11" maxlength="11" required>
         <span id="contactNumberError" class="error-message"></span>
       </div>
       <div class="form-group">
         <label class="required"  for="email">Email:</label>
-        <input type="text" id="email" name="email" minlength="10" maxlength="100" placeholder="Enter email" required>
+        <input type="text" id="email" name="email" minlength="10" maxlength="100" placeholder="juandelacruz@gmail.com" required>
         <span id="emailError" class="error-message"></span>
       </div>
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label class="required"  for="department">Department:</label>
+        <label class="required"  for="department">Role:</label>
         <select id="department" name="role_name" required>
-      <option value="" hidden>Select department</option>
+      <option value="" hidden>Select role</option>
       <option value="Staff">STAFF</option>
       <option value="Admin">ADMIN</option>
     </select>
