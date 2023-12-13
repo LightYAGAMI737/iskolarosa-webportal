@@ -76,7 +76,9 @@
     transform: translateY(-50%);
     cursor: pointer;
 }
-
+input:focus::placeholder {
+    color: transparent;
+}
     </style>
    </head>
    <body>
