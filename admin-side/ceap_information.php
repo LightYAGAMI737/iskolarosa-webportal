@@ -258,52 +258,6 @@ fieldset:disabled input, select{
         </div>
 
 
-<!-- Table 2: Family Background -->
-<div class="applicant-info">
-    <h2>Family Background</h2>
-    <fieldset id="family-background-fields" disabled>
-        <table>
-            <?php foreach ($applicantInfo as $field => $value) : ?>
-                <?php if (in_array($field, ['guardian_firstname', 'guardian_lastname', 'guardian_occupation', 'guardian_relationship', 'guardian_monthly_income', 'guardian_annual_income'])) : ?>
-                    <tr>
-                        <th><?php echo ucwords(str_replace('_', ' ', $field)) . ': '; ?></th>
-                        <td>
-                            <?php switch ($field) {
-                                case 'guardian_firstname':
-                                case 'guardian_lastname':
-                                case 'guardian_occupation':
-                                case 'guardian_relationship':
-                                    // Editable text fields
-                                    echo '<input type="text" name="' . $field . '" id="' . $field . '" value="' . $value . '">';
-                                          echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
-                                    break;
-              
-                                case 'guardian_monthly_income':
-                                    // Editable text fields
-                                    echo '<input type="text" name="' . $field . '" id="' . $field . '" value="' . $value . '">';
-                                          echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
-                                    break; 
-
-                                case 'guardian_annual_income':
-                                    // Make certain fields non-editable by adding the "disabled" attribute
-                                    echo '<input type="text" name="' . $field . '" id="' . $field . '"  value="' . $value . '" disabled>';
-                                          echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
-                                    break;
-                                default:
-                                    // Editable text fields for any other case
-                                    echo '<input type="text" name="' . $field . '" value="' . $value . '">';
-                                          echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
-                                    break;
-                            } ?>
-                        </td>
-                    </tr>
-                <?php endif; ?>
-            <?php endforeach; ?>
-        </table>
-    </fieldset>
-</div>
-
-
 <!-- Table 3: Educational Background -->
 <div class="applicant-info">
     <h2>Educational Background</h2>
@@ -419,6 +373,52 @@ fieldset:disabled input, select{
 </div>
   
     
+
+<!-- Table 2: Family Background -->
+<div class="applicant-info">
+    <h2>Family Background</h2>
+    <fieldset id="family-background-fields" disabled>
+        <table>
+            <?php foreach ($applicantInfo as $field => $value) : ?>
+                <?php if (in_array($field, ['guardian_firstname', 'guardian_lastname', 'guardian_occupation', 'guardian_relationship', 'guardian_monthly_income', 'guardian_annual_income'])) : ?>
+                    <tr>
+                        <th><?php echo ucwords(str_replace('_', ' ', $field)) . ': '; ?></th>
+                        <td>
+                            <?php switch ($field) {
+                                case 'guardian_firstname':
+                                case 'guardian_lastname':
+                                case 'guardian_occupation':
+                                case 'guardian_relationship':
+                                    // Editable text fields
+                                    echo '<input type="text" name="' . $field . '" id="' . $field . '" value="' . $value . '">';
+                                          echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
+                                    break;
+              
+                                case 'guardian_monthly_income':
+                                    // Editable text fields
+                                    echo '<input type="text" name="' . $field . '" id="' . $field . '" value="' . $value . '">';
+                                          echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
+                                    break; 
+
+                                case 'guardian_annual_income':
+                                    // Make certain fields non-editable by adding the "disabled" attribute
+                                    echo '<input type="text" name="' . $field . '" id="' . $field . '"  value="' . $value . '" disabled>';
+                                          echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
+                                    break;
+                                default:
+                                    // Editable text fields for any other case
+                                    echo '<input type="text" name="' . $field . '" value="' . $value . '">';
+                                          echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
+                                    break;
+                            } ?>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </table>
+    </fieldset>
+</div>
+
 <!-- table for displaying the uploaded files as images -->
 <div class="uploaded-files">
     <table>
