@@ -190,151 +190,186 @@
          <span class="menu-icon">
          <i class="ri-building-2-fill"></i></span>
          <span class="menu-title h2">BARANGAY</span>
-
-
-      <li class="menu-item">
+         <li class="menu-item">
          <a href="../APLAYA/ceap_list.php">
-         <?php if ($currentBarangay === 'APLAYA') : ?>
-               <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
-            <?php endif; ?>
-         <span class="menu-title">APLAYA</span>
-         </a>
+               <?php if ($currentBarangay === 'APLAYA') : ?>
+                     <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i>
+                     <span class="menu-title active-brgy" style="color: #A5040A;">APLAYA</span>
+               <?php else: ?>
+                     <span class="menu-title">APLAYA</span>
+               <?php endif; ?>
+            </a>
+         </li>
+
+      <li class="menu-item">
+      <a href="../BALIBAGO/ceap_list.php">
+               <?php if ($currentBarangay === 'BALIBAGO') : ?>
+                     <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i>
+                     <span class="menu-title active-brgy" style="color: #A5040A;">BALIBAGO</span>
+               <?php else: ?>
+                     <span class="menu-title">BALIBAGO</span>
+               <?php endif; ?>
+            </a>
       </li>
       <li class="menu-item">
-         <a href="../BALIBAGO/ceap_list.php">
-         <?php if ($currentBarangay === 'BALIBAGO') : ?>
-               <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
-            <?php endif; ?>
-         <span class="menu-title">BALIBAGO</span>
-         </a>
-      </li>
-      <li class="menu-item">
-      <?php if ($currentBarangay === 'CAINGIN') : ?>
-               <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
-            <?php endif; ?>
          <a href="../CAINGIN/ceap_list.php">
-         <span class="menu-title">CAINGIN</span>
-         </a>
+                     <?php if ($currentBarangay === 'CAINGIN') : ?>
+                        <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i>
+                        <span class="menu-title active-brgy" style="color: #A5040A;">CAINGIN</span>
+                     <?php else: ?>
+                  <span class="menu-title">CAINGIN</span>
+               <?php endif; ?>
+            </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'DILA') : ?>
-               <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
-            <?php endif; ?>
          <a href="../DILA/ceap_list.php">
-         <span class="menu-title">DILA</span>
-         </a>
+                     <?php if ($currentBarangay === 'DILA') : ?>
+                        <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i>
+                        <span class="menu-title active-brgy" style="color: #A5040A;">DILA</span>
+                     <?php else: ?>
+                  <span class="menu-title">DILA</span>
+               <?php endif; ?>
+            </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'DITA') : ?>
-               <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
-            <?php endif; ?>
          <a href="../DITA/ceap_list.php">
-         <span class="menu-title">DITA</span>
-         </a>
+                     <?php if ($currentBarangay === 'DITA') : ?>
+                        <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i>
+                        <span class="menu-title active-brgy" style="color: #A5040A;">DITA</span>
+                     <?php else: ?>
+                  <span class="menu-title">DITA</span>
+               <?php endif; ?>
+            </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'DONJOSE') : ?>
-               <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
-            <?php endif; ?>
          <a href="../DONJOSE/ceap_list.php">
-         <span class="menu-title">DON JOSE</span>
-         </a>
+                     <?php if ($currentBarangay === 'DONJOSE') : ?>
+                        <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i>
+                        <span class="menu-title active-brgy" style="color: #A5040A;">DON JOSE</span>
+                     <?php else: ?>
+                  <span class="menu-title">DON JOSE</span>
+               <?php endif; ?>
+            </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'IBABA') : ?>
-               <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
-            <?php endif; ?>
          <a href="../IBABA/ceap_list.php">
-         <span class="menu-title">IBABA</span>
-         </a>
+                     <?php if ($currentBarangay === 'IBABA') : ?>
+                        <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i>
+                        <span class="menu-title active-brgy" style="color: #A5040A;">IBABA</span>
+                     <?php else: ?>
+                  <span class="menu-title">IBABA</span>
+               <?php endif; ?>
+            </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'KANLURAN') : ?>
-               <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
-            <?php endif; ?>
          <a href="../KANLURAN/ceap_list.php">
-         <span class="menu-title">KANLURAN</span>
-         </a>
+                     <?php if ($currentBarangay === 'KANLURAN') : ?>
+                        <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i>
+                        <span class="menu-title active-brgy" style="color: #A5040A;">KANLURAN</span>
+                     <?php else: ?>
+                  <span class="menu-title">KANLURAN</span>
+               <?php endif; ?>
+            </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'LABAS') : ?>
-               <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
-            <?php endif; ?>
          <a href="../LABAS/ceap_list.php">
-         <span class="menu-title">LABAS</span>
-         </a>
+                     <?php if ($currentBarangay === 'LABAS') : ?>
+                        <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i>
+                        <span class="menu-title active-brgy" style="color: #A5040A;">LABAS</span>
+                     <?php else: ?>
+                  <span class="menu-title">LABAS</span>
+               <?php endif; ?>
+            </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'MACABLING') : ?>
-               <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
-            <?php endif; ?>
          <a href="../MACABLING/ceap_list.php">
-         <span class="menu-title">MACABLING</span>
-         </a>
+                     <?php if ($currentBarangay === 'MACABLING') : ?>
+                        <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i>
+                        <span class="menu-title active-brgy" style="color: #A5040A;">MACABLING</span>
+                     <?php else: ?>
+                  <span class="menu-title">MACABLING</span>
+               <?php endif; ?>
+            </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'MALITLIT') : ?>
-               <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
-            <?php endif; ?>
          <a href="../MALITLIT/ceap_list.php">
-         <span class="menu-title">MALITLIT</span>
-         </a>
+                     <?php if ($currentBarangay === 'MALITLIT') : ?>
+                        <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i>
+                        <span class="menu-title active-brgy" style="color: #A5040A;">MALITLIT</span>
+                     <?php else: ?>
+                  <span class="menu-title">MALITLIT</span>
+               <?php endif; ?>
+            </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'MALUSAK') : ?>
-               <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
-            <?php endif; ?>
          <a href="../MALUSAK/ceap_list.php">
-         <span class="menu-title">MALUSAK</span>
-         </a>
+                     <?php if ($currentBarangay === 'MALUSAK') : ?>
+                        <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i>
+                        <span class="menu-title active-brgy" style="color: #A5040A;">MALUSAK</span>
+                     <?php else: ?>
+                  <span class="menu-title">MALUSAK</span>
+               <?php endif; ?>
+            </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'MARKETAREA') : ?>
-               <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
-            <?php endif; ?>
-         <a href="../MARKETAREA/ceap_list.php">
-         <span class="menu-title">MARKET AREA</span>
-         </a>
+         <a href="../MARKET AREA/ceap_list.php">
+                     <?php if ($currentBarangay === 'MARKET AREA') : ?>
+                        <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i>
+                        <span class="menu-title active-brgy" style="color: #A5040A;">MARKET AREA</span>
+                     <?php else: ?>
+                  <span class="menu-title">MARKET AREA</span>
+               <?php endif; ?>
+            </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'POOC') : ?>
-               <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
-            <?php endif; ?>
          <a href="../POOC/ceap_list.php">
-         <span class="menu-title">POOC</span>
-         </a>
+                     <?php if ($currentBarangay === 'POOC') : ?>
+                        <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i>
+                        <span class="menu-title active-brgy" style="color: #A5040A;">POOC</span>
+                     <?php else: ?>
+                  <span class="menu-title">POOC</span>
+               <?php endif; ?>
+            </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'PULONGSANTACRUZ') : ?>
-               <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
-            <?php endif; ?>
          <a href="../PULONGSANTACRUZ/ceap_list.php">
-         <span class="menu-title">PULONG SANTA CRUZ</span>
-         </a>
+                     <?php if ($currentBarangay === 'PULONGSANTACRUZ') : ?>
+                        <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i>
+                        <span class="menu-title active-brgy" style="color: #A5040A;">PULONG SANTA CRUZ</span>
+                     <?php else: ?>
+                  <span class="menu-title">PULONG SANTA CRUZ</span>
+               <?php endif; ?>
+            </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'SANTODOMINGO') : ?>
-               <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
-            <?php endif; ?>
          <a href="../SANTODOMINGO/ceap_list.php">
-         <span class="menu-title">SANTO DOMINGO</span>
-         </a>
+                     <?php if ($currentBarangay === 'SANTODOMINGO') : ?>
+                        <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i>
+                        <span class="menu-title active-brgy" style="color: #A5040A;">SANTO DOMINGO</span>
+                     <?php else: ?>
+                  <span class="menu-title">SANTO DOMINGO</span>
+               <?php endif; ?>
+            </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'SINALHAN') : ?>
-               <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
-            <?php endif; ?>
          <a href="../SINALHAN/ceap_list.php">
-         <span class="menu-title">SINALHAN</span>
-         </a>
+                     <?php if ($currentBarangay === 'SINALHAN') : ?>
+                        <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i>
+                        <span class="menu-title active-brgy" style="color: #A5040A;">SINALHAN</span>
+                     <?php else: ?>
+                  <span class="menu-title">SINALHAN</span>
+               <?php endif; ?>
+            </a>
       </li>
       <li class="menu-item">
-      <?php if ($currentBarangay === 'TAGAPO') : ?>
-               <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i> <!-- Display the icon when the menu item is active -->
-            <?php endif; ?>
          <a href="../TAGAPO/ceap_list.php">
-         <span class="menu-title">TAGAPO</span>
-         </a>
+                     <?php if ($currentBarangay === 'TAGAPO') : ?>
+                        <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i>
+                        <span class="menu-title active-brgy" style="color: #A5040A;">TAGAPO</span>
+                     <?php else: ?>
+                  <span class="menu-title">TAGAPO</span>
+               <?php endif; ?>
+            </a>
       </li>
    </ul>
 </div>

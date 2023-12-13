@@ -596,6 +596,13 @@ a {
 .header-label.post {
   margin-bottom: 20px !important;
 }
+.active-brgy {
+  color: #000;
+  border: 1px solid #ccc;
+  padding: 2px 8px;
+  border-radius: 5px;
+  background: #ccc;
+}
 @font-face {
   font-family: 'Poppins';
   src: url('../fonts/font-poppins.WOFF2') format('woff2');

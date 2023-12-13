@@ -8,8 +8,8 @@
    
    $currentStatus = 'fail';
    $currentPage = 'ceap_list';
-      $currentBarangay ='aplaya';
-      $currentSubPage = 'new applicant';
+      $currentBarangay ='APLAYA';
+      $currentSubPage = 'old applicant';
    
    include '../../../php/config_iskolarosa_db.php';
    

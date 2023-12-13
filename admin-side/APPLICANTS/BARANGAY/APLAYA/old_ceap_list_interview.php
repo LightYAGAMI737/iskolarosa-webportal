@@ -39,8 +39,8 @@
    // Set variables
    $currentStatus = 'interview';
    $currentPage = 'ceap_list';
-   $currentBarangay ='aplaya';
-   $currentSubPage = 'new applicant';
+   $currentBarangay ='APLAYA';
+   $currentSubPage = 'old applicant';
    
    // Construct the SQL query using heredoc syntax
    $query = <<<SQL

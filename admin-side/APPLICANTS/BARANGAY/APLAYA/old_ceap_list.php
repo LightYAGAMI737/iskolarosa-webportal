@@ -38,7 +38,7 @@
    $currentStatus = 'in progress';
    $currentPage = 'ceap_list';
     $currentSubPage = 'old applicant';
-   $currentBarangay ='aplaya';
+   $currentBarangay ='APLAYA';
    
    
    // Construct the SQL query using heredoc syntax

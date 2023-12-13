@@ -37,7 +37,7 @@
    // Set variables
    $currentStatus = 'verified';
    $currentPage = 'ceap_list';
-   $currentBarangay ='aplaya';
+   $currentBarangay ='APLAYA';
    $currentSubPage = 'old applicant';
    
    if (isset($_POST['saveBtn'])) {

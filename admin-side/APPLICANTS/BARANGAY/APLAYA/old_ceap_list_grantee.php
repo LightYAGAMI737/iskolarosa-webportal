@@ -7,8 +7,8 @@
    }
    
    $currentStatus = 'grantee';
-       $currentSubPage = 'new applicant';
-      $currentBarangay ='aplaya';
+       $currentSubPage = 'old applicant';
+      $currentBarangay ='APLAYA';
       $currentPage = 'ceap_list';
    
    include '../../../php/config_iskolarosa_db.php';
