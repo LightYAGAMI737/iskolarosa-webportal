@@ -366,7 +366,7 @@ a {
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background-color: #f97c80;
+  background-color: #400000 !important;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -378,7 +378,7 @@ a {
   z-index: 111;
   cursor: pointer;
   color: white;
-  box-shadow: 1px 1px 4px #470002;
+  box-shadow: 1px 1px 4px #400000;
 }
 .layout .sidebar.collapsed .pro-sidebar-logo > h5 {
   opacity: 0;
