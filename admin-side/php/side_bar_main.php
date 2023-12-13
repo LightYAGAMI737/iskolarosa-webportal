@@ -5,7 +5,6 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 // Set the default timezone to Asia/Manila
-date_default_timezone_set('Asia/Manila');
 
 include 'logoutpopup.php';  
 
@@ -13,7 +12,7 @@ include 'logoutpopup.php';
 <!-- partial:index.partial.html -->
 
 <div class="layout has-sidebar fixed-sidebar fixed-header ">
-<aside id="sidebar" class="sidebar break-point-sm has-bg-image">
+<aside id="sidebar" class="sidebar">
    <a id="btn-collapse" class="sidebar-collapser"><i class="ri-arrow-left-s-line"></i></a>
    <div class="image-wrapper">
       <img src="assets/images/sidebar-bg.jpg" alt="sidebar background" />
@@ -188,9 +187,8 @@ include 'logoutpopup.php';
 </a>
 
 <script>
-       // Set the session timeout duration in seconds (5 minutes)
-        const sessionTimeoutSeconds = 5 * 60;
-
+        // Set the session timeout duration in seconds
+        const sessionTimeoutSeconds = 300;
         // Function to check session timeout
         function checkSessionTimeout() {
             const lastActivityTime = localStorage.getItem('lastActivityTime');
@@ -217,40 +215,33 @@ include 'logoutpopup.php';
         document.addEventListener('keydown', updateLastActivityTime);
 
         // Check session timeout on an interval
-        setInterval(checkSessionTimeout, 5 * 60 * 1000);
+        setInterval(checkSessionTimeout, 300000); // Check every second (adjust as needed)
     </script>
 
 <script>
-// Function to update last activity time in the database
-function AJXupdateLastActivityTime() {
-    // Use AJAX or fetch to send a request to the server to update last_activity
-    // Example using fetch:
-    fetch('./php/update_last_activity.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({}),
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`Failed to update last activity time. Status: ${response.status}`);
+        // Function to update last activity time in the database
+        function AJXupdateLastActivityTime() {
+            // Use AJAX or fetch to send a request to the server to update last_activity
+            // Example using fetch:
+            fetch('./php/update_last_activity.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({}),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Failed to update last activity time. Status: ${response.status}`);
+                }
+                return response.json(); // If the server sends JSON in the response
+            })
+            .catch(error => {
+                console.error(error);
+            });
         }
-        return response.text(); // Now expecting text (current time) instead of JSON
-    })
-    .then(data => {
-        console.log(data); // Log the data received from the server (current time)
-    })
-    .catch(error => {
-        console.error(error);
-    });
-}
 
-// Call AJXupdateLastActivityTime every 20 seconds
-setInterval(AJXupdateLastActivityTime, 20 * 1000);
-
-// Add event listeners for various user interactions
-document.addEventListener('mousemove', AJXupdateLastActivityTime);
-document.addEventListener('keydown', AJXupdateLastActivityTime);
-
+        // Add event listeners for various user interactions
+        document.addEventListener('mousemove', AJXupdateLastActivityTime);
+        document.addEventListener('keydown', AJXupdateLastActivityTime);
     </script>

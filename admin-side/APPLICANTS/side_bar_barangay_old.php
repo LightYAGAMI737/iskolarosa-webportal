@@ -8,7 +8,7 @@
    ?>
 <!-- partial:index.partial.html -->
 <div class="layout has-sidebar fixed-sidebar fixed-header ">
-<aside id="sidebar" class="sidebar break-point-sm has-bg-image">
+<aside id="sidebar" class="sidebar">
    <a id="btn-collapse" class="sidebar-collapser"><i class="ri-arrow-left-s-line"></i></a>
    <div class="image-wrapper">
       <img src="assets/images/sidebar-bg.jpg" alt="sidebar background" />
