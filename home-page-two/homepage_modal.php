@@ -2,10 +2,11 @@
 include '../admin-side/php/config_iskolarosa_db.php';
 
 // Fetch the last inserted ID from the ceap_configuration table
-$fetchReqAndQualiCEAP = "SELECT MAX(id) AS last_id FROM ceap_configuration";
+$fetchReqAndQualiCEAP = "SELECT MAX(id) AS last_id, start_date, end_date, start_time, end_time FROM ceap_configuration";
 $resultReqAndQualiCEAP = mysqli_query($conn, $fetchReqAndQualiCEAP);
 $rowReqAndQualiCEAP = mysqli_fetch_assoc($resultReqAndQualiCEAP);
 $lastIdCEAP = $rowReqAndQualiCEAP['last_id'];
+
 // Fetch data based on the last ID
 if (!empty($lastIdCEAP)) {
     $fetchReqAndQualiCEAP = "SELECT * FROM ceap_configuration WHERE id = ?";
@@ -19,6 +20,16 @@ if (!empty($lastIdCEAP)) {
         $qualificationsCEAP = trim($rowReqAndQualiCEAP['qualifications']);
         $requirementsCEAP = trim($rowReqAndQualiCEAP['requirements']);
         $toggleValueCEAP =$rowReqAndQualiCEAP['toggle_value'];
+        $start_DateCEAP = $rowReqAndQualiCEAP['start_date'];
+        $end_DateCEAP = $rowReqAndQualiCEAP['end_date'];
+        $start_timeCEAP = $rowReqAndQualiCEAP['start_time'];
+        $end_timeCEAP = $rowReqAndQualiCEAP['end_time'];
+        // Convert the existing date to the desired format
+        $formattedStartDate = date("F j, Y", strtotime($start_DateCEAP));
+        $formattedEndDate = date("F j, Y", strtotime($end_DateCEAP));
+        // Convert the existing time to the desired format
+        $formattedStartTime = date("h:i A", strtotime($start_timeCEAP));
+        $formattedEndtime = date("h:i A", strtotime($end_timeCEAP));
     } else {
         echo "No results found CEAP.";
     }
@@ -41,6 +52,16 @@ if (!empty($lastIdLPPP)) {
         $qualificationsLPPP = trim($rowReqAndQualiLPPP['qualifications']);
         $requirementsLPPP = trim($rowReqAndQualiLPPP['requirements']);
         $toggleValueLPPP =$rowReqAndQualiLPPP['toggle_value'];
+        $start_DateLPPP = $rowReqAndQualiLPPP['start_date'];
+        $end_DateLPPP = $rowReqAndQualiLPPP['end_date'];
+        $start_timeLPPP = $rowReqAndQualiLPPP['start_time'];
+        $end_timeLPPP = $rowReqAndQualiLPPP['end_time'];
+        // Convert the existing date to the desired format
+        $formattedStartDateLPPP = date("F j, Y", strtotime($start_DateLPPP));
+        $formattedEndDateLPPP = date("F j, Y", strtotime($end_DateLPPP));
+        // Convert the existing time to the desired format
+        $formattedStartTimeLPPP = date("h:i A", strtotime($start_timeLPPP));
+        $formattedEndtimeLPPP = date("h:i A", strtotime($end_timeLPPP));
     } else {
         echo "No results found LPPP.";
     }
@@ -73,12 +94,15 @@ mysqli_close($conn);
             </div>
     </div>
     </div>
+
     <div class="applBTN" style="padding: 3px; margin-top: 20px;">
             <!-- CEAP Apply Now Button -->
             <button type="button" class="applynow-button confirmBTN" id="ApplynowCEAP" name="submit" onclick="openCEAPApplyNowBtn()" disabled>
                 <span>Apply Now</span>
             </button>
         </div>
+    <p class="timeDateApplication">Application starts on <strong><?php echo $formattedStartDate .', ' . $formattedStartTime; ?></strong></p>
+    <p class="timeDateApplication">Application ends on <strong><?php echo $formattedEndDate .', ' . $formattedEndtime; ?></strong></p>
     </div>
     </div>
 </div>
@@ -115,6 +139,9 @@ mysqli_close($conn);
                 <span>Apply Now</span>
             </button>
         </div>
+        <p class="timeDateApplication">Application starts on <strong><?php echo $formattedStartDateLPPP .', ' . $formattedStartTimeLPPP; ?></strong></p>
+    <p class="timeDateApplication">Application ends on <strong><?php echo $formattedEndDateLPPP .', ' . $formattedEndtimeLPPP; ?></strong></p>
+    
     </div>
     </div>
 </div>

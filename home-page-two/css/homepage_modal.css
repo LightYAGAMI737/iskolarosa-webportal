@@ -21,7 +21,7 @@
     border-radius: 15px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     width: 1000px;
-    height: 550px;
+    height: 580px;
     position: relative; 
     left: 50%;
     top: 50%;
@@ -140,7 +140,7 @@ button.applynow-button {
 
 .scrollable-content {
     overflow-y: auto;
-    height: 300px; 
+    height: 280px; 
     border: 1px solid black;
     padding: 20px;
     border-radius: 15px;
@@ -166,7 +166,10 @@ button.applynow-button {
     margin-top: -10px;
     margin-bottom: -5px;
 }
-
+.timeDateApplication{
+    margin-bottom: 0px !important;
+    font-style: italic;
+}
 @media screen and (max-width: 991px) {
     .ModalInHeader {
         width: 100%;
