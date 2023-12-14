@@ -84,24 +84,6 @@ if (mysqli_num_rows($result) > 0) {
     </table>
 </div>
 
-<!-- Table 2: Family Background -->
-<div class="applicant-info">
-    <h2>Family Background</h2>
-    <table>
-        <?php foreach ($applicantInfo as $field => $value) : ?>
-            <?php if (in_array($field, [
-                'guardian_lastname','guardian_firstname', 'guardian_occupation', 'guardian_relationship',
-                'guardian_monthly_income', 'guardian_annual_income'
-            ])) : ?>
-                <tr>
-                    <th><?php echo ucwords(str_replace('_', ' ', $field)) . ': '; ?></th>
-                    <td><?php echo $value; ?></td>
-                </tr>
-            <?php endif; ?>
-        <?php endforeach; ?>
-    </table>
-</div>
-
 <!-- Table 3: Educational Background -->
 <div class="applicant-info">
     <h2>Educational Background</h2>
@@ -120,6 +102,25 @@ if (mysqli_num_rows($result) > 0) {
         <?php endforeach; ?>
     </table>
 </div>
+
+<!-- Table 2: Family Background -->
+<div class="applicant-info">
+    <h2>Family Background</h2>
+    <table>
+        <?php foreach ($applicantInfo as $field => $value) : ?>
+            <?php if (in_array($field, [
+                'guardian_lastname','guardian_firstname', 'guardian_occupation', 'guardian_relationship',
+                'guardian_monthly_income', 'guardian_annual_income'
+            ])) : ?>
+                <tr>
+                    <th><?php echo ucwords(str_replace('_', ' ', $field)) . ': '; ?></th>
+                    <td><?php echo $value; ?></td>
+                </tr>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </table>
+</div>
+
 <?php
 $queryScore = "SELECT status, applicant_score FROM lppp_temporary_account WHERE lppp_temporary_account_id = ?";
 $stmtScore = mysqli_prepare($conn, $queryScore);
