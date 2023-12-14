@@ -303,7 +303,7 @@
       </li>
       <li class="menu-item">
          <a href="../MARKET AREA/old_ceap_list.php">
-                     <?php if ($currentBarangay === 'MARKET AREA') : ?>
+                     <?php if ($currentBarangay === 'MARKETAREA') : ?>
                         <i class="ri-arrow-right-s-fill" style="color: #A5040A;"></i>
                         <span class="menu-title active-brgy" style="color: #A5040A;">MARKET AREA</span>
                      <?php else: ?>
