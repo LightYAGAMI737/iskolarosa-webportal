@@ -43,22 +43,22 @@
                   <div class="text-row">
                      <div class="input-container">
                         <label class="required" for="last_name">Last Name</label>
-                        <input type="text" name="last_name" id="last_name" placeholder="Last Name" minlength="2" maxlength="25" required />
+                        <input type="text" name="last_name" id="last_name" placeholder="Dela Cruz" minlength="2" maxlength="25" required />
                         <span class="error-message" id="last_name_error"></span>
                      </div>
                      <div class="input-container">
                         <label class="required" for="first_name">First Name</label>
-                        <input type="text" name="first_name" id="first_name" placeholder="First Name" minlength="2" maxlength="25" required>
+                        <input type="text" name="first_name" id="first_name" placeholder="Juan" minlength="2" maxlength="25" required>
                         <span class="error-message" id="first_name_error"></span>
                      </div>
                      <div class="input-container">
                         <label>Middle Name</label>
-                        <input type="text" name="middle_name" id="middle_name" placeholder="Middle Name"  minlength="2" maxlength="25"/>
+                        <input type="text" name="middle_name" id="middle_name" placeholder="Reyes"  minlength="2" maxlength="25"/>
                         <span class="error-message"></span>
                      </div>
                      <div class="input-container">
                         <label for="suffix_name">Suffix Name</label>
-                        <input type="text" name="suffix_name" id="suffix_name" placeholder="Suffix Name" minlength="1" maxlength="8">
+                        <input type="text" name="suffix_name" id="suffix_name" placeholder="JR." minlength="1" maxlength="8">
                         <div id="suffix_options" class="suffix-options"></div>
                      </div>
                   </div>
@@ -84,12 +84,12 @@
                      </div>
                      <div class="input-container">
                         <label>Religion</label>
-                        <input type="text" name="religion" id="religion" placeholder="Religion"  minlength="2" maxlength="25">
+                        <input type="text" name="religion" id="religion" placeholder="Enter religion"  minlength="2" maxlength="25">
                         <span class="error-message"></span>
                      </div>
                      <div class="input-container">
                         <label class="required" for="contact_number">Contact Number</label>
-                        <input type="text" name="contact_number" id="contact_number" placeholder="Contact Number"  minlength="11" maxlength="11" required />
+                        <input type="text" name="contact_number" id="contact_number" placeholder="09xxxxxxxxx"  minlength="11" maxlength="11" required />
                         <span class="error-message" id="contact_number_error"></span>
                      </div>
                   </div>
@@ -97,12 +97,12 @@
                   <div class="text-row">
                      <div class="input-container">
                         <label class="required" for="active_email_address">Email address</label>
-                        <input type="email" style="text-transform: none;" name="active_email_address" id="active_email_address" placeholder="Active Email Address" minlength="10" maxlength="100" required />
+                        <input type="email" style="text-transform: none;" name="active_email_address" id="active_email_address" placeholder="juandelacruz@gmail.com" minlength="10" maxlength="100" required />
                         <span class="error-message" id="active_email_address_error"></span>
                      </div>
                      <div class="input-container">
                         <label class="required" for="place_of_birth">Place of Birth</label>
-                        <input type="text" name="place_of_birth" id="place_of_birth" placeholder="CITY, COUNTRY"  minlength="5" maxlength="100" required/>
+                        <input type="text" name="place_of_birth" id="place_of_birth" placeholder="Santa Rosa, Philippines"  minlength="5" maxlength="100" required/>
                         <span class="error-message" id="place_of_birth_error"></span>
                      </div>
                      <div class="input-container">
@@ -181,7 +181,7 @@
                   <div class="text-row">
                   <div class="input-container school-graduated">
                      <label class="required">School Graduated</label>
-                     <input type="text" name="elementary_school" id="elementary_school" placeholder="School Graduated" minlength="5" maxlength="100" required/>
+                     <input type="text" name="elementary_school" id="elementary_school" placeholder="Enter school graduated" minlength="5" maxlength="100" required/>
                      <span class="error-message" id="elementary_school_error"></span>
                   </div>
 
@@ -207,7 +207,7 @@
                   <div class="text-row">
                      <div class="input-container school-graduated">
                         <label class="required">School Graduated</label>
-                        <input type="text" name="secondary_school" id="secondary_school" placeholder="School Graduated"  minlength="5" maxlength="100" required/>
+                        <input type="text" name="secondary_school" id="secondary_school" placeholder="Enter School Graduated"  minlength="5" maxlength="100" required/>
                         <span class="error-message" id="secondary_school_error"></span>
                      </div>
                      <div class="input-container">
@@ -221,7 +221,7 @@
                   <div class="text-row">
                      <div class="input-container school-graduated">
                         <label class="required">School Graduated</label>
-                        <input type="text" name="senior_high_school" id="senior_high_school" placeholder="School Graduated"  minlength="5" maxlength="100" required/>
+                        <input type="text" name="senior_high_school" id="senior_high_school" placeholder="Enter School Graduated"  minlength="5" maxlength="100" required/>
                         <span class="error-message" id="senior_high_school_error"></span>
                      </div>
                      <div class="input-container">
@@ -235,7 +235,7 @@
                   <div class="text-row">
                      <div class="input-container school-graduated ">
                         <label class="required">Course Enrolled</label>
-                        <input type="text" name="course_enrolled" id="course_enrolled" placeholder="Course Enrolled"  minlength="5" maxlength="100" required/>
+                        <input type="text" name="course_enrolled" id="course_enrolled" placeholder="Bachelor of Science in Information Technology"  minlength="5" maxlength="100" required/>
                         <span class="error-message" id="course_enrolled_error"></span>
                      </div>
                      <div class="input-container">
@@ -247,7 +247,7 @@
                      </div>
                      <div class="input-container">
                         <label class="required">No. of Units</label>
-                        <input type="number" name="no_of_units" id="no_of_units"  placeholder="No. of Units" required />
+                        <input type="number" name="no_of_units" id="no_of_units"  placeholder="Enter No. of Units" required />
                         <span class="error-message" id="no_of_units_error"></span>
                      </div>
                   </div>
@@ -280,14 +280,14 @@
                   <div class="text-row">
                      <div class="input-container school-graduated" id="school-name">
                         <label class="required">Full School Name (Do not abbreviate)</label>
-                        <input type="text" name="school_name" id="school_name" placeholder="School Name" minlength="5" maxlength="150" required/>
+                        <input type="text" name="school_name" id="school_name" placeholder="Enter School Name" minlength="5" maxlength="150" required/>
                         <span class="error-message" id="school_name_error"></span>
                      </div>
                   </div>
                   <div class="text-row">
                      <div class="input-container school-graduated">
                         <label class="required">School Address</label>
-                        <input type="text" name="school_address" id="school_address" placeholder="School Adress"  minlength="5" maxlength="150" required/>
+                        <input type="text" name="school_address" id="school_address" placeholder="Enter School Adress"  minlength="5" maxlength="150" required/>
                         <span class="error-message" id="school_address_error"></span>
                      </div>
                      <div class="input-container">
@@ -299,7 +299,7 @@
                      </div>
                      <div class="input-container">
                         <label class="required">Student ID No.</label>
-                        <input type="text" name="student_id_no" id="student_id_no" placeholder="School ID No."  minlength="5" maxlength="50" required/>
+                        <input type="text" name="student_id_no" id="student_id_no" placeholder="Enter School ID No."  minlength="5" maxlength="50" required/>
                         <span class="error-message" id="student_id_no_error"></span>
                      </div>
                   </div>
@@ -329,21 +329,21 @@
                   <h2 class="fs-title"><strong>Head of the Family</strong></h2>
                   <h3 class="fs-subtitle"></h3>
                   <div class="text-row">
-                     <div class="input-container">
-                        <label class="required">Guardian First Name</label>
-                        <input type="text" name="guardian_firstname" id="guardian_firstname" placeholder="LAST NAME, FIRST NAME"  minlength="2" maxlength="25" required/>
-                        <span class="error-message" id="guardian_firstname_error"></span>
-                        <span class="error-message" id="guardian_fullname_duplicate_error"></span>
-                     </div>
-                     <div class="input-container">
+                  <div class="input-container">
                         <label class="required">Guardian Last Name</label>
-                        <input type="text" name="guardian_lastname" id="guardian_lastname" placeholder="LAST NAME, FIRST NAME"  minlength="2" maxlength="25" required/>
+                        <input type="text" name="guardian_lastname" id="guardian_lastname" placeholder="Dela Cruz"  minlength="2" maxlength="25" required/>
                         <span class="error-message" id="guardian_lastname_error"></span>
                         <span class="error-message" id="guardian_fullname_duplicate_error"></span>
                      </div>
                      <div class="input-container">
+                        <label class="required">Guardian First Name</label>
+                        <input type="text" name="guardian_firstname" id="guardian_firstname" placeholder="Juan"  minlength="2" maxlength="25" required/>
+                        <span class="error-message" id="guardian_firstname_error"></span>
+                        <span class="error-message" id="guardian_fullname_duplicate_error"></span>
+                     </div>
+                     <div class="input-container">
                         <label class="required">Relationship</label>
-                        <input type="text" name="guardian_relationship" id="guardian_relationship" placeholder="Relationship"  minlength="5" maxlength="25" required/>
+                        <input type="text" name="guardian_relationship" id="guardian_relationship" placeholder="Father"  minlength="5" maxlength="25" required/>
                         <span class="error-message" id="guardian_relationship_error"></span>
                      </div>
                   </div>
@@ -351,12 +351,12 @@
                   <div class="text-row">
                      <div class="input-container">
                         <label class="required">Occupation</label>
-                        <input type="text" name="guardian_occupation" id="guardian_occupation" placeholder="Occupation"  minlength="5" maxlength="50" required/>
+                        <input type="text" name="guardian_occupation" id="guardian_occupation" placeholder="Enter Occupation"  minlength="5" maxlength="50" required/>
                         <span class="error-message" id="guardian_occupation_error"></span>
                      </div>
                      <div class="input-container">
                         <label class="required">Monthly income</label>
-                        <input type="text" id="guardian_monthly_income" name="guardian_monthly_income" placeholder="Monthly income" required pattern="\d+(\.\d{1,2})?" maxlength="8"/>
+                        <input type="text" id="guardian_monthly_income" name="guardian_monthly_income" placeholder="Enter Monthly income" required pattern="\d+(\.\d{1,2})?" maxlength="8"/>
                      </div>
                      <div class="input-container">
                         <label class="required">Annual Income</label>
