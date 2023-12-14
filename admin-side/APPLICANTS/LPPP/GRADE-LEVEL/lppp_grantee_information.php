@@ -115,24 +115,6 @@ if (mysqli_num_rows($result) > 0) {
     </table>
 </div>
 
-<!-- Table 2: Family Background -->
-<div class="applicant-info">
-    <h2>Family Background</h2>
-    <table>
-        <?php foreach ($applicantInfo as $field => $value) : ?>
-            <?php if (in_array($field, [
-                'guardian_name', 'guardian_occupation', 'guardian_relationship',
-                'guardian_monthly_income', 'guardian_annual_income'
-            ])) : ?>
-                <tr>
-                    <th><?php echo ucwords(str_replace('_', ' ', $field)) . ': '; ?></th>
-                    <td><?php echo $value; ?></td>
-                </tr>
-            <?php endif; ?>
-        <?php endforeach; ?>
-    </table>
-</div>
-
 <div class="applicant-info">
     <h2>Educational Background</h2>
     <table>
@@ -167,6 +149,24 @@ if (mysqli_num_rows($result) > 0) {
                 <?php endif; ?>
             <?php endforeach; ?>
         </form>
+    </table>
+</div>
+
+<!-- Table 2: Family Background -->
+<div class="applicant-info">
+    <h2>Family Background</h2>
+    <table>
+        <?php foreach ($applicantInfo as $field => $value) : ?>
+            <?php if (in_array($field, [
+                'guardian_name', 'guardian_occupation', 'guardian_relationship',
+                'guardian_monthly_income', 'guardian_annual_income'
+            ])) : ?>
+                <tr>
+                    <th><?php echo ucwords(str_replace('_', ' ', $field)) . ': '; ?></th>
+                    <td><?php echo $value; ?></td>
+                </tr>
+            <?php endif; ?>
+        <?php endforeach; ?>
     </table>
 </div>
 
