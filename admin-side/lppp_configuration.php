@@ -227,7 +227,13 @@ setInterval(updateCurrentDateTime, 1000); // Update every 1 second
                </div>
             </div>
             <div class="button-container"> 
-               <button type="button" id="submitConfigBtnLPPP" class="btn" onclick="openLPPPConfigurationPopup()">Submit</button>
+                <button type="button" id="submitConfigBtnLPPP" class="btn" onclick="openLPPPConfigurationPopup()">Submit</button>
+                   <?php 
+                    if ($_SESSION['role'] == "3") {
+                        echo '<button type="button" id="editConfigBtnLPPP" class="btn editConfig" onclick="EditConfigurationLPPP()">Edit</button>';
+                        echo '<button type="button" id="cancelConfigBtnLPPP" class="btn editConfig" onclick="cancelConfiguration()">Cancel</button>';
+                    }
+                    ?>
             </div>
          </div>
       </form>
@@ -241,7 +247,9 @@ setInterval(updateCurrentDateTime, 1000); // Update every 1 second
       <script src='js/unpkg-layout.js'></script>
       <script  src="./js/side_bar.js"></script>
       <script  src="./js/configuration.js"></script>
+
       <script>
+const editConfigBTNLPPP = document.getElementById('editConfigBtnLPPP');
          
 // Function to check if all required fields are filled and text areas have at least 15 characters
 function checkRequiredFields() {
@@ -278,8 +286,8 @@ function checkToggleStateLPPP() {
                 // Log the current state of the submit button
                 console.log(`Current state of submit button: ${submitConfigBtnLPPP.disabled ? 'enabled' : 'disabled'}`);
 
-                // Check if the toggle_value is 1
-                if (response === '1') {
+               // Check if the toggle_value is 1
+               if (response === '1') {
                     submitConfigBtnLPPP.disabled = true;
                     // Add an event listener to the toggle button
                     toggleButton.addEventListener('change', function () {
@@ -287,12 +295,19 @@ function checkToggleStateLPPP() {
                             submitConfigBtnLPPP.disabled = false;
                         }else{
                             submitConfigBtnLPPP.disabled = true;
-                             startDateInput.setAttribute("disabled", "true")
+                             startDateInput.setAttribute("disabled", "true");
                         }
                     });
                 } else if (response === '0')  {
-                    console.error('Error: Toggle value is not 1.');
+                    console.error('Error: Toggle value is 0');
                     submitConfigBtnLPPP.disabled = true;
+                }else if (response === '2') {
+                    console.error('Error: Toggle value is 2');
+                    submitConfigBtnLPPP.disabled = true;
+                    toggleButton.setAttribute("disabled", "true");
+                    submitConfigBtnLPPP.style.display = "none";
+                    editConfigBTNLPPP.style.display = "block";
+
                 }
             } else {
                 console.error(`Error: XMLHttpRequest failed with status ${xhr.status}.`); 
@@ -307,7 +322,112 @@ function checkToggleStateLPPP() {
 checkToggleStateLPPP();
 
       </script>
+<!-- Include this script in your HTML file -->
+<script>
+// Function to update the database state
+function updateDatabaseStateLPPP() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', './php/updateConfigStartLPPP.php', true);
 
+    xhr.onload = function () {
+        if (xhr.status >= 200 && xhr.status < 300) {
+            // Request was successful, you can log or handle the response
+            console.log(xhr.responseText);
+        } else {
+            // Request failed, handle the error
+            console.error('Error updating database state. Status:', xhr.status, 'Response:', xhr.responseText);
+        }
+    };
+
+    xhr.onerror = function () {
+        // Handle network errors
+        //console.error('Network error while updating database state.');
+    };
+
+    xhr.send();
+}
+
+// Call the function immediately on page load
+updateDatabaseStateLPPP();
+
+// Set up a setInterval to periodically call the update function (every 5 minutes in this example)
+setInterval(updateDatabaseStateLPPP, 5 * 60 * 1000); 
+</script>
+<script>
+function EditConfigurationLPPP() {
+    var form = document.getElementById('configForm');
+    var formElements = form.elements;
+    var submitConfigBtnLPPP = document.getElementById('submitConfigBtnLPPP');
+    var editConfigBtnLPPP = document.getElementById('editConfigBtnLPPP');
+    var toggleButtonEdit = document.getElementById('toggleButton');
+    var startDateInput = document.getElementById('startDateInput'); // Adjust the ID based on your actual input
+    var cancelConfigBtnLPPP = document.getElementById('cancelConfigBtnLPPP'); // Adjust the ID based on your actual input
+
+    // Store the initial form state
+    var initialFormState = getFormState();
+
+    for (var i = 0; i < formElements.length; i++) {
+        formElements[i].disabled = false;
+    }
+
+    // Add event listener to form elements for the "input" event
+    form.addEventListener('input', function () {
+        var currentFormState = getFormState();
+ //   submitConfigBtnLPPP.disabled = JSON.stringify(currentFormState) === JSON.stringify(initialFormState);
+    });
+
+// Add event listeners to input and textarea fields
+const inputFields = document.querySelectorAll('input[type="date"], input[type="time"], textarea');
+inputFields.forEach(function (field) {
+    field.addEventListener('input', checkRequiredFields);
+});
+
+    // Add event listener to the toggle button for the "input" event
+    toggleButtonEdit.addEventListener('change', function () {
+        if (toggleButtonEdit.checked) {
+                EditConfigurationLPPP(); // Call the function to enable the fields
+        } else {
+            // Enable the submit button when the toggle button is unchecked
+            submitConfigBtnLPPP.disabled = false;
+        }
+    });
+    toggleButton.checked = true; // Make the checkbox checked
+    submitConfigBtnLPPP.style.display = "block";
+    submitConfigBtnLPPP.disabled = true;
+    editConfigBtnLPPP.style.display = "none";
+    cancelConfigBtnLPPP.style.display = "block";
+}
+
+// Function to get the current state of the form
+function getFormState() {
+    var form = document.getElementById('configForm');
+    var formElements = form.elements;
+
+    var formState = {};
+    for (var i = 0; i < formElements.length; i++) {
+        formState[formElements[i].name] = formElements[i].value;
+    }
+
+    return formState;
+}
+
+checkRequiredFields();
+
+function cancelConfiguration() {
+    var form = document.getElementById('configForm');
+    var formElements = form.elements;
+
+    for (var i = 0; i < formElements.length; i++) {
+        formElements[i].disabled = true;
+    }
+    var cancelConfigBtnLPPP = document.getElementById('cancelConfigBtnLPPP'); // Adjust the ID based on your actual input
+    cancelConfigBtnLPPP.style.display = "none";
+    submitConfigBtnLPPP.style.display = "none";
+    editConfigBTNLPPP.style.display = "block";
+    editConfigBTNLPPP.removeAttribute("disabled", "true");
+    toggleButton.checked = false; // Make the checkbox checked
+}
+</script>
       <script  src="./js/status_popup.js"></script>
       <script  src="./js/configurationPopup.js"></script>
       </script>
