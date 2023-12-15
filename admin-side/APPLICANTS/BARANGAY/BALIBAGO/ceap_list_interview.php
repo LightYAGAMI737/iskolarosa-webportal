@@ -172,8 +172,8 @@ $todayInterviewCount = $todayCountRow['todayCount'];
          <div class="modal-content">
             <span class="close" id="closeModalBtn">&times;</span>
             <div class="modal-body">
-               <label for="current_time">Current Date and Time (Asia/Manila):</label>
-               <span id="currentDateTime"></span>
+               <label for="current_time">Reschedule Interview Date</label>
+               <!-- <span id="currentDateTime"></span>
                <script>
                   
                   function updateCurrentDateTime() {
@@ -186,7 +186,7 @@ $todayInterviewCount = $todayCountRow['todayCount'];
                   // Update the current date and time initially and then every second
                   updateCurrentDateTime();
                   setInterval(updateCurrentDateTime, 1000); // Update every 1 second
-               </script>
+               </script> -->
                <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                <h3 style="text-align: center;">Reschedule today's applicants</h3>
                   <div class="form-group">

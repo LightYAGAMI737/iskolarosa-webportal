@@ -6,12 +6,12 @@
        echo 'You need to log in to access this page.';
        exit();
    }
+   include '../../../php/config_iskolarosa_db.php';
    
    $currentPage = 'ceap_list';
    $currentSubPage = 'old applicant';
    $currentBarangay = '';
    
-   include '../../../php/config_iskolarosa_db.php';
    
    // Get the ceap_personal_account_id parameter from the URL
    if (isset($_GET['ceap_personal_account_id'])) {
@@ -213,52 +213,38 @@
                <tr>
                   <td>
                      <div class="file-group">
-                     <?php
-// Ensure Imagick is installed and enabled
-if (!extension_loaded('imagick')) {
-    echo 'Imagick extension is not available.';
-    // Handle the situation where Imagick is not available
-    exit;
-}
-
-// Loop through uploaded files and display them in groups of three
-$fileCounter = 0;
-
-$pdfFiles = array(
-    'uploadVotersApplicant' => '../../../../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_VotersApplicant.pdf',
-    'uploadVotersParent' => '../../../../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_VotersParent.pdf',
-    'uploadITR' => '../../../../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_ITR.pdf',
-    'uploadResidency' => '../../../../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Residency.pdf',
-    'uploadCOR' => '../../../../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_COR.pdf',
-    'uploadGrade' => '../../../../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Grade.pdf'
-);
-
-// Output image file paths
-$imageFiles = array();
-foreach ($pdfFiles as $key => $pdfFile) {
-    $outputImage = '../../../../ceap-reg-form/converted-images/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_' . $key . '.jpg';
-
-    try {
-        $imagick = new Imagick();
-        $imagick->readImage($pdfFile);
-        $imagick->setIteratorIndex(0); // Adjust the page index if needed
-
-        // Optional: Set resolution and background color
-        // $imagick->setResolution(300, 300);
-        // $imagick->setImageBackgroundColor('white');
-
-        $imagick->setImageCompressionQuality(100);
-        $imagick->setImageFormat('jpg');
-        $imagick->writeImage($outputImage);
-        $imagick->destroy();
-
-        // Log success
-        echo "<script>console.log('Conversion success for $key. Output Image: $outputImage');</script>";
-    } catch (Exception $e) {
-        // Log error
-        echo "<script>console.error('Error converting $key:', '" . $e->getMessage() . "', PDF File: $pdfFile, Output Image: $outputImage');</script>";
-    }
-}
+                        <?php
+                           // Loop through uploaded files and display them in groups of three
+                           $fileCounter = 0;
+                           
+                           // Path to Ghostscript executable
+                           $ghostscriptPath = 'C:\Program Files\gs10.01.2\bin\gswin64c.exe';  // Replace with your Ghostscript path
+                           
+                           $pdfFiles = array(
+                           'uploadVotersApplicant' => '../../../../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_VotersApplicant.pdf',
+                           'uploadVotersParent' => '../../../../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_VotersParent.pdf',
+                           'uploadITR' => '../../../../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_ITR.pdf',
+                           'uploadResidency' => '../../../../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Residency.pdf',
+                           'uploadCOR' => '../../../../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_COR.pdf',
+                           'uploadGrade' => '../../../../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Grade.pdf'
+                           );
+                           
+                           // Output image file paths
+                           $imageFiles = array();
+                           
+                           // Convert PDF files to images
+                           foreach ($pdfFiles as $key => $pdfFile) {
+                           $outputImage = '../../../../ceap-reg-form/converted-images/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_' . $key . '.jpg'; // Replace with the desired output image path and extension
+                           $imageFiles[$key] = $outputImage;
+                           
+                           // Command to convert PDF to image using Ghostscript
+                           $command = '"' . $ghostscriptPath . '" -dSAFER -dBATCH -dNOPAUSE -sDEVICE=jpeg -r300 -sOutputFile="' . $outputImage . '" "' . $pdfFile . '"';
+                           
+                           // Execute the Ghostscript command
+                           exec($command);
+                           
+                           
+                           }
                            echo "<h2 class='to_center'>Scanned Documents</h2>";
                            // Voters applicant
                            

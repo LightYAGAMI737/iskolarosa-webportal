@@ -152,8 +152,8 @@ $verifiedCountRow = mysqli_fetch_assoc($verifiedCountResult);
          <div class="modal-content">
             <span class="close" id="closeModalBtn">&times;</span>
             <div class="modal-body">
-               <label for="current_time">Current Date and Time (Asia/Manila):</label>
-               <span id="currentDateTime"></span>
+               <label for="current_time"></h3>Set Interview Date</h3></label>
+               <!-- <span id="currentDateTime"></span>
                <script>
                   // Function to update the current date and time
                   function updateCurrentDateTime() {
@@ -166,7 +166,7 @@ $verifiedCountRow = mysqli_fetch_assoc($verifiedCountResult);
                   // Update the current date and time initially and then every second
                   updateCurrentDateTime();
                   setInterval(updateCurrentDateTime, 1000); // Update every 1 second
-               </script>
+               </script> -->
                <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                   <div class="form-group">
                      <label for="interview_date">Date</label>
@@ -190,7 +190,7 @@ $verifiedCountRow = mysqli_fetch_assoc($verifiedCountResult);
                   </div>
                   <span id="error-message" style="text-align: center; display: flex; justify-content: center;"></span>
                   <div class="form-group">
-                     <label for="limit">Qty</label>
+                     <label for="limit">Qty.</label>
                      <input type="number" class="form-control" name="limit" id="limit" min="1" max="<?php echo $verifiedCount; ?>" required>
                   </div>
                   <span id="error-message-limit" style="text-align: center; display: flex; justify-content: center;"></span>

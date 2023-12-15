@@ -288,13 +288,21 @@ foreach ($pdfFiles as $key => $pdfFile) {
          </div>
       </div>
       <!-- end applicant info -->
-      <!-- Modal for entering reason -->
-      <div id="reasonModal" class="modal">
+     <!-- Modal for entering reason -->
+     <div id="reasonModal" class="modal">
          <div class="modal-content">
             <span class="close" onclick="closeReasonModal()">&times;</span>
             <h2>Enter Reason</h2>
             <input type="text" name="reason" id="disqualificationReason" minlength="10" maxlength="255" placeholder="Enter reason for disqualification">
             <button id="submitReason" onclick="submitStatusAndReason()" class="disabled">Submit</button>
+         </div>
+      </div>
+      <div id="reasonModalFail" class="modal">
+         <div class="modal-content">
+            <span class="close" onclick="closeReasonModalFail()">&times;</span>
+            <h2>Enter Reason</h2>
+            <input type="text" name="reasonFail" id="FailReason" minlength="10" maxlength="255" placeholder="Enter reason for failing">
+            <button id="submitReasonFail" onclick="submitStatusAndReasonFail()" class="disabled">Submit</button>
          </div>
       </div>
       <footer class="footer">
@@ -322,7 +330,7 @@ foreach ($pdfFiles as $key => $pdfFile) {
             } elseif ($applicantStatus === 'Disqualified') {
                 echo '<button onclick="openVerifiedPopup()" style="background-color: #FEC021; margin-right: 100px;" class="status-button">VERIFIED</button>';
             } elseif ($applicantStatus === 'interview') {
-                echo '<button onclick="openReasonModal(\'Fail\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">NOT GRANTEE</button>';
+                echo '<button onclick="openReasonModalFail(\'Fail\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">NOT GRANTEE</button>';
                 echo '<button onclick="openGranteePopup()" style="background-color: #FEC021;" class="status-button">GRANTEE</button>';
             }
             ?>
@@ -335,6 +343,7 @@ foreach ($pdfFiles as $key => $pdfFile) {
       <script  src="../../../js/side_bar.js"></script>
       <script  src="../../../js/status_popup.js"></script>
       <script  src="../../../js/updateStatusDisqualified.js"></script>
+      <script  src="../../../js/updateStatusFail.js"></script>
       <script  src="../../../js/updateStatusVerified.js"></script>
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       <script type="text/javascript">

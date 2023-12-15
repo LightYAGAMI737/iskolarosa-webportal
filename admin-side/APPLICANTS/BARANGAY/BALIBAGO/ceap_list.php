@@ -86,7 +86,7 @@ $result = mysqli_stmt_get_result($stmt);
          ?>
       <!-- home content-->    
       <div class="form-group">
-         <input type="text" name="search" class="form-control" id="search" placeholder="Search by Control Number or Last name"  oninput="formatInput(this)">
+         <input type="text" name="search" class="form-control" id="search"  autocomplete="off"  placeholder="Search by Control Number or Last name"  oninput="formatInput(this)">
          <button type="button" class="btn btn-primary" onclick="searchApplicants()">Search</button>
       </div>
       <!-- table for displaying the applicant list -->
