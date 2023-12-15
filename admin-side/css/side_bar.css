@@ -536,7 +536,7 @@ a {
   margin-left: 20px;
 }
 .left-column {
-  width: 18%;
+  width: 19%;
   float: left;
   background-color: #ECECEC;
   border-radius: 15px;
@@ -553,7 +553,7 @@ a {
   font-weight: bolder;
 }
 .left-column ul {
-  padding: 10px 30px 10px 30px !important 
+  padding: 10px 20px 10px 20px !important 
 }
 .left-column span{
   color: black;
@@ -572,9 +572,8 @@ a {
   color: #A5040A !important;
 }
 .right-column {
-  width: 82%;
+  width: 81%;
   float: right;
-  padding-left: 15px;
 }
 .clearfix::after {
   content: "";
