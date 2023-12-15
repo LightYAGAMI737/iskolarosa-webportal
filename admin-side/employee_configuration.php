@@ -104,7 +104,7 @@ input:focus::placeholder {
 </ul>
 </div>
 </nav> 
-      <form method="POST" action="../php/employeeconfigurationinsert.php"  id="employeeconfigform" enctype="multipart/form-data">
+      <form method="POST" action="employeeconfigurationinsert.php"  id="employeeconfigform" enctype="multipart/form-data">
         <div class="text-cont">
             <h1>EMPLOYEE CONFIGURATION</h1>
             <div class="form-row">

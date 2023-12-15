@@ -1,5 +1,5 @@
 <?php
-include 'config_iskolarosa_db.php';
+include './php/config_iskolarosa_db.php';
 
 // Map role names to role IDs
 $roleNameToId = [
@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
     // File handling for the picture upload
-    $targetDir = "../employee-picture/"; // Change this to the directory where you want to store the images
+    $targetDir = "./employee-picture/"; // Change this to the directory where you want to store the images
     $targetFile = $targetDir . $lastName . "," . $firstName . ".jpg";
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($_FILES["picture"]["name"], PATHINFO_EXTENSION));
@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             // Insert the data into the database using prepared statements
           // Insert the data into the database using prepared statements
                 $sql = "INSERT INTO employee_list (employee_id_no, last_Name, first_Name, contact_Number, email, role_id, username, password, picture, account_status) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0)";
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
                 $stmt = $conn->prepare($sql);
                 $stmt->bind_param(
                 "sssssssss",

@@ -13,7 +13,7 @@ function submitEmployeeConfig() {
     var xhr = new XMLHttpRequest();
     var formData = new FormData(document.getElementById('employeeconfigform'));
 
-    xhr.open('POST', './php/employeeconfigurationinsert.php', true);
+    xhr.open('POST', 'employeeconfigurationinsert.php', true);
     xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
