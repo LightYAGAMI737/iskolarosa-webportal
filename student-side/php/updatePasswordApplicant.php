@@ -17,12 +17,12 @@ function updatePassword($conn, $username, $newPassword) {
         mysqli_stmt_close($stmt);
         session_start();
         $_SESSION['password_updated'] = true;
-        header("Location: ../index.php");
+        header("Location: ../index.php?error=Password Changed Successfully.");
         exit();
     } else {
         // Database update error, handle the error accordingly
         mysqli_stmt_close($stmt);
-        header("Location: updatePasswordApplicant.php?error=DatabaseError");
+        header("Location: ../index.php?error=There's an error updating your password.");
         exit();
     }
 }
@@ -30,8 +30,8 @@ function updatePassword($conn, $username, $newPassword) {
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Get the username and new password from the form
-    $username = $_GET['username'];
-    $newPassword = $_GET['confirm_password'];
+    $username = $_POST['username'];
+    $newPassword = $_POST['confirm_password'];
 
     // Call the updatePassword function
     updatePassword($conn, $username, $newPassword);
@@ -74,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 					<img decoding="async" src="../../admin-side/system-images/iskolarosa-logo.png" class="img-fluid" alt="logo" >
 				</div>
                 <form class="rounded bg-white shadow p-5" action="updatePasswordApplicant.php" method="post">
-                    <!-- <input type="hidden" name="username" value="<?php echo $_GET['username']; ?>"> -->
+                    <input type="hidden" name="username" value="<?php echo $_GET['username']; ?>">
                     <h3 class="text-dark fw-bolder fs-4 mb-2">Update Password</h3>
                         <div class="fw-normal text-muted mb-4">
                         </div>  
