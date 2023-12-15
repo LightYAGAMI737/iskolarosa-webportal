@@ -572,7 +572,7 @@ a {
   color: #A5040A !important;
 }
 .right-column {
-  width: 81%;
+  width: 80%;
   float: right;
 }
 .clearfix::after {
