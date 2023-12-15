@@ -64,14 +64,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         mysqli_stmt_close($stmtControlNumber);
 
                         mysqli_close($conn);
-                        header("Location: ../tempAcc_status.php");
+                        header("Location: ../home-page-loggedin.php");
                         exit();
                     }
                 }
             }
         }
         // Close the temporary account statement
-        mysqli_stmt_close($stmt);
     }
 
     // Check the user's location
@@ -98,7 +97,7 @@ if ($stmt) {
             mysqli_close($conn);
 
             // Redirect to the personal account page for authenticated users
-            header("Location: ../personal_account/personalAcc_status.php");
+            header("Location: ../personal_account/personalAcc_home.php");
             exit();
         }
     }
