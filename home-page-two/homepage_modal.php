@@ -101,8 +101,8 @@ mysqli_close($conn);
                 <span>Apply Now</span>
             </button>
         </div>
-    <p class="timeDateApplication">Application starts on <strong><?php echo $formattedStartDate .', ' . $formattedStartTime; ?></strong></p>
-    <p class="timeDateApplication">Application ends on <strong><?php echo $formattedEndDate .', ' . $formattedEndtime; ?></strong></p>
+    <!-- <p class="timeDateApplication">Application starts on <strong><?php echo $formattedStartDate .', ' . $formattedStartTime; ?></strong></p>
+    <p class="timeDateApplication">Application ends on <strong><?php echo $formattedEndDate .', ' . $formattedEndtime; ?></strong></p> -->
     </div>
     </div>
 </div>
@@ -139,9 +139,9 @@ mysqli_close($conn);
                 <span>Apply Now</span>
             </button>
         </div>
-        <p class="timeDateApplication">Application starts on <strong><?php echo $formattedStartDateLPPP .', ' . $formattedStartTimeLPPP; ?></strong></p>
+        <!-- <p class="timeDateApplication">Application starts on <strong><?php echo $formattedStartDateLPPP .', ' . $formattedStartTimeLPPP; ?></strong></p>
     <p class="timeDateApplication">Application ends on <strong><?php echo $formattedEndDateLPPP .', ' . $formattedEndtimeLPPP; ?></strong></p>
-    
+     -->
     </div>
     </div>
 </div>
