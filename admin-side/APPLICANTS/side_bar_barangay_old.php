@@ -373,21 +373,21 @@
          <li class="nav-item">
             <button>
             <strong>
-            <a class="nav-link status <?php if ($currentStatus === 'in progress')  echo 'active'; ?>" href="old_ceap_list.php">IN PROGRESS</a>
+            <a class="nav-link status <?php if ($currentStatus === 'In Progress')  echo 'active'; ?>" href="old_ceap_list.php">IN PROGRESS</a>
             </strong>
             </button>
          </li>
          <li class="nav-item">
             <button>
             <strong>
-            <a class="nav-link status <?php if ($currentStatus === 'disqualified') echo 'active'; ?>" href="old_ceap_list_disqualify.php">DISQUALIFIED</a>
+            <a class="nav-link status <?php if ($currentStatus === 'Disqualified') echo 'active'; ?>" href="old_ceap_list_disqualify.php">DISQUALIFIED</a>
             </strong>
             </button>
          </li>
          <li class="nav-item">
             <button>
             <strong>
-            <a class="nav-link status <?php if ($currentStatus === 'verified') echo 'active'; ?>" href="old_ceap_list_verified.php">VERIFIED</a>
+            <a class="nav-link status <?php if ($currentStatus === 'Verified') echo 'active'; ?>" href="old_ceap_list_verified.php">VERIFIED</a>
             </strong>
             </button>
          </li>
@@ -405,14 +405,14 @@
          <li class="nav-item">
             <button>
             <strong>
-            <a class="nav-link status <?php if ($currentStatus === 'grantee') echo 'active'; ?>" href="old_ceap_list_grantee.php">GRANTEE</a>
+            <a class="nav-link status <?php if ($currentStatus === 'Grantee') echo 'active'; ?>" href="old_ceap_list_grantee.php">GRANTEE</a>
             </strong>
             </button>
          </li>
          <li class="nav-item">
             <button>
             <strong>
-            <a class="nav-link status <?php if ($currentStatus === 'fail') echo 'active'; ?>" href="old_ceap_list_fail.php">NOT GRANTEE</a>
+            <a class="nav-link status <?php if ($currentStatus === 'Fail') echo 'active'; ?>" href="old_ceap_list_fail.php">NOT GRANTEE</a>
             </strong>
             </button>
          </li>
@@ -439,7 +439,7 @@
 
                 if (elapsedTime > timeoutMilliseconds) {
                     // Redirect to logout.php when the session times out
-                    window.location.href = 'logout.php';
+                    window.location.href = '../../../logout.php';
                 }
             }
         }

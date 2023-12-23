@@ -33,16 +33,16 @@
        echo $requiredPermissions[$requiredPermission];
        exit();
    }
-   
    // Set variables
-   $currentStatus = 'in progress';
-   $currentPage = 'ceap_list';
-    $currentSubPage = 'old applicant';
-   $currentBarangay ='APLAYA';
-   
-   
-   // Construct the SQL query using heredoc syntax
-   $query = <<<SQL
+$currentStatus = 'In Progress';
+$currentPage = 'ceap_list';
+$currentSubPage = 'old applicant';
+$currentDirectory = basename(__DIR__);
+$currentBarangay = $currentDirectory;
+
+$currentStatus = mysqli_real_escape_string($conn, $currentStatus);
+
+$query = <<<SQL
    SELECT  
           UPPER(first_name) AS first_name, 
           UPPER(last_name) AS last_name, 
@@ -51,11 +51,15 @@
           date_of_birth, 
           UPPER(status) AS status,
           ceap_personal_account_id
-   FROM ceap_personal_account 
-   WHERE barangay = 'aplaya' && status = 'In Progress'
-   SQL;
-   
-   $result = mysqli_query($conn, $query);
+   FROM ceap_personal_account p
+   WHERE p.barangay = ? AND p.status = ?;
+SQL;
+
+$stmt = mysqli_prepare($conn, $query);
+mysqli_stmt_bind_param($stmt, "ss", $currentBarangay, $currentStatus);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+
    ?>
 <!DOCTYPE html>
 <html lang="en" >
@@ -98,8 +102,7 @@
                   <th>CONTROL NUMBER</th>
                   <th>LAST NAME</th>
                   <th>FIRST NAME</th>
-                  <th>BARANGAY</th>
-                  <th>STATUS</th>
+                  <!-- <th>STATUS</th> -->
                </tr>
                <?php
                   $counter = 1;
@@ -111,8 +114,7 @@
                               echo '<td>' . strtoupper($row['control_number']) . '</td>';
                               echo '<td>' . strtoupper($row['last_name']) . '</td>';
                               echo '<td>' . strtoupper($row['first_name']) . '</td>';
-                              echo '<td>' . strtoupper($row['barangay']) . '</td>';
-                              echo '<td>' . strtoupper($row['status']) . '</td>';
+                              // echo '<td>' . strtoupper($row['status']) . '</td>';
                               echo '</tr>';
                            }
                            ?>

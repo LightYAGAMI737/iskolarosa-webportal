@@ -35,13 +35,17 @@
    }
    
    // Set variables
-   $currentStatus = 'disqualified';
-   $currentPage = 'ceap_list';
-   $currentSubPage = 'old applicant';
-   $currentBarangay ='APLAYA';
-   
-   // Construct the SQL query using heredoc syntax
-   $query = <<<SQL
+$currentStatus = 'Disqualified';
+$currentPage = 'ceap_list';
+$currentSubPage = 'old applicant';
+$currentDirectory = basename(__DIR__);
+$currentBarangay = $currentDirectory;
+
+// Assuming $currentStatus is also a variable you need to sanitize
+$currentStatus = mysqli_real_escape_string($conn, $currentStatus);
+
+// Construct the SQL query using heredoc syntax
+$query = <<<SQL
    SELECT *, 
           UPPER(first_name) AS first_name, 
           UPPER(last_name) AS last_name, 
@@ -51,10 +55,14 @@
           UPPER(status) AS status,
           UPPER(reason) AS reason
    FROM ceap_personal_account 
-   WHERE barangay = 'aplaya' && status = 'Disqualified'
-   SQL;
-   
-   $result = mysqli_query($conn, $query);
+   WHERE barangay = ? AND status = ?;
+SQL;
+
+$stmt = mysqli_prepare($conn, $query);
+mysqli_stmt_bind_param($stmt, "ss", $currentBarangay, $currentStatus);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+
    ?>
 <!DOCTYPE html>
 <html lang="en" >
@@ -96,8 +104,8 @@
                   <th>CONTROL NUMBER</th>
                   <th>LAST NAME</th>
                   <th>FIRST NAME</th>
-                  <th>BARANGAY</th>
-                  <th>STATUS</th>
+                  <!-- <th>BARANGAY</th>
+                  <th>STATUS</th> -->
                   <th>Reason</th>
                </tr>
                <?php
@@ -110,8 +118,8 @@
                               echo '<td>' . strtoupper($row['control_number']) . '</td>';
                               echo '<td>' . strtoupper($row['last_name']) . '</td>';
                               echo '<td>' . strtoupper($row['first_name']) . '</td>';
-                              echo '<td>' . strtoupper($row['barangay']) . '</td>';
-                              echo '<td>' . strtoupper($row['status']) . '</td>';
+                              // echo '<td>' . strtoupper($row['barangay']) . '</td>';
+                              // echo '<td>' . strtoupper($row['status']) . '</td>';
                               echo '<td>' . strtoupper($row['reason']) . '</td>';
                               echo '</tr>';
                            }
