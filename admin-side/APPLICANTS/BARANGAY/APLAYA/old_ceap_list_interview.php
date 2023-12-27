@@ -36,36 +36,50 @@
        exit();
    }
    
-   // Set variables
    $currentStatus = 'interview';
    $currentPage = 'ceap_list';
-   $currentBarangay ='APLAYA';
    $currentSubPage = 'old applicant';
+   
+   $currentDirectory = basename(__DIR__);
+   $currentBarangay = $currentDirectory;
+   
+   // Assuming $currentStatus is also a variable you need to sanitize
+   $currentStatus = mysqli_real_escape_string($conn, $currentStatus);
+   $currentBarangay = mysqli_real_escape_string($conn, $currentBarangay);
    
    // Construct the SQL query using heredoc syntax
    $query = <<<SQL
    SELECT * 
    FROM ceap_personal_account 
-   WHERE barangay = 'aplaya' && status = 'interview'
+   WHERE barangay = ? AND status = ?
    SQL;
    
-   $result = mysqli_query($conn, $query);
-   
-   // Get the current date in the format 'Y-m-d'
+   $stmt = mysqli_prepare($conn, $query);
+   mysqli_stmt_bind_param($stmt, "ss", $currentBarangay, $currentStatus);
+   mysqli_stmt_execute($stmt);
+   $result = mysqli_stmt_get_result($stmt);
+
+    date_default_timezone_set('Asia/Manila');
    $currentDate = date('Y-m-d');
    
-   // Query to count applicants with interview dates today
-   $countQuery = "SELECT COUNT(*) AS todayCount FROM ceap_personal_account WHERE interview_date = ? AND status = 'interview' AND barangay ='aplaya'";
+   $countQuery = "SELECT COUNT(*) AS todayCount FROM ceap_personal_account WHERE interview_date = ? AND status = ? AND barangay = ?";
    $stmtCount = mysqli_prepare($conn, $countQuery);
-   mysqli_stmt_bind_param($stmtCount, "s", $currentDate);
+   
+   $currentStatusCount = mysqli_real_escape_string($conn, $currentStatus);
+   $currentBarangayCount = mysqli_real_escape_string($conn, $currentBarangay);
+   
+   mysqli_stmt_bind_param($stmtCount, "sss", $currentDate, $currentStatusCount, $currentBarangayCount);
    mysqli_stmt_execute($stmtCount);
+   
    $todayCountResult = mysqli_stmt_get_result($stmtCount);
    $todayCountRow = mysqli_fetch_assoc($todayCountResult);
    
-   // Store the count in a variable
    $todayInterviewCount = $todayCountRow['todayCount'];
    
+   mysqli_stmt_close($stmtCount);
+   
    ?>
+   
 <!DOCTYPE html>
 <html lang="en" >
    <head>
@@ -76,6 +90,7 @@
       <link rel='stylesheet' href="../../../css/unpkg-layout.css">
       <link rel="stylesheet" href="../../../css/side_bar.css">
       <link rel="stylesheet" href="../../../css/ceap_list.css">
+      <link rel="stylesheet" href="../../../css/status_popup.css">
       <link rel="stylesheet" href="../../../css/ceap_interview.css">
       <script>
          // Prevent manual input in date fields
@@ -96,70 +111,111 @@
    </head>
    <body>
       <?php 
+            include '../../../php/reschedulepopups.php';
          include '../../side_bar_barangay_old.php';
          ?>
       <!-- home content-->
       <!-- search and reschedule -->
       <div class="form-group">
          <!-- Reschedule Button -->
-         <div class="reschedule-button">
-            <button id="rescheduleButton" type="button" class="btn btn-primary" style="border-radius: 15px; margin-right: 40px;" onclick="openRescheduleModal()">Reschedule</button>
-         </div>
+            <?php
+                // Check if the user's role is not "Staff"
+                if ($_SESSION['role'] !== 1) {
+                    // Only display the button if the user's role is not "Staff" and there are verified applicants
+                    $hasInterviewStatusOLD = hasInterviewStatusInDatabaseOLD($conn, $currentBarangay, $currentStatus);
+
+                    if ($hasInterviewStatusOLD) {
+                        echo '<button id="rescheduleButton" type="button" class="btn btn-primary">Reschedule</button>';
+                    } else {
+                        echo '<button id="rescheduleButton" type="button" class="btn btn-primary" disabled style="background-color: #ccc; cursor: not-allowed;">Reschedule</button>';
+                    }
+                }
+
+                function hasInterviewStatusInDatabaseOLD($conn, $currentBarangay, $currentStatus) {
+                    $interviewDate = date('Y-m-d');
+
+                    $query = "SELECT COUNT(*) FROM ceap_personal_account AS t
+                            WHERE t.status = ? AND UPPER(t.barangay) = ? AND t.interview_date = ?";
+
+                    $stmt = mysqli_prepare($conn, $query);
+                    mysqli_stmt_bind_param($stmt, "sss", $currentStatus, $currentBarangay, $interviewDate);
+
+                    if ($stmt) {
+                        if (mysqli_stmt_execute($stmt)) {
+                            $result = mysqli_stmt_get_result($stmt);
+                            $count = mysqli_fetch_row($result)[0];
+                            mysqli_stmt_close($stmt);
+                            return $count > 0;
+                        } else {
+                            // Proper error handling for the query execution
+                            echo "Error executing query: " . mysqli_error($conn);
+                            mysqli_stmt_close($stmt);
+                            return false;
+                        }
+                    } else {
+                        // Proper error handling for the statement preparation
+                        echo "Error preparing statement: " . mysqli_error($conn);
+                        return false;
+                    }
+                }
+                ?>
+
          <input type="text" name="search" class="form-control" id="search" placeholder="Search by Control Number or Last name"  oninput="formatInput(this)">
          <button type="button" class="btn btn-primary" style="margin-right: 10px;" onclick="searchApplicants()">Search</button>
       </div>
-      <!-- Set Interview Modal (hidden by default) -->
+      <!-- Reschedule Modal (hidden by default) -->
       <div id="myModal" class="modal">
          <div class="modal-content">
             <span class="close" id="closeModalBtn">&times;</span>
             <div class="modal-body">
-               <form method="post" action="../../../php/rescheduleOldGrantee.php">
-                  <h3 style="text-align: center;">Reschedule today's applicant.</h3>
-                  <div class="form-group">
-                     <label for="interview_date">Date</label> 
-                     <input type="date" name="interview_date" id="interview_date" class="form-control" required onkeydown="preventInput(event)"
+               <label for="current_time">Reschedule Interview Date</label>
+               <!-- <span id="currentDateTime"></span>
+               <script>
+                  
+                  function updateCurrentDateTime() {
+                      const currentDateTimeElement = document.getElementById('currentDateTime');
+                      const options = { timeZone: 'Asia/Manila', hour12: true, hour: 'numeric', minute: 'numeric', second: 'numeric', year: 'numeric', month: 'numeric', day: 'numeric' };
+                      const currentDateTime = new Date().toLocaleString([], options);
+                      currentDateTimeElement.textContent = currentDateTime;
+                  }
+                  
+                  // Update the current date and time initially and then every second
+                  updateCurrentDateTime();
+                  setInterval(updateCurrentDateTime, 1000); // Update every 1 second
+               </script> -->
+               <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+               <!-- <h3 style="text-align: center;">Reschedule today's applicants</h3> -->
+               <div class="form-group">
+                    <label for="interview_date">Date</label>
+                    <input type="date" name="interview_date" id="interview_date" class="form-control" required onkeydown="preventInput(event)"
                         <?php
-                           echo 'min="' . date('Y-m-d') . '"';
-                           echo ' max="' . date('Y-12-31') . '"';
-                           ?>>
-                  </div>
+                            echo 'min="' . date('Y-m-d') . '"';
+                            
+                            // Calculate the max date (6 months from the current date)
+                            $maxDate = date('Y-m-d', strtotime('+6 months'));
+                            echo ' max="' . $maxDate . '"';
+                        ?>>
+                </div>
                   <div class="form-group">
                      <label>Time</label>
                      <div style="display: flex; align-items: center;">
                         <input type="number" name="interview_hours" id="interview_hours" class="form-control" min="1" max="12" required>
                         <span style="margin: 0 5px;">:</span>
-                        <input type="number" name="interview_minutes" id="interview_minutes" minlength="2" class="form-control" min="0" max="59" required>
+                        <input type="number" name="interview_minutes" id="interview_minutes" class="form-control" min="0" max="59" required>
                         <select class="form-control" name="interview_ampm" id="interview_ampm" required>
                            <option value="AM">AM</option>
                            <option value="PM">PM</option>
                         </select>
                      </div>
                   </div>
+                  <span id="error-message" style="text-align: center; display: flex; justify-content: center;"></span>
                   <div class="form-group">
                      <label for="limit">Qty</label>
-                     <input type="number" class="form-control"  name="limit" id="limit" min="1" max="<?php echo $todayInterviewCount; ?>" required>
+                     <input type="number" class="form-control" name="limit" id="limit" min="1" max="<?php echo $todayInterviewCount; ?>" required>
                   </div>
-                  <script>
-                     const limitInput = document.getElementById('limit');
-                     
-                     limitInput.addEventListener('input', function() {
-                         const userInput = limitInput.value.trim();
-                         let sanitizedInput = userInput.replace(/^0+|(\..*)\./gm, '$0');
-                     
-                         if (sanitizedInput === '' || isNaN(sanitizedInput)) {
-                             limitInput.value = '';
-                         } else {
-                             const parsedInput = parseInt(sanitizedInput);
-                     
-                             // Ensure the value is within the valid range
-                             const validValue = Math.min(Math.max(parsedInput, 1), 200);
-                     
-                             limitInput.value = validValue;
-                         }
-                     });
-                  </script>
+                  <span id="error-message-limit" style="text-align: center; display: flex; justify-content: center;"></span>
                   <div class="form-group">
-                     <button type="submit" name="rescheduleBtn" id="rescheduleBtn" class="btn btn-primary">Reschedule</button>
+                     <button type="button" class="btn btn-primary" id="rescheduleBtn" onclick="openRescheduleOLD(), closeModalInterview()" disabled>Reschedule</button>
                   </div>
                </form>
             </div>
@@ -179,25 +235,15 @@
             } else {
               ?>
          <div class="applicant-info">
-            <div class="filter-icon">
-               <label for="filterLabel" id="filterLabel" onclick="toggleFilterDropdown()">
-               <i class="ri-filter-line"></i> Filter
-               </label>
-               <div class="filter-dropdown" id="filterDropdown">
-                  <ul>
-                     <li><a href="#" id="interview_date_for_month" onclick="filterApplicants('interview_date_for_month')">Interview Date for Month</a></li>
-                     <li><a href="#" id="interview_date_today" onclick="filterApplicants('interview_date_today')">Interview Date Today</a></li>
-                  </ul>
-               </div>
-            </div>
+            
             <table>
                <tr>
                   <th>NO.</th>
                   <th>CONTROL NUMBER</th>
                   <th>LAST NAME</th>
                   <th>FIRST NAME</th>
-                  <th>BARANGAY</th>
-                  <th>STATUS</th>
+                  <!-- <th>BARANGAY</th>
+                  <th>STATUS</th> -->
                   <th>INTERVIEW DATE</th>
                </tr>
                <?php
@@ -211,8 +257,8 @@
                               echo '<td>' . strtoupper($row['control_number']) . '</td>';
                               echo '<td>' . strtoupper($row['last_name']) . '</td>';
                               echo '<td>' . strtoupper($row['first_name']) . '</td>';
-                              echo '<td>' . strtoupper($row['barangay']) . '</td>';
-                              echo '<td>' . strtoupper($row['status']) . '</td>';
+                            //   echo '<td>' . strtoupper($row['barangay']) . '</td>';
+                            //   echo '<td>' . strtoupper($row['status']) . '</td>';
                               echo '<td>' . strtoupper($row['interview_date']) . '</td>';
                               echo '</tr>';
                            }
@@ -231,7 +277,12 @@
       <div class="overlay"></div>
       </div>
       <!-- partial -->
-      <script src='../../../js/unpkg-layout.js'></script><script  src="../../../js/side_bar.js"></script>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script src='../../../js/unpkg-layout.js'></script>
+      <script  src="../../../js/side_bar.js"></script>
+      <script  src="../../../js/VerifiedandInterview.js"></script>
+      <script  src="../../../js/rescheduleInterviewOLD.js"></script>
+      <script  src="../../../js/openReschedulePopupOLD.js"></script>
 
       <script>
          function seeMore(id) {
@@ -240,7 +291,6 @@
          }
          
       </script>
-      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       <script>
          $(document).ready(function() {
              // Add an event listener to the search input field
@@ -272,100 +322,33 @@
          }
       </script>
       <script>
-         function filterApplicants(selectedFilter) {
-             // Get all rows in the table
-             var rows = $('.applicant-row');
+        
+          //open modal
+         // Get Reschedmodal elements using plain JavaScript
+         var Reschedmodal = document.getElementById("myModal");
+         var openReschedModalBtn = document.getElementById("rescheduleButton");
+         var closeReschedModalBtn = document.getElementById("closeModalBtn");
          
-             if (selectedFilter === 'interview_date_today') {
-                 var today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
-         
-                 // Show all rows before applying the filter
-                 rows.show();
-         
-                 // Hide rows where interview_date is not today
-                 rows.each(function () {
-                     var interviewDate = $(this).data('interview-date');
-                     if (interviewDate !== today) {
-                         $(this).hide();
-                     }
-                 });
-             } else if (selectedFilter === 'interview_date_for_month') {
-                 // Show all rows before applying the filter
-                 rows.show();
-         
-                 // Sort rows by interview_date
-                 rows.sort(function(a, b) {
-                     var interviewDateA = $(a).data('interview-date');
-                     var interviewDateB = $(b).data('interview-date');
-                 });
-         
-                 // Append sorted rows to the table
-                 $('.applicant-info table').append(rows);
-             }
-         
-             // Update the filter dropdown label
-             var filterLabel = document.getElementById("filterLabel");
-             if (selectedFilter === 'interview_date_today') {
-                 filterLabel.innerHTML = '<i class="ri-filter-line"></i> Filter';
-             } else if (selectedFilter === 'interview_date_for_month') {
-                 filterLabel.innerHTML = '<i class="ri-filter-line"></i> Filter';
-             }
-         }
-         
-         // Function to open the reschedule modal
-         function openRescheduleModal() {
-             var rescheduleButton = document.getElementById("rescheduleButton");
-             if (!rescheduleButton.disabled) {
-                 var modal = document.getElementById("myModal");
-                 modal.style.display = "block";
-             }
-         }
-         
-         // Function to close the modal
-         function closeRescheduleModal() {
-             var modal = document.getElementById("myModal");
-             modal.style.display = "none";
-         }
-         
-         // Close the modal when the close button is clicked
-         document.getElementById("closeModalBtn").addEventListener("click", function() {
-             closeRescheduleModal();
+         // Show Reschedmodal when the button is clicked
+         openReschedModalBtn.addEventListener("click", function() {
+            Reschedmodal.style.display = "block";
          });
          
-         // Close the modal when clicking outside of it
-         window.onclick = function(event) {
-             var modal = document.getElementById("myModal");
-             if (event.target === modal) {
-                 closeRescheduleModal();
-             }
-         }
+         // Close Reschedmodal when the close button is clicked
+         closeReschedModalBtn.addEventListener("click", function() {
+            Reschedmodal.style.display = "none";
+         });
          
-         // Check if there are any applicants with interview_date set to today
-         checkTodayInterview();
+         // Close Reschedmodal when clicking outside the Reschedmodal content
+         window.addEventListener("click", function(event) {
+            if (event.target === Reschedmodal) {
+               Reschedmodal.style.display = "none";
+            }
+         });
          
-         function checkTodayInterview() {
-             var today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
-         
-             var hasTodayInterview = false; // Flag to track if there are applicants with today's interview
-         
-             $('.contents').each(function () {
-                 var interviewDate = $(this).data('interview-date');
-                 if (interviewDate === today) {
-                     hasTodayInterview = true;
-                     return false; // Exit the loop early since we found a match
-                 }
-             });
-         
-             // Disable the "Reschedule" button if no applicants have interview_date today
-             var rescheduleButton = document.getElementById("rescheduleButton");
-             if (!hasTodayInterview) {
-                 rescheduleButton.disabled = true;
-             }
-         }
          
          // DOMContentLoaded event
          document.addEventListener("DOMContentLoaded", function() {
-             filterApplicants('interview_date_today');
              const hoursInput = document.getElementById("interview_hours");
              hoursInput.addEventListener("input", function() {
                  const hoursValue = parseInt(hoursInput.value);
@@ -398,25 +381,123 @@
              });
          });
          
-         // Toggle filter dropdown visibility
-         function toggleFilterDropdown() {
-             var filterDropdown = document.getElementById("filterDropdown");
-             if (filterDropdown.style.display === "none") {
-                 filterDropdown.style.display = "block";
-             } else {
-                 filterDropdown.style.display = "none";
-             }
-         }
-         
-         // Close the filter dropdown when clicking outside of it
-         window.onclick = function(event) {
-             if (!event.target.matches('#filterLabel')) {
-                 var dropdown = document.getElementById("filterDropdown");
-                 if (dropdown.style.display === "block") {
-                     dropdown.style.display = "none";
-                 }
-             }
-         }
+  
       </script>
+      
+<script>
+    const rescheduledateInput = document.getElementById('interview_date');
+    const reschedulehoursInput = document.getElementById('interview_hours');
+    const rescheduleminutesInput = document.getElementById('interview_minutes');
+    const rescheduleperiodInput = document.getElementById('interview_ampm');
+    const reschedulelimitInput = document.getElementById('limit');
+    const rescheduleerrorMessage = document.getElementById('error-message');
+    const rescheduleerrorMessageLimit = document.getElementById('error-message-limit');
+
+    // Add input event listeners to date/time inputs
+    rescheduledateInput.addEventListener('input', validateDateTimeInput);
+    reschedulehoursInput.addEventListener('input', validateDateTimeInput);
+    rescheduleminutesInput.addEventListener('input', validateDateTimeInput);
+    rescheduleperiodInput.addEventListener('input', validateDateTimeInput);
+
+    // Add input event listener to the limit input
+    reschedulelimitInput.addEventListener('input', validaterescheduleLimitInput);
+
+    function validateDateTimeInput() {
+    const selectedDate = new Date(rescheduledateInput.value);
+    const hours = parseInt(reschedulehoursInput.value);
+    const minutes = parseInt(rescheduleminutesInput.value);
+    const period = rescheduleperiodInput.value;
+
+    // Log the selected period to the console
+    console.log('Selected Period:', period);
+
+    let adjustedHours = hours; // Declare a new variable to store the adjusted hours
+
+    if (period === 'PM') {
+        adjustedHours += 12;
+    }
+
+    const isDateTimeValid =
+        !isNaN(selectedDate) &&
+        !isNaN(adjustedHours) && // Use adjustedHours
+        !isNaN(minutes);
+
+    // Get the input elements for date, hours, minutes, and period
+    const inputElements = [rescheduledateInput, reschedulehoursInput, rescheduleminutesInput, rescheduleperiodInput];
+
+    if (isDateTimeValid) {
+        // If input is valid, remove 'invalid' class
+        inputElements.forEach((element) => {
+            element.classList.remove('invalid');
+        });
+
+        selectedDate.setHours(adjustedHours, minutes, 0, 0);
+        const currentDate = new Date();
+
+        if (selectedDate >= currentDate) {
+            rescheduleerrorMessage.textContent = '';
+        }  else {
+            inputElements.forEach((element) => {
+                element.classList.add('invalid');
+            });
+            rescheduleerrorMessage.textContent = 'Invalid Date and time';
+            rescheduleerrorMessage.style.color= 'red';
+        }
+    } else {
+        // If input is invalid, add 'invalid' class
+        inputElements.forEach((element) => {
+            element.classList.add('invalid');
+        });
+        rescheduleerrorMessage.textContent = 'Ensure the date and time are not earlier than the current time.';
+        rescheduleerrorMessage.style.color= 'gray';
+
+    }
+}
+
+function validaterescheduleLimitInput() {
+    const limit = parseInt(reschedulelimitInput.value);
+    const isLimitValid =
+        !isNaN(limit) &&
+        limit >= 1 &&
+        limit <= <?php echo $todayInterviewCount; ?>;
+
+    // Add or remove 'invalid' class based on validation
+    if (isLimitValid) {
+        reschedulelimitInput.classList.remove('invalid');
+        rescheduleerrorMessageLimit.textContent = '';
+    } else {
+        reschedulelimitInput.classList.add('invalid');
+        rescheduleerrorMessageLimit.textContent = 'Quantity cannot exceed to <?php echo $todayInterviewCount; ?>.';
+        rescheduleerrorMessage.style.color= 'red';
+
+    }
+}
+
+// Get references to the required input fields and the save button
+const requiredInputs = document.querySelectorAll('[required]'); // Get all required fields
+const rescheduleBtn = document.getElementById('rescheduleBtn');
+
+// Function to check if all required inputs are valid
+function checkRequiredInputs() {
+    const allInputsValid = Array.from(requiredInputs).every((input) => {
+        return input.value.trim() !== '' && !input.classList.contains('invalid');
+    });
+
+    if (allInputsValid) {
+        rescheduleBtn.removeAttribute('disabled');
+    } else {
+        rescheduleBtn.setAttribute('disabled', 'true');
+    }
+}
+
+// Add input event listeners to required input fields
+requiredInputs.forEach((input) => {
+    input.addEventListener('input', checkRequiredInputs);
+});
+
+// Initial check
+checkRequiredInputs();
+
+</script>
    </body>
 </html>

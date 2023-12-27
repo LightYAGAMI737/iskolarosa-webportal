@@ -47,6 +47,7 @@
    
    // Assuming $currentStatus is also a variable you need to sanitize
    $currentStatus = mysqli_real_escape_string($conn, $currentStatus);
+   
    // Construct the SQL query using heredoc syntax
    $query = "
    SELECT t.*, 
@@ -188,15 +189,18 @@ $todayInterviewCount = $todayCountRow['todayCount'];
                   setInterval(updateCurrentDateTime, 1000); // Update every 1 second
                </script> -->
                <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-               <h3 style="text-align: center;">Reschedule today's applicants</h3>
-                  <div class="form-group">
-                     <label for="interview_date">Date</label>
-                     <input type="date" name="interview_date" id="interview_date" class="form-control" required onkeydown="preventInput(event)"
+               <!-- <h3 style="text-align: center;">Reschedule today's applicants</h3> -->
+               <div class="form-group">
+                    <label for="interview_date">Date</label>
+                    <input type="date" name="interview_date" id="interview_date" class="form-control" required onkeydown="preventInput(event)"
                         <?php
-                           echo 'min="' . date('Y-m-d') . '"';
-                           echo ' max="' . date('Y-12-31') . '"';
-                           ?>>
-                  </div>
+                            echo 'min="' . date('Y-m-d') . '"';
+                            
+                            // Calculate the max date (6 months from the current date)
+                            $maxDate = date('Y-m-d', strtotime('+6 months'));
+                            echo ' max="' . $maxDate . '"';
+                        ?>>
+                </div>
                   <div class="form-group">
                      <label>Time</label>
                      <div style="display: flex; align-items: center;">
