@@ -436,7 +436,7 @@
 
 <script>
         // Set the session timeout duration in seconds
-        const sessionTimeoutSeconds = 10;
+        const sessionTimeoutSeconds = 300;
 
         // Function to check session timeout
         function checkSessionTimeout() {
@@ -464,7 +464,7 @@
         document.addEventListener('keydown', updateLastActivityTime);
 
         // Check session timeout on an interval
-        setInterval(checkSessionTimeout, 10); // Check every second (adjust as needed)
+        setInterval(checkSessionTimeout, 300000); // Check every second (adjust as needed)
     </script>
 
 <script>
