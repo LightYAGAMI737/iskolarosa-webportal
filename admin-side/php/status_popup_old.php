@@ -1,9 +1,9 @@
 <!-- Verified popup -->
-<div class="popupOut" id="verifiedPopUp">
+<div class="popupOut" id="verifiedPopUpOLD">
     <div class="popupIn">
         <i class="ri-question-fill" style="font-size: 6em; color: #F54021;"></i>
         <strong>
-            <h2>Update Applicant Status?</h2>
+            <h2>Update Applicant Status? OLD</h2>
         </strong>
         <center>
             <p>Are you sure you want to proceed with the updating of applicant's status to <strong>Verified</strong>?  Please note that by doing so, you are confirming the accuracy of the provided information.</p>
@@ -13,7 +13,7 @@
                 <i class="ri-close-fill"></i>
                 <span>Cancel</span>
             </button>
-            <button type="submit" class="confirm-button" name="submit" onclick="updateStatus('Verified', <?php echo $id; ?>)">
+            <button type="submit" class="confirm-button" name="submit" onclick="updateStatusOLD('Verified', <?php echo $id; ?>)">
                 <i class="ri-check-fill"></i>
                 <span>Confirm</span>
             </button>
