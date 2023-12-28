@@ -195,7 +195,7 @@ include '../../../php/logoutpopup.php';
 
                 if (elapsedTime > timeoutMilliseconds) {
                     // Redirect to logout.php when the session times out
-                    window.location.href = 'logout.php';
+                    window.location.href = '../../../logout.php';
                 }
             }
         }

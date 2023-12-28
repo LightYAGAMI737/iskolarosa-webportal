@@ -436,7 +436,7 @@
 
 <script>
         // Set the session timeout duration in seconds
-        const sessionTimeoutSeconds = 300;
+        const sessionTimeoutSeconds = 10;
 
         // Function to check session timeout
         function checkSessionTimeout() {
@@ -449,7 +449,7 @@
 
                 if (elapsedTime > timeoutMilliseconds) {
                     // Redirect to logout.php when the session times out
-                    window.location.href = 'logout.php';
+                    window.location.href = '../../../logout.php';
                 }
             }
         }
@@ -464,7 +464,7 @@
         document.addEventListener('keydown', updateLastActivityTime);
 
         // Check session timeout on an interval
-        setInterval(checkSessionTimeout, 300000); // Check every second (adjust as needed)
+        setInterval(checkSessionTimeout, 10); // Check every second (adjust as needed)
     </script>
 
 <script>
