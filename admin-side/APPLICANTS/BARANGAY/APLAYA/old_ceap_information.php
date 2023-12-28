@@ -334,12 +334,20 @@
       </div>
       <!-- end applicant info -->
       <!-- Modal for entering reason -->
-      <div id="reasonModal" class="modal">
+      <div id="reasonModalOLD" class="modal">
          <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
+            <span class="close" onclick="closeReasonModalOLD()">&times;</span>
             <h2>Enter Reason</h2>
-            <input type="text" name="reason" id="disqualificationReason" placeholder="Enter reason for disqualification">
-            <button id="submitReason" onclick="submitStatusAndReason()">Submit</button>
+            <input type="text" name="reason" id="disqualificationReasonOLD" minlength="10" maxlength="255" placeholder="Enter reason for disqualification">
+            <button id="submitReason" onclick="submitStatusAndReasonOLD()" class="disabled">Submit</button>
+         </div>
+      </div>
+      <div id="reasonModalFail" class="modal">
+         <div class="modal-content">
+            <span class="close" onclick="closeReasonModalFail()">&times;</span>
+            <h2>Enter Reason</h2>
+            <input type="text" name="reasonFail" id="FailReason" minlength="10" maxlength="255" placeholder="Enter reason for failing">
+            <button id="submitReasonFail" onclick="submitStatusAndReasonFailOLD()" class="disabled">Submit</button>
          </div>
       </div>
       <footer class="footer">
@@ -360,14 +368,14 @@
             
             // Check the status and determine which buttons to display
             if ($applicantStatus === 'In Progress') {
-                echo '<button onclick="openReasonModal(\'Disqualified\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">Disqualified</button>';
+                echo '<button onclick="openReasonModalOLD(\'Disqualified\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">Disqualified</button>';
                 echo '<button onclick="openVerifiedPopupOLD()" style="background-color: #FEC021;" class="status-button">Verified</button>';
             } elseif ($applicantStatus === 'Verified') {
-                echo '<button onclick="openReasonModal(\'Disqualified\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">Disqualified</button>';
+                echo '<button onclick="openReasonModalOLD(\'Disqualified\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">Disqualified</button>';
             } elseif ($applicantStatus === 'Disqualified') {
                 echo '<button onclick="openVerifiedPopupOLD()" style="background-color: #FEC021; margin-right: 100px;" class="status-button">Verified</button>';
             } elseif ($applicantStatus === 'interview') {
-                echo '<button onclick="openReasonModal(\'Fail\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">Not Grantee</button>';
+                echo '<button onclick="openReasonModalFailOLD(\'Fail\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">Not Grantee</button>';
                 echo '<button onclick="updateStatus(\'Grantee\', ' . $id . ')" style="background-color: #FEC021;" class="status-button">Grantee</button>';
             }
             ?>
@@ -379,90 +387,12 @@
       <script src='../../../js/unpkg-layout.js'></script>
       <script  src="../../../js/side_bar.js"></script>
       <script  src="../../../js/status_popupOLD.js"></script>
-      <script  src="../../../js/updateStatusDisqualified.js"></script>
+      <script  src="../../../js/updateStatusDisqualifiedOLD.js"></script>
       <script  src="../../../js/updateStatusFail.js"></script>
       <script  src="../../../js/updateStatusVerifiedOLD.js"></script>
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       <script type="text/javascript">
          var ceapRegFormIdOLD = <?php echo $ceapRegFormIdOLD; ?>;
-      </script>
-
-      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      <script>
-         function expandImage(element) {
-             var expandedImage = element.nextElementSibling;
-             expandedImage.style.display = 'flex';
-         }
-         
-         function collapseImage(element) {
-             element.style.display = 'none';
-         }
-         
-         
-              // Function to go back to the previous page
-            
-         function goBack() {
-               window.history.back();
-           }
-         
-           
-         function openReasonModal(status) {
-             const modal = document.getElementById("reasonModal");
-             if (modal) {
-                 modal.style.display = "block";
-         
-                 // Pass the status to the submitReason function only if it's defined and not empty
-                 if (status) {
-                     const submitReasonButton = document.getElementById("submitReason");
-                     if (submitReasonButton) {
-                         submitReasonButton.onclick = function () {
-                             const reason = document.getElementById("disqualificationReason").value;
-                             if (reason.trim() !== '') {
-                                 const applicantId = <?php echo $ceapRegFormIdOLD; ?>;
-                                 submitStatusAndReason(status, reason, applicantId);
-                             } else {
-                                 alert('Please enter a reason.');
-                             }
-                         };
-                     } else {
-                         console.error("Element with ID 'submitReason' not found.");
-                     }
-                 }
-             } else {
-                 console.error("Element with ID 'reasonModal' not found.");
-             }
-         }
-         
-         
-         
-         function closeModal() {
-             document.getElementById("reasonModal").style.display = "none";
-         }
-         
-         function submitStatusAndReason(status, reason, applicantId) {
-             // Send an AJAX request to update both status and reason
-             var xhr = new XMLHttpRequest();
-             xhr.open("POST", "../../../php/updateReasonOldGrantees.php", true); // Create a new PHP file for this action
-             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-             xhr.onreadystatechange = function () {
-                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                     // Handle the response here
-                     var response = xhr.responseText.trim();
-                     if (response === 'success') {
-                         alert('Status and reason updated successfully.');
-                         closeModal(); // Close the modal after updating status and reason
-                         goBack(); // Corrected function name
-                     } else {
-                         alert('Failed to update status and reason.');
-                         // You can handle error cases here if needed
-                     }
-                 }
-             };
-             
-             // Send the AJAX request with status, reason, and applicantId
-             xhr.send("status=" + status + "&id=" + applicantId + "&reason=" + reason);
-         }
-         
       </script>
    </body>
 </html>
