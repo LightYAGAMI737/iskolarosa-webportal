@@ -34,6 +34,8 @@
        exit();
    }
    
+   date_default_timezone_set('Asia/Manila');
+
   // Set variables
 $currentStatus = 'Verified';
 $currentPage = 'ceap_list';
@@ -63,17 +65,18 @@ mysqli_stmt_bind_param($stmt, "ss", $currentBarangay, $currentStatus);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
-   // Query to count 'verified' accounts
-   $verifiedCountQueryOLD = "SELECT COUNT(*) AS verifiedCount FROM ceap_personal_account WHERE status = 'Verified' AND barangay='aplaya'";
-   $stmtVerifiedCountOLD = mysqli_prepare($conn, $verifiedCountQueryOLD);
-   mysqli_stmt_execute($stmtVerifiedCountOLD);
-   $verifiedCountResultOLD = mysqli_stmt_get_result($stmtVerifiedCountOLD);
-   $verifiedCountRowOLD = mysqli_fetch_assoc($verifiedCountResultOLD);
-   
-   // Store the count of 'verified' accounts in a variable
-   $verifiedCountOLD = $verifiedCountRowOLD['verifiedCount'];
-   
-   ?>
+// Query to count 'verified' accounts
+$verifiedCountQueryOLD = "SELECT COUNT(*) AS verifiedCount FROM ceap_personal_account WHERE status = ? AND barangay= ?";
+$stmtVerifiedCountOLD = mysqli_prepare($conn, $verifiedCountQueryOLD);
+mysqli_stmt_bind_param($stmtVerifiedCountOLD, "ss", $currentStatus, $currentBarangay);
+mysqli_stmt_execute($stmtVerifiedCountOLD);
+$verifiedCountResultOLD = mysqli_stmt_get_result($stmtVerifiedCountOLD);
+$verifiedCountRowOLD = mysqli_fetch_assoc($verifiedCountResultOLD);
+
+// Store the count of 'verified' accounts in a variable
+$verifiedCountOLD = $verifiedCountRowOLD['verifiedCount'];
+
+?>
 <!DOCTYPE html>
 <html lang="en" >
    <head>
@@ -85,8 +88,7 @@ $result = mysqli_stmt_get_result($stmt);
       <link rel="stylesheet" href="../../../css/side_bar.css">
       <link rel="stylesheet" href="../../../css/ceap_list.css">
       <link rel="stylesheet" href="../../../css/ceap_verified.css">
-      <link rel="stylesheet" href="../../../css/status_popup.css">
-
+      <link rel="stylesheet" href="../../../css/status_popup.css"> 
       <script>
          // Prevent manual input in date fields
          function preventInput(event) {
@@ -166,10 +168,13 @@ if ($_SESSION['role'] !== 1) {
                   <div class="form-group">
                      <label for="interview_date">Date</label>
                      <input type="date" name="interview_date" id="interview_date" class="form-control" required onkeydown="preventInput(event)"
-                        <?php
-                           echo 'min="' . date('Y-m-d') . '"';
-                           echo ' max="' . date('Y-12-31') . '"';
-                           ?>>
+                     <?php
+                            echo 'min="' . date('Y-m-d') . '"';
+                            
+                            // Calculate the max date (6 months from the current date)
+                            $maxDate = date('Y-m-d', strtotime('+6 months'));
+                            echo ' max="' . $maxDate . '"';
+                        ?>>
                   </div>
                   <div class="form-group">
                      <label>Time</label>
@@ -242,8 +247,8 @@ if ($_SESSION['role'] !== 1) {
       </div>
       <?php } ?>
       <!-- end applicant list -->
-      <footer class="footer">
-      </footer>
+      <!-- <footer class="footer">
+      </footer> -->
       </main>
       <div class="overlay"></div>
       </div>

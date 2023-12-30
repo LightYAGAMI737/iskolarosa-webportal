@@ -6,7 +6,7 @@
        exit();
    }
    
-   $currentStatus = 'grantee';
+   $currentStatus = 'Grantee';
        $currentSubPage = 'old applicant';
       $currentBarangay ='APLAYA';
       $currentPage = 'ceap_list';
@@ -89,8 +89,8 @@
       </div>
       <?php } ?>
       <!-- end applicant list -->
-      <footer class="footer">
-      </footer>
+      <!-- <footer class="footer">
+      </footer> -->
       </main>
       <div class="overlay"></div>
       </div>

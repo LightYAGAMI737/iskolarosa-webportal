@@ -126,8 +126,8 @@ $result = mysqli_stmt_get_result($stmt);
       </div>
       <?php } ?>
       <!-- end applicant list -->
-      <footer class="footer">
-      </footer>
+      <!-- <footer class="footer">
+      </footer> -->
       </main>
       <div class="overlay"></div>
       </div>

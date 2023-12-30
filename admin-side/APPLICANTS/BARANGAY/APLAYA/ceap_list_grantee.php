@@ -93,8 +93,8 @@ $currentStatus = mysqli_real_escape_string($conn, $currentStatus);
       </div>
       <?php } ?>
       <!-- end applicant list -->
-      <footer class="footer">
-      </footer>
+      <!-- <footer class="footer">
+      </footer> -->
       </main>
       <div class="overlay"></div>
       </div>
