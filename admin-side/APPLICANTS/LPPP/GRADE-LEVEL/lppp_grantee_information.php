@@ -80,40 +80,43 @@ if (mysqli_num_rows($result) > 0) {
                 <tr>
                     <th><?php echo ucwords(str_replace('_', ' ', $field)) . ': '; ?></th>
                     <td>
-    <?php if ($field === 'age' || $field === 'contact_number') : ?>
-        <input type="text" name="<?php echo $field; ?>" value="<?php echo $value; ?>" <?php echo $field === 'age' ? 'pattern="[0-9]+" title="Please enter a valid numerical value."' : ''; ?> <?php echo $field === 'age' ? 'min="11" max="18"' : ''; ?>>
-    <?php elseif ($field === 'barangay') : ?>
-        <select name="<?php echo $field; ?>">
-            <option value="APLAYA" <?php if ($value === 'APLAYA') echo 'selected'; ?>>APLAYA</option>
-            <option value="BALIBAGO" <?php if ($value === 'BALIBAGO') echo 'selected'; ?>>BALIBAGO</option>
-            <option value="CAINGIN" <?php if ($value === 'CAINGIN') echo 'selected'; ?>>CAINGIN</option>
-            <option value="DILA" <?php if ($value === 'DILA') echo 'selected'; ?>>DILA</option>
-            <option value="DITA" <?php if ($value === 'DITA') echo 'selected'; ?>>DITA</option>
-            <option value="DON JOSE" <?php if ($value === 'DON JOSE') echo 'selected'; ?>>DON JOSE</option>
-            <option value="IBABA" <?php if ($value === 'IBABA') echo 'selected'; ?>>IBABA</option>
-            <option value="KANLURAN" <?php if ($value === 'KANLURAN') echo 'selected'; ?>>KANLURAN</option>
-            <option value="LABAS" <?php if ($value === 'LABAS') echo 'selected'; ?>>LABAS</option>
-            <option value="MACABLING" <?php if ($value === 'MACABLING') echo 'selected'; ?>>MACABLING</option>
-            <option value="MALITLIT" <?php if ($value === 'MALITLIT') echo 'selected'; ?>>MALITLIT</option>
-            <option value="MALUSAK" <?php if ($value === 'MALUSAK') echo 'selected'; ?>>MALUSAK</option>
-            <option value="MARKET AREA" <?php if ($value === 'MARKET AREA') echo 'selected'; ?>>MARKET AREA</option>
-            <option value="POOC" <?php if ($value === 'POOC') echo 'selected'; ?>>POOC</option>
-            <option value="PULONG SANTA CRUZ" <?php if ($value === 'PULONG SANTA CRUZ') echo 'selected'; ?>>PULONG SANTA CRUZ</option>
-            <option value="SANTO DOMINGO" <?php if ($value === 'SANTO DOMINGO') echo 'selected'; ?>>SANTO DOMINGO</option>
-            <option value="SINALHAN" <?php if ($value === 'SINALHAN') echo 'selected'; ?>>SINALHAN</option>
-            <option value="TAGAPO" <?php if ($value === 'TAGAPO') echo 'selected'; ?>>TAGAPO</option>
-
-            <!-- Add more options as needed -->
-        </select>
-    <?php else : ?>
-        <?php echo $value; ?>
-    <?php endif; ?>
-</td>
-                </tr>
-            <?php endif; ?>
-        <?php endforeach; ?>
-    </table>
-</div>
+                     <?php
+                        if ($field === 'date_of_birth') {
+                            echo $value; // Display date of birth
+                        } else {
+                            echo $value;
+                        }
+                        ?>
+                  </td>
+               </tr>
+               <?php if ($field === 'date_of_birth') : ?>
+               <tr>
+                  <th>Age:</th>
+                  <td>
+                     <?php
+                        // Calculate age from date of birth
+                        $birthDate = new DateTime($value);
+                        $currentDate = new DateTime();
+                        $age = $currentDate->diff($birthDate);
+                        
+                        // Check if the birthday has occurred in the current year
+                        if (($currentDate < $birthDate->modify('+' . $age->y . ' years'))) {
+                            $age->y--; // Decrement the age by 1
+                            $birthDate->modify('-1 year'); // Adjust the birthdate for correct calculation
+                        }
+                        
+                        // Reset the birthdate to its original value
+                        $birthDate->modify('+' . $age->y . ' years');
+                        
+                        echo $age->y . ' years old'; // Display calculated age
+                        ?>
+                  </td>
+               </tr>
+               <?php endif; ?>
+               <?php endif; ?>
+               <?php endforeach; ?>
+            </table>
+         </div>
 
 <div class="applicant-info">
     <h2>Educational Background</h2>
