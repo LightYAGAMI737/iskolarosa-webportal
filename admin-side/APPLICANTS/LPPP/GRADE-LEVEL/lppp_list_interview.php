@@ -142,10 +142,13 @@
                   <div class="form-group">
                      <label for="interview_date">Date</label>
                      <input type="date" name="interview_date" id="interview_date" class="form-control" required onkeydown="preventInput(event)"
-                        <?php
-                           echo 'min="' . date('Y-m-d') . '"';
-                           echo ' max="' . date('Y-12-31') . '"';
-                           ?>>
+                     <?php
+                            echo 'min="' . date('Y-m-d') . '"';
+                            
+                            // Calculate the max date (6 months from the current date)
+                            $maxDate = date('Y-m-d', strtotime('+6 months'));
+                            echo ' max="' . $maxDate . '"';
+                        ?>>
                   </div>
                   <div class="form-group">
                      <label>Time</label>

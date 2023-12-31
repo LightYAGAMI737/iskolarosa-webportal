@@ -31,7 +31,6 @@
        exit();
    }
    
-   
    ?>
 <!DOCTYPE html>
 <html lang="en" >
@@ -288,8 +287,8 @@ foreach ($pdfFiles as $key => $pdfFile) {
          </div>
       </div>
       <!-- end applicant info -->
-     <!-- Modal for entering reason -->
-     <div id="reasonModal" class="modal">
+      <!-- Modal for entering reason -->
+      <div id="reasonModal" class="modal">
          <div class="modal-content">
             <span class="close" onclick="closeReasonModal()">&times;</span>
             <h2>Enter Reason</h2>

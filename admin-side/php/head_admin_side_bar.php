@@ -39,8 +39,7 @@ include 'logoutpopup.php';
                <li class="menu-item sub-menu">
                   <a href="#" <?php if ($currentPage === 'configuration') echo 'class="active"'; ?>>
                   <span class="menu-icon ">
-                  <i class="ri-settings-3-fill"></i>
-
+                  <i class="ri-list-settings-fill"></i>
                   </span>
                   <span class="menu-title ">Configuration</span>
                   </a>
@@ -48,11 +47,14 @@ include 'logoutpopup.php';
                      <ul>
                         <li class="menu-item">
                            <a href="ceap_configuration.php" <?php if ($currentSubPage === 'application') echo 'class="active"'; ?>>
+                        <i class="ri-layout-6-fill" style="margin-right: 5px;"></i>
                            <span class="menu-title">Application Configuration</span>
+
                            </a>
                         </li>
                         <li class="menu-item">
                            <a href="employee_configuration.php" <?php if ($currentSubPage === 'employee') echo 'class="active"'; ?>>
+                           <i class="ri-pass-pending-fill" style="margin-right: 5px;"></i>
                            <span class="menu-title">Employee Configuration</span>
                            </a>
                         </li>
@@ -72,11 +74,13 @@ include 'logoutpopup.php';
                      <ul>
                         <li class="menu-item">
                            <a href="create_post.php" <?php if ($currentSubPage === 'create post') echo 'class="active"'; ?>>
+                           <i class="ri-edit-2-fill" style="margin-right: 5px;"></i>
                            <span class="menu-title">Create Post</span>
                            </a>
                         </li>
                         <li class="menu-item">
                            <a href="manage_post.php" <?php if ($currentSubPage === 'manage post') echo 'class="active"'; ?>>
+                           <i class="ri-chat-settings-fill" style="margin-right: 5px;"></i>
                            <span class="menu-title">Manage Post</span>
                            </a>
                         </li>
@@ -84,18 +88,34 @@ include 'logoutpopup.php';
                   </div>
                </li>
                 
-             <li class="menu-item">
-                <a href="ceap_list.php" <?php if ($currentPage === 'ceap_list') echo 'class="active"'; ?>>
-                <span class="menu-icon">
-                <i class="ri-user-search-fill"></i>
-                </span>
-                <span class="menu-title">CEAP</span>
-                </a>
-             </li>
+           <li class="menu-item sub-menu">
+                  <a href="#" <?php if ($currentPage === 'ceap_list') echo 'class="active"'; ?>>
+                  <span class="menu-icon">
+                  <i class="ri-graduation-cap-fill" style="color: #FF0006;"></i>
+                  </span>
+                  <span class="menu-title">CEAP</span>
+                  </a>
+                  <div class="sub-menu-list">
+                     <ul>
+                        <li class="menu-item">
+                           <a href="ceap_list.php" <?php if ($currentSubPage === 'new applicant') echo 'class="active"'; ?>>
+                           <i class="ri-award-fill" style="margin-right: 5px;"></i>
+                           <span class="menu-title">New Applicant</span>
+                           </a>
+                        </li>
+                        <li class="menu-item">
+                           <a href="old_ceap_list.php" <?php if ($currentSubPage === 'old applicant') echo 'class="active"'; ?>>
+                           <i class="ri-award-line" style="margin-right: 5px;"></i>
+                           <span class="menu-title">Old Applicant</span>
+                           </a>
+                        </li>
+                     </ul>
+                  </div>
+               </li>
              <li class="menu-item">
                 <a href="lppp_list.php" <?php if ($currentPage === 'lppp_list') echo 'class="active"'; ?>>
                 <span class="menu-icon">
-                <i class="ri-user-search-fill"></i>
+                <i class="ri-graduation-cap-fill" style="color: #FEC021;"></i>
                 </span>
                 <span class="menu-title">LPPP</span>
                 </a>
@@ -111,7 +131,7 @@ include 'logoutpopup.php';
              <li class="menu-item">
                 <a href="logs.php" <?php if ($currentPage === 'logs') echo 'class="active"'; ?>>
                 <span class="menu-icon">
-                <i class="ri-file-list-2-fill"></i>
+                <i class="ri-history-fill"></i>
                 </span>
                 <span class="menu-title">Logs</span>
                 </a>

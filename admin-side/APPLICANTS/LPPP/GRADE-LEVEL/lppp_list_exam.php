@@ -207,10 +207,13 @@ $setInterviewButtonDisabled = !$hasVerifiedApplicants ? 'disabled' : '';
                   <div class="form-group">
                      <label for="exam_date">Date</label>
                      <input type="date" name="exam_date" id="exam_date" class="form-control" required onkeydown="preventInput(event)"
-                        <?php
-                           echo 'min="' . date('Y-m-d') . '"';
-                           echo ' max="' . date('Y-12-31') . '"';
-                           ?>>
+                     <?php
+                            echo 'min="' . date('Y-m-d') . '"';
+                            
+                            // Calculate the max date (6 months from the current date)
+                            $maxDate = date('Y-m-d', strtotime('+6 months'));
+                            echo ' max="' . $maxDate . '"';
+                        ?>>
                   </div>
                   <div class="form-group">
                      <label>Time</label>
@@ -251,10 +254,13 @@ $setInterviewButtonDisabled = !$hasVerifiedApplicants ? 'disabled' : '';
                   <div class="form-group">
                      <label for="interview_date">Date</label>
                      <input type="date" name="interview_date" id="set_interview_date" class="form-control" required onkeydown="preventInput(event)"
-                        <?php
-                           echo 'min="' . date('Y-m-d') . '"';
-                           echo ' max="' . date('Y-12-31') . '"';
-                           ?>>
+                     <?php
+                            echo 'min="' . date('Y-m-d') . '"';
+                            
+                            // Calculate the max date (6 months from the current date)
+                            $maxDate = date('Y-m-d', strtotime('+6 months'));
+                            echo ' max="' . $maxDate . '"';
+                        ?>>
                   </div>
                   <div class="form-group">
                      <label>Time</label>
@@ -304,7 +310,7 @@ $setInterviewButtonDisabled = !$hasVerifiedApplicants ? 'disabled' : '';
             <th>CONTROL NUMBER</th>
             <th>LAST NAME</th>
             <th>FIRST NAME</th>
-            <th>BARANGAY</th>
+            <!-- <th>BARANGAY</th> -->
             <th>STATUS</th>
             <th>EXAM DATE</th>
             <th>INTERVIEW DATE</th>
@@ -320,7 +326,7 @@ $counter = 1;
             echo '<td>' . strtoupper($row['control_number']) . '</td>';
             echo '<td>' . strtoupper($row['last_name']) . '</td>';
             echo '<td>' . strtoupper($row['first_name']) . '</td>';
-            echo '<td>' . strtoupper($row['barangay']) . '</td>';
+            // echo '<td>' . strtoupper($row['barangay']) . '</td>';
             echo '<td>' . strtoupper($row['status']) . '</td>';
             echo '<td>' . strtoupper($row['exam_date']) . '</td>';
      echo '<td>' . (strtoupper($row['interview_date']) === '0000-00-00' ? 'N/A' : strtoupper($row['interview_date'])) . '</td>';

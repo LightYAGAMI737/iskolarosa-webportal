@@ -1,5 +1,5 @@
 
-const reasonInput = document.getElementById("disqualificationReason");
+const reasonInput = document.getElementById("disqualificationReasonOLD");
 const submitButton = document.getElementById("submitReason");
 reasonInput.addEventListener("input", function () {
    if (reasonInput.value.length >= 5) {
@@ -10,46 +10,46 @@ reasonInput.addEventListener("input", function () {
       submitButton.setAttribute("disabled", "disabled");
    }
 });
-const disqualifiedpopup = document.getElementById("DisqualifiedPopUp");
+const DisqualifiedPopUpOLD = document.getElementById("DisqualifiedPopUpOLD");
 
-function openDisqualifiedPopup(status, reason, applicantId) {
-   document.getElementById("reasonModal").style.display = "none";
-   disqualifiedpopup.style.display = "block";
+function openDisqualifiedPopUpOLD(status, reason, applicantId) {
+   document.getElementById("reasonModalOLD").style.display = "none";
+   DisqualifiedPopUpOLD.style.display = "block";
 }
 
-function closeDisqualifiedpopup() {
-   disqualifiedpopup.style.display = "none";
-   openReasonModal(); // You should pass any required parameters to openReasonModal if needed
+function closeDisqualifiedPopUpOLD() {
+   DisqualifiedPopUpOLD.style.display = "none";
+   openReasonModalOLD(); // You should pass any required parameters to openReasonModalOLD if needed
 }
 const cancelCloseButtons = document.querySelectorAll("#disqualified-cancel-button"); // Use querySelectorAll to select all matching elements
 cancelCloseButtons.forEach((cancelButton) => {
-   cancelButton.addEventListener("click", closeDisqualifiedpopup);
+   cancelButton.addEventListener("click", closeDisqualifiedPopUpOLD);
 });
 const closeSymbol = document.querySelector(".close");
 if (closeSymbol) {
    closeSymbol.addEventListener("click", function () {
-      const disqualificationReasonInput = document.getElementById("disqualificationReason");
+      const disqualificationReasonInput = document.getElementById("disqualificationReasonOLD");
       if (disqualificationReasonInput) {
          disqualificationReasonInput.value = ''; // Reset the input field
       }
-      closeReasonModal();
+      closeReasonModalOLD();
    });
 }
 
-function closeReasonModal() {
-   const Reasonmodal = document.getElementById("reasonModal");
-   Reasonmodal.style.display = "none";
+function closeReasonModalOLD() {
+   const ReasonmodalOLD = document.getElementById("reasonModalOLD");
+   ReasonmodalOLD.style.display = "none";
 }
 
 
 document.addEventListener("DOMContentLoaded", function () {
-    const confirmButton = document.getElementById("confirmButton");
-    if (confirmButton) {
-        confirmButton.addEventListener("click", function () {
+    const confirmButtonOLD = document.getElementById("confirmButtonOLD");
+    if (confirmButtonOLD) {
+        confirmButtonOLD.addEventListener("click", function () {
             const status = "Disqualified"; // You can adjust this value as needed
-            const reason = document.getElementById("disqualificationReason").value;
-            const applicantId = ceapRegFormId; // Access the value from PHP
-            submitStatusAndReason(status, reason, applicantId);
+            const reason = document.getElementById("disqualificationReasonOLD").value;
+            const applicantId = ceapRegFormIdOLD; // Access the value from PHP
+            submitStatusAndReasonOLD(status, reason, applicantId);
         });
     }
 });
@@ -57,19 +57,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //disqualified and fail
 let reason;
-function openReasonModal(status) {
-   const modal = document.getElementById("reasonModal");
+function openReasonModalOLD(status) {
+   const modal = document.getElementById("reasonModalOLD");
    if (modal) {
       modal.style.display = "block";
-      // Pass the status to the openDisqualifiedPopup function only if it's defined and not empty
+      // Pass the status to the openDisqualifiedPopUpOLD function only if it's defined and not empty
       if (status) {
          const submitReasonButton = document.getElementById("submitReason");
          if (submitReasonButton) {
             submitReasonButton.onclick = function () {
-               reason = document.getElementById("disqualificationReason").value;
+               reason = document.getElementById("disqualificationReasonOLD").value;
                if (reason.trim() !== '') {
-                  const applicantId = ceapRegFormId;
-                  openDisqualifiedPopup(status, reason, applicantId);
+                  const applicantId = ceapRegFormIdOLD;
+                  openDisqualifiedPopUpOLD(status, reason, applicantId);
                } else {
                   alert('Please enter a reason.');
                }
@@ -79,25 +79,23 @@ function openReasonModal(status) {
          }
       }
    } else {
-      console.error("Element with ID 'reasonModal' not found.");
+      console.error("Element with ID 'reasonModalOLD' not found.");
    }
 }
 
-
-
-function submitStatusAndReason(status, reason, applicantId) {
+function submitStatusAndReasonOLD(status, reason, applicantId) {
    // Send an AJAX request to update both status and reason
    var xhr = new XMLHttpRequest();
-   xhr.open("POST", "../../../php/updateReason.php", true);
+   xhr.open("POST", "./php/updateReasonOldGrantee.php", true);
    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
    xhr.onreadystatechange = function () {
       if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
          var response = xhr.responseText.trim();
          console.log("Response from AJAX:", response); // Log the response
          if (response === 'success') {
-            closeDisqualifiedpopup();
-            closeReasonModal();
-            openConfirmationPopup();
+            closeDisqualifiedPopUpOLD();
+            closeReasonModalOLD();
+            openConfirmationPopupOLD();
          } else {
             alert('Failed to update status and reason.');
          }

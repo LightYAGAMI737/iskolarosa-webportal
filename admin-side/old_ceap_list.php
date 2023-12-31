@@ -33,59 +33,65 @@
        echo $requiredPermissions[$requiredPermission];
        exit();
    }
-   
    // Set variables
-   $currentStatus = 'in progress';
-   $currentPage = 'ceap_list';
-   $currentSubPage = 'new applicant';
- // Construct the SQL query using heredoc syntax
- $query = <<<SQL
- SELECT t.*, 
-        UPPER(p.first_name) AS first_name, 
-        UPPER(p.last_name) AS last_name, 
-        UPPER(p.barangay) AS barangay, 
-        p.control_number, is_deleted,
-        p.date_of_birth, 
-        UPPER(t.status) AS status
- FROM ceap_reg_form p
- INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id WHERE is_deleted = '0'
- SQL;
- 
- $result = mysqli_query($conn, $query);
-?>
+$currentStatus = 'In Progress';
+$currentPage = 'ceap_list';
+$currentSubPage = 'old applicant';
+$query = <<<SQL
+   SELECT  
+          UPPER(first_name) AS first_name, 
+          UPPER(last_name) AS last_name, 
+          UPPER(barangay) AS barangay, 
+          control_number, 
+          date_of_birth, 
+          UPPER(status) AS status,
+          ceap_personal_account_id
+   FROM ceap_personal_account p
+SQL;
 
+$stmt = mysqli_prepare($conn, $query);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
 
-
+   ?>
 <!DOCTYPE html>
 <html lang="en" >
    <head>
       <meta charset="UTF-8">
       <title>iSKOLAROSA | <?php echo strtoupper($currentSubPage); ?></title>
-      <link rel="icon" href="system-images/iskolarosa-logo.png" type="image/png">
+      <link rel="icon" href="./system-images/iskolarosa-logo.png" type="image/png">
       <link rel='stylesheet' href='./css/remixicon.css'>
-      <link rel='stylesheet' href='./css/unpkg-layout.css'>
+      <link rel='stylesheet' href="./css/unpkg-layout.css">
       <link rel="stylesheet" href="./css/side_bar.css">
       <link rel="stylesheet" href="./css/ceap_list.css">
+      <style>
+      </style>
    </head>
    <body>
       <?php 
-          include './php/head_admin_side_bar.php';
+                   include './php/head_admin_side_bar.php';
 
          ?>
-         
-
-      <!-- home content-->    
+      <!-- home content-->  
       <div class="header-label post">
 <h1>College Educational Assistance Program (CEAP)</h1>
-</div>
+</div>  
       <div class="form-group">
-      <input type="text" name="search-bar" class="form-control" id="search" placeholder="Search by Control Number or Last name"  oninput="formatInput(this)">
-
+         <input type="text" name="search-bar" class="form-control" id="search" placeholder="Search by Control Number or Last name"  oninput="formatInput(this)">
          <button type="button" class="btn btn-primary" onclick="searchApplicants()">Search</button>
       </div>
       <!-- table for displaying the applicant list -->
       <div class="background">
-         <h2 style="text-align: center">CEAP APPLICANT MASTER LIST</h2>
+         <h2 style="text-align: center">CEAP OLD APPLICANT MASTER LIST</h2>
+         <?php
+            if (mysqli_num_rows($result) === 0) {
+              // Display the empty state image and message
+              echo '<div class="empty-state">';
+              echo '<img src="../empty-state-img/no_applicant.png" alt="No records found" class="empty-state-image">';
+              echo '<p>No applicant found.</p>';
+              echo '</div>';
+            } else {
+              ?>
          <div class="applicant-info">
             <table>
                <tr>
@@ -96,38 +102,39 @@
                   <th>BARANGAY</th>
                </tr>
                <?php
-    $counter = 1;
-
-    // Display applicant info using a table from the first query
-    while ($row = mysqli_fetch_assoc($result)) {
-        echo '<tr class="applicant-row contents" onclick="seeMore(\'' . $row['ceap_reg_form_id'] . '\')" style="cursor: pointer;">';
-        echo '<td><strong>' . $counter++ . '</strong></td>';
-        echo '<td>' . strtoupper($row['control_number']) . '</td>';
-        echo '<td>' . strtoupper($row['last_name']) . '</td>';
-        echo '<td>' . strtoupper($row['first_name']) . '</td>';
-        echo '<td>' . strtoupper($row['barangay']) . '</td>';
-        echo '</tr>';
-    }
-
-    ?>
+                  $counter = 1;
+                  
+                           // Display applicant info using a table
+                           while ($row = mysqli_fetch_assoc($result)) {
+                              echo '<tr class="applicant-row contents" onclick="seeMore(\'' . $row['ceap_personal_account_id'] . '\')" style="cursor: pointer;">';
+                              echo '<td><strong>' . $counter++ . '</strong></td>';
+                              echo '<td>' . strtoupper($row['control_number']) . '</td>';
+                              echo '<td>' . strtoupper($row['last_name']) . '</td>';
+                              echo '<td>' . strtoupper($row['first_name']) . '</td>';
+                              echo '<td>' . strtoupper($row['barangay']) . '</td>';
+                              echo '</tr>';
+                           }
+                           ?>
             </table>
             <div id="noApplicantFound" style="display: none; text-align: center; margin-top: 10px;">
                No applicant found.
             </div>
          </div>
       </div>
+      <?php } ?>
       <!-- end applicant list -->
-      <footer class="footer">
-      </footer>
+      <!-- <footer class="footer">
+      </footer> -->
       </main>
       <div class="overlay"></div>
       </div>
       <!-- partial -->
-      <script src='https://unpkg.com/@popperjs/core@2'></script><script  src="./js/side_bar.js"></script>
+      <script src='./js/unpkg-layout.js'></script><script  src="./js/side_bar.js"></script>
+
       <script>
          function seeMore(id) {
              // Redirect to a page where you can retrieve the reserved data based on the given ID
-             window.location.href = "ceap_information.php?ceap_reg_form_id=" + id;
+             window.location.href = "old_ceap_information.php?ceap_personal_account_id=" + id;
          }
          
       </script>
@@ -146,7 +153,6 @@
              $('.contents').each(function () {
                  var controlNumber = $(this).find('td:nth-child(2)').text().toUpperCase();
                  var lastName = $(this).find('td:nth-child(3)').text().toUpperCase();
-                 var status = $(this).find('td:nth-child(6)').text().toUpperCase();
                  if (searchValue.trim() === '' || controlNumber.includes(searchValue) || lastName.includes(searchValue)) {
                      $(this).show();
                      found = true;
@@ -163,15 +169,14 @@
              }
          }
          
-                
          function formatInput(inputElement) {
-    // Remove multiple consecutive white spaces
-    inputElement.value = inputElement.value.replace(/\s+/g, ' ');
-
-    // Convert input text to uppercase
-    inputElement.value = inputElement.value.toUpperCase();
-  }
-
+         // Remove multiple consecutive white spaces
+         inputElement.value = inputElement.value.replace(/\s+/g, ' ');
+         
+         // Convert input text to uppercase
+         inputElement.value = inputElement.value.toUpperCase();
+         }
+         
          
       </script>
    </body>

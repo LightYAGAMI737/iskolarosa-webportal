@@ -46,7 +46,7 @@ include 'logoutpopup.php';
              <li class="menu-item">
                 <a href="./ceap_configuration.php" <?php if ($currentPage === 'configuration') echo 'class="active"'; ?>>
                 <span class="menu-icon">
-                <i class="ri-settings-3-fill"></i>
+                <i class="ri-list-settings-fill"></i>
                 </span>
                 <span class="menu-title">Configuration</span>
                 </a>
@@ -54,7 +54,7 @@ include 'logoutpopup.php';
              <?php
          }
          ?>
-               <li class="menu-item sub-menu">
+                <li class="menu-item sub-menu">
                   <a href="#" <?php if ($currentPage === 'post') echo 'class="active"'; ?>>
                   <span class="menu-icon">
                   <i class="ri-article-fill"></i>
@@ -65,11 +65,13 @@ include 'logoutpopup.php';
                      <ul>
                         <li class="menu-item">
                            <a href="create_post.php" <?php if ($currentSubPage === 'create post') echo 'class="active"'; ?>>
+                           <i class="ri-edit-2-fill" style="margin-right: 5px;"></i>
                            <span class="menu-title">Create Post</span>
                            </a>
                         </li>
                         <li class="menu-item">
                            <a href="manage_post.php" <?php if ($currentSubPage === 'manage post') echo 'class="active"'; ?>>
+                           <i class="ri-chat-settings-fill" style="margin-right: 5px;"></i>
                            <span class="menu-title">Manage Post</span>
                            </a>
                         </li>
@@ -79,7 +81,7 @@ include 'logoutpopup.php';
                <li class="menu-item sub-menu">
                   <a href="#" <?php if ($currentPage === 'ceap_list') echo 'class="active"'; ?>>
                   <span class="menu-icon">
-                  <i class="ri-graduation-cap-fill"></i>
+                  <i class="ri-graduation-cap-fill" style="color: #FF0006;"></i>
                   </span>
                   <span class="menu-title">CEAP</span>
                   </a>
@@ -87,11 +89,13 @@ include 'logoutpopup.php';
                      <ul>
                         <li class="menu-item">
                            <a href="../admin-side/APPLICANTS/BARANGAY/APLAYA/ceap_list.php" <?php if ($currentSubPage === 'new applicant') echo 'class="active"'; ?>>
+                           <i class="ri-award-fill" style="margin-right: 5px;"></i>
                            <span class="menu-title">New Applicant</span>
                            </a>
                         </li>
                         <li class="menu-item">
                            <a href="../admin-side/APPLICANTS/BARANGAY/APLAYA/old_ceap_list.php" <?php if ($currentSubPage === 'old applicant') echo 'class="active"'; ?>>
+                           <i class="ri-award-line" style="margin-right: 5px;"></i>
                            <span class="menu-title">Old Applicant</span>
                            </a>
                         </li>
@@ -102,8 +106,7 @@ include 'logoutpopup.php';
                <li class="menu-item sub-menu">
     <a href="#" <?php if ($currentPage === 'lppp_list') echo 'class="active"'; ?>>
         <span class="menu-icon">
-        <i class="ri-graduation-cap-fill"></i>
-
+        <i class="ri-graduation-cap-fill" style="color: #FEC021;"></i>
         </span>
         <span class="menu-title">LPPP</span>
     </a>
@@ -111,31 +114,37 @@ include 'logoutpopup.php';
             <ul>
                 <li class="menu-item">
                     <a href="../admin-side/APPLICANTS/LPPP/GRADE-LEVEL/lppp_list.php" <?php if ($currentSubPage === 'GRADE 7') echo 'class="active"'; ?>>
+                    <i class="ri-vip-crown-2-line" style="margin-right: 5px;"></i>   
                         <span class="menu-title">Grade 7</span>
                     </a>
                 </li>
                 <li class="menu-item">
                     <a href="../admin-side/APPLICANTS/LPPP/GRADE-LEVEL/grade_8_list.php" <?php if ($currentSubPage === 'GRADE 8') echo 'class="active"'; ?>>
+                    <i class="ri-vip-crown-2-fill" style="margin-right: 5px;"></i>   
                         <span class="menu-title">Grade 8</span>
                     </a>
                 </li>
                 <li class="menu-item">
                     <a href="../admin-side/APPLICANTS/LPPP/GRADE-LEVEL/grade_9_list.php" <?php if ($currentSubPage === 'GRADE 9') echo 'class="active"'; ?>>
+                    <i class="ri-vip-crown-2-fill" style="margin-right: 5px;"></i>   
                         <span class="menu-title">Grade 9</span>
                     </a>
                 </li>
                 <li class="menu-item">
                     <a href="../admin-side/APPLICANTS/LPPP/GRADE-LEVEL/grade_10_list.php" <?php if ($currentSubPage === 'GRADE 10') echo 'class="active"'; ?>>
+                    <i class="ri-vip-crown-2-fill" style="margin-right: 5px;"></i>   
                         <span class="menu-title">Grade 10</span>
                     </a>
                 </li>
                 <li class="menu-item">
                     <a href="../admin-side/APPLICANTS/LPPP/GRADE-LEVEL/grade_11_list.php" <?php if ($currentSubPage === 'GRADE 11') echo 'class="active"'; ?>>
+                    <i class="ri-vip-crown-2-fill" style="margin-right: 5px;"></i>   
                         <span class="menu-title">Grade 11</span>
                     </a>
                 </li>
                 <li class="menu-item">
                     <a href="../admin-side/APPLICANTS/LPPP/GRADE-LEVEL/grade_12_list.php" <?php if ($currentSubPage === 'GRADE 12') echo 'class="active"'; ?>>
+                    <i class="ri-vip-crown-2-fill" style="margin-right: 5px;"></i>   
                         <span class="menu-title">Grade 12</span>
                     </a>
                 </li>

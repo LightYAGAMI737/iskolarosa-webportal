@@ -4,25 +4,50 @@ document.addEventListener('DOMContentLoaded', function () {
     var educationalBackgroundFields = document.getElementById('educational-background-fields');
     var saveChangesButton = document.getElementById('saveChanges');
 
+    // Initialize original values
+    var originalValues = {};
+
     enableSaveChangesOnInput(personalInfoFields, saveChangesButton);
     enableSaveChangesOnInput(familyBackgroundFields, saveChangesButton);
     enableSaveChangesOnInput(educationalBackgroundFields, saveChangesButton);
-});
 
-function enableSaveChangesOnInput(fieldset, button) {
-    var inputFields = fieldset.querySelectorAll('input');
-    
-    inputFields.forEach(function (field) {
-        field.addEventListener('input', function () {
-            enableSaveChanges(button);
+    function enableSaveChangesOnInput(fieldset, button) {
+        var inputFields = fieldset.querySelectorAll('input');
+
+        // Store the original values when the page loads
+        inputFields.forEach(function (field) {
+            originalValues[field.name] = field.value;
+            field.addEventListener('input', checkChanges);
         });
-    });
-}
 
-function enableSaveChanges(button) {
-    button.removeAttribute("disabled");
-    console.log('Save Changes button is now enabled.');
-}
+        function checkChanges() {
+            // Disable the button if any input field has the "invalid" class
+            var hasInvalidClass = Array.from(inputFields).some(function (field) {
+                return field.classList.contains("invalid");
+            });
+
+            if (hasInvalidClass) {
+                button.setAttribute("disabled", true);
+                console.log('Save Changes button is now disabled due to invalid input.');
+                return;
+            }
+
+            // Enable the button if any value has changed
+            var changesDetected = Array.from(inputFields).some(function (field) {
+                return field.value !== originalValues[field.name];
+            });
+
+            if (changesDetected) {
+                button.removeAttribute("disabled");
+                console.log('Save Changes button is now enabled.');
+            } else {
+                // Disable the button if there are no changes
+                button.setAttribute("disabled", true);
+                console.log('Save Changes button is now disabled.');
+            }
+        }
+    }
+});
 
 
 const fieldsToValidate = document.querySelectorAll('input[name="last_name"], input[name="first_name"]');
@@ -88,7 +113,7 @@ let emailIsValid = false; // Flag to track email validation status
 // Variable to track if the field has been blurred
 let emailFieldBlurred = false;
 
-emailInput.addEventListener("change", () => {
+emailInput.addEventListener("input", () => {
     const value = emailInput.value;
     const sanitizedValue = value.replace(/[^a-zA-Z0-9@._+-]/g, '');
     emailInput.value = sanitizedValue;
@@ -122,7 +147,7 @@ emailInput.addEventListener('blur', () => {
 const contactNumberInput = document.getElementById('contact_number');
 let contactNumberIsValid = false; // Flag to track contact number validation status
 
-contactNumberInput.addEventListener("change", () => {
+contactNumberInput.addEventListener("input", () => {
     const value = contactNumberInput.value;
     const sanitizedValue = value.replace(/[^0-9]/g, '');
     if (sanitizedValue.length > 11) {
@@ -373,7 +398,7 @@ const unitsInput = document.getElementById("no_of_units");
 const unitsErrorSpan = document.getElementById("no_of_units_error"); // Get the error message span
 
 graduatingSelect.addEventListener("change", validateUnits);
-unitsInput.addEventListener("change", validateUnits);
+unitsInput.addEventListener("input", validateUnits);
 
 function validateUnits() {
     const graduating = graduatingSelect.value;
@@ -405,6 +430,7 @@ function validateUnits() {
         }
     });
 });
+
 const courseEnrolledInput = document.getElementById("course_enrolled");
 const courseEnrolledErrorSpan = document.getElementById("course_enrolled_error");
 

@@ -2,9 +2,10 @@
 // Start the session
 session_start();
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    include 'config_iskolarosa_db.php';
+include 'config_iskolarosa_db.php';
+require_once 'email_update_status_reason.php'; 
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Sanitize user input
     $status = htmlspecialchars($_POST["status"], ENT_QUOTES, 'UTF-8');
     $applicantId = filter_input(INPUT_POST, "id", FILTER_VALIDATE_INT);
@@ -46,21 +47,50 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $logQuery = "INSERT INTO applicant_status_logs (previous_status, updated_status, lppp_reg_form_id, employee_logs_id) VALUES (?, ?, ?, ?)";
         $stmtLog = $conn->prepare($logQuery);
         $stmtLog->bind_param("ssii", $previousStatus, $status, $applicantId, $employeeLogsId);
+        
+        // Check for errors after preparing the log statement
+        if (!$stmtLog) {
+            http_response_code(500);
+            echo 'Failed to prepare log statement';
+            exit;
+        }
 
-        if ($stmtLog->execute()) {
+        $stmtLog->execute();
+
+        // Check for errors after executing the log statement
+        if ($stmtLog->error) {
+            http_response_code(500);
+            echo 'Log execution error: ' . $stmtLog->error;
+            exit;
+        }
+
+        $stmtLog->close();
+
+        // Fetch the applicant's email address and control number from the database
+        $applicantEmailQuery = "SELECT active_email_address, control_number FROM lppp_reg_form WHERE lppp_reg_form_id = ?";
+        $stmtApplicantEmail = $conn->prepare($applicantEmailQuery);
+        $stmtApplicantEmail->bind_param("i", $applicantId);
+        $stmtApplicantEmail->execute();
+        $stmtApplicantEmail->bind_result($applicantEmail, $control_number);
+        $stmtApplicantEmail->fetch();
+        $stmtApplicantEmail->close();
+
+        // Send an email to the applicant
+        $recipientEmail = $applicantEmail; // Use the fetched applicant email
+        $emailSent = sendEmail($recipientEmail, $control_number, $status, $reason);
+
+        if ($emailSent) {
             echo 'success'; // Update, log, and email sending were successful
         } else {
-            http_response_code(500); // Internal Server Error
-            echo 'log_error: ' . $stmtLog->error; // Logging failed
+            http_response_code(500);
+            echo 'Email sending failed';
         }
     } else {
-        http_response_code(500); // Internal Server Error
-        echo 'update_error: ' . $stmt->error; // Update failed
+        http_response_code(500);
+        echo 'Update execution error: ' . $stmt->error;
     }
 
+    $stmt->close();
     mysqli_close($conn);
-}else {
-    http_response_code(500); // Internal Server Error
-    echo 'something: ' . $stmt->error; // Update failed
 }
 ?>

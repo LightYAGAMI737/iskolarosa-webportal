@@ -15,7 +15,7 @@
    
    // Get the ceap_personal_account_id parameter from the URL
    if (isset($_GET['ceap_personal_account_id'])) {
-       $ceapRegFormId = $_GET['ceap_personal_account_id'];
+       $ceapRegFormIdOLD = $_GET['ceap_personal_account_id'];
    } else {
        echo 'No applicant selected.';
        exit();
@@ -34,6 +34,21 @@
        echo 'Applicant not found.';
        exit();
    }
+   
+// Fetch the applicant's status from the database
+$query = "SELECT status, reason FROM ceap_personal_account WHERE ceap_personal_account_id = ?";
+$stmt = mysqli_prepare($conn, $query);
+mysqli_stmt_bind_param($stmt, "i", $id);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+
+if (mysqli_num_rows($result) > 0) {
+    $row = mysqli_fetch_assoc($result);
+    $applicantStatus = $row['status'];
+    $applicantReason = $row['reason'];
+} else {
+    $applicantStatus = ''; // Set a default value if status is not found
+}
    ?>
 
    
@@ -47,10 +62,11 @@
       <link rel='stylesheet' href='./css/unpkg-layout.css'>
       <link rel="stylesheet" href="./css/side_bar.css">
       <link rel="stylesheet" href="./css/ceap_information.css">
+      <link rel="stylesheet" href="./css/status_popup.css">
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  
       <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js'></script>
       <style>
-        .invalid {
+       .invalid {
             border-color: red !important;
         }
     .button-container {
@@ -96,7 +112,6 @@
 /* Style the input fields */
 .applicant-info input[type="text"] {
     width: 100%;
-    padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
@@ -123,11 +138,15 @@
 fieldset {
     border: none;
 }
-
+fieldset:disabled input, select{
+    border: none !important;
+}
 </style>
    </head>
    <body>
       <?php 
+         include './php/status_popup_old.php';
+         include './php/confirmStatusPopUp.php';
          include './php/head_admin_side_bar.php';
          ?>
          
@@ -145,11 +164,24 @@ fieldset {
 <!-- Table 1: Personal Info -->
 <div class="applicant-info">
     <h2 style="margin-top: -55px;">Personal Information</h2>
-    <form id="update-form" method="post" action="./php/update_info_grantee.php">
+    <form id="update-form" method="post" action="./php/update_personal_info.php">
         <fieldset id="personal-info-fields" disabled>    
             <table>
+            <tr>
+                <th>Status:</th>
+                <td> <?php echo $applicantStatus; ?> </td>
+            </tr>  
+            <?php 
+                if ($applicantStatus == 'Disqualified') {
+                    echo '<tr>';
+                    echo '<th>Reason:</th>';
+                    echo '<td>' . $applicantReason . ' </td>';
+                    echo '</tr>';
+                }
+            ?>
                 <?php foreach ($applicantInfo as $field => $value) : ?>
                     <?php if (in_array($field, ['control_number', 'last_name', 'first_name', 'middle_name', 'suffix_name', 'date_of_birth', 'gender', 'civil_status', 'place_of_birth', 'religion', 'contact_number', 'active_email_address', 'house_number', 'province', 'municipality', 'barangay'])) : ?>
+                      
                         <tr>
                             <th><?php echo ucwords(str_replace('_', ' ', $field)) . ': '; ?></th>
                             <td>
@@ -162,18 +194,18 @@ fieldset {
                                     case 'place_of_birth':
                                     case 'house_number':
                                           // Editable text fields
-                                          echo '<input type="text" name="' . $field . '" id="' . $field . '"  value="' . $value . '">';
+                                          echo '<input type="text" name="' . $field . '" id="' . $field . '"  value="' . $value . '" minlength="2" maxlength="25" >';
                                           echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
                                           break;
                                     case 'suffix_name':
                                           // Editable text fields
-                                          echo '<input type="text" name="' . $field . '" id="' . $field . '" value="' . $value . '">';
+                                          echo '<input type="text" name="' . $field . '" id="'.$field.'" value="' . $value . '" minlength="1" maxlength="8">';
                                           echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
                                           echo '<div id="suffix_options" class="suffix-options"></div>';
                                           break;
                                     case 'date_of_birth':
                                           // Editable text fields
-                                          echo '<input type="date" name="' . $field . '" id="' . $field . '"  value="' . $value . '">';
+                                          echo '<input type="date" name="' . $field . '" id="' . $field . '"  value="' . $value . '" min="1960-01-01" onkeydown="event.preventDefault();">';
                                           echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
                                           break;
                                     case 'active_email_address':
@@ -241,59 +273,13 @@ fieldset {
         </div>
 
 
-<!-- Table 2: Family Background -->
-<div class="applicant-info">
-    <h2>Family Background</h2>
-    <fieldset id="family-background-fields" disabled>
-        <table>
-            <?php foreach ($applicantInfo as $field => $value) : ?>
-                <?php if (in_array($field, ['guardian_firstname', 'guardian_lastname', 'guardian_occupation', 'guardian_relationship', 'guardian_monthly_income', 'guardian_annual_income'])) : ?>
-                    <tr>
-                        <th><?php echo ucwords(str_replace('_', ' ', $field)) . ': '; ?></th>
-                        <td>
-                            <?php switch ($field) {
-                                case 'guardian_firstname':
-                                case 'guardian_lastname':
-                                case 'guardian_occupation':
-                                case 'guardian_relationship':
-                                    // Editable text fields
-                                    echo '<input type="text" name="' . $field . '" id="' . $field . '" value="' . $value . '">';
-                                          echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
-                                    break;
-              
-                                case 'guardian_monthly_income':
-                                    // Editable text fields
-                                    echo '<input type="text" name="' . $field . '" id="' . $field . '" value="' . $value . '">';
-                                          echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
-                                    break; 
-
-                                case 'guardian_annual_income':
-                                    // Make certain fields non-editable by adding the "disabled" attribute
-                                    echo '<input type="text" name="' . $field . '" id="' . $field . '"  value="' . $value . '" disabled>';
-                                          echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
-                                    break;
-                                default:
-                                    // Editable text fields for any other case
-                                    echo '<input type="text" name="' . $field . '" value="' . $value . '">';
-                                          echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
-                                    break;
-                            } ?>
-                        </td>
-                    </tr>
-                <?php endif; ?>
-            <?php endforeach; ?>
-        </table>
-    </fieldset>
-</div>
-
-
 <!-- Table 3: Educational Background -->
 <div class="applicant-info">
     <h2>Educational Background</h2>
     <fieldset id="educational-background-fields" disabled>
         <table>
             <?php foreach ($applicantInfo as $field => $value) : ?>
-                <?php if (in_array($field, ['elementary_school', 'elementary_year', 'elementary_honors', 'secondary_school', 'secondary_year', 'secondary_honors', 'senior_high_school', 'senior_high_year', 'senior_high_honors', 'course_enrolled', 'no_of_units', 'year_level', 'current_semester', 'graduating', 'school_name', 'school_type', 'expected_year_of_graduation', 'school_address', 'student_id_no'])) : ?>
+                <?php if (in_array($field, ['elementary_school', 'elementary_year', 'secondary_school', 'secondary_year', 'senior_high_school', 'senior_high_year', 'course_enrolled', 'graduating', 'no_of_units', 'year_level', 'current_semester', 'school_name', 'school_type', 'expected_year_of_graduation', 'school_address', 'student_id_no'])) : ?>
                     <tr>
                         <th><?php echo ucwords(str_replace('_', ' ', $field)) . ': '; ?></th>
                         <td>
@@ -306,7 +292,7 @@ fieldset {
                             case 'school_type':
                             case 'school_address':
                                 // Editable text fields
-                                echo '<input type="text" name="' . $field . '" id="' . $field . '" value="' . $value . '">';
+                                echo '<input type="text" name="' . $field . '" id="' . $field . '" value="' . $value . '" minlength="5" maxlength="100">';
                                           echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
                                 break;
 
@@ -369,7 +355,7 @@ fieldset {
                                         break;
                             case 'student_id_no':
                                 // Editable text fields with specific validation if needed
-                                echo '<input type="text" name="' . $field . '" id="' . $field . '" value="' . $value . '">';
+                                echo '<input type="text" name="' . $field . '" id="' . $field . '" value="' . $value . '"  minlength="5" maxlength="100">';
                                           echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
                                 break;
 
@@ -377,15 +363,7 @@ fieldset {
                                 echo '<input type="number" name="' . $field . '" id="' . $field . '" value="' . $value . '">';
                                           echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
                                 break;
-
-                            case 'elementary_honors':
-                            case 'secondary_honors':
-                            case 'senior_high_honors':
-                                // Editable text fields with specific validation if needed
-                                echo '<input type="text" name="' . $field . '" id="' . $field . '" value="' . $value . '">';
-                                          echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
-                                break;
-
+                          
                             default:
                                 // Editable text fields for any other case
                                 echo '<input type="text" name="' . $field . '" id="' . $field . '" value="' . $value . '">';
@@ -402,6 +380,52 @@ fieldset {
 </div>
   
     
+
+<!-- Table 2: Family Background -->
+<div class="applicant-info">
+    <h2>Family Background</h2>
+    <fieldset id="family-background-fields" disabled>
+        <table>
+            <?php foreach ($applicantInfo as $field => $value) : ?>
+                <?php if (in_array($field, ['guardian_firstname', 'guardian_lastname', 'guardian_occupation', 'guardian_relationship', 'guardian_monthly_income', 'guardian_annual_income'])) : ?>
+                    <tr>
+                        <th><?php echo ucwords(str_replace('_', ' ', $field)) . ': '; ?></th>
+                        <td>
+                            <?php switch ($field) {
+                                case 'guardian_firstname':
+                                case 'guardian_lastname':
+                                case 'guardian_occupation':
+                                case 'guardian_relationship':
+                                    // Editable text fields
+                                    echo '<input type="text" name="' . $field . '" id="' . $field . '" value="' . $value . '"  minlength="2" maxlength="25" >';
+                                          echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
+                                    break;
+              
+                                case 'guardian_monthly_income':
+                                    // Editable text fields
+                                    echo '<input type="text" name="' . $field . '" id="' . $field . '" value="' . $value . '">';
+                                          echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
+                                    break; 
+
+                                case 'guardian_annual_income':
+                                    // Make certain fields non-editable by adding the "disabled" attribute
+                                    echo '<input type="text" name="' . $field . '" id="' . $field . '"  value="' . $value . '" disabled>';
+                                          echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
+                                    break;
+                                default:
+                                    // Editable text fields for any other case
+                                    echo '<input type="text" name="' . $field . '" value="' . $value . '">';
+                                          echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
+                                    break;
+                            } ?>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </table>
+    </fieldset>
+</div>
+
 <!-- table for displaying the uploaded files as images -->
 <div class="uploaded-files">
     <table>
@@ -409,12 +433,16 @@ fieldset {
             <th>Uploaded Files:</th>
             <td>
             <div class="file-group">
-                    <?php
-                    // Loop through uploaded files and display them in groups of three
-                    $fileCounter = 0;
-                 
-// Path to Ghostscript executable
-$ghostscriptPath = 'C:\Program Files\gs10.01.2\bin\gswin64c.exe';  // Replace with your Ghostscript path
+            <?php
+// Ensure Imagick is installed and enabled
+if (!extension_loaded('imagick')) {
+    echo 'Imagick extension is not available.';
+    // Handle the situation where Imagick is not available
+    exit;
+}
+
+// Loop through uploaded files and display them in groups of three
+$fileCounter = 0;
 
 $pdfFiles = array(
     'uploadVotersApplicant' => '../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_VotersApplicant.pdf',
@@ -427,19 +455,29 @@ $pdfFiles = array(
 
 // Output image file paths
 $imageFiles = array();
-
-// Convert PDF files to images
 foreach ($pdfFiles as $key => $pdfFile) {
-  $outputImage = '../ceap-reg-form/converted-images/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_' . $key . '.jpg'; // Replace with the desired output image path and extension
-  $imageFiles[$key] = $outputImage;
+    $outputImage = '../ceap-reg-form/converted-images/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_' . $key . '.jpg';
 
-  // Command to convert PDF to image using Ghostscript
-  $command = '"' . $ghostscriptPath . '" -dSAFER -dBATCH -dNOPAUSE -sDEVICE=jpeg -r300 -sOutputFile="' . $outputImage . '" "' . $pdfFile . '"';
+    try {
+        $imagick = new Imagick();
+        $imagick->readImage($pdfFile);
+        $imagick->setIteratorIndex(0); // Adjust the page index if needed
 
-  // Execute the Ghostscript command
-  exec($command);
+        // Optional: Set resolution and background color
+        // $imagick->setResolution(300, 300);
+        // $imagick->setImageBackgroundColor('white');
 
+        $imagick->setImageCompressionQuality(100);
+        $imagick->setImageFormat('jpg');
+        $imagick->writeImage($outputImage);
+        $imagick->destroy();
 
+        // Log success
+        echo "<script>console.log('Conversion success for $key. Output Image: $outputImage');</script>";
+    } catch (Exception $e) {
+        // Log error
+        echo "<script>console.error('Error converting $key:', '" . $e->getMessage() . "', PDF File: $pdfFile, Output Image: $outputImage');</script>";
+    }
 }
   echo "<h2 class='to_center'>Scanned Documents</h2>";
   // Voters applicant
@@ -525,7 +563,7 @@ foreach ($pdfFiles as $key => $pdfFile) {
             </td>
         </tr>
     </table>
-    <input type="hidden" name="ceap_personal_account_id" value="<?php echo $ceapRegFormId; ?>">
+    <input type="hidden" name="ceap_personal_account_id" value="<?php echo $ceapRegFormIdOLD; ?>">
     <button id="edit-button" class="status-button" type="button">Edit</button>
     <button type="submit" name="update_all_info" id="saveChanges" class="status-button" disabled>Save Changes</button>
 <button onclick="deleteApplicant(<?php echo $id; ?>)" class="status-button delete">Delete</button>
@@ -535,17 +573,36 @@ foreach ($pdfFiles as $key => $pdfFile) {
 
 <!-- end applicant info -->
 
-        
+         <!-- Modal for entering reason -->
+      <div id="reasonModalOLD" class="modal">
+         <div class="modal-content">
+            <span class="close" onclick="closeReasonModalOLD()">&times;</span>
+            <h2>Enter Reason</h2>
+            <input type="text" name="reason" id="disqualificationReasonOLD" minlength="10" maxlength="255" placeholder="Enter reason for disqualification">
+            <button id="submitReason" onclick="submitStatusAndReasonOLD()" class="disabled">Submit</button>
+         </div>
+      </div>
+      <div id="reasonModalFail" class="modal">
+         <div class="modal-content">
+            <span class="close" onclick="closeReasonModalFailOLD()">&times;</span>
+            <h2>Enter Reason</h2>
+            <input type="text" name="reasonFail" id="FailReason" minlength="10" maxlength="255" placeholder="Enter reason for failing">
+            <button id="submitReasonFail" onclick="submitStatusAndReasonFailOLD()" class="disabled">Submit</button>
+         </div>
+      </div>
          <footer class="footer">
-       
-
 <div class="button-container">
-    <button onclick="updateStatus('Disqualified', <?php echo $id; ?>)" class="status-button" <?php echo ($applicantInfo == 'Disqualified') ? 'disabled' : ''; ?>>Disqualified</button>
-    <button onclick="updateStatus('Verified', <?php echo $id; ?>)" class="status-button" <?php echo ($applicantInfo == 'verified') ? 'disabled' : ''; ?>>Verified</button>
-    <button onclick="updateStatus('Fail', <?php echo $id; ?>)" class="status-button" <?php echo ($applicantInfo == 'Fail') ? 'disabled' : ''; ?>>Not Grantee</button>
-    <button onclick="updateStatus('Grantee', <?php echo $id; ?>)" class="status-button" <?php echo ($applicantInfo == 'Grantee') ? 'disabled' : ''; ?>>Grantee</button>
-</div>
+            <?php 
 
+             // Check the status and determine which buttons to display
+             if ($applicantStatus === 'In Progress') {
+                echo '<button onclick="openReasonModalOLD(\'Disqualified\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">Disqualified</button>';
+                echo '<button onclick="openVerifiedPopupOLD()" style="background-color: #FEC021;" class="status-button">Verified</button>';
+            } elseif ($applicantStatus === 'Disqualified') {
+                echo '<button onclick="openVerifiedPopupOLD()" style="background-color: #FEC021;" class="status-button">Verified</button>';
+            } 
+            ?>
+</div>
 
          </footer>
          </main>
@@ -555,11 +612,12 @@ foreach ($pdfFiles as $key => $pdfFile) {
       <script src='https://unpkg.com/@popperjs/core@2'></script>
       <script  src="./js/side_bar.js"></script>
       <script  src="./js/validateCeapInfo.js"></script>
-
+      <script  src="./js/updateStatusDisqualifiedHAOLD.js"></script>
+      <script  src="./js/status_popupOLD.js"></script>
+      <script type="text/javascript">
+         var ceapRegFormIdOLD = <?php echo $ceapRegFormIdOLD; ?>;
+      </script>
       
-
-
-
 <script>
 $(document).ready(function() {
     // Add an event listener to the search input field
@@ -606,26 +664,28 @@ function goBack() {
       window.history.back();
   }
 
-    function updateStatus(status, applicantId) {
-// Send an AJAX request to update the applicant status
-var xhr = new XMLHttpRequest();
-xhr.open("POST", "./php/updateStatus.php", true);
-xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-xhr.onreadystatechange = function () {
-  if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-    // Handle the response here
-    var response = xhr.responseText.trim(); // Trim whitespace from the response text
-    if (response === 'success') {
-      alert('Status updated successfully.');
-      // Go back to the previous page
-      goBack();
-    } else {
-      alert('Failed to update status.');
-    }
-  }
-};
-xhr.send("status=" + status + "&id=" + applicantId);
-}
+//verified and not need reasons
+function updateStatusOLD(status, applicantId) {
+    // Send an AJAX request to update the applicant status
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "./php/updateStatusOldGrantee.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+       if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+          // Handle the response here
+          var response = xhr.responseText.trim(); // Trim whitespace from the response text
+          if (response === 'success') {
+             // Status updated successfully; open the confirmation popupOLD
+             openConfirmationPopupOLD();
+          } else {
+             alert('Failed to update status.');
+             goBack(); // Corrected function name
+          }
+       }
+    };
+    // Send the AJAX request
+    xhr.send("status=" + status + "&id=" + applicantId); // Add this line to send data
+ }
 </script>
 <script>
     const editButton = document.getElementById('edit-button');

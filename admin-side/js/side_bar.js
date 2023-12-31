@@ -373,5 +373,3 @@ searchInput.addEventListener("input", function () {
     // Apply text-transform: uppercase to the input value
     searchInput.value = searchInput.value.toUpperCase();
 });
-
-
