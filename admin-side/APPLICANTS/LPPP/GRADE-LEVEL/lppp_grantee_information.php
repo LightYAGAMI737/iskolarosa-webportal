@@ -74,7 +74,7 @@ if (mysqli_num_rows($result) > 0) {
         <?php foreach ($applicantInfo as $field => $value) : ?>
             <?php if (in_array($field, [
                 'control_number', 'last_name', 'first_name', 'middle_name', 'suffix_name',
-                'date_of_birth', 'age', 'gender', 'civil_status', 'place_of_birth', 'religion', 'contact_number',
+                'date_of_birth', 'gender', 'civil_status', 'place_of_birth', 'religion', 'contact_number',
                 'active_email_address', 'house_number', 'province', 'municipality', 'barangay'
             ])) : ?>
                 <tr>
