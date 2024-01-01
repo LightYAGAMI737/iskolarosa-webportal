@@ -192,18 +192,6 @@ fieldset:disabled input, select{
     <form id="update-form" method="post" action="./php/update_personal_info.php">
         <fieldset id="personal-info-fields" disabled>    
             <table>
-            <tr>
-                <th>Status:</th>
-                <td> <?php echo $applicantStatus; ?> </td>
-            </tr>  
-            <?php 
-                if ($applicantStatus == 'Disqualified') {
-                    echo '<tr>';
-                    echo '<th>Reason:</th>';
-                    echo '<td>' . $applicantReason . ' </td>';
-                    echo '</tr>';
-                }
-            ?>
                 <?php foreach ($applicantInfo as $field => $value) : ?>
                     <?php if (in_array($field, ['control_number', 'last_name', 'first_name', 'middle_name', 'suffix_name', 'date_of_birth', 'gender', 'civil_status', 'place_of_birth', 'religion', 'contact_number', 'active_email_address', 'house_number', 'province', 'municipality', 'barangay'])) : ?>
                       
