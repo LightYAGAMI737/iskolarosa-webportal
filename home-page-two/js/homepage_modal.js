@@ -77,8 +77,8 @@ function closeLPPPApplyNowBtn(){
     applynowLPPPNextButton.style.display = "none";
     location.reload();
 }
-//ceap cooldown time
 
+//ceap cooldown time
 document.addEventListener("DOMContentLoaded", function () {
     var confirmButton = document.getElementById('confirm-button-CEAP');
     var cooldownSeconds = 10;
