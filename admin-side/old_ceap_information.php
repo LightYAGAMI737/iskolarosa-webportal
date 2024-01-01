@@ -36,7 +36,7 @@
    }
    
 // Fetch the applicant's status from the database
-$query = "SELECT status, reason FROM ceap_personal_account WHERE ceap_personal_account_id = ?";
+$query = "SELECT status,reason, interview_date FROM ceap_personal_account WHERE ceap_personal_account_id = ?";
 $stmt = mysqli_prepare($conn, $query);
 mysqli_stmt_bind_param($stmt, "i", $id);
 mysqli_stmt_execute($stmt);
@@ -45,7 +45,8 @@ $result = mysqli_stmt_get_result($stmt);
 if (mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
     $applicantStatus = $row['status'];
-    $applicantReason = $row['reason'];
+    $applicantreason = $row['reason'];
+    $applicantinterview_date = $row['interview_date'];
 } else {
     $applicantStatus = ''; // Set a default value if status is not found
 }
@@ -161,24 +162,38 @@ fieldset:disabled input, select{
         </a>
     </div>
 
-<!-- Table 1: Personal Info -->
 <div class="applicant-info">
-    <h2 style="margin-top: -55px;">Personal Information</h2>
-    <form id="update-form" method="post" action="./php/update_personal_info.php">
-        <fieldset id="personal-info-fields" disabled>    
-            <table>
-            <tr>
+    <h2 style="margin-top: -55px;">Applicant's Status Information</h2>
+        <fieldset id="applicant-info-fields" disabled>    
+    
+    <table>
+    <tr>
                 <th>Status:</th>
                 <td> <?php echo $applicantStatus; ?> </td>
-            </tr>  
+        </tr>      
             <?php 
                 if ($applicantStatus == 'Disqualified') {
                     echo '<tr>';
                     echo '<th>Reason:</th>';
-                    echo '<td>' . $applicantReason . ' </td>';
+                    echo '<td>' . $applicantreason . ' </td>';
+                    echo '</tr>';
+                }  elseif ($applicantStatus == 'interview') {
+                    echo '<tr>';
+                    echo '<th>Interview Date:</th>';
+                    echo '<td>' . $applicantinterview_date . ' </td>';
                     echo '</tr>';
                 }
             ?>
+    </table>
+</fieldset>
+</div>
+
+<!-- Table 1: Personal Info -->
+<div class="applicant-info">
+    <h2>Personal Information</h2>
+    <form id="update-form" method="post" action="./php/update_personal_info.php">
+        <fieldset id="personal-info-fields" disabled>    
+            <table>
                 <?php foreach ($applicantInfo as $field => $value) : ?>
                     <?php if (in_array($field, ['control_number', 'last_name', 'first_name', 'middle_name', 'suffix_name', 'date_of_birth', 'gender', 'civil_status', 'place_of_birth', 'religion', 'contact_number', 'active_email_address', 'house_number', 'province', 'municipality', 'barangay'])) : ?>
                       
@@ -433,16 +448,12 @@ fieldset:disabled input, select{
             <th>Uploaded Files:</th>
             <td>
             <div class="file-group">
-            <?php
-// Ensure Imagick is installed and enabled
-if (!extension_loaded('imagick')) {
-    echo 'Imagick extension is not available.';
-    // Handle the situation where Imagick is not available
-    exit;
-}
-
-// Loop through uploaded files and display them in groups of three
-$fileCounter = 0;
+                    <?php
+                    // Loop through uploaded files and display them in groups of three
+                    $fileCounter = 0;
+                 
+// Path to Ghostscript executable
+$ghostscriptPath = 'C:\Program Files\gs10.01.2\bin\gswin64c.exe';  // Replace with your Ghostscript path
 
 $pdfFiles = array(
     'uploadVotersApplicant' => '../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_VotersApplicant.pdf',
@@ -455,29 +466,19 @@ $pdfFiles = array(
 
 // Output image file paths
 $imageFiles = array();
+
+// Convert PDF files to images
 foreach ($pdfFiles as $key => $pdfFile) {
-    $outputImage = '../ceap-reg-form/converted-images/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_' . $key . '.jpg';
+  $outputImage = '../ceap-reg-form/converted-images/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_' . $key . '.jpg'; // Replace with the desired output image path and extension
+  $imageFiles[$key] = $outputImage;
 
-    try {
-        $imagick = new Imagick();
-        $imagick->readImage($pdfFile);
-        $imagick->setIteratorIndex(0); // Adjust the page index if needed
+  // Command to convert PDF to image using Ghostscript
+  $command = '"' . $ghostscriptPath . '" -dSAFER -dBATCH -dNOPAUSE -sDEVICE=jpeg -r300 -sOutputFile="' . $outputImage . '" "' . $pdfFile . '"';
 
-        // Optional: Set resolution and background color
-        // $imagick->setResolution(300, 300);
-        // $imagick->setImageBackgroundColor('white');
+  // Execute the Ghostscript command
+  exec($command);
 
-        $imagick->setImageCompressionQuality(100);
-        $imagick->setImageFormat('jpg');
-        $imagick->writeImage($outputImage);
-        $imagick->destroy();
 
-        // Log success
-        echo "<script>console.log('Conversion success for $key. Output Image: $outputImage');</script>";
-    } catch (Exception $e) {
-        // Log error
-        echo "<script>console.error('Error converting $key:', '" . $e->getMessage() . "', PDF File: $pdfFile, Output Image: $outputImage');</script>";
-    }
 }
   echo "<h2 class='to_center'>Scanned Documents</h2>";
   // Voters applicant

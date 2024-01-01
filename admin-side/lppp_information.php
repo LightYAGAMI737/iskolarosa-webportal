@@ -14,11 +14,12 @@ include './php/config_iskolarosa_db.php';
 
 // Get the lppp_reg_form_id parameter from the URL
 if (isset($_GET['lppp_reg_form_id'])) {
-    $ceapRegFormId = $_GET['lppp_reg_form_id'];
+    $LPPPregFormID = $_GET['lppp_reg_form_id'];
 } else {
     echo 'No applicant selected.';
     exit();
 }
+
 
 $id = $_GET['lppp_reg_form_id'];
 $query = "SELECT * FROM lppp_reg_form WHERE lppp_reg_form_id = ?";
@@ -27,11 +28,29 @@ mysqli_stmt_bind_param($stmt, "i", $id); // "i" indicates an integer parameter
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
+
 if (mysqli_num_rows($result) > 0) {
     $applicantInfo = mysqli_fetch_assoc($result);
 } else {
     echo 'Applicant not found.';
     exit();
+}
+
+// Fetch the applicant's status from the database
+$query = "SELECT status,reason, interview_date, exam_date FROM lppp_temporary_account WHERE lppp_reg_form_id = ?";
+$stmt = mysqli_prepare($conn, $query);
+mysqli_stmt_bind_param($stmt, "i", $id);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+
+if (mysqli_num_rows($result) > 0) {
+    $row = mysqli_fetch_assoc($result);
+    $applicantStatus = $row['status'];
+    $applicantreason = $row['reason'];
+    $applicantinterview_date = $row['interview_date'];
+    $applicantexam_date = $row['exam_date'];
+} else {
+    $applicantStatus = ''; // Set a default value if status is not found
 }
 ?>
 
@@ -44,6 +63,7 @@ if (mysqli_num_rows($result) > 0) {
       <link rel="stylesheet" href="./css/remixicon.css">
       <link rel='stylesheet' href='./css/unpkg-layout.css'>
       <link rel="stylesheet" href="./css/side_bar.css">
+      <link rel="stylesheet" href="./css/status_popup.css">
       <link rel="stylesheet" href="./css/ceap_information.css">
       <style>
     .button-container {
@@ -69,6 +89,7 @@ if (mysqli_num_rows($result) > 0) {
    </head>
    <body>
       <?php 
+         include './php/LPPPStatus_Popup.php';
          include './php/head_admin_side_bar.php';
          ?>
          
@@ -82,12 +103,39 @@ if (mysqli_num_rows($result) > 0) {
             <i><i class="ri-close-circle-line"></i></i>
         </a>
     </div>
-<!-- Table 1: Personal Info -->
 <div class="applicant-info">
-    <h2 style="margin-top: -55px;">Personal Information</h2>
+    <h2 style="margin-top: -55px;">Applicant's Status Information</h2>
     
     <table>
-        
+    <tr>
+                <th>Status:</th>
+                <td> <?php echo $applicantStatus; ?> </td>
+        </tr>      
+            <?php 
+                if ($applicantStatus == 'Disqualified') {
+                    echo '<tr>';
+                    echo '<th>Reason:</th>';
+                    echo '<td>' . $applicantreason . ' </td>';
+                    echo '</tr>';
+                }  elseif ($applicantStatus == 'interview') {
+                    echo '<tr>';
+                    echo '<th>Interview Date:</th>';
+                    echo '<td>' . $applicantinterview_date . ' </td>';
+                    echo '</tr>';
+                }elseif ($applicantStatus == 'exam') {
+                    echo '<tr>';
+                    echo '<th>Exam Date:</th>';
+                    echo '<td>' . $applicantexam_date . ' </td>';
+                    echo '</tr>';
+                }
+            ?>
+    </table>
+</div>
+<!-- Table 1: Personal Info -->
+<div class="applicant-info">
+    <h2>Personsal Information</h2>
+    <table>
+
         <?php foreach ($applicantInfo as $field => $value) : ?>
             <?php if (in_array($field, [
                 'control_number', 'last_name', 'first_name', 'middle_name', 'suffix_name',
@@ -186,31 +234,25 @@ if (mysqli_num_rows($result) > 0) {
 </div>
 
 <!-- end applicant info -->
-
-        
+<div id="reasonModalLPPP" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeReasonModalLPPP()">&times;</span>
+                <h2>Enter Reason</h2>
+                <input type="text" name="reason" id="disqualificationReasonLPPP" minlength="10" maxlength="255" placeholder="Enter reason for disqualification">
+                <button id="submitReasonLPPP" onclick="submitStatusAndReason()" class="disabled">Submit</button>
+            </div>
+        </div>
          <footer class="footer">
-       
          <?php
-// Fetch the applicant's status from the database
-$query = "SELECT status FROM lppp_temporary_account WHERE lppp_reg_form_id = ?";
-$stmt = mysqli_prepare($conn, $query);
-mysqli_stmt_bind_param($stmt, "i", $id);
-mysqli_stmt_execute($stmt);
-$result = mysqli_stmt_get_result($stmt);
 
-if (mysqli_num_rows($result) > 0) {
-    $row = mysqli_fetch_assoc($result);
-    $applicantStatus = $row['status'];
-} else {
-    $applicantStatus = ''; // Set a default value if status is not found
-}
-?>
-<div class="button-container">
-    <button onclick="updateStatus('Disqualified', <?php echo $id; ?>)" class="status-button">Disqualified</button>
-    <button onclick="updateStatus('Verified', <?php echo $id; ?>)" class="status-button verified">Verified</button>
-    <button onclick="updateStatus('Fail', <?php echo $id; ?>)" class="status-button">Not Grantee</button>
-    <button onclick="updateStatus('Grantee', <?php echo $id; ?>)" class="status-button verified">Grantee</button>
-</div>
+  // Check the status and determine which buttons to display
+        if ($applicantStatus === 'In Progress') {
+            echo '<button onclick="openReasonModalLPPP(\'Disqualified\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">Disqualified</button>';
+            echo '<button onclick="openLPPPVerifiedPopup()" style="background-color: #FEC021;" class="status-button">Verified</button>';
+        }    if ($applicantStatus === 'Disqualified') {
+            echo '<button onclick="openLPPPVerifiedPopup()" style="background-color: #FEC021;" class="status-button">Verified</button>';
+        } 
+        ?>
 
 
          </footer>
@@ -218,7 +260,13 @@ if (mysqli_num_rows($result) > 0) {
          <div class="overlay"></div>
       </div>
       <!-- partial -->
-      <script src='https://unpkg.com/@popperjs/core@2'></script><script  src="./js/side_bar.js"></script>
+      <script src='https://unpkg.com/@popperjs/core@2'>
+      </script><script  src="./js/side_bar.js"></script>
+          <script  src="./js/LPPPStatus_Popup.js"></script>
+      <script  src="./js/LPPPReasonModalHA.js"></script>
+      <script type="text/javascript">
+         var LPPPregFormID = <?php echo $LPPPregFormID; ?>;
+      </script>
 
       
 <script>
@@ -277,25 +325,24 @@ function goBack() {
       window.history.back();
   }
 
-    function updateStatus(status, applicantId) {
-// Send an AJAX request to update the applicant status
-var xhr = new XMLHttpRequest();
-xhr.open("POST", "./php/updateStatusLPPP.php", true);
-xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-xhr.onreadystatechange = function () {
-  if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-    // Handle the response here
-    var response = xhr.responseText.trim(); // Trim whitespace from the response text
-    if (response === 'success') {
-      alert('Status updated successfully.');
-      goBack();
-    } else {
-      alert('Failed to update status.');
+  function updateStatusLPPP(status, applicantId) {
+        // Send an AJAX request to update the applicant status
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "./php/updateStatusLPPP.php", true); // Replace with the actual URL
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                // Handle the response here
+                var response = xhr.responseText.trim(); // Trim whitespace from the response text
+                if (response === 'success') {
+                    openconfirmationLPPPpopup();
+                } else {
+                    alert('Failed to update status.');
+                }
+            }
+        };
+        xhr.send("status=" + status + "&id=" + applicantId);
     }
-  }
-};
-xhr.send("status=" + status + "&id=" + applicantId);
-}
 </script>
    </body>
 </html>

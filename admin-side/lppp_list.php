@@ -80,7 +80,7 @@
 <h1>Libreng Pagpapaaral sa Pribadong Paaralan (LPPP)</h1>
 </div> 
       <div class="form-group">
-      <input type="text" name="search" class="form-control" id="search" placeholder="Search by Control Number or Last name"  oninput="formatInput(this)">
+      <input type="text" name="search-bar" class="form-control" id="search" placeholder="Search by Control Number or Last name"  oninput="formatInput(this)">
 
          <button type="button" class="btn btn-primary" onclick="searchApplicants()">Search</button>
       </div>
@@ -94,7 +94,7 @@
                   <th>CONTROL NUMBER</th>
                   <th>LAST NAME</th>
                   <th>FIRST NAME</th>
-                  <th>STATUS</th>
+                  <!-- <th>STATUS</th> -->
                   <th>GRADE LEVEL</th>
                </tr>
                <?php
@@ -107,7 +107,7 @@
                               echo '<td>' . strtoupper($row['control_number']) . '</td>';
                               echo '<td>' . strtoupper($row['last_name']) . '</td>';
                               echo '<td>' . strtoupper($row['first_name']) . '</td>';
-                              echo '<td>' . strtoupper($row['status']) . '</td>';
+                            //   echo '<td>' . strtoupper($row['status']) . '</td>';
                               echo '<td>' . strtoupper($row['grade_level']) . '</td>';
                               echo '</tr>';
                            }
