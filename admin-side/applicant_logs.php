@@ -110,58 +110,47 @@ if (!$resultApplicantStatusLogs) {
          <div class="collapse navbar-collapse">
             <ul class="navbar-nav">
                <li class="nav-item" style="padding-right: 25px;">
-                  <strong><a class="nav-link status actives" href="logs.php">Employee</a></strong>
+                  <strong><a class="nav-link status " href="logs.php">Employee</a></strong>
                </li> 
                <li class="nav-item" style="padding-right: 20px;">
-                  <strong><a class="nav-link status" href="applicant_logs.php">Applicant</a></strong>
+                  <strong><a class="nav-link status actives" href="applicant_logs.php">Applicant</a></strong>
                </li>
             </ul>
          </div>
       </nav>
-   <!-- Table for displaying employee_logs -->
-<div class="background">
-    <h2 >Employee Logs</h2>
-    
-    <div class="employee-logs-table">
-        <div class="table-container"> <!-- Added a container div for scrolling -->
+<!-- Applicant Status Logs Table -->
+<div class="background applicant-status-logs-table">
+    <h2>Applicant Status Logs</h2>
+    <div class="table-container"> <!-- Added a container div for scrolling -->
         <table>
-    <thead>
-        <tr>
-            <th>No.</th>
-            <th>Username</th>
-            <th>Action</th>
-            <th>Timestamp</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php
-        $counter = 1; // Initialize the counter
-        while ($row = mysqli_fetch_assoc($resultEmployeeLogs)) {
-            echo "<tr>";
-            echo "<td style='text-align: center'>" . $counter . "</td>"; // Display the counter
-            echo "<td>" . $row['employee_username'] . "</td>";
-            
-            $actionText = $row['action'];
-            $maxChars = 60;
-
-            if (strlen($actionText) > $maxChars) {
-                $actionText = substr($actionText, 0, $maxChars) . "..."; // Truncate and add ellipsis
-            }
-
-            echo "<td class='truncate-text'>" . $actionText . "</td>";
-
-            $formattedTimestamp =  date('d/m/y, h:i A',strtotime($row['timestamp']));
-            echo "<td>" . $formattedTimestamp . "</td>";
-            echo "</tr>";
-            $counter++; // Increment the counter for the next row
-        }
-        ?>
-    </tbody>
-</table>
-        </div>
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Control Number</th>
+                        <th>Previous Status</th>
+                        <th>Updated Status</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php
+                $counter = 1; // Initialize the counter
+                while ($row = mysqli_fetch_assoc($resultApplicantStatusLogs)) {
+                    echo "<tr>";
+                    echo "<td style='text-align: center'>" . $counter . "</td>"; // Display the counter
+                    echo "<td>" . $row['control_number'] . "</td>";
+                    echo "<td>" . $row['previous_status'] . "</td>";
+                    echo "<td>" . $row['updated_status'] . "</td>";
+                    $formattedTimestamp =  date('d/m/y, h:i A',strtotime($row['timestamp']));
+                    echo "<td>" . $formattedTimestamp . "</td>";
+                    echo "</tr>";
+                    $counter++; // Increment the counter for the next row
+                }
+                ?>
+                </tbody>
+        </table>
     </div>
 </div>
-
 
 <!-- End applicant_status_logs table -->
       <!-- <footer class="footer">
