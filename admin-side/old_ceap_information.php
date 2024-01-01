@@ -567,7 +567,6 @@ foreach ($pdfFiles as $key => $pdfFile) {
     <input type="hidden" name="ceap_personal_account_id" value="<?php echo $ceapRegFormIdOLD; ?>">
     <button id="edit-button" class="status-button" type="button">Edit</button>
     <button type="submit" name="update_all_info" id="saveChanges" class="status-button" disabled>Save Changes</button>
-<button onclick="deleteApplicant(<?php echo $id; ?>)" class="status-button delete">Delete</button>
 </form>
 </div>
 </div>
@@ -701,29 +700,6 @@ function updateStatusOLD(status, applicantId) {
 
         editButton.textContent = personalInfoFields.disabled ? 'Edit' : 'Cancel';
     });
-</script>
-
-<script>
-function deleteApplicant(applicantId) {
-    if (confirm("Are you sure you want to delete this applicant?")) {
-        // Send an AJAX request to update is_deleted
-        $.ajax({
-            type: "POST",
-            url: "./php/delete_applicant.php", // Replace with the actual URL to your PHP script
-            data: {
-                id: applicantId
-            },
-            success: function(response) {
-                if (response === 'success') {
-                    // Refresh the page or perform any other actions
-                    goBack(); // You can use location.reload() to refresh the page
-                } else {
-                    alert("Failed to delete the applicant.");
-                }
-            }
-        });
-    }
-}
 </script>
 
    </body>

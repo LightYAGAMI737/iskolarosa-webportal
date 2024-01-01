@@ -144,6 +144,7 @@ fieldset:disabled input, select{
    </head>
    <body>
       <?php 
+            include './php/delete_applicant_popup.php';
             include './php/status_popup.php';
             include './php/confirmStatusPopUp.php';
             include './php/head_admin_side_bar.php';
@@ -566,8 +567,8 @@ foreach ($pdfFiles as $key => $pdfFile) {
 <input type="hidden" name="ceap_reg_form_id" value="<?php echo $ceapRegFormId; ?>">
     <button id="edit-button" class="status-button" type="button">Edit</button>
     <button type="submit" name="update_all_info" id="saveChanges" class="status-button" disabled>Save Changes</button>
-<button onclick="deleteApplicant(<?php echo $id; ?>)" class="status-button delete">Delete</button>
 </form>
+<button onclick="opendeleteApplicantpopup()" class="status-button delete">Delete</button>
 
 </div>
 </div>
@@ -615,6 +616,7 @@ foreach ($pdfFiles as $key => $pdfFile) {
       <script  src="./js/validateCeapInfo.js"></script>
       <script  src="./js/updateStatusDisqualifiedHA.js"></script>
       <script  src="./js/status_popup.js"></script>
+      <script  src="./js/delete_applicantHA.js"></script>
       <script type="text/javascript">
          var ceapRegFormId = <?php echo $ceapRegFormId; ?>;
       </script>
@@ -703,28 +705,6 @@ function updateStatus(status, applicantId) {
     });
 </script>
 
-<script>
-function deleteApplicant(applicantId) {
-    if (confirm("Are you sure you want to delete this applicant?")) {
-        // Send an AJAX request to update is_deleted
-        $.ajax({
-            type: "POST",
-            url: "./php/delete_applicant.php", // Replace with the actual URL to your PHP script
-            data: {
-                id: applicantId
-            },
-            success: function(response) {
-                if (response === 'success') {
-                    // Refresh the page or perform any other actions
-                    goBack(); // You can use location.reload() to refresh the page
-                } else {
-                    alert("Failed to delete the applicant.");
-                }
-            }
-        });
-    }
-}
-</script>
 
    </body>
 </html>
