@@ -66,8 +66,8 @@ $currentStatus = mysqli_real_escape_string($conn, $currentStatus);
                   <th>LAST NAME</th>
                   <th>FIRST NAME</th>
                   <!-- <th>BARANGAY</th>
-                  <th>STATUS</th> -->
-                  <th>REASON</Ri:a></th>
+                  <th>STATUS</th>-->
+                  <th>REASON</th> 
                </tr>
                <?php
                   $counter = 1;
