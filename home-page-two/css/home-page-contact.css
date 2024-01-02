@@ -36,6 +36,7 @@
     background-color: #fff; /* Add a white background color */
     border-radius: 15px;
     border: 1px solid #c5c5c5;
+    margin-bottom: 20px;
 }
 
 .card-body {
