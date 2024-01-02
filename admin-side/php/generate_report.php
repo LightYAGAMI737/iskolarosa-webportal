@@ -53,23 +53,21 @@ $lineYHeader = $this->GetY() + 5; // Adjust the vertical position as needed
 
 $this->Line($lineStartXHeader, $lineYHeader, $lineEndXHeader, $lineYHeader);
     }
-
+      
     public function AddPage($orientation = '', $format = '', $keepmargins = false, $tocpage = false) {
-        // Check if it's the first page
-        if ($this->PageNo() == 2) {
-            // Set the margins for the first page
-            parent::SetMargins(24, 24, 24, true);
-        } elseif ($this->PageNo() >= 1){
-            // Set different margins for subsequent pages
-            parent::SetMargins(24, 55, 24, true); // Adjust these values as needed
-        }
+        // Check if it's the second page or subsequent pages
+        if ($this->PageNo() >= 1) {
+            // Set the margins for the second page and subsequent pages
+            parent::SetMargins(24, 55, 24, true);
+        } 
+    
+        // Set the auto page break distance from the bottom (in millimeters)
+        parent::SetAutoPageBreak(true, 33);
+    
+        // Call the parent AddPage method
+        parent::AddPage($orientation, $format, $keepmargins, $tocpage);
+    }
 
-         // Set the auto page break distance from the bottom (in millimeters)
-    parent::SetAutoPageBreak(true, 33);
-
-    // Call the parent AddPage method
-    parent::AddPage($orientation, $format, $keepmargins, $tocpage);
-}
 // Footer
 public function Footer() {
     // Set line width for the footer
