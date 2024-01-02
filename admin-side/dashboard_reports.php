@@ -120,10 +120,10 @@
         </div>
         <div class="filterselectdata">
     <select id="filterOption" name="filterOption[]" class="select-dropdown">
-        <option value="totalCountGender">Total Count of Gender (Male/Female)</option>
+        <option value="listOfApplicants">List of Applicants Name</option>
+        <option value="totalCountGender">Total Count of Sex (Male/Female)</option>
         <option value="totalCountStatus">Total Count of Applicant Status</option>
         <option value="totalCountBarangay">Total Count of Applicant each Barangay</option>
-        <option value="totalCountSchool">Total Count of Applicant each School</option>
     </select>
 </div>
         </div>
