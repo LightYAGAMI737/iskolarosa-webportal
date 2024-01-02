@@ -220,7 +220,7 @@ $tempAccountResultTable = mysqli_stmt_get_result($stmtTable);
     </table>
 
     <?php 
-    if ($status == "interview") {
+    if ($status == "Grantee") {
         
         echo '<button class="pagpapatunayBtn" onclick="downloadPagpapatunay()">
         <i class="ri-download-2-fill"></i>
