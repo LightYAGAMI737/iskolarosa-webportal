@@ -170,6 +170,7 @@ button.applynow-button {
 .timeDateApplication{
     margin-bottom: 0px !important;
     font-style: italic;
+    text-align: center;
 }
 @media screen and (max-width: 991px) {
     .ModalInHeader {
@@ -182,6 +183,7 @@ button.applynow-button {
         .leftColumn,
         .rightColumn {
           margin-bottom: 10px;
+          margin: 0 auto;
         }
         .modalBody{
           overflow-y: auto;
