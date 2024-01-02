@@ -6,21 +6,24 @@
        exit();
    }
    
-   $currentStatus = 'Grantee';
-       $currentSubPage = 'old applicant';
-      $currentBarangay ='APLAYA';
-      $currentPage = 'ceap_list';
-   
    include '../../../php/config_iskolarosa_db.php';
    
-   // Retrieve applicant info using JOIN query for the specified barangay
-   // Modify the SQL query to include the selected barangay
+   $currentStatus = 'Grantee';
+       $currentSubPage = 'old applicant';
+      $currentPage = 'ceap_list';
+      $currentDirectory = basename(__DIR__);
+   $currentBarangay = $currentDirectory;
+
+   // Assuming $currentStatus is also a variable you need to sanitize
+$currentStatus = mysqli_real_escape_string($conn, $currentStatus);
+   
    $query = "SELECT *
    FROM ceap_personal_account 
-   WHERE barangay = 'aplaya' && status = 'Grantee'";
-   
-   $result = mysqli_query($conn, $query);
-   
+   WHERE barangay = ? AND status = ?";
+   $stmt = mysqli_prepare($conn, $query);
+   mysqli_stmt_bind_param($stmt, "ss", $currentBarangay, $currentStatus);
+   mysqli_stmt_execute($stmt);
+   $result = mysqli_stmt_get_result($stmt);
    
    ?>
 <!DOCTYPE html>
