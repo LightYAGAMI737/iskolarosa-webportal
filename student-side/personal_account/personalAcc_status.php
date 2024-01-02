@@ -36,6 +36,7 @@
     $control_number = $applicantData['control_number'];
     $status = $applicantData['status'];
     }
+    
 // Prepare the second query
 $tempAccountSqlTable = "
     SELECT DISTINCT *
@@ -217,16 +218,30 @@ $tempAccountResultTable = mysqli_stmt_get_result($stmtTable);
             ?>
         </tbody>
     </table>
-</div>
 
+    <?php 
+    if ($status == "interview") {
+        
+        echo '<button class="pagpapatunayBtn" onclick="downloadPagpapatunay()">
+        <i class="ri-download-2-fill"></i>
+        <span>Download Pagpapatunay</span></button>';
+    }
+?>
+
+</div>
 
       </div>
 
       <script src="../js/bootstrap.min.js"></script>
-
+      <script type="text/javascript">
+         var control_number = <?php echo $control_number; ?>;
+      </script>
 
 <!-- Add this JavaScript code after your PHP code and HTML -->
 <script>
+    function downloadPagpapatunay() {
+    window.location.href = '../php/pagpapatunayPDF.php';
+}
     document.addEventListener('DOMContentLoaded', function () {
         // Fetch the status and text from PHP
         var status = '<?php echo $status; ?>';
