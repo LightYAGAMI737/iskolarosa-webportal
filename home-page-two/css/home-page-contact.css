@@ -1,0 +1,55 @@
+.background-container {
+    background-color: #fff;
+    padding: 30px 20px;
+    width: 90%; /* Adjust the width as needed */
+    max-width: 1200px; /* Set a maximum width if needed */
+    margin: 0 auto; /* Center the container */
+    border-radius: 15px; /* Adjust the border-radius as needed */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+}
+.background-container h3 {
+    text-align: center;
+    font-weight: bolder;
+}
+.background {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 20px;
+    flex-direction: column; /* Display cards in a column by default */
+}
+.icon-title {
+    margin-top: 30px;
+    align-items: center;
+}
+
+.icon-title i {
+    font-size: 1.5rem; /* Adjust the font size as needed */
+}
+
+.card-title {
+    font-size: 1.5rem; /* Adjust the font size as needed */
+    color: #000; /* Change the color as needed */
+    font-weight: bolder;
+}
+.card {
+    width: 100%;
+    background-color: #fff; /* Add a white background color */
+    border-radius: 15px;
+    border: 1px solid #c5c5c5;
+}
+
+.card-body {
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .background {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .card {
+        width: 30%;
+        margin-right: 2%; /* Adjust the spacing between cards */
+    }
+}
