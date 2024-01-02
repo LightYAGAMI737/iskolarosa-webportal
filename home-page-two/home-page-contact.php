@@ -58,7 +58,7 @@
     <!-- Card 2 (Address) -->
     <div class="card">
         <div class="card-body">
-            <img src="../admin-side/system-images/contact-address.png" alt="Phone Image" class="img-fluid" style="margin-top: 10px;">
+            <img src="../admin-side/system-images/contact-address.png" alt="Address Image" class="img-fluid" style="margin-top: 10px;">
             <div class="icon-title">
             <i class="ri-map-pin-fill"></i>
                 <span class="card-title">ADDRESS</span>
@@ -70,7 +70,7 @@
     <!-- Card 3 (Email) -->
     <div class="card">
         <div class="card-body">
-                <img src="../admin-side/system-images/contact-email.png" alt="Phone Image" class="img-fluid" style="margin-top: 10px;">
+                <img src="../admin-side/system-images/contact-email.png" alt="Email Image" class="img-fluid" style="margin-top: 10px;">
                 <div class="icon-title">
                 <i class="ri-at-line"></i>
                     <span class="card-title">EMAIL</span>
