@@ -39,7 +39,7 @@ if (mysqli_num_rows($result) > 0) {
 }
 
 // Fetch the applicant's status from the database
-$query = "SELECT status,reason, interview_date, exam_date FROM lppp_temporary_account WHERE lppp_reg_form_id = ?";
+$query = "SELECT status, reason, interview_date, exam_date FROM lppp_temporary_account WHERE lppp_reg_form_id = ?";
 $stmt = mysqli_prepare($conn, $query);
 mysqli_stmt_bind_param($stmt, "i", $id);
 mysqli_stmt_execute($stmt);
