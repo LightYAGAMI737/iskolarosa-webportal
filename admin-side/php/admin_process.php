@@ -72,16 +72,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $_SESSION['username'] = $employee['username'];
                 $_SESSION['role'] = $employee['role_id']; // Set the user's role in the session
 
+                date_default_timezone_set('Asia/Manila');
+                $currentTimeLog = date('Y-m-d H:i:s'); // Assuming you want to include both date and time
+
                 // Log the successful login action
                 $employee_username = $employee['username'];
                 $action = "Logged in";
 
                 // Insert a new log entry into the employee_logs table
-                $sql = "INSERT INTO employee_logs (employee_username, action) VALUES (?, ?)";
+                $sql = "INSERT INTO employee_logs (employee_username, action, timestamp) VALUES (?, ?, ?)";
                 $stmt = $conn->prepare($sql);
-                $stmt->bind_param("ss", $employee_username, $action);
+                $stmt->bind_param("sss", $employee_username, $action, $currentTimeLog);
                 $stmt->execute();
-
+                                
                 // Check the role_id and redirect accordingly
                 if ($employee['role_id'] === 1 || $employee['role_id'] === 2) {
                     header('Location: ../dashboard_charts.php');
