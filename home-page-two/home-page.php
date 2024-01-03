@@ -35,7 +35,7 @@
 ?>
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand">
             <img src="../admin-side/system-images/iskolarosa-logo.png" alt="My Logo" class="img-logo">
         </a>
         <!-- <a href="#" class="brand">iSKOLAROSA</a> -->
