@@ -84,25 +84,6 @@ if (mysqli_num_rows($result) > 0) {
     </table>
 </div>
 
-<!-- Table 3: Educational Background -->
-<div class="applicant-info">
-    <h2>Educational Background</h2>
-    <table>
-        
-        <?php foreach ($applicantInfo as $field => $value) : ?>
-            <?php if (in_array($field, [
-                'elementary_school', 'elementary_year',
-                'school_address', 'student_id_no'
-            ])) : ?>
-                <tr>
-                    <th><?php echo ucwords(str_replace('_', ' ', $field)) . ': '; ?></th>
-                    <td><?php echo $value; ?></td>
-                </tr>
-            <?php endif; ?>
-        <?php endforeach; ?>
-    </table>
-</div>
-
 <!-- Table 2: Family Background -->
 <div class="applicant-info">
     <h2>Family Background</h2>
@@ -121,6 +102,24 @@ if (mysqli_num_rows($result) > 0) {
     </table>
 </div>
 
+<!-- Table 3: Educational Background -->
+<div class="applicant-info">
+    <h2>Educational Background</h2>
+    <table>
+        
+        <?php foreach ($applicantInfo as $field => $value) : ?>
+            <?php if (in_array($field, [
+                'elementary_school', 'elementary_year',
+                'school_address', 'student_id_no'
+            ])) : ?>
+                <tr>
+                    <th><?php echo ucwords(str_replace('_', ' ', $field)) . ': '; ?></th>
+                    <td><?php echo $value; ?></td>
+                </tr>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </table>
+</div>
 <?php
 $queryScore = "SELECT status, applicant_score FROM lppp_temporary_account WHERE lppp_temporary_account_id = ?";
 $stmtScore = mysqli_prepare($conn, $queryScore);
@@ -164,51 +163,37 @@ if (mysqli_num_rows($resultScore) > 0) {
                <tr>
                   <td>
                      <div class="file-group">
-                     <?php
-// Ensure Imagick is installed and enabled
-if (!extension_loaded('imagick')) {
-    echo 'Imagick extension is not available.';
-    // Handle the situation where Imagick is not available
-    exit;
-}
-
-// Loop through uploaded files and display them in groups of three
-$fileCounter = 0;
-
-$pdfFiles = array(
-    'uploadVotersParent' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_VotersParent.pdf',
-    'uploadITR' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_ITR.pdf',
-    'uploadResidency' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Residency.pdf',
-    'uploadCOR' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_COR.pdf',
-    'uploadGrade' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Grade.pdf'
-);
-
-// Output image file paths
-$imageFiles = array();
-foreach ($pdfFiles as $key => $pdfFile) {
-    $outputImage = '../../../../lppp-reg-form/converted-images/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_' . $key . '.jpg';
-
-    try {
-        $imagick = new Imagick();
-        $imagick->readImage($pdfFile);
-        $imagick->setIteratorIndex(0); // Adjust the page index if needed
-
-        // Optional: Set resolution and background color
-        // $imagick->setResolution(300, 300);
-        // $imagick->setImageBackgroundColor('white');
-
-        $imagick->setImageCompressionQuality(100);
-        $imagick->setImageFormat('jpg');
-        $imagick->writeImage($outputImage);
-        $imagick->destroy();
-
-        // Log success
-        echo "<script>console.log('Conversion success for $key. Output Image: $outputImage');</script>";
-    } catch (Exception $e) {
-        // Log error
-        echo "<script>console.error('Error converting $key:', '" . $e->getMessage() . "', PDF File: $pdfFile, Output Image: $outputImage');</script>";
-    }
-}
+                        <?php
+                           // Loop through uploaded files and display them in groups of three
+                           $fileCounter = 0;
+                           
+                           // Path to Ghostscript executable
+                           $ghostscriptPath = 'C:\Program Files\gs10.01.2\bin\gswin64c.exe';  // Replace with your Ghostscript path
+                           
+                           $pdfFiles = array(
+                           'uploadVotersParent' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_VotersParent.pdf',
+                           'uploadITR' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_ITR.pdf',
+                           'uploadResidency' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Residency.pdf',
+                           'uploadCOR' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_COR.pdf',
+                           'uploadGrade' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Grade.pdf'
+                           );
+                           
+                           // Output image file paths
+                           $imageFiles = array();
+                           
+                           // Convert PDF files to images
+                           foreach ($pdfFiles as $key => $pdfFile) {
+                           $outputImage = '../../../../lppp-reg-form/converted-images/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_' . $key . '.jpg'; // Replace with the desired output image path and extension
+                           $imageFiles[$key] = $outputImage;
+                           
+                           // Command to convert PDF to image using Ghostscript
+                           $command = '"' . $ghostscriptPath . '" -dSAFER -dBATCH -dNOPAUSE -sDEVICE=jpeg -r300 -sOutputFile="' . $outputImage . '" "' . $pdfFile . '"';
+                           
+                           // Execute the Ghostscript command
+                           exec($command);
+                           
+                           
+                           }
                            echo "<h2 class='to_center'>Scanned Documents</h2>";
                            // Voters applicant
                            echo '<table class="table" style="width: 80%;">';
@@ -285,7 +270,7 @@ foreach ($pdfFiles as $key => $pdfFile) {
                 <span class="close" onclick="closeReasonModalLPPP()">&times;</span>
                 <h2>Enter Reason</h2>
                 <input type="text" name="reason" id="disqualificationReasonLPPP" minlength="10" maxlength="255" placeholder="Enter reason for disqualification">
-                <button id="submitReasonLPPP" onclick="submitStatusAndReasonLPPP()" class="disabled">Submit</button>
+                <button id="submitReasonLPPP" onclick="submitStatusAndReason()" class="disabled">Submit</button>
             </div>
         </div>
 
@@ -319,14 +304,15 @@ if ($result) {
         } elseif ($applicantStatus === 'exam') {
             echo '<form id="scoreForm">';
             echo '<label for="applicantScore" class="ScoreLabel">Enter Applicant Score (0-100):</label>';
-            echo '<input type="number" class="ScoreInput" id="applicantScore" name="applicantScore" min="0" max="100" required>';
+            echo '<input type="text" class="ScoreInput" id="applicantScore" name="applicantScore" minlength="1" maxlength="3" required>';
             echo '<input type="hidden" id="applicantId" value="' . $id . '">';
-            echo '<button type="button" id="ScoreFormBTN" class="ScoreBTN" value="Submit">Submit</button>';
+            echo '<button type="button" id="ScoreFormBTN" class="ScoreBTN" value="Submit" disabled>Submit</button>';
+            echo '<br><span id="ScoreInputError" style="color: red; display: inline-block; margin-bottom: 30px;"></span>';
             echo '</form>';
         } elseif ($applicantStatus === 'interview' && $applicantInterviewDate === '0000-00-00') {
         } elseif ($applicantStatus === 'interview') {
-            echo '<button onclick="openReasonModalLPPP(\'Fail\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">Not Grantee</button>';
-            echo '<button onclick="updateStatus(\'Grantee\', ' . $id . ')" style="background-color: #FEC021;" class="status-button">Grantee</button>';
+            echo '<button onclick="updateStatusLPPP(\'Fail\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">Not Grantee</button>';
+            echo '<button onclick="updateStatusLPPP(\'Grantee\', ' . $id . ')" style="background-color: #FEC021;" class="status-button">Grantee</button>';
         }
     } else {
         // No row found
@@ -349,122 +335,14 @@ if ($result) {
       <script src='../../../js/unpkg-layout.js'></script>
       <script  src="../../../js/side_bar.js"></script>
       <script  src="../../../js/LPPPStatus_Popup.js"></script>
+      <script  src="../../../js/LPPPReasonModal.js"></script>
+      <script  src="../../../js/scoreInputValidation.js"></script>
+      
       <script type="text/javascript">
          var LPPPregFormID = <?php echo $LPPPregFormID; ?>;
       </script>
-      
 <script>
-const reasonInput = document.getElementById("disqualificationReasonLPPP");
-const submitButton = document.getElementById("submitReasonLPPP");
-reasonInput.addEventListener("input", function () {
-   if (reasonInput.value.length >= 5) {
-      submitButton.classList.remove("disabled");
-      submitButton.removeAttribute("disabled");
-   } else {
-      submitButton.classList.add("disabled");
-      submitButton.setAttribute("disabled", "disabled");
-   }
-});
-const LPPPDisqualifiedPopUp = document.getElementById("LPPPDisqualifiedPopUp");
-
-function openLPPPDisqualifiedPopUp(status, reason, applicantId) {
-   document.getElementById("reasonModalLPPP").style.display = "none";
-   LPPPDisqualifiedPopUp.style.display = "block";
-}
-
-function closeLPPPDisqualifiedPopUp() {
-   LPPPDisqualifiedPopUp.style.display = "none";
-   openReasonModalLPPP(); // You should pass any required parameters to openReasonModalLPPP if needed
-}
-const cancelCloseButtons = document.querySelectorAll("#disqualified-cancel-button"); // Use querySelectorAll to select all matching elements
-cancelCloseButtons.forEach((cancelButton) => {
-   cancelButton.addEventListener("click", closeLPPPDisqualifiedPopUp);
-});
-const closeSymbol = document.querySelector(".close");
-if (closeSymbol) {
-   closeSymbol.addEventListener("click", function () {
-      const disqualificationReasonInput = document.getElementById("disqualificationReasonLPPP");
-      if (disqualificationReasonInput) {
-         disqualificationReasonInput.value = ''; // Reset the input field
-      }
-      closeReasonModalLPPP();
-   });
-}
-
-function closeReasonModalLPPP() {
-   const Reasonmodal = document.getElementById("reasonModalLPPP");
-   Reasonmodal.style.display = "none";
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-   const LPPPconfirmButton = document.getElementById("LPPPconfirmButton");
-   if (LPPPconfirmButton) {
-       LPPPconfirmButton.addEventListener("click", function () {
-           const status = "Disqualified"; // You can adjust this value as needed
-           const reason = document.getElementById("disqualificationReasonLPPP").value;
-           const applicantId = LPPPregFormID; // Access the value from PHP
-           submitStatusAndReasonLPPP(status, reason, applicantId);
-       });
-   }
-});
-
-//disqualified and fail
-let reason;
-function openReasonModalLPPP(status) {
-   const modal = document.getElementById("reasonModalLPPP");
-   if (modal) {
-      modal.style.display = "block";
-      // Pass the status to the openDisqualifiedPopup function only if it's defined and not empty
-      if (status) {
-         const submitReasonButton = document.getElementById("submitReasonLPPP");
-         if (submitReasonButton) {
-            submitReasonButton.onclick = function () {
-               reason = document.getElementById("disqualificationReasonLPPP").value;
-               if (reason.trim() !== '') {
-                  const applicantId = LPPPregFormID;
-                  openLPPPDisqualifiedPopUp(status, reason, applicantId);
-               } else {
-                  alert('Please enter a reason.');
-               }
-            };
-         } else {
-            console.error("Element with ID 'submitReasonLPPP' not found.");
-         }
-      }
-   } else {
-      console.error("Element with ID 'reasonModalLPPP' not found.");
-   }
-}
-
-function submitStatusAndReasonLPPP(status, reason, applicantId) {
-    // Send an AJAX request to update both status and reason
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "../../../php/updateLPPPReason.php", true);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                var response = xhr.responseText.trim();
-                console.log("Response from AJAX:", response); // Log the response
-                if (response === 'success') {
-                    closeLPPPDisqualifiedPopUp();
-                    closeReasonModalLPPP();
-                    openconfirmationLPPPpopup();
-                } else {
-                    alert('Failed to update status and reason.');
-                }
-            } else {
-                var response = xhr.responseText.trim();
-                console.error("AJAX request failed with status:", xhr.status); // Log AJAX errors
-                console.error("Server error message:", xhr.responseText); // Log server error message
-            }
-        }
-    };
-    // Send the AJAX request with status, reason, and applicantId
-    xhr.send("status=" + encodeURIComponent(status) + "&reason=" + encodeURIComponent(reason) + "&id=" + encodeURIComponent(applicantId));
-}
-
-
+ 
  function seeMore(id) {
     // Redirect to the page for updating grade_level based on the given ID
     window.location.href = "lppp_grantee_information.php?lppp_reg_form_id=" + id;
