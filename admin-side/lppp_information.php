@@ -10,7 +10,7 @@ if (!isset($_SESSION['username'])) {
 $currentPage = 'lppp_list';
 $currentSubPage = 'LPPP';
 
-include './php/config_iskolarosa_db.php';
+include './ph/config_iskolarosa_db.php';
 
 // Get the lppp_reg_form_id parameter from the URL
 if (isset($_GET['lppp_reg_form_id'])) {
