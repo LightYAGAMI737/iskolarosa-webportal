@@ -344,17 +344,6 @@ foreach ($pdfFiles as $key => $pdfFile) {
       <script type="text/javascript">
          var LPPPregFormID = <?php echo $LPPPregFormID; ?>;
       </script>
-
-      
-<script>
- 
- function seeMore(id) {
-     // Redirect to a page where you can retrieve the reserved data based on the given ID
-     window.location.href = "ceap_all_disqualified_information.php?lppp_reg_form_id=" + id;
- }
-
-</script>
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function() {
