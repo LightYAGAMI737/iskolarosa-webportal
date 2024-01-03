@@ -222,7 +222,7 @@ body {
 
 .left-card button {
     font-size: 15px;
-    padding: 10px 20px;
+    padding: 27px 15px;
     height: 50px;
     display: flex;
     align-items: center; 
@@ -237,9 +237,15 @@ body {
 .left-card button:hover {
     background-color: #ececec; 
     color: #000; 
+    border: 1px solid #000;
 }
 
-
+.btn {
+    border-radius: 10px;
+    border: 1px solid #000;
+    width: 400px;
+    margin: 0 auto;
+}
 
 
 @media (max-width: 768px) {

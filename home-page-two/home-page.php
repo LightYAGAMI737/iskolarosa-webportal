@@ -71,11 +71,11 @@
                         <p>Application Qualification & Requirements</p>
                         <button type="button" class="btn ceap" onclick="openHomePageModalCEAP()">
                           <i class="ri-graduation-cap-fill" style="color: #A5040A"></i> 
-                          <span>College Educational Assistance Program</span>
+                          <span class="text-title">College Educational Assistance Program</span>
                         </button>
                         <button class="btn lppp mt-2" onclick="openHomePageModalLPPP()">
                           <i class="ri-graduation-cap-fill" style="color: #FEC021" ></i> 
-                          Libreng Pagpapaaral sa Pribadong Paaralan
+                          <span class="text-title">Libreng Pagpapaaral sa Pribadong Paaralan</span>
                         </button>
                     </div>
                 </div>
