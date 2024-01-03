@@ -56,13 +56,13 @@
    
    $result = mysqli_query($conn, $query);
    
-   // Get the current date in the format 'Y-m-d'
-   $currentDate = date('Y-m-d');
-   
+   date_default_timezone_set('Asia/Manila'); // Set the default timezone to Asia/Manila
+   $currentDateInterview = date('Y-m-d'); // Get the current date without the time part  
+
    // Query to count applicants with interview dates today
    $countQuery = "SELECT COUNT(*) AS todayCount FROM lppp_temporary_account WHERE interview_date = ? AND status = 'interview'";
    $stmtCount = mysqli_prepare($conn, $countQuery);
-   mysqli_stmt_bind_param($stmtCount, "s", $currentDate);
+   mysqli_stmt_bind_param($stmtCount, "s", $currentDateInterview);
    mysqli_stmt_execute($stmtCount);
    $todayCountResult = mysqli_stmt_get_result($stmtCount);
    $todayCountRow = mysqli_fetch_assoc($todayCountResult);
@@ -70,9 +70,6 @@
    // Store the count in a variable
    $todayInterviewCount = $todayCountRow['todayCount'];
 
-
-   date_default_timezone_set('Asia/Manila'); // Set the default timezone to Asia/Manila
-   $currentDateInterview = date('Y-m-d'); // Get the current date without the time part   
    function hasInterviewTodyInDatabase($conn) {
        global $currentDateInterview; // Access the $currentDateInterview variable inside the function
    
@@ -94,6 +91,7 @@
    // Disable the "Reschedule" button if there are no exam applicants
    $rescheduleButtonDisabled = !$hasInterviewApplicants ? 'disabled' : '';
    ?>
+
 <!DOCTYPE html>
 <html lang="en" >
    <head>
@@ -113,6 +111,17 @@
          }
          
       </script>
+      <style>
+        #rescheduleInterviewBtnLPPP {
+            background-color: #FEC021 !important;
+            color: rgb(0, 0, 0) !important;
+            border: none !important;
+            padding: 7px 20px !important;
+            cursor: pointer !important;
+            border-radius: 15px !important;
+            box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.40) !important;
+        }
+        </style>
    </head>
    <body>
       <?php 

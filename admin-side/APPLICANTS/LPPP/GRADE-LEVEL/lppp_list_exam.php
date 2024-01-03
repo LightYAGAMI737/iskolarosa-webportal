@@ -107,6 +107,15 @@ $todayexamCount = $todayCountRow['todayCount'];
             background-color: #ccc !important;
             cursor: not-allowed;
         }
+        #rescheduleBtnExamLPPP, #InterviewBtnExamLPPP{
+            background-color: #FEC021 !important;
+            color: rgb(0, 0, 0) !important;
+            border: none !important;
+            padding: 7px 20px !important;
+            cursor: pointer !important;
+            border-radius: 15px !important;
+            box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.40) !important;
+        }
         </style>
       <script>
         // Prevent manual input in date fields
@@ -119,7 +128,6 @@ $todayexamCount = $todayCountRow['todayCount'];
       <?php 
                 include '../../../php/LPPPStatus_Popup.php';
                 include '../../side_bar_lppp.php';
-
          ?>
              
       <!-- home content-->
@@ -241,8 +249,6 @@ $setInterviewButtonDisabled = !$hasVerifiedApplicants ? 'disabled' : '';
    </div>
 </div>
 
- <!-- Set Interview Modal (hidden by default) -->
- 
 <!-- Set reschedule Modal (hidden by default) -->
 <div id="InterviewmyModal" class="modal">
    <div class="modal-content">
@@ -287,9 +293,7 @@ $setInterviewButtonDisabled = !$hasVerifiedApplicants ? 'disabled' : '';
       </div>
    </div>
 </div>
-
   <!-- end search and reschedule -->
-
 <!-- table for displaying the applicant list -->
 <div class="background">
 <div class="applicant-info">
@@ -342,8 +346,6 @@ $counter = 1;
    </div>
    <?php } ?>
 <!-- end applicant list -->
-
-        
          <footer class="footer">
          </footer>
          </main>
