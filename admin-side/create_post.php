@@ -107,10 +107,10 @@
                      <br>
                      <br>
                      <label for="scheduled_at">Schedule Post:</label>
-                     <input type="datetime-local" id="scheduled_at" name="post_schedule_at" onkeydown="preventInput(event)"
-                           min="<?php echo date('Y-m-d\TH:i'); ?>"
-                           max="<?php echo date('Y-12-31\TH:i'); ?>"
-                           onchange="validateSchedule()">
+                        <input type="datetime-local" id="scheduled_at" name="post_schedule_at" onkeydown="preventInput(event)"
+                            min="<?php echo date('Y-m-d\TH:i'); ?>"
+                            max="<?php echo date('Y-m-d\TH:i', strtotime('+6 months')); ?>"
+                            onchange="validateSchedule()">
                      <p id="scheduleError" style="color: red;"></p>
                      <!-- submit post button -->
                      <div class="button-section ">

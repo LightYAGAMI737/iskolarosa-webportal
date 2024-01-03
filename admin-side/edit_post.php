@@ -231,7 +231,7 @@
          }
          
          // Add event listeners for input and change events on form elements
-         const formElements = document.querySelectorAll('input, textarea');
+         const formElements = document.querySelectorAll('input, textarea, select');
          formElements.forEach(function(element) {
              element.addEventListener('input', updateButtonState);
              element.addEventListener('change', updateButtonState);
