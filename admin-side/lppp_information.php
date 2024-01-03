@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 session_start();
 
 // Check if the session is not set (user is not logged in)
@@ -52,8 +54,7 @@ if (mysqli_num_rows($result) > 0) {
 } else {
     $applicantStatus = ''; // Set a default value if status is not found
 }
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+
 ?>
 
 <!DOCTYPE html>
