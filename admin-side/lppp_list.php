@@ -121,7 +121,7 @@
       <script>
          function seeMore(id) {
              // Redirect to a page where you can retrieve the reserved data based on the given ID
-             window.location.href = "lpppInformation.php?lppp_reg_form_id=" + id;
+             window.location.href = "lppp_information.php?lppp_reg_form_id=" + id;
          }
       </script>
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
