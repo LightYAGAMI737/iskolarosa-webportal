@@ -59,5 +59,22 @@ if (isset($_GET['error'])) {
         </div>
     </div>
     <script type="text/javascript" src="js/admin-login.js"></script>
+    <script>
+  // Get the input elements by their IDs
+  var usernameInput = document.getElementById('usernameInput');
+    var passwordFieldS = document.getElementById('passwordField');
+
+    // Add an event listener for the 'input' event on the username input
+    usernameInput.addEventListener('input', function() {
+        // Remove any spaces from the input value
+        this.value = this.value.replace(/\s/g, '');
+    });
+
+    // Add an event listener for the 'input' event on the password input
+    passwordFieldS.addEventListener('input', function() {
+        // Remove any spaces from the input value
+        this.value = this.value.replace(/\s/g, '');
+    });
+</script>
 </body>
 </html>

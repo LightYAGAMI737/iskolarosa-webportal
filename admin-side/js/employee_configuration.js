@@ -304,6 +304,15 @@ const confirmPasswordInput = document.getElementById("confirmPassword");
 const passwordError = document.getElementById("passwordError");
 const confirmPasswordError = document.getElementById("confirmPasswordError");
 
+passwordInput.addEventListener('input', function (event) {
+  // Remove spaces from the input's value
+  passwordInput.value = passwordInput.value.replace(/\s/g, '');
+});
+confirmPasswordInput.addEventListener('input', function (event) {
+  // Remove spaces from the input's value
+  confirmPasswordInput.value = confirmPasswordInput.value.replace(/\s/g, '');
+});
+
 passwordInput.addEventListener("change", validatePassword);
 confirmPasswordInput.addEventListener("change", validateConfirmPassword);
 
