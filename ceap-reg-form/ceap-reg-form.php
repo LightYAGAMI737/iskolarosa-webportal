@@ -1,3 +1,34 @@
+<?php
+include '../admin-side/php/config_iskolarosa_db.php';
+
+date_default_timezone_set('Asia/Manila');
+$currentDateCEAPREGFORM = date('Y-m-d');
+$currentTimeCEAPREGFORM = date('H:i:s');
+$sql = "SELECT *
+        FROM ceap_configuration
+        ORDER BY id DESC
+        LIMIT 1";
+
+$stmt = mysqli_prepare($conn, $sql);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+
+// Fetch the first row from the result set
+$row = mysqli_fetch_assoc($result);
+
+// Close the statement and free the result set
+mysqli_stmt_close($stmt);
+mysqli_free_result($result);
+
+if ($row['toggle_value'] == 0) {
+    // The current date and time are not within the specified range
+    // Redirect the user or take appropriate action
+    echo 'The application has not started yet; please refer to the announcement page for the application period\'s start date.'; 
+    exit();
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -58,7 +89,7 @@
                      </div>
                      <div class="input-container">
                         <label for="suffix_name">Suffix Name</label>
-                        <input type="text" name="suffix_name" id="suffix_name" placeholder="JR." minlength="1" maxlength="8">
+                        <input type="text" name="suffix_name" id="suffix_name"  minlength="1" maxlength="8">
                         <div id="suffix_options" class="suffix-options"></div>
                      </div>
                   </div>
@@ -111,7 +142,7 @@
                      </div>
                      <div class="input-container noborder">
                         <label class="required" for="age">Age</label>
-                        <input type="text" id="age" name="age"  style="border: none;" readonly/>
+                        <input type="text" id="age" name="age"  style="border: #aaaaaa; background-color: #ccc" readonly/>
                      </div>
                   </div>
                   <!--new row-->
@@ -146,11 +177,11 @@
                      </div>
                      <div class="input-container">
                         <label class="required" for="municipality">Municipality</label>
-                        <input type="text" name="municipality" id="municipality" style="border: none;" placeholder="Municipality" value ="CITY OF SANTA ROSA" required readonly/>
+                        <input type="text" name="municipality" id="municipality" style="border: #aaaaaa; background-color: #ccc" placeholder="Municipality" value ="CITY OF SANTA ROSA" required readonly/>
                      </div>
                      <div class="input-container">
                         <label class="required" for="province">Province</label>
-                        <input type="text" name="province" id="province" style="border: none;" placeholder="Province" value="LAGUNA" readonly required/>
+                        <input type="text" name="province" id="province" style="border: #aaaaaa; background-color: #ccc" placeholder="Province" value="LAGUNA" readonly required/>
                      </div>
                   </div>
                   <div class="text-row upload-docu">
@@ -360,7 +391,7 @@
                      </div>
                      <div class="input-container">
                         <label class="required">Annual Income</label>
-                        <input type="number" id="guardian_annual_income" style="border: none;" name="guardian_annual_income" placeholder="Annual Income"  minlength="5" maxlength="12" readonly required/>
+                        <input type="number" id="guardian_annual_income" style="border: #aaaaaa; background-color: #ccc" name="guardian_annual_income" placeholder="Annual Income"  minlength="5" maxlength="12" readonly required/>
                         <span class="error-message" id="guardian_annual_income_error"></span>
                      </div>
                   </div>

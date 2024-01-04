@@ -2,7 +2,7 @@
 include '../admin-side/php/config_iskolarosa_db.php';
 
 // Fetch the last inserted ID from the ceap_configuration table
-$fetchReqAndQualiCEAP = "SELECT MAX(id) AS last_id, start_date, end_date, start_time, end_time FROM ceap_configuration";
+$fetchReqAndQualiCEAP = "SELECT MAX(id) AS last_id, start_date, end_date, start_time, end_time, toggle_value FROM ceap_configuration";
 $resultReqAndQualiCEAP = mysqli_query($conn, $fetchReqAndQualiCEAP);
 $rowReqAndQualiCEAP = mysqli_fetch_assoc($resultReqAndQualiCEAP);
 $lastIdCEAP = $rowReqAndQualiCEAP['last_id'];
@@ -101,8 +101,15 @@ mysqli_close($conn);
                 <span>Apply Now</span>
             </button>
         </div>
-    <p class="timeDateApplication">Application starts on <strong><?php echo $formattedStartDate .', ' . $formattedStartTime; ?></strong></p>
-    <p class="timeDateApplication">Application ends on <strong><?php echo $formattedEndDate .', ' . $formattedEndtime; ?></strong></p>
+        <?php
+            if ($rowReqAndQualiCEAP['start_date'] == '0000-00-00') {
+                echo '<p class="timeDateApplication">The Application has not started yet.</p>';
+            }else{
+                echo '<p class="timeDateApplication">Application starts on <strong>' . $formattedStartDate . ', ' . $formattedStartTime . '</strong></p>';
+                echo '<p class="timeDateApplication">Application ends on <strong>' . $formattedEndDate . ', ' . $formattedEndtime . '</strong></p>';
+            }
+            ?>
+
     </div>
     </div>
 </div>
@@ -139,9 +146,15 @@ mysqli_close($conn);
                 <span>Apply Now</span>
             </button>
         </div>
-        <p class="timeDateApplication">Application starts on <strong><?php echo $formattedStartDateLPPP .', ' . $formattedStartTimeLPPP; ?></strong></p>
-    <p class="timeDateApplication">Application ends on <strong><?php echo $formattedEndDateLPPP .', ' . $formattedEndtimeLPPP; ?></strong></p>
-    
+        <?php
+            if ($rowReqAndQualiLPPP['start_date'] == '0000-00-00') {
+                echo '<p class="timeDateApplication">The Application has not started yet.</p>';
+            }else{
+                echo '<p class="timeDateApplication">Application starts on <strong>' . $formattedStartDateLPPP . ', ' . $formattedStartTimeLPPP . '</strong></p>';
+                echo '<p class="timeDateApplication">Application ends on <strong>' . $formattedEndDateLPPP . ', ' . $formattedEndtimeLPPP . '</strong></p>';
+               
+            }
+            ?>
     </div>
     </div>
 </div>
