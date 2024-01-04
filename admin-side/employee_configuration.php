@@ -156,7 +156,7 @@ input:focus::placeholder {
     <div class="form-row">
       <div class="form-group">
         <label class="required"  for="username">Username:</label>
-        <input type="text" id="username"  style="border: none; background: #ececec;"  name="username" readonly required>
+        <input type="text" id="username"  style="border: none; background-color: #ccc;"  name="username" readonly required>
       </div>
       <div class="form-group">
     <label class="required" for="password">Password:</label>

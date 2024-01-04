@@ -1,3 +1,14 @@
+document.addEventListener('DOMContentLoaded', function () {
+  var form = document.getElementById('employeeconfigform');
+
+  form.addEventListener('input', function (event) {
+      if (event.target.tagName.toLowerCase() === 'input') {
+          // Replace multiple spaces with a single space
+          event.target.value = event.target.value.replace(/\s+/g, ' ');
+      }
+  });
+});
+
 // Declare employeeIdInput as a global variable
 var employeeIdInput = document.getElementById('employeeId');
 var employeeIdErrors = document.getElementById('employeeIdErrors'); // Declare employeeIdErrors as a global variable
@@ -14,6 +25,11 @@ employeeIdInput.addEventListener("change", function () {
         validateEmployeeId();
 
     }
+});
+
+employeeIdInput.addEventListener('input', function (event) {
+  // Remove spaces from the input's value
+  employeeIdInput.value = employeeIdInput.value.replace(/\s/g, '');
 });
 
 function validateEmployeeId() {
@@ -174,6 +190,12 @@ function validateEmailAndCheck() {
   var emailInput = document.getElementById("email");
   var emailError = document.getElementById("emailError");
 
+  emailInput.addEventListener('input', function (event) {
+    // Remove spaces from the input's value
+    emailInput.value = emailInput.value.replace(/\s/g, '');
+
+  });
+  
   var emailPattern = /^[a-zA-Z0-9._-]+@([a-zA-Z0-9.-]+\.)+[cC][oO][mM]$/;
 if (!emailPattern.test(emailInput.value)) {
       emailError.textContent = 'Invalid email';
@@ -209,8 +231,11 @@ if (!emailPattern.test(emailInput.value)) {
       // Send the request with the data
       xhr.send("email=" + encodeURIComponent(emailInput.value));
     }
+   
+    
 // Event listener for input change
 document.getElementById("email").addEventListener("input", validateEmailAndCheck);
+
 
 
 // Validate picture
