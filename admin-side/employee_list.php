@@ -94,7 +94,7 @@ if ($_SESSION['role'] === 3) {
 </div>
 </nav> 
       <!-- table for displaying the applicant list -->
-      <div class="background">
+      <div class="background employee-list">
          <h2 style="text-align: center">EMPLOYEE MASTER LIST</h2>
          <div class="applicant-info">
             <table>

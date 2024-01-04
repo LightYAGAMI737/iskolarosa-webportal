@@ -84,7 +84,7 @@ if ($_SESSION['role'] === 3) {
     if ($result->num_rows > 0) {
         // Display the employee information in a table
     
-        echo '<div class="text-cont">';
+        echo '<div class="text-cont config-infor">';
         ?> <!-- Back button -->
         <div class="back-button-container">
             <a href="#" class="back-button" onclick="goBacks()">
@@ -92,7 +92,7 @@ if ($_SESSION['role'] === 3) {
             </a>
         </div>
         <?php
-        echo '<h1>Employee Information</h1>';
+        echo '<h1 style="margin: 0;">Employee Information</h1>';
         echo '<form id="editForm">';
         echo '<table class="employee-table">';
         echo '<thead>';
