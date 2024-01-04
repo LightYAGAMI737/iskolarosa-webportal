@@ -141,7 +141,7 @@ include 'logoutpopup.php';
         <span class="menu-icon">
             <i class="ri-logout-box-fill"></i>
         </span>
-    <span class="username">
+    <span class="username" style="font-size: 13px;">
         <?php
         if (isset($_SESSION['username'])) {
             echo  $_SESSION['username'];
