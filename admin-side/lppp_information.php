@@ -198,45 +198,121 @@ if (mysqli_num_rows($result) > 0) {
             <th>Uploaded Files:</th>
             <td>
                 <div class="file-group">
-                    <?php
-                    // Loop through uploaded files and display them in groups of three
-                    $fileCounter = 0;
-                    foreach ($applicantInfo as $field => $value) {
-                        if (strpos($field, 'upload') !== false && (pathinfo($value, PATHINFO_EXTENSION) === 'pdf')) {
-                            // Extract the base file name without extension
-                            $baseFileName = $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_' . $field;
-                            $pdfFilePath = '../../ceap_reg_form/pdfFiles/' . $baseFileName . '.pdf';
-                            $imageFilePath = '../../ceap_reg_form/images/' . $baseFileName . '.jpg';
-                            $thumbnailImagePath = $imageFilePath; // Use the same image for the thumbnail
-                            
-                            // Command to convert PDF to image using Ghostscript (replace with your Ghostscript path)
-                            $ghostscriptPath = 'C:/Program Files/gs/gs9.54.0/bin/gswin64c.exe';
-                            $command = '"' . $ghostscriptPath . '" -dSAFER -dBATCH -dNOPAUSE -sDEVICE=jpeg -r300 -sOutputFile="' . $imageFilePath . '" "' . $pdfFilePath . '"';
-                            exec($command);
-                            
-                            // Display the image and expanded image
-                            echo '<div class="file-image">';
-                            echo '<img src="' . $thumbnailImagePath . '" alt="Thumbnail" class="file-image" onclick="expandImage(this)">';
-                            echo '<div class="expanded-image" onclick="collapseImage(this)"><img src="' . $imageFilePath . '" alt="Enlarged Image"></div>';
-                            echo '</div>';
-                            
-                            // Close the file-group container and open a new one after displaying three files
-                            $fileCounter++;
-                            if ($fileCounter % 3 === 0) {
-                                echo '</div>'; // Close the current file-group container
-                                echo '<div class="file-group">'; // Open a new file-group container
+                     <?php
+                        // Ensure Imagick is installed and enabled
+                        if (!extension_loaded('imagick')) {
+                            echo 'Imagick extension is not available.';
+                            // Handle the situation where Imagick is not available
+                            exit;
+                        }
+
+                        // Loop through uploaded files and display them in groups of three
+                        $fileCounter = 0;
+
+                        $pdfFiles = array(
+                            'uploadVotersParent' => '../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_VotersParent.pdf',
+                            'uploadITR' => '../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_ITR.pdf',
+                            'uploadResidency' => '../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Residency.pdf',
+                            'uploadCOR' => '../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_COR.pdf',
+                            'uploadGrade' => '../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Grade.pdf'
+                        );
+
+                        // Output image file paths
+                        $imageFiles = array();
+                        foreach ($pdfFiles as $key => $pdfFile) {
+                            $outputImage = '../../lppp-reg-form/converted-images/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_' . $key . '.jpg';
+
+                            try {
+                                $imagick = new Imagick();
+                                $imagick->readImage($pdfFile);
+                                $imagick->setIteratorIndex(0); // Adjust the page index if needed
+
+                                // Optional: Set resolution and background color
+                                // $imagick->setResolution(300, 300);
+                                // $imagick->setImageBackgroundColor('white');
+
+                                $imagick->setImageCompressionQuality(100);
+                                $imagick->setImageFormat('jpg');
+                                $imagick->writeImage($outputImage);
+                                $imagick->destroy();
+
+                                // Log success
+                                echo "<script>console.log('Conversion success for $key. Output Image: $outputImage');</script>";
+                            } catch (Exception $e) {
+                                // Log error
+                                echo "<script>console.error('Error converting $key:', '" . $e->getMessage() . "', PDF File: $pdfFile, Output Image: $outputImage');</script>";
                             }
                         }
-                    }
-                    ?>
-                </div>
-            </td>
-        </tr>
-    </table>
-</div>
-</div>
+                           echo "<h2 class='to_center'>Scanned Documents</h2>";
+                           // Voters applicant
+                           echo '<table class="table" style="width: 80%;">';
+                           echo "<tbody>";
+                           echo "<tr>";
+                           // Voters Cert Parent
+                           echo "<td>";
+                           echo "<label>Voters Certificate Parent</label>";
+                           echo "<div class='image'>";
+                           echo "<img src='../../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadVotersParent.jpg' onclick='expandImage(this)' class='smaller-image'>";
+                           echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadVotersParent.jpg'></div>";
+                           echo "</div>";
+                           echo "</td>";
+                           
+                           // TAX
+                           echo "<td>";
+                           echo "<label>Income Tax Return</label>";
+                           echo "<div class='image'>";
+                           echo "<img src='../../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadITR.jpg' onclick='expandImage(this)' class='smaller-image'>";
+                           echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadITR.jpg'></div>";
+                           echo "</div>";
+                           echo "</td>";
 
-<!-- end applicant info -->
+
+                           // Residency
+                           echo "<tr>";
+                           echo "<td>";
+                           echo "<label>Residency</label>";
+                           echo "<div class='image'>";
+                           echo "<img src='../../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadResidency.jpg' onclick='expandImage(this)' class='smaller-image'>";
+                           echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadResidency.jpg'></div>";
+                           echo "</div>";
+                           echo "</td>";
+           
+                   
+                           
+                           // GRADE\        
+                           echo "<td>";
+                           echo "<label>GWA for Current Sem</label>";
+                           echo "<div class='image'>";
+                           echo "<img src='../../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadGrade.jpg' onclick='expandImage(this)' class='smaller-image'>";
+                           echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadGrade.jpg'></div>";
+                           echo "</div>";
+                           echo "</td>";
+                           echo "</tr>";
+                           echo "</tbody>";
+                           echo "</table>";
+                           
+                           //2x2
+                           echo "<td>";
+                           echo "<label>Applicant 2x2 Picture</label>";
+                           echo "<div class='image'>";
+                           echo "<img src='../../lppp-reg-form/applicant2x2/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_2x2_Picture.jpg' onclick='expandImage(this)' class='smaller-image'>";
+                           echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../../lppp-reg-form/applicant2x2/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_2x2_Picture.jpg'></div>";
+                           echo "</div>";
+                           echo "</td>";
+                           echo "</tr>";
+                           
+                           echo "</tbody>";
+                           echo "</table>";
+                           
+                           
+                           ?>
+                     </div>
+                  </td>
+               </tr>
+            </table>
+         </div>
+      </div>
+      <!-- end applicant info -->
 <div id="reasonModalLPPP" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeReasonModalLPPP()">&times;</span>
