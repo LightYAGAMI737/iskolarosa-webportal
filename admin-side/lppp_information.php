@@ -210,17 +210,17 @@ if (mysqli_num_rows($result) > 0) {
                         $fileCounter = 0;
 
                         $pdfFiles = array(
-                            'uploadVotersParent' => '../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_VotersParent.pdf',
-                            'uploadITR' => '../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_ITR.pdf',
-                            'uploadResidency' => '../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Residency.pdf',
-                            'uploadCOR' => '../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_COR.pdf',
-                            'uploadGrade' => '../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Grade.pdf'
+                            'uploadVotersParent' => '../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_VotersParent.pdf',
+                            'uploadITR' => '../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_ITR.pdf',
+                            'uploadResidency' => '../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Residency.pdf',
+                            'uploadCOR' => '../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_COR.pdf',
+                            'uploadGrade' => '../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Grade.pdf'
                         );
 
                         // Output image file paths
                         $imageFiles = array();
                         foreach ($pdfFiles as $key => $pdfFile) {
-                            $outputImage = '../../lppp-reg-form/converted-images/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_' . $key . '.jpg';
+                            $outputImage = '../lppp-reg-form/converted-images/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_' . $key . '.jpg';
 
                             try {
                                 $imagick = new Imagick();
@@ -252,8 +252,8 @@ if (mysqli_num_rows($result) > 0) {
                            echo "<td>";
                            echo "<label>Voters Certificate Parent</label>";
                            echo "<div class='image'>";
-                           echo "<img src='../../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadVotersParent.jpg' onclick='expandImage(this)' class='smaller-image'>";
-                           echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadVotersParent.jpg'></div>";
+                           echo "<img src='../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadVotersParent.jpg' onclick='expandImage(this)' class='smaller-image'>";
+                           echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadVotersParent.jpg'></div>";
                            echo "</div>";
                            echo "</td>";
                            
@@ -261,8 +261,8 @@ if (mysqli_num_rows($result) > 0) {
                            echo "<td>";
                            echo "<label>Income Tax Return</label>";
                            echo "<div class='image'>";
-                           echo "<img src='../../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadITR.jpg' onclick='expandImage(this)' class='smaller-image'>";
-                           echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadITR.jpg'></div>";
+                           echo "<img src='../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadITR.jpg' onclick='expandImage(this)' class='smaller-image'>";
+                           echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadITR.jpg'></div>";
                            echo "</div>";
                            echo "</td>";
 
@@ -272,8 +272,8 @@ if (mysqli_num_rows($result) > 0) {
                            echo "<td>";
                            echo "<label>Residency</label>";
                            echo "<div class='image'>";
-                           echo "<img src='../../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadResidency.jpg' onclick='expandImage(this)' class='smaller-image'>";
-                           echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadResidency.jpg'></div>";
+                           echo "<img src='../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadResidency.jpg' onclick='expandImage(this)' class='smaller-image'>";
+                           echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadResidency.jpg'></div>";
                            echo "</div>";
                            echo "</td>";
            
@@ -283,8 +283,8 @@ if (mysqli_num_rows($result) > 0) {
                            echo "<td>";
                            echo "<label>GWA for Current Sem</label>";
                            echo "<div class='image'>";
-                           echo "<img src='../../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadGrade.jpg' onclick='expandImage(this)' class='smaller-image'>";
-                           echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadGrade.jpg'></div>";
+                           echo "<img src='../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadGrade.jpg' onclick='expandImage(this)' class='smaller-image'>";
+                           echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadGrade.jpg'></div>";
                            echo "</div>";
                            echo "</td>";
                            echo "</tr>";
@@ -295,8 +295,8 @@ if (mysqli_num_rows($result) > 0) {
                            echo "<td>";
                            echo "<label>Applicant 2x2 Picture</label>";
                            echo "<div class='image'>";
-                           echo "<img src='../../lppp-reg-form/applicant2x2/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_2x2_Picture.jpg' onclick='expandImage(this)' class='smaller-image'>";
-                           echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../../lppp-reg-form/applicant2x2/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_2x2_Picture.jpg'></div>";
+                           echo "<img src='../lppp-reg-form/applicant2x2/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_2x2_Picture.jpg' onclick='expandImage(this)' class='smaller-image'>";
+                           echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../lppp-reg-form/applicant2x2/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_2x2_Picture.jpg'></div>";
                            echo "</div>";
                            echo "</td>";
                            echo "</tr>";
