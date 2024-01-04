@@ -31,11 +31,11 @@ if (closeSymbolFail) {
       if (FailReasonInputFail) {
          FailReasonInputFail.value = ''; // Reset the input field
       }
-      closereasonModalFail();
+      closeReasonModalFailOLD();
    });
 }
 
-function closereasonModalFail() {
+function closeReasonModalFailOLD() {
    const reasonModalFail = document.getElementById("reasonModalFail");
    reasonModalFail.style.display = "none";
 }
@@ -92,7 +92,7 @@ function submitStatusAndReason(status, reasonFail, applicantId) {
          console.log("Response from AJAX:", response); // Log the response
          if (response === 'success') {
             closeFailPopUp();
-            closereasonModalFail();
+            closeReasonModalFailOLD();
             openConfirmationPopupOLD();
          } else {
             alert('Failed to update status and reasonFail.');
