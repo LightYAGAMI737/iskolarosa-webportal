@@ -41,11 +41,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmtEmployeeId->fetch();
         $stmtEmployeeId->close();
 
-       
+        date_default_timezone_set('Asia/Manila');
+        $currentTimeStatus = date('Y-m-d H:i:s');
         // Log the status change in the applicant_status_logs table using a prepared statement
-        $logQuery = "INSERT INTO applicant_status_logs (previous_status, updated_status, ceap_reg_form_id, employee_logs_id) VALUES (?, ?, ?, ?)";
+        $logQuery = "INSERT INTO applicant_status_logs (previous_status, updated_status, ceap_reg_form_id, employee_logs_id, timestamp) VALUES (?, ?, ?, ?, ?)";
         $stmtLog = $conn->prepare($logQuery);
-        $stmtLog->bind_param("ssii", $previousStatus, $status, $applicantId, $employeeLogsId);
+        $stmtLog->bind_param("ssiis", $previousStatus, $status, $applicantId, $employeeLogsId,$currentTimeStatus);
         $stmtLog->execute();
 
         // Fetch the applicant's email address and control number from the database

@@ -77,12 +77,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 mysqli_stmt_close($stmtEmployeeId);
 
                 $status = 'interview'; // Assign a value to $status before the insert query
-
+                // Log the status change in the applicant_status_logs table
+                date_default_timezone_set('Asia/Manila');
+                $currentTimeStatus = date('Y-m-d H:i:s');
                 // Log the status change in the applicant_status_logs table using a prepared statement
-                $logQuery = "INSERT INTO old_grantee_status_logs (old_previous_status, old_updated_status, ceap_personal_account_id, employee_logs_id) VALUES (?, ?, ?, ?)";
-                $stmtLog = mysqli_prepare($conn, $logQuery);
-                mysqli_stmt_bind_param($stmtLog, "ssii", $previousStatus, $status, $ceapRegFormId, $employeeLogsId);
-                mysqli_stmt_execute($stmtLog);
+                $logQuery = "INSERT INTO old_grantee_status_logs (old_previous_status, old_updated_status, ceap_personal_account_id, employee_logs_id, timestamp) VALUES (?, ?, ?, ?, ?)";
+                $stmtLog = $conn->prepare($logQuery);
+                $stmtLog->bind_param("ssiis", $previousStatus, $status, $ceapRegFormId, $employeeLogsId,$currentTimeStatus);
+                $stmtLog->execute();
 
                 // Fetch the applicant's email address and control number from the database
                 $applicantEmailQuery = "SELECT active_email_address, control_number FROM ceap_personal_account WHERE ceap_personal_account_id = ?";
