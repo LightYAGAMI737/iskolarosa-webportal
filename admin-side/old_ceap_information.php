@@ -163,7 +163,7 @@ fieldset:disabled input, select{
     </div>
 
 <div class="applicant-info">
-    <h2 style="margin-top: -55px;">Applicant's Status Information</h2>
+    <h2 style="margin-top: -40px;">Applicant's Status Information</h2>
         <fieldset id="applicant-info-fields" disabled>    
     
     <table>

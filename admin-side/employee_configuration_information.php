@@ -86,8 +86,8 @@ if ($_SESSION['role'] === 3) {
     
         echo '<div class="text-cont config-infor">';
         ?> <!-- Back button -->
-        <div class="back-button-container">
-            <a href="#" class="back-button" onclick="goBacks()">
+        <div class="back-button-container employee-information">
+            <a href="#" class="back-button " onclick="goBacks()">
                 <i><i class="ri-close-circle-line"></i></i>
             </a>
         </div>
