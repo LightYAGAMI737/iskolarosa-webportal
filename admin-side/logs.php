@@ -40,6 +40,7 @@
 
 date_default_timezone_set('Asia/Manila');
 
+$currentTimeLog = date('Y-m-d');
 // Fetch logs from employee_logs
 $queryEmployeeLogs = "SELECT * FROM employee_logs ORDER BY timestamp DESC";
 $resultEmployeeLogs = mysqli_query($conn, $queryEmployeeLogs);
@@ -71,14 +72,11 @@ if (!$resultApplicantStatusLogs) {
 }
 
 ?>
-
-
-
-
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
    <head>
       <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>iSKOLAROSA | <?php echo strtoupper($currentPage); ?></title>
       <link rel="icon" href="./system-images/iskolarosa-logo.png" type="image/png">
       <link rel='stylesheet' href='./css/remixicon.css'>
