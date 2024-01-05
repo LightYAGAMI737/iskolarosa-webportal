@@ -39,6 +39,7 @@
 				</div>
                 <form class="rounded bg-white shadow form-design" action="first_time_login_process.php" method="post">
                     <h3 class="text-dark fw-bolder fs-4 mb-2">Update Password</h3>
+                    <p class="text-dark">(for first time log in)</p>
                         <div class="fw-normal text-muted mb-4">
                         </div>  
                             <div class="form-floating mb-3">
