@@ -1,5 +1,3 @@
-
-
 <?php
 // Include configuration and functions
 session_start();

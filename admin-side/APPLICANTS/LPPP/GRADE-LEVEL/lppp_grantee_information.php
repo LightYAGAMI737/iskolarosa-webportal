@@ -74,7 +74,7 @@ if (mysqli_num_rows($result) > 0) {
         <?php foreach ($applicantInfo as $field => $value) : ?>
             <?php if (in_array($field, [
                 'control_number', 'last_name', 'first_name', 'middle_name', 'suffix_name',
-                'date_of_birth', 'gender', 'civil_status', 'place_of_birth', 'religion', 'contact_number',
+                'date_of_birth', 'age', 'gender', 'civil_status', 'place_of_birth', 'religion', 'contact_number',
                 'active_email_address', 'house_number', 'province', 'municipality', 'barangay'
             ])) : ?>
                 <tr>
@@ -118,6 +118,24 @@ if (mysqli_num_rows($result) > 0) {
             </table>
          </div>
 
+<!-- Table 2: Family Background -->
+<div class="applicant-info">
+    <h2>Family Background</h2>
+    <table>
+        <?php foreach ($applicantInfo as $field => $value) : ?>
+            <?php if (in_array($field, [
+                'guardian_name', 'guardian_occupation', 'guardian_relationship',
+                'guardian_monthly_income', 'guardian_annual_income'
+            ])) : ?>
+                <tr>
+                    <th><?php echo ucwords(str_replace('_', ' ', $field)) . ': '; ?></th>
+                    <td><?php echo $value; ?></td>
+                </tr>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </table>
+</div>
+
 <div class="applicant-info">
     <h2>Educational Background</h2>
     <table>
@@ -155,75 +173,43 @@ if (mysqli_num_rows($result) > 0) {
     </table>
 </div>
 
-<!-- Table 2: Family Background -->
-<div class="applicant-info">
-    <h2>Family Background</h2>
-    <table>
-        <?php foreach ($applicantInfo as $field => $value) : ?>
-            <?php if (in_array($field, [
-                'guardian_name', 'guardian_occupation', 'guardian_relationship',
-                'guardian_monthly_income', 'guardian_annual_income'
-            ])) : ?>
-                <tr>
-                    <th><?php echo ucwords(str_replace('_', ' ', $field)) . ': '; ?></th>
-                    <td><?php echo $value; ?></td>
-                </tr>
-            <?php endif; ?>
-        <?php endforeach; ?>
-    </table>
-</div>
-
  <!-- table for displaying the uploaded files as images -->
  <div class="uploaded-files">
             <table>
                <tr>
                   <td>
                      <div class="file-group">
-                     <?php
-// Ensure Imagick is installed and enabled
-if (!extension_loaded('imagick')) {
-    echo 'Imagick extension is not available.';
-    // Handle the situation where Imagick is not available
-    exit;
-}
-
-// Loop through uploaded files and display them in groups of three
-$fileCounter = 0;
-
-$pdfFiles = array(
-    'uploadVotersParent' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_VotersParent.pdf',
-    'uploadITR' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_ITR.pdf',
-    'uploadResidency' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Residency.pdf',
-    'uploadCOR' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_COR.pdf',
-    'uploadGrade' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Grade.pdf'
-);
-
-// Output image file paths
-$imageFiles = array();
-foreach ($pdfFiles as $key => $pdfFile) {
-    $outputImage = '../../../../lppp-reg-form/converted-images/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_' . $key . '.jpg';
-
-    try {
-        $imagick = new Imagick();
-        $imagick->readImage($pdfFile);
-        $imagick->setIteratorIndex(0); // Adjust the page index if needed
-
-        // Optional: Set resolution and background color
-        // $imagick->setResolution(300, 300);
-        // $imagick->setImageBackgroundColor('white');
-
-        $imagick->setImageCompressionQuality(100);
-        $imagick->setImageFormat('jpg');
-        $imagick->writeImage($outputImage);
-        $imagick->destroy();
-
-        // Log success
-        echo "<script>console.log('Conversion success for $key. Output Image: $outputImage');</script>";
-    } catch (Exception $e) {
-        // Log error
-        echo "<script>console.error('Error converting $key:', '" . $e->getMessage() . "', PDF File: $pdfFile, Output Image: $outputImage');</script>";
-    }
-}
+                        <?php
+                           // Loop through uploaded files and display them in groups of three
+                           $fileCounter = 0;
+                           
+                           // Path to Ghostscript executable
+                           $ghostscriptPath = 'C:\Program Files\gs10.01.2\bin\gswin64c.exe';  // Replace with your Ghostscript path
+                           
+                           $pdfFiles = array(
+                           'uploadVotersParent' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_VotersParent.pdf',
+                           'uploadITR' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_ITR.pdf',
+                           'uploadResidency' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Residency.pdf',
+                           'uploadCOR' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_COR.pdf',
+                           'uploadGrade' => '../../../../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Grade.pdf'
+                           );
+                           
+                           // Output image file paths
+                           $imageFiles = array();
+                           
+                           // Convert PDF files to images
+                           foreach ($pdfFiles as $key => $pdfFile) {
+                           $outputImage = '../../../../lppp-reg-form/converted-images/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_' . $key . '.jpg'; // Replace with the desired output image path and extension
+                           $imageFiles[$key] = $outputImage;
+                           
+                           // Command to convert PDF to image using Ghostscript
+                           $command = '"' . $ghostscriptPath . '" -dSAFER -dBATCH -dNOPAUSE -sDEVICE=jpeg -r300 -sOutputFile="' . $outputImage . '" "' . $pdfFile . '"';
+                           
+                           // Execute the Ghostscript command
+                           exec($command);
+                           
+                           
+                           }
                            echo "<h2 class='to_center'>Scanned Documents</h2>";
                            // Voters applicant
                            echo '<table class="table" style="width: 80%;">';
@@ -291,9 +277,10 @@ foreach ($pdfFiles as $key => $pdfFile) {
                   </td>
                </tr>
             </table>
-  
-            <button type="submit" name="update_info">Update</button>
+  <div style="display: flex; justify-content: center;">
+            <button type="submit" class = "update-btn" name="update_info">Update</button>
             <input type="hidden" name="id" value="<?php echo $ceapRegFormId; ?>">
+  </div>
         </form>
     </div>
 </div>
