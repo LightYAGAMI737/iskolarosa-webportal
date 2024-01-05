@@ -124,7 +124,7 @@ if ($_SESSION['role'] !== 1) {
 ?>
 
       </div>
-      <!-- Set Interview Modal (hidden by default) -->
+      <!-- Set exam Modal (hidden by default) -->
 <div id="myModal" class="modal">
    <div class="modal-content">
       <span class="close" id="closeModalBtn">&times;</span>
@@ -144,7 +144,7 @@ if ($_SESSION['role'] !== 1) {
                   updateCurrentDateTimeLPPP();
                   setInterval(updateCurrentDateTimeLPPP, 1000); // Update every 1 second
                </script> -->
-         <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+         <form method="post" id="setexamForm" action="<?php echo $_SERVER['PHP_SELF']; ?>">
             <div class="form-group">
                <label for="exam_date">Date</label>
               <input type="date" name="exam_date" id="exam_date" class="form-control" required onkeydown="preventInput(event)"

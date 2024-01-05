@@ -35,9 +35,9 @@
     if (CEAPconfigPopup) {
         CEAPconfigPopup.style.display = "none";
     }
-    if (LPPPconfigPopup) {
-      LPPPconfigPopup.style.display = "none";
-  }
+    if (examLPPPpopup) {
+        examLPPPpopup.style.display = "none";
+    }
   if (postdeletepopup) {
     postdeletepopup.style.display = "none";
 }

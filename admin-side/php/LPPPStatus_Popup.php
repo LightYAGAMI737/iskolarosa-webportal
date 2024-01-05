@@ -56,7 +56,7 @@
             <p>Are you sure you want to proceed with the updating of applicant's status to <strong>Exam</strong>?  Please note that by doing so, you are confirming the accuracy of the provided information.</p>
         </center>
         <div style="padding: 3px;">
-            <button type="button" class="cancel-button" style="margin-right: 15px; background-color: #C0C0C0;">
+            <button type="button" class="cancel-button" style="margin-right: 15px; background-color: #C0C0C0;" onclick="document.querySelectorAll('#setexamForm input').forEach(input => input.value = '')">
                 <i class="ri-close-fill"></i>
                 <span>Cancel</span>
             </button>
