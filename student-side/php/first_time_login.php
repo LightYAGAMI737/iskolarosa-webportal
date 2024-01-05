@@ -63,6 +63,23 @@
 			</div>
 		</div>
 	</section>
+    <script>
+  // Get the input elements by their IDs
+  var new_password = document.getElementById('new_password');
+    var confirm_password = document.getElementById('confirm_password');
+
+    // Add an event listener for the 'input' event on the username input
+    new_password.addEventListener('input', function() {
+        // Remove any spaces from the input value
+        this.value = this.value.replace(/\s/g, '');
+    });
+
+    // Add an event listener for the 'input' event on the password input
+    confirm_password.addEventListener('input', function() {
+        // Remove any spaces from the input value
+        this.value = this.value.replace(/\s/g, '');
+    });
+</script>
 	<script>
     var cancelresetBtn = document.getElementById("cancelForgotPassword");
         cancelresetBtn.addEventListener("click", function () {
