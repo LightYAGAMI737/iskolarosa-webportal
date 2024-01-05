@@ -38,7 +38,7 @@
                   <form method="post"  action ="./php/login_process.php" class="module__wrapper__form__content__login">
                      <div class="separator"></div>
                      <div class="module__wrapper__form__content__login__field-input js-username">
-                        <input type="text" name="username" class="username" autocomplete="off">
+                        <input type="text" name="username" id="usernameInput" class="username" autocomplete="off">
                         <label for="username">Control Number (2023-1234-APLA)</label>
                      </div>
                      <div class="module__wrapper__form__content__login__field-input js-password">
@@ -47,19 +47,19 @@
                         <span class="password-toggle" id="password-toggle" onclick="togglePassword()"><i class="ri-eye-off-fill"></i></span>
                      </div>
                      <?php
-// Check for an error parameter in the URL
-if (isset($_GET['error'])) {
-    $error = $_GET['error'];
-    echo "<p style='color: red; text-align: center;'>$error</p>";
+                        // Check for an error parameter in the URL
+                        if (isset($_GET['error'])) {
+                           $error = $_GET['error'];
+                           echo "<p style='color: red; text-align: center;'>$error</p>";
 
-    // JavaScript to remove the error parameter from the URL
-    echo "<script> 
-        if (window.history.replaceState) {
-            window.history.replaceState(null, null, window.location.pathname);
-        }
-    </script>";
-}
-?>
+                           // JavaScript to remove the error parameter from the URL
+                           echo "<script> 
+                              if (window.history.replaceState) {
+                                    window.history.replaceState(null, null, window.location.pathname);
+                              }
+                           </script>";
+                        }
+                        ?>
       
                      <div class="module__wrapper__form__content__login__forgot-pass">
                         <a href="./php/forgotpassword.php">Forgot password?</a>
@@ -84,6 +84,23 @@ if (isset($_GET['error'])) {
             </div>
          </div>
       </section>
+      <script>
+  // Get the input elements by their IDs
+  var usernameInput = document.getElementById('usernameInput');
+    var passwordFieldS = document.getElementById('password');
+
+    // Add an event listener for the 'input' event on the username input
+    usernameInput.addEventListener('input', function() {
+        // Remove any spaces from the input value
+        this.value = this.value.replace(/\s/g, '');
+    });
+
+    // Add an event listener for the 'input' event on the password input
+    passwordFieldS.addEventListener('input', function() {
+        // Remove any spaces from the input value
+        this.value = this.value.replace(/\s/g, '');
+    });
+</script>
       <script>
  function togglePassword() {
         const passwordInput = document.getElementById('password');
