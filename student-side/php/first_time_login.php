@@ -1,40 +1,73 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Update Password</title>
-    <link rel="stylesheet" href="../css/first_time_login.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iSKOLAROSA | Update Password</title>
+    <link rel="icon" href="../../admin-side/system-images/iskolarosa-logo.png" type="image/png">
+	<!-- Bootstrap 5 CDN Link -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+	<!-- Custom CSS Link -->
+	<link rel="stylesheet" href="../../admin-side/css/forgotpassword.css">
+    <style>
+    .form-check {
+        display: flex;
+        align-items: center;
+    }
+
+    .form-check-label {
+        margin-left: 10px; /* Adjust the margin as needed to control the spacing */
+    }
+    .form-check-input:checked {
+    background-color: #FEC021;
+    border-color: #FEC021;
+    }
+    .form-design {
+        padding: 3rem 3rem 1rem!important;
+    }
+</style>
 </head>
-<body>
-    <div class="container">
-        <div class="header" style="background-color: #FEC021;"></div>
-        <h2>Update Your Password</h2>
-        <h4>(For first time log in)</h4>
-        
+<body> 
+    <section class="wrapper">
+		<div class="container" style="margin-top: 100px;">
+			<div class="col-sm-8 offset-sm-2 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4 text-center">
+				<div class="logo">
+					<img decoding="async" src="../../admin-side/system-images/iskolarosa-logo.png" class="img-fluid" alt="logo" >
+				</div>
+                <form class="rounded bg-white shadow form-design" action="first_time_login_process.php" method="post">
+                    <h3 class="text-dark fw-bolder fs-4 mb-2">Update Password</h3>
+                        <div class="fw-normal text-muted mb-4">
+                        </div>  
+                            <div class="form-floating mb-3">
+                                <input type="password" class="form-control" style="margin-bottom: 10px;" id="new_password" name="new_password" placeholder="New Password">
+                                <label for="new_password">New Password</label>
+                                <span id="new_password_error"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="password" class="form-control" style="margin-bottom: 10px;" id="confirm_password" name="confirm_password" placeholder="Confirm New Password">
+                                <label for="confirm_password">Confirm New Password</label>
+                                <span id="confirm_password_error"></span>
+                            </div>
 
-        <!-- Display error message if there is any -->
-        <?php
-        if (isset($_GET['error'])) {
-            $error = $_GET['error'];
-            if ($error === "PasswordMismatch") {
-                echo '<p class="error-message">Passwords do not match.</p>';
-            } elseif ($error === "DatabaseError") {
-                echo '<p class="error-message">Error updating the password. Please try again later.</p>';
-            }
-        }
-        ?>
-   <form action="first_time_login_process.php" method="POST">
-            <label for="new_password">New Password:</label>
-            <input type="password" name="new_password" id="new_password" required>
-            <br>
-            <label for="confirm_password">Confirm New Password:</label>
-            <input type="password" name="confirm_password" id="confirm_password" required>
-            <!-- Add the error message below the confirm password input -->
-            <p class="error-message" style="color: red; display: none;">Passwords do not match.</p>
-            <br>
-            <input type="submit" value="Update Password" id="update_button" disabled>
-        </form>
-    </div>
-
-    <script src="../js/update_password.js"></script>
+                            <div class="form-check mt-2">
+                                <input type="checkbox" class="form-check-input" id="showPassword">
+                                <label class="form-check-label" for="showPassword">Show Password</label>
+                            </div>
+    <button type="submit" class="btn btn-primary submit_btn my-4" id="submitForgotPassword" disabled>Submit</button>
+    <button type="button" class="btn btn-secondary submit_btn my-4 ms-3" id="cancelForgotPassword">Cancel</button>
+</form>
+			</div>
+		</div>
+	</section>
+	<script>
+    var cancelresetBtn = document.getElementById("cancelForgotPassword");
+        cancelresetBtn.addEventListener("click", function () {
+            window.location.href = "../index.php";
+        });
+</script>
+    <script src="../../admin-side/js/validatepassword.js"></script>
 </body>
 </html>
