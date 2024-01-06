@@ -160,6 +160,7 @@
                </ul>
             </div>
          </div>
+
          <div class="table-status">
     <table>
         <thead>
@@ -167,7 +168,7 @@
                 <th>Updated Date</th>
                 <th>Status</th>
                 <th>Description</th>
-                <th>Updated By</th>
+                <th>Approved By</th>
             </tr>
         </thead>
         <tbody>
@@ -175,7 +176,7 @@
                 $interviewDisplayed = false; // Initialize the variable to track 'interview' status
 
                 // Loop through the fetched data and populate the table
-                while ($tempAccountRow = mysqli_fetch_assoc($tempAccountResultTable)) {
+                if ($tempAccountRow = mysqli_fetch_assoc($tempAccountResultTable)) {
                     $status = $tempAccountRow['status'];
                     $interview_date = $tempAccountRow['interview_date'];
                     $interview_dateFormatted = date('F d, Y', strtotime($interview_date));
@@ -217,22 +218,20 @@
                     }
             
                     echo '<tr>';
-                    echo '<td>' . $dateFormatted . '</td>';
-                    echo '<td>' . strtoupper($status) . '</td>';
-                    echo '<td>' . $description . '</td>'; // Use the variable here
-                    echo '<td>' . $tempAccountRow['updated_by'] . '</td>';
+                    echo '<td data-label="Date:">' . $dateFormatted . '</td>';
+                    echo '<td data-label="Status:">' . strtoupper($status) . '</td>';
+                    echo '<td data-label="Description:">' . $description . '</td>'; // Use the variable here
+                    echo '<td data-label="Approved by:">' . $tempAccountRow['updated_by'] . '</td>';
                     echo '</tr>';
+
                 }
             ?>
         </tbody>
     </table>
 </div>
-
-
       </div>
 
       <script src="./js/bootstrap.min.js"></script>
-
 
 <!-- Add this JavaScript code after your PHP code and HTML -->
 <script>
@@ -324,9 +323,5 @@
         }
     });
 </script>
-
-
-
-
    </body>
 </html>

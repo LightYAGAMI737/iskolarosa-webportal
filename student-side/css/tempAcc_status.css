@@ -120,6 +120,8 @@
 }
 .name-uppercase{
     text-transform: uppercase;
+    font-weight: bolder;
+    color: #A5040A;
 }
 .table-status {
     margin: 50px 100px;
@@ -196,18 +198,53 @@ th, td {
     .ul-progress li.progress-step .icon {
         margin: 29px 0px !important;
     }
-
+    .name-uppercase {
+        font-size: 13px;
+        font-weight: bolder;
+        color: #A5040A;
+    }
     .table-status {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        display: block;
         overflow-x: auto;
-        margin: 90px 20px;
+        margin: 100px 20px 15px;
     }
 
     table {
-        max-width: 100%;
-        overflow-x: auto;
+        width: 100%;
+    }
+
+    table thead {
+        display: none; /* Hide the table header in mobile view */
+    }
+
+    table tbody {
+        display: block;
+    }
+
+    table tbody tr {
+        display: block;
+        margin-bottom: 20px;
+        border: 1px solid #ddd; /* Optional: Add borders between table rows */
+        border-radius: 8px;
+        padding: 10px;
+    }
+
+    table tbody td {
+        display: block;
+        position: relative;
+        padding-left: 40%;
+        height: 70px;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    table tbody td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 5%;
+        font-weight: bold;
     }
 }
 

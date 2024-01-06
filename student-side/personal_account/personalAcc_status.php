@@ -36,7 +36,7 @@
     $control_number = $applicantData['control_number'];
     $status = $applicantData['status'];
     }
-    
+
 // Prepare the second query
 $tempAccountSqlTable = "
     SELECT DISTINCT *
@@ -160,7 +160,7 @@ $tempAccountResultTable = mysqli_stmt_get_result($stmtTable);
                 <th>Updated Date</th>
                 <th>Status</th>
                 <th>Description</th>
-                <th>Updated By</th>
+                <!-- <th>Approved By</th> -->
             </tr>
         </thead>
         <tbody>
@@ -168,7 +168,7 @@ $tempAccountResultTable = mysqli_stmt_get_result($stmtTable);
                 $interviewDisplayed = false; // Initialize the variable to track 'interview' status
 
                 // Loop through the fetched data and populate the table
-                while ($tempAccountRow = mysqli_fetch_assoc($tempAccountResultTable)) {
+                if ($tempAccountRow = mysqli_fetch_assoc($tempAccountResultTable)) {
                     $status = $tempAccountRow['status'];
                     $interview_date = $tempAccountRow['interview_date'];
                     $interview_dateFormatted = date('F d, Y', strtotime($interview_date));
@@ -209,10 +209,10 @@ $tempAccountResultTable = mysqli_stmt_get_result($stmtTable);
                     }
             
                     echo '<tr>';
-                    echo '<td>' . $dateFormatted . '</td>';
-                    echo '<td>' . strtoupper($status) . '</td>';
-                    echo '<td>' . $description . '</td>'; // Use the variable here
-                    echo '<td>' . '' . '</td>';
+                    echo '<td data-label="Date:">' . $dateFormatted . '</td>';
+                    echo '<td data-label="Status:">' . strtoupper($status) . '</td>';
+                    echo '<td data-label="Description:">' . $description . '</td>'; // Use the variable here
+                    // echo '<td data-label="Approved by:">' . ' '. '</td>';
                     echo '</tr>';
                 }
             ?>
@@ -330,9 +330,5 @@ $tempAccountResultTable = mysqli_stmt_get_result($stmtTable);
         }
     });
 </script>
-
-
-
-
    </body>
 </html>
