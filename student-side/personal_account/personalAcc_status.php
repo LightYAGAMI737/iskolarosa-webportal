@@ -61,7 +61,9 @@ $tempAccountResultTable = mysqli_stmt_get_result($stmtTable);
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
       <link rel="stylesheet" href="../../admin-side/css/remixicon.css">
       <link rel="stylesheet" href="../css/tempAcc_nav.css">
+    <link rel="stylesheet" href="../../home-page-two/css/home-page.css">
       <link rel="stylesheet" href="../css/tempAcc_status.css">
+
    </head>
    <body>
       <?php

@@ -66,7 +66,9 @@ body {
     margin: 0 10px;
 }
 /* css for personal account nav */
-
+.logout-profile {
+    margin-right: 30px;
+}
 .dropdown-toggle {
     background-color: #A5040A !important;
     color: #fff !important; 
@@ -114,5 +116,7 @@ body {
         margin-bottom: 40px !important;
 
     }
-
+    .btn-group {
+        display: block !important;
+    }
 }

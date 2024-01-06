@@ -22,7 +22,7 @@ $currentFile = basename($_SERVER['PHP_SELF']);
 $homeClass = ($currentFile == 'personalAcc_home.php') ? 'active' : '';
 $statusClass = ($currentFile == 'personalAcc_status.php') ? 'active' : '';
 $guideClass = ($currentFile == 'personalAcc_quickguide.php') ? 'active' : '';
-$contactClass = ($currentFile == 'contact_us.php') ? 'active' : '';
+$contactClass = ($currentFile == 'home-page-contact.php') ? 'active' : '';
 $profileClass = ($currentFile == 'personalAcc_profile.php') ? 'active' : '';
 $changepassClass = ($currentFile == 'personalAcc_changepass.php') ? 'active' : '';
 $logoutClass = ($currentFile == 'logout.php') ? 'active' : '';
@@ -33,26 +33,22 @@ $logoutClass = ($currentFile == 'logout.php') ? 'active' : '';
         <a class="navbar-brand" href="#">
             <img src="../../admin-side/system-images/iskolarosa-logo.png" alt="My Logo" class="img-logo">
         </a>
-        <a href="#" class="brand">iSKOLAROSA</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link <?php echo $homeClass; ?>" href="<?php echo $homeLink; ?>">Home</a>
+                <li class="nav-item <?php echo $homeClass; ?>">
+                    <a class="nav-link" href="<?php echo $homeLink; ?>">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link <?php echo $statusClass; ?>" href="personalAcc_status.php">Status</a>
+                <li class="nav-item  <?php echo $statusClass; ?>">
+                    <a class="nav-link" href="personalAcc_status.php">Status</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link <?php echo $guideClass; ?>" href="personalAcc_quickguide.php">Quick Guide</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link <?php echo $contactClass; ?>" href="#">Contact Us</a>
+                <li class="nav-item <?php echo $contactClass; ?>">
+                    <a class="nav-link " href="home-page-contact.php">Contact Us</a>
                 </li>
                 <li class="nav-item"> <!--for logout and other options-->
-                    <div class="btn-group">
+                    <div class="btn-group logout-profile">
                         <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="ri-graduation-cap-fill"></i>
                         </button>
