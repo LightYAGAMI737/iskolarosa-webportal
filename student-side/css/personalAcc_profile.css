@@ -133,7 +133,7 @@ select[disabled] {
 
 table {
     text-transform: uppercase !important;
-}
+}/* Optional: Add some spacing between table cells on smaller screens */
 /* Optional: Add some spacing between table cells on smaller screens */
 @media (max-width: 767px) {
     .applicant-info-left th,
@@ -141,5 +141,31 @@ table {
     .applicant-info-right th,
     .applicant-info-right td {
         padding: 5px;
+        width: 100% !important; /* Make both left and right sections take full width */
+    }
+
+    /* Styles for screens smaller than 768 pixels wide (e.g., mobile devices) */
+    .content-applicant-info {
+        flex-direction: column; /* Adjust layout to be a single column */
+    }
+
+    .applicant-info-left,
+    .applicant-info-right{
+        width: 95% !important; /* Make both left and right sections take full width */
+    }
+    /* New class to stack label above input text */
+    .stack-label-top td {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+    }
+    input, select {
+        width: 100% !important;
+    }
+    .stack-label-top td span {
+        margin-top: 5px; /* Add some space between label and input */
+    }
+    .prev {
+        margin-right: 0px;
     }
 }

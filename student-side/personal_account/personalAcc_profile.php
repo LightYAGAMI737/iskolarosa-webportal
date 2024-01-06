@@ -48,7 +48,7 @@ function calculateAge($birthdate)
          include 'personalAcc_nav.php';
          include '../php/updateInfoPopup.php';
          ?>
-    <div class="heading">
+    <div class="heading ">
         <h4>iSkolar Profile</h4>
     </div>
       <div class="content-out-profile">
@@ -82,39 +82,39 @@ function calculateAge($birthdate)
                     <div class="content-applicant-info">
                         <div class="applicant-info-left">
                             <table>
-                            <tr>
+                            <tr class="stack-label-top">
                                 <td>Control Number:</td>
                                 <td><strong><?php echo $control_number; ?></strong></td>
                             </tr>
-                            <tr>
+                            <tr class="stack-label-top">
                                 <td>Name:</td>
                                 <td><strong><?php echo $last_name . ' ' . $first_name . ' ' . $middle_name . ' ' . $suffix_name; ?></strong></td>
                             </tr>
-                            <tr>
+                            <tr class="stack-label-top">
                                 <td>Date of Birth:</td>
                                 <td><strong><?php echo formatBirthdate($date_of_birth); ?></strong></td>
                             </tr>
-                            <tr>
+                            <tr class="stack-label-top">
                                 <td>Age:</td>
                                 <td><strong><?php echo calculateAge($date_of_birth); ?></strong></td>
                             </tr>
-                            <tr>
+                            <tr class="stack-label-top">
                                 <td>Place of Birth:</td>
                                 <td><strong><?php echo $place_of_birth; ?></strong></td>
                             </tr>
-                            <tr>
+                            <tr class="stack-label-top">
                                 <td>Contact Number:</td>
                                 <td><input type="text" id="contact_number" placeholder="Contact Number" minlength="11" maxlength="11" name="contact_number" value="<?php echo $contact_number; ?>"></td>
                                 <tr><td></td>
                                 <td><span id="contact_number_error"></span></td></tr>
                             </tr>
-                            <tr>
+                            <tr class="stack-label-top">
                                 <td>Email Address:</td>
                                 <td><input type="text" name="email_address" id="active_email_address"  placeholder="Active email address" minlength="10" maxlength="100" value="<?php echo $active_email_address; ?>"></td>
                                 <tr><td></td>
                                 <td><span id="active_email_address_error"></span></td></tr>
                             </tr>
-                            <tr>
+                            <tr class="stack-label-top">
                             <td>Civil Status:</td>
                             <td>
                                 <select name="civil_status" id="civil_status">
@@ -126,7 +126,7 @@ function calculateAge($birthdate)
                                 </select>
                             </td>
                             </tr>
-                            <tr>
+                            <tr class="stack-label-top">
                                 <td>Religion:</td>
                                 <td><input type="text" name="religion" id="religion" placeholder="Religion" minlength="2" maxlength="25" value="<?php echo $religion; ?>" oninput="validateMinLength(this, 2)"></td>
                                 <tr><td></td>
@@ -136,13 +136,13 @@ function calculateAge($birthdate)
                         </div>
                         <div class="applicant-info-right">
                             <table>
-                            <tr>
+                            <tr class="stack-label-top">
                                 <td>House No. / Blk / Lot No. :</td>
                                 <td><input type="text" name="house_number" id="house_number" placeholder="House No. / Blk / Lot No." minlength="2" maxlength="100" value="<?php echo $house_number; ?>" oninput="validateMinLength(this, 2)"></td>
                                 <tr><td></td>
                                 <td><span id="house_number_error"></span></td></tr>
                             </tr>
-                            <tr>
+                            <tr class="stack-label-top">
                                 <td>Barangay:</td>
                                 <td>
                                     <select name="barangay" id="barangay">
@@ -152,11 +152,11 @@ function calculateAge($birthdate)
                                     </select>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="stack-label-top">
                                 <td>Municipality: </td>
                                 <td><strong><?php echo $municipality; ?></strong></td>
                             </tr>
-                            <tr>
+                            <tr class="stack-label-top">
                                 <td>Province: </td>
                                 <td><strong><?php echo $province; ?></strong></td>
                             </tr>
@@ -175,31 +175,31 @@ function calculateAge($birthdate)
                     <div class="content-applicant-info">
                         <div class="applicant-info-left">
                             <table>
-                            <tr>
+                            <tr class="stack-label-top">
                                 <td>Elementary School & Year Graduated:  </td>
                                 <td><strong><?php echo $elementary_school . ' (' . $elementary_year . ')'; ?></strong></td>
                             </tr>
-                            <tr>
+                            <tr class="stack-label-top">
                                 <td>Junior High School & Year Graduated: </td>
                                 <td><strong><?php echo $secondary_school . ' (' . $secondary_year . ')'; ?></strong></td>
                             </tr>
-                            <tr>
+                            <tr class="stack-label-top">
                                 <td>Senior High School & Year Graduated: </td>
                                 <td><strong><?php echo $senior_high_school . ' (' . $senior_high_year . ')'; ?></strong></td>
                             </tr>
-                            <tr>
+                            <tr class="stack-label-top">
                                 <td>Tertiary/University School Name: </td>
                                 <td><input type="text" name="school_name" id="school_name" placeholder="Tertiary/University School Name" minlength="2" maxlength="100" value="<?php echo $school_name; ?>" oninput="validateMinLength(this, 2)"></td>
                                 <tr><td></td>
                                 <td><span id="school_name_error"></span></td></tr>
                             </tr>
-                            <tr>
+                            <tr class="stack-label-top">
                                 <td>School Address: </td>
                                 <td><input type="text" name="school_address" id="school_address" placeholder="School Address" minlength="2" maxlength="100" value="<?php echo $school_address; ?>" oninput="validateMinLength(this, 2)"></td>
                                 <tr><td></td>
                                 <td><span id="school_address_error"></span></td></tr>
                             </tr>
-                            <tr>
+                            <tr class="stack-label-top">
                                 <td>School Type: </td>
                                 <td>
                                     <select name="school_type" id="school_type"> 
@@ -208,13 +208,13 @@ function calculateAge($birthdate)
                                     </select>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="stack-label-top">
                                 <td>Course Enrolled: </td>
                                 <td><input type="text" name="course_enrolled" id="course_enrolled" placeholder="Course Enrolled" minlength="2" maxlength="100" value="<?php echo $course_enrolled; ?>" oninput="validateMinLength(this, 2)"></td>
                                 <tr><td></td>
                                 <td><span id="course_enrolled_error"></span></td></tr>
                             </tr>
-                            <tr>
+                            <tr class="stack-label-top">
                                 <td>Current Year Level:</td>
                                 <td>
                                     <select name="year_level" id="year_level">
@@ -227,7 +227,7 @@ function calculateAge($birthdate)
                                     </select>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="stack-label-top">
                                 <td>Current Semester: </td>
                                 <td>
                                     <select name="current_semester" id="current_semester">
@@ -237,12 +237,11 @@ function calculateAge($birthdate)
                                     </select>
                                 </td>
                             </tr>
-                  
                             </table>
                         </div>
                         <div class="applicant-info-right">
                             <table>
-                            <tr>
+                            <tr class="stack-label-top">
                                 <td>Graduating?: </td>
                                 <td>
                                     <select name="graduating" id="graduating">
@@ -251,14 +250,14 @@ function calculateAge($birthdate)
                                     </select>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="stack-label-top">
                                 <td>No of Units:  </td>
                                 <td><input type="text" name="no_of_units" id="no_of_units" placeholder="No of Units" minlength="2" maxlength="100" value="<?php echo $no_of_units; ?>"></td>
                                 <tr><td></td>
                                 <td><span id="no_of_units_error"></span></td></tr>
                             </tr>
-                            <tr>
-                                <td>expected_year_of_graduation?: </td>
+                            <tr class="stack-label-top">
+                                <td>Expected Year of Graduation: </td>
                                 <td>
                                     <select name="expected_year_of_graduation" id="expected_year_of_graduation">
                                         <option value="2029" <?php if ($expected_year_of_graduation == '2029') echo 'selected'; ?>>2029</option>
@@ -266,7 +265,7 @@ function calculateAge($birthdate)
                                     </select>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="stack-label-top">
                                 <td>Student ID No.:  </td>
                                 <td><input type="text" name="student_id_no" id="student_id_no" placeholder="Student ID No." minlength="2" maxlength="100" value="<?php echo $student_id_no; ?>" oninput="validateMinLength(this, 2)"></td>
                                 <tr><td></td>
@@ -289,37 +288,37 @@ function calculateAge($birthdate)
                     <div class="content-applicant-info">
                         <div class="applicant-info-left">
                             <table>
-                            <tr>
+                            <tr class="stack-label-top">
                                 <td>Guradian Last Name: </td>
                                 <td><input type="text" name="guardian_lastname" id="guardian_lastname" placeholder="Guardian Last Name" minlength="2" maxlength="100" value="<?php echo $guardian_lastname; ?>"></td>
                                 <tr><td></td>
                                 <td><span id="guardian_lastname_error"></span></td></tr>
                             </tr>
-                            <tr>
+                            <tr class="stack-label-top">
                                 <td>Guradian First Name: </td>
                                 <td><input type="text" name="guardian_firstname" id="guardian_firstname" placeholder="Guardian First Name" minlength="2" maxlength="100" value="<?php echo $guardian_firstname; ?>"></td>
                                 <tr><td></td>
                                 <td><span id="guardian_firstname_error"></span></td></tr>
                             </tr>
-                            <tr>
+                            <tr class="stack-label-top">
                                 <td>Relationship: </td>
                                 <td><input type="text" name="guardian_relationship" id="guardian_relationship" placeholder="Relationship" minlength="2" maxlength="100" value="<?php echo $guardian_relationship; ?>"></td>
                                 <tr><td></td>
                                 <td><span id="guardian_relationship_error"></span></td></tr>
                             </tr>
-                            <tr>
+                            <tr class="stack-label-top">
                                 <td>Occupation: </td>
                                 <td><input type="text" name="guardian_occupation" id="guardian_occupation" placeholder="Occupation" minlength="2" maxlength="100" value="<?php echo $guardian_occupation; ?>"></td>
                                 <tr><td></td>
                                 <td><span id="guardian_occupation_error"></span></td></tr>
                             </tr>
-                            <tr>
+                            <tr class="stack-label-top">
                                 <td>Monthly Income: </td>
                                 <td><input type="text" name="guardian_monthly_income" id="guardian_monthly_income" placeholder="Monthly Income" minlength="2" maxlength="100" value="<?php echo $guardian_monthly_income; ?>"></td>
                                 <tr><td></td>
                                 <td><span id="guardian_monthly_income_error"></span></td></tr>
                             </tr>
-                            <tr>
+                            <tr class="stack-label-top">
                                 <td>Annual Income: </td>
                                 <td><input type="text"  style="border: none;"  name="guardian_annual_income" id="guardian_annual_income" placeholder="Annual Income" minlength="2"  readonly maxlength="100" value="<?php echo $guardian_annual_income; ?>"></td>
                                 <tr><td></td>
@@ -379,8 +378,6 @@ function calculateAge($birthdate)
 
        </script>
 
-
-
 <!-- Add this JavaScript code after your PHP code and HTML -->
 <script>
  function nextPage(nextFieldsetId) {
@@ -398,9 +395,5 @@ function prevPage(prevFieldsetId) {
 var currentFieldsetId = 'first-page'; // Initialize with the first fieldset ID
 
 </script>
-
-
-
-
    </body>
 </html>
