@@ -13,7 +13,6 @@ button,
 select,
 option {
   font: inherit;
-  border-radius: 5px;
   border: none;
   outline: none;
 }
@@ -227,6 +226,7 @@ body {
   font-weight: 500;
   margin: 10px 0 20px;
   cursor: pointer;
+  border-radius: 13px;
 }
 
 .module__wrapper__form__content__login__copyright {
