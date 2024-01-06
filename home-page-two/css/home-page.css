@@ -258,6 +258,12 @@ body {
     .bottom-left-row {
         order: 3;
     }
+    .announcement-inner-card {
+        margin: 25px 20px 25px 23px;
+    }
+    .top-left-row {
+        height: 150px;
+    }
 }
 
 @media (max-width: 990px) {
@@ -275,7 +281,7 @@ body {
         border-radius: 15px;
     }
     .top-left-row{
-        margin-bottom: -40px !important;
+        margin-bottom: 10px !important;
     }
     .left-card {
         margin-bottom: 40px !important;

@@ -57,7 +57,6 @@
     $tempAccountResultTable = mysqli_stmt_get_result($stmtTable);
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
    <head>

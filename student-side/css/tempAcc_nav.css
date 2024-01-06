@@ -30,21 +30,27 @@ body {
     font-family: 'Inter', sans-serif;
     --bs-navbar-brand-padding-y: 0 !important;
 }
-
-
 .navbar-nav .nav-item .nav-link {
     color: #A5040A;
     width: 120px;
     text-align: center;
     font-weight: bolder;
 }
-
 .navbar-nav .nav-item .nav-link.active {
     color: white !important;
     max-width: 120px !important;
+    border-radius: 15px !important;
     transition: background-color 0.3s !important;
     background-color: #A5040A !important; 
     border-radius: 15px !important;
+}
+.nav-item.active {
+    background-color: #A5040A !important; 
+    color: white !important;
+    border-radius: 15px !important;
+}
+.active a {
+    color: white !important;
 }
 
 .navbar-nav .nav-item .nav-link.active:hover {
@@ -59,7 +65,6 @@ body {
 .navbar-nav .nav-item {
     margin: 0 10px;
 }
-
 /* css for personal account nav */
 
 .dropdown-toggle {
@@ -81,4 +86,33 @@ body {
 .dropdown-item.active {
     background-color: #A5040A !important;
     border-radius: 15px;
+}
+
+
+@media (max-width: 990px) {
+    .navbar-nav {
+        background-color: rgba(236, 236, 236, 0.6); /* Adjust the alpha value (0.7) for the desired level of opacity */
+    }
+    
+    .nav-link {
+        text-align: left !important;
+    }
+    .navbar-nav .nav-item {
+        display: flex;
+        justify-content: center;
+        margin: 5px !important;
+        border-radius: 15px;
+    }
+    .top-left-row{
+        margin-bottom: 10px !important;
+    }
+    .left-card {
+        margin-bottom: 40px !important;
+    }
+    .right-column
+    {
+        margin-bottom: 40px !important;
+
+    }
+
 }

@@ -38,8 +38,7 @@ include '../admin-side/php/config_iskolarosa_db.php';
     <link rel="stylesheet" href="../home-page-two/css/home-page.css">
     <link rel="stylesheet" href="../home-page-two/css/homepage_modal.css">
     <link rel='stylesheet' href='../home-page-two/css/homepagereminderpopup.css'>
-    
- 
+    <link rel="stylesheet" href="./css/tempAcc_nav.css">
 </head>
 <body>
 <?php 
