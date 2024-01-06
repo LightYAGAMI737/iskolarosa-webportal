@@ -33,13 +33,13 @@ a {
 }
 
 span {
-  color: #b60000;
+  color: #A5040A;
 }
 
 body {
-  font-family: Arial;
   font-weight: normal;
   font-size: 100%;
+  font-family: 'Inter', sans-serif;
 }
 
 .module__wrapper {
@@ -81,18 +81,17 @@ body {
 }
 .module__wrapper__seal__fixed {
   position: fixed;
-  top: 45%;
+  top: 50%;
   left: 30%;
   transform: translate(-50%, -50%);
-  width: 500px;
+  width: 550px;
   height: 60%;
   background: url(../../admin-side/system-images/background-short.png) center no-repeat;
   background-size: cover;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 2rem;
-  box-shadow: 2px 5px 4px rgba(93, 95, 82, 0.796);
+  border-radius: 90px;
 }
 
 .module__wrapper__seal__fixed img {
@@ -149,19 +148,9 @@ body {
 
 .module__wrapper__form__content__title {
   font-size: 1.5rem;
-  width: min(100%, 290px);
-  padding-left: 10px;
-  position: relative;
+  width: min(100%, 241px);
   line-height: 1.1;
-}
-
-.module__wrapper__form__content__title::before {
-  content: "";
-  position: absolute;
-  width: 5px;
-  height: 100%;
-  background: #fec021;
-  left: 0;
+  margin: 0 auto;
 }
 
 .module__wrapper__form__content__login__field-select {
@@ -191,7 +180,8 @@ body {
 
 .module__wrapper__form__content__login__field-input.active label {
   font-size: 0.8rem;
-  top: 5px;
+  top: -7px;
+  background-color: white;
 }
 
 .module__wrapper__form__content__login__field-input.js-username {
@@ -199,31 +189,34 @@ body {
 }
 
 .module__wrapper__form__content__login__field-input input {
-  background: #f2f3f4;
+  background: white;
   width: 100%;
-  padding: 20px 15px 5px;
-  border: 2px solid #f2f3f4;
+  padding: 5px 15px 5px;
+  border: 2px solid black;
   transition: 0.3s ease;
+  border-radius: 13px;
+  height: 50px;
 }
 
 .module__wrapper__form__content__login__field-input input:focus {
-  border: 2px solid #b60000;
+  border: 2px solid black;
 }
 
 .module__wrapper__form__content__login__field-input input:focus ~ label {
-  color: #b60000;
+  color: #000000;
 }
 
 .module__wrapper__form__content__login__field-input label {
   position: absolute;
   left: 15px;
-  top: 13px;
+  top: 14px;
   color: #808080;
   transition: 0.3s ease;
 }
 
 .module__wrapper__form__content__login__forgot-pass {
   text-align: right;
+  margin: 10px 0px 5px 0px;
 }
 
 .module__wrapper__form__content__login__field-btn button {

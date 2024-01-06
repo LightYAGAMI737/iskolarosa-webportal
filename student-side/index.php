@@ -11,7 +11,6 @@
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
       <link rel="stylesheet" href="../admin-side/css/remixicon.css">
-      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
       <script src="js/app.js" defer></script>
       <style>
       </style>
@@ -32,11 +31,13 @@
                </div>
                <div class="module__wrapper__form__content">
                   <div class="module__wrapper__form__content__title">
-                     <h1><span>iSKOLAROSA</span></h1>
-                     <h6> SCHOLARS IN SANTA ROSA</h6>
+                     <h1 class="titleIskolarosa"><span>iSKOLAROSA</span></h1>
+                     <h6>Scholars in Santa Rosa Laguna</h6>
+                  </div>
+                  <div>
+                  <h5 style="font-weight: normal !important; margin: 30px 113px; font-size: 15px;">Log in to start your session</h5>
                   </div>
                   <form method="post"  action ="./php/login_process.php" class="module__wrapper__form__content__login">
-                     <div class="separator"></div>
                      <div class="module__wrapper__form__content__login__field-input js-username">
                         <input type="text" name="username" id="usernameInput" class="username" autocomplete="off">
                         <label for="username">Control Number (2023-1234-APLA)</label>
@@ -44,7 +45,8 @@
                      <div class="module__wrapper__form__content__login__field-input js-password">
                         <input type="password" name="password" id="password">
                         <label for="password">Password</label>
-                        <span class="password-toggle" id="password-toggle" onclick="togglePassword()"><i class="ri-eye-off-fill"></i></span>
+                        <span class="password-toggle" id="password-toggle" onclick="togglePassword()">
+                        <i class="ri-eye-off-fill"></i></span>
                      </div>
                      <?php
                         // Check for an error parameter in the URL
