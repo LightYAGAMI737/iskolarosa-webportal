@@ -49,7 +49,7 @@
     uploadVotersApplicant = getFileName(uploadVotersApplicant);
     uploadPhotoJPG = getFileName(uploadPhotoJPG);
     var uploadGrade = getFileName(document.getElementById("uploadGrade").value);
-    var uploadCOR = getFileName(document.getElementById("uploadVotersParent").value);
+    var uploadCOR = getFileName(document.getElementById("uploadCOR").value);
     var uploadVotersParent = getFileName(document.getElementById("uploadVotersParent").value);
     var uploadITR = getFileName(document.getElementById("uploadITR").value);
     var uploadResidency = getFileName(document.getElementById("uploadResidency").value);
