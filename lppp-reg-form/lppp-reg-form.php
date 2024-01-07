@@ -1,3 +1,32 @@
+<?php
+include '../admin-side/php/config_iskolarosa_db.php';
+
+date_default_timezone_set('Asia/Manila');
+$currentDateCEAPREGFORM = date('Y-m-d');
+$currentTimeCEAPREGFORM = date('H:i:s');
+$sql = "SELECT *
+        FROM lppp_configuration
+        ORDER BY id DESC
+        LIMIT 1";
+
+$stmt = mysqli_prepare($conn, $sql);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+
+// Fetch the first row from the result set
+$row = mysqli_fetch_assoc($result);
+
+// Close the statement and free the result set
+mysqli_stmt_close($stmt);
+mysqli_free_result($result);
+
+if ($row['toggle_value'] == 0) {
+    // The current date and time are not within the specified range
+    // Redirect the user or take appropriate action
+    echo 'The application has not started yet; please refer to the announcement page for the application period\'s start date.'; 
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
