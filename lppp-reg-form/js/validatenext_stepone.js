@@ -1,4 +1,3 @@
-
 // Function to check if all required fields are valid
 function areFieldsValid(fields) {
     for (const field of fields) {
@@ -9,7 +8,6 @@ function areFieldsValid(fields) {
     return true;
     
 }
-
 // Get all the required fields for step one
 const stepOneFields = document.querySelectorAll('#step_one input[required], #step_one select[required]');
 
@@ -17,14 +15,18 @@ const stepOneFields = document.querySelectorAll('#step_one input[required], #ste
 function updateNextButtonStatus() {
     const nextButton = document.getElementById('nextButtonStep_One');
     nextButton.disabled = !areFieldsValid(stepOneFields);
+    nextButton.addEventListener('mouseenter', displayTooltip);
+    nextButton.addEventListener('mouseleave', () => {
+        const tooltips = document.getElementById('tooltips');
+        tooltips.style.visibility = 'hidden';
+    });
 }
 
 // Attach input and blur event listeners to step one fields
 stepOneFields.forEach(field => {
     field.addEventListener('input', updateNextButtonStatus);
-    field.addEventListener('blur', updateNextButtonStatus);
+    field.addEventListener('change', updateNextButtonStatus);
 });
-
 
 const fieldsToValidate = document.querySelectorAll('input[name="last_name"], input[name="first_name"]');
 
@@ -294,3 +296,61 @@ document.addEventListener('click', (event) => {
         suffixOptionsContainer.style.display = 'none';
     }
 });
+
+function displayTooltip() {
+    const tooltips = document.getElementById('tooltips');
+    const requiredFields = document.querySelectorAll('#step_one [required]');
+
+    const tooltipsData = [
+        { field: 'uploadPhotoJPG', tooltip: 'Applicant\'s 2x2 Picture' },
+    ];
+
+    const missingFieldNames = Array.from(requiredFields)
+        .filter(field => !field.value.trim())
+        .map(field => {
+            const fieldName = field.getAttribute('id');
+            const tooltipObj = tooltipsData.find(item => item.field === fieldName);
+            if (tooltipObj) {
+                return tooltipObj.tooltip;
+            } else {
+                const previousElement = field.previousElementSibling;
+                return previousElement ? previousElement.textContent.trim() : '';
+            }
+        });
+
+    // Combine missing field names with line breaks
+    const tooltipText = (missingFieldNames.length > 0) ?
+        missingFieldNames.join("\n") : "";
+
+    if (missingFieldNames.length > 0) {
+        tooltips.textContent = tooltipText;
+        tooltips.style.visibility = 'visible';
+        tooltips.classList.add('active');
+    } else {
+        tooltips.textContent = "";
+        tooltips.style.visibility = 'hidden';
+        tooltips.classList.remove('active');
+    }
+}
+
+// Select all input and textarea elements with placeholders
+const inputElements = document.querySelectorAll('input[placeholder]');
+
+// Add event listeners for focus and blur
+inputElements.forEach(input => {
+    input.addEventListener('focus', function () {
+        // Store the placeholder attribute in a data attribute only if it exists
+        if (this.getAttribute('placeholder')) {
+            this.setAttribute('data-placeholder', this.getAttribute('placeholder'));
+            this.removeAttribute('placeholder');
+        }
+    });
+
+    input.addEventListener('change', function () {
+        // Restore the placeholder attribute from the data attribute if it exists
+        if (this.getAttribute('data-placeholder')) {
+            this.setAttribute('placeholder', this.getAttribute('data-placeholder'));
+        }
+    });
+});
+

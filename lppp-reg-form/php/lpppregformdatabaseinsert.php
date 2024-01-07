@@ -1,11 +1,11 @@
 <?php
 
-require_once '../PHPMailer/PHPMailer.php';
-require_once '../PHPMailer/SMTP.php';
-require_once '../PHPMailer/Exception.php'; 
+require_once '../../PHPMailer/PHPMailer.php';
+require_once '../../PHPMailer/SMTP.php';
+require_once '../../PHPMailer/Exception.php'; 
 
 
-include '../admin-side/php/config_iskolarosa_db.php';
+include '../../admin-side/php/config_iskolarosa_db.php';
 
 function handleEmptyValue($value) {
   return empty($value) ? "N/A" : $value;
@@ -14,7 +14,7 @@ function handleEmptyValue($value) {
  function sendEmail($email, $username)
  {
  
-     require_once '../admin-side/php/PHPMailerConfigure.php';
+     require_once '../../admin-side/php/PHPMailerConfigure.php';
 
        // Email content format
        $mail->IsHTML(true); // Set email format to HTML
@@ -92,7 +92,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $middle_name = $_POST['middle_name'];
     $suffix_name = $_POST['suffix_name'];
     $date_of_birth = $_POST['date_of_birth'];
-    $age = $_POST['age'];
     $gender = $_POST['gender'];
     $civil_status = $_POST['civil_status'];
     $place_of_birth = $_POST['place_of_birth'];
@@ -132,19 +131,19 @@ $uploadPhotoJPG = sanitizeFileName($_FILES['uploadPhotoJPG']['name']);
 
 
 $uploadVotersParent_tmp = $_FILES['uploadVotersParent']['tmp_name'];
-$uploadVotersParent_path = 'pdfFiles/' . $_POST['last_name'] . '_' . $_POST['first_name'] . '_VotersParent.pdf';
+$uploadVotersParent_path = '../pdfFiles/' . $_POST['last_name'] . '_' . $_POST['first_name'] . '_VotersParent.pdf';
 
 $uploadITR_tmp = $_FILES['uploadITR']['tmp_name'];
-$uploadITR_path = 'pdfFiles/' . $_POST['last_name'] . '_' . $_POST['first_name'] . '_ITR.pdf';
+$uploadITR_path = '../pdfFiles/' . $_POST['last_name'] . '_' . $_POST['first_name'] . '_ITR.pdf';
 
 $uploadResidency_tmp = $_FILES['uploadResidency']['tmp_name'];
-$uploadResidency_path = 'pdfFiles/' . $_POST['last_name'] . '_' . $_POST['first_name'] . '_Residency.pdf';
+$uploadResidency_path = '../pdfFiles/' . $_POST['last_name'] . '_' . $_POST['first_name'] . '_Residency.pdf';
 
 $uploadGrade_tmp = $_FILES['uploadGrade']['tmp_name'];
-$uploadGrade_path = 'pdfFiles/' . $_POST['last_name'] . '_' . $_POST['first_name'] . '_Grade.pdf';
+$uploadGrade_path = '../pdfFiles/' . $_POST['last_name'] . '_' . $_POST['first_name'] . '_Grade.pdf';
 
 $uploadPhotoJPG_tmp = $_FILES['uploadPhotoJPG']['tmp_name'];
-$uploadPhotoJPG_path = 'applicant2x2/' . $_POST['last_name'] . '_' . $_POST['first_name'] . '_2x2_Picture.jpg';
+$uploadPhotoJPG_path = '../applicant2x2/' . $_POST['last_name'] . '_' . $_POST['first_name'] . '_2x2_Picture.jpg';
 
 
        // Function to check if the uploaded file is a PDF
@@ -210,13 +209,13 @@ if (mysqli_num_rows($duplicateCheckResultNameDOB) > 0) {
     // Display a duplicate record error message for matching guardian names
     echo '<div class="ceapRegForm">Only one applicant per family is allowed.</br> <p style="font-size: 20px;"> If this is a mistake, you may visit the scholarship office.</p></div>';
 } else {
-      $insertQuery = "INSERT INTO lppp_reg_form (last_name, first_name, middle_name, suffix_name, date_of_birth, age, gender, civil_status, place_of_birth, religion, contact_number, active_email_address, house_number, province, municipality, barangay, guardian_lastname, guardian_firstname, guardian_relationship, guardian_occupation, guardian_monthly_income, guardian_annual_income, elementary_school, elementary_year, school_address, grade_level, uploadVotersParent, uploadResidency, uploadITR, uploadGrade, uploadPhotoJPG) 
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      $insertQuery = "INSERT INTO lppp_reg_form (last_name, first_name, middle_name, suffix_name, date_of_birth, gender, civil_status, place_of_birth, religion, contact_number, active_email_address, house_number, province, municipality, barangay, guardian_lastname, guardian_firstname, guardian_relationship, guardian_occupation, guardian_monthly_income, guardian_annual_income, elementary_school, elementary_year, school_address, grade_level, uploadVotersParent, uploadResidency, uploadITR, uploadGrade, uploadPhotoJPG) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmtInsert = mysqli_prepare($conn, $insertQuery);
 
     // Bind parameters to the prepared statement
-    mysqli_stmt_bind_param($stmtInsert, "sssssisssssssssssssssssssssssss", $last_name, $first_name, $middle_name, $suffix_name, $date_of_birth, $age, $gender, $civil_status, $place_of_birth, $religion, $contact_number, $active_email_address, $house_number, $province, $municipality, $barangay, $guardian_lastname, $guardian_firstname, $guardian_relationship, $guardian_occupation, $guardian_monthly_income, $guardian_annual_income, $elementary_school, $elementary_year, $school_address, $grade_level, $uploadVotersParent, $uploadResidency, $uploadITR, $uploadGrade, $uploadPhotoJPG);
+    mysqli_stmt_bind_param($stmtInsert, "ssssssssssssssssssssssssssssss", $last_name, $first_name, $middle_name, $suffix_name, $date_of_birth, $gender, $civil_status, $place_of_birth, $religion, $contact_number, $active_email_address, $house_number, $province, $municipality, $barangay, $guardian_lastname, $guardian_firstname, $guardian_relationship, $guardian_occupation, $guardian_monthly_income, $guardian_annual_income, $elementary_school, $elementary_year, $school_address, $grade_level, $uploadVotersParent, $uploadResidency, $uploadITR, $uploadGrade, $uploadPhotoJPG);
 
         if (mysqli_stmt_execute($stmtInsert)) {
             $lppp_reg_form_id = mysqli_stmt_insert_id($stmtInsert);

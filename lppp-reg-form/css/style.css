@@ -1,267 +1,330 @@
-/*custom font*/
 @import url(https://fonts.googleapis.com/css?family=Poppins);
-
-/*basic reset*/
-* {
-    margin: 0;
-    padding: 0;
+ * {
+     margin: 0;
+     padding: 0;
 }
-
-html {
-    height: 100%;
-    background: #eee;
+ html {
+     height: 100%;
+     background: #eee;
 }
-
-body {
-    font-family: 'Poppins', sans-serif;
-    background: transparent;
-    overflow: auto;
+ body {
+     font-family: 'Poppins', sans-serif;
+     background: transparent;
+     overflow: auto;
 }
-.text-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px; /* Adjust the gap as needed */
-    height: 90px;
-    justify-content: center; /* Center items horizontally */
-    align-items: flex-start; /* Align items at the top */
+ .text-row {
+     display: flex;
+     flex-wrap: wrap;
+     gap: 20px;
+     height: 90px;
+     justify-content: center;
+     align-items: flex-start;
 }
+.elementary-school-width {
+    max-width: 500px !important;
+}
+.fieldset-container {
+display: flex;
+align-items: center;
+flex-direction: column;
+}
+/* Add a media query for screens with a maximum width of 800px */
+ @media (max-width: 991px) {
+    #progressbar {
+        width: 90% !important;
+    }
+    .text-row {
+        flex-direction: column !important;
+        height: auto !important;
+        justify-content: center !important; 
+        align-items: center !important; 
+    }
 
-.input-container {
-    flex: 1; /* Allow items to expand within the row */
-    max-width: 200px; /* Limit the maximum width */
+    .input-container {
+        flex: 1 !important;
+        max-width: none !important;
+        width: 100% !important;
+    }
+
+    .input-container label {
+        text-align: left !important;
+    }
+
+    .fieldset-container {
+        margin: 0 auto !important;
+    }
+    #headerceap {
+        font-size: 20px;
+    }
+    #msform fieldset {
+        width: 80% !important;
+    }
 }
 
 @media (max-width: 600px) {
-    .text-row {
-        flex-direction: column;
+    .fieldset-container {
+        margin: 0 auto !important;
     }
-    .input-container {
-        width: 100%;
+    #headerceap {
+        font-size: 20px;
+    }
+    #msform fieldset {
+        width: 90% !important;
     }
 }
-.input-container label {
-    display: block;
-    font-size: 13px;
-    margin-bottom: 5px;
-    color: #666;
+ .input-container {
+     flex: 1;
+     max-width: 200px;
 }
-label {
-    text-align: left !important;
-    margin-left: 5px;
+ .input-container label {
+     display: block;
+     font-size: 13px;
+     margin-bottom: 5px;
+     color: #666;
 }
-
-/*form styles*/
-#msform {
-    text-align: center;
-    position: relative;
-    margin-top: 30px;
+ label {
+     text-align: left !important;
+     margin-left: 5px;
 }
-
-#msform fieldset {
-    background: white;
-    border: 0 none;
-    border-radius: 15px;
-    box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
-    padding: 10px 30px;
-    box-sizing: border-box;
-    width: 140%;
-    margin:0% -20%;
-
-    /*stacking fieldsets above each other*/
-    position: relative;
+ #msform {
+     text-align: center;
+     position: relative;
+     margin-top: 30px;
+     overflow: hidden;
 }
-
-/*Hide all except first fieldset*/
-#msform fieldset:not(:first-of-type) {
-    display: none;
+ #msform fieldset {
+     background: white;
+     border: 0 none;
+     border-radius: 15px;
+     box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+     padding: 10px 30px;
+     box-sizing: border-box;
+     margin:0% -20%;
+     position: relative;
 }
-/* Input styling */
-#msform input[type="file"],
-#msform input[type="text"],
-#msform input[type="date"],
-#msform input[type="number"],
-#msform input[type="email"],
-#msform select {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 15px;
-  width: 100%;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
-  color: #2C3E50;
-  font-size: 13px;
-  transition: border-color 0.5s ease-in;
-  text-transform: uppercase;
+ #msform fieldset:not(:first-of-type) {
+     display: none;
 }
-
-/* Highlight border color on focus */
-#msform input[type="file"]:focus,
-#msform input[type="text"]:focus,
-#msform input[type="date"]:focus,
-#msform input[type="number"]:focus,
-#msform input[type="email"]:focus,
-#msform select:focus {
-  border-color: #FEC021;
-  outline: none;
+ #msform input[type="file"], #msform input[type="text"], #msform input[type="date"], #msform input[type="number"], #msform input[type="email"], #msform select {
+     padding: 10px;
+     border: 1px solid #ccc;
+     border-radius: 15px;
+     width: 100%;
+     box-sizing: border-box;
+     font-family: 'Poppins', sans-serif;
+     color: #2C3E50;
+     font-size: 13px;
+     transition: border-color 0.5s ease-in;
+     text-transform: uppercase;
 }
-
-/*buttons*/
-#msform .action-button {
-    width: 100px;
-    background: #A5040A;
-    font-weight: bold;
-    color: rgb(255, 255, 255);
-    border: 0 none;
-    border-radius: 25px;
-    cursor: pointer;
-    padding: 10px 5px;
-    margin: 10px 5px;
+ #msform input[type="file"]:focus, #msform input[type="text"]:focus, #msform input[type="date"]:focus, #msform input[type="number"]:focus, #msform input[type="email"]:focus, #msform select:focus {
+     border-color: #FEC021;
+     outline: none;
 }
-
-#msform .action-button:hover, #msform .action-button:focus {
-    box-shadow: 0 0 0 2px rgb(255, 255, 255), 0 0 0 3px #A5040A;
+ #msform .action-button {
+     width: 100px;
+     background: #A5040A;
+     font-weight: bold;
+     color: rgb(255, 255, 255);
+     border: 0 none;
+     border-radius: 25px;
+     cursor: pointer;
+     padding: 10px 5px;
+     margin: 10px 5px;
 }
-
-#msform .action-button-previous {
-    width: 100px;
-    background: #d1990bc5;
-    font-weight: bold;
-    color: rgb(255, 255, 255);
-    border: 0 none;
-    border-radius: 25px;
-    cursor: pointer;
-    padding: 10px 5px;
-    margin: 10px 5px;
+ #msform .action-button:hover, #msform .action-button:focus {
+     box-shadow: 0 0 0 2px rgb(255, 255, 255), 0 0 0 3px #A5040A;
 }
-
-#msform .action-button-previous:hover, #msform .action-button-previous:focus {
-    box-shadow: 0 0 0 2px rgb(255, 255, 255), 0 0 0 3px #FEC021;
+ #msform .action-button-previous {
+     width: 100px;
+     background: #d1990bc5;
+     font-weight: bold;
+     color: rgb(255, 255, 255);
+     border: 0 none;
+     border-radius: 25px;
+     cursor: pointer;
+     padding: 10px 5px;
+     margin: 10px 5px;
 }
-
-/*headings*/
-.fs-title {
-    font-size: 18px;
-    text-transform: uppercase;
-    color: #2C3E50;
-    margin-bottom: 10px;
-    letter-spacing: 2px;
-    font-weight: bold;
+ #msform .action-button-previous:hover, #msform .action-button-previous:focus {
+     box-shadow: 0 0 0 2px rgb(255, 255, 255), 0 0 0 3px #FEC021;
 }
-
-.fs-subtitle {
-    font-weight: normal;
-    font-size: 13px;
-    color: #666;
-    margin-bottom: 20px;
+ .fs-title {
+     font-size: 18px;
+     text-transform: uppercase;
+     color: #2C3E50;
+     margin-bottom: 10px;
+     letter-spacing: 2px;
+     font-weight: bold;
 }
-
-/*progressbar*/
-#progressbar {
-    margin-bottom: 30px;
-    overflow: hidden;
-    /*CSS counters to number the steps*/
-    counter-reset: step;
+ .fs-subtitle {
+     font-weight: normal;
+     font-size: 13px;
+     color: #666;
+     margin-bottom: 20px;
 }
-
-#progressbar li {
-    list-style-type: none;
-    color: #000000;
-    text-transform: uppercase;
-    font-size: 10px;
-    width: 33.33%;
-    float: left;
-    position: relative;
-    letter-spacing: 1px;
+ #progressbar {
+     margin-bottom: 30px;
+     overflow: hidden;
+     counter-reset: step;
+     display: inline-flex;
+     width: 60%;
 }
-
-#progressbar li:before {
-    content: counter(step);
-    counter-increment: step;
-    width: 24px;
-    height: 24px;
-    line-height: 26px;
-    display: block;
-    font-size: 12px;
-    color: #333;
-    background: white;
-    border-radius: 25px;
-    margin: 0 auto 10px auto;
+ #progressbar li {
+     list-style-type: none;
+     color: #000000;
+     text-transform: uppercase;
+     font-size: 12px;
+     width: 100%;
+     float: left;
+     position: relative;
+     letter-spacing: 1px;
 }
-
-/*progressbar connectors*/
-#progressbar li:after {
-    content: '';
-    width: 100%;
-    height: 2px;
-    background: white;
-    position: absolute;
-    left: -50%;
-    top: 9px;
-    z-index: -1; /*put it behind the numbers*/
+ #progressbar li:before {
+     content: counter(step);
+     counter-increment: step;
+     width: 24px;
+     height: 24px;
+     line-height: 26px;
+     display: block;
+     font-size: 12px;
+     color: #333;
+     background: white;
+     border-radius: 25px;
+     margin: 0 auto 10px auto;
 }
-
-#progressbar li:first-child:after {
-    /*connector not needed before the first step*/
-    content: none;
+ #progressbar li:after {
+     content: '';
+     width: 100%;
+     height: 2px;
+     background: white;
+     position: absolute;
+     left: -50%;
+     top: 9px;
+     z-index: -1;
 }
-
-/*marking active/completed steps blue*/
-/*The number of the step and the connector before it = blue*/
-#progressbar li.active:before, #progressbar li.active:after {
-    background: #FEC021;
-    color: white;
+ #progressbar li:first-child:after {
+     content: none;
 }
-
-/* Add red asterisk to required field labels */
-.input-container label.required::after {
-    content: " *";
-    color: #A5040A;
+ #progressbar li.active:before, #progressbar li.active:after {
+     background: #FEC021;
+     color: white;
 }
-
-/* Style for disabled "Next" button */
-.next[disabled] {
-    background-color: gray !important;
-    cursor: not-allowed !important;
-    border-color: #A5040A !important;
+ .input-container label.required::after {
+     content: " *";
+     color: #A5040A;
 }
-.submit[disabled] {
-    background-color: gray !important;
-    cursor: not-allowed !important;
-    border-color: #A5040A !important;
+ .next[disabled] {
+     background-color: gray !important;
+     cursor: not-allowed !important;
 }
-#contact_number.invalid {
-    border-color: #A5040A !important;
-
+#submitReview[disabled]{
+    opacity: 0.5;
+    cursor: not-allowed;
 }
-
-.invalid {
-    border-color: #A5040A !important;
+ .invalid {
+     border: 1px solid #A5040A !important;
 }
-
-.upload {
-    max-width: 300px !important;
+ .upload {
+     max-width: 300px !important;
 }
-#school-name {
-    max-width: 645px;
+ #school-name {
+     max-width: 645px;
 }
-.upload-file {
-    height: 55px;
+ .header {
+     text-align: center;
 }
-
-.elementary-school-width {
-    max-width: 500px;
+ .header h3,h4{
+     font-weight: bolder;
 }
-
-.school-address-width {
-    max-width: 720px;
+ .header h5{
+     text-decoration: underline;
+     font-style: italic;
 }
-.header {
-    text-align: center;
+ .suffix-options {
+     display: none;
+     position: absolute;
+     border: 1px solid #ccc;
+     width: 200px;
+     max-height: 150px;
+     margin-top: -8px;
+     overflow-y: auto;
+     background-color: white;
 }
-.header h3,h4{
-    font-weight: bolder;
+ .suffix-option {
+     padding: 5px;
+     cursor: pointer;
 }
-.header h5{
-text-decoration: underline;
-font-style: italic;
+ .suffix-option:hover {
+     background-color: #f0f0f0;
+}
+ .upload-docu {
+     height: 60px;
+}
+ .tooltip-container {
+     position: relative;
+     display: inline-block;
+}
+ .tooltips {
+     visibility: hidden;
+     position: absolute;
+     bottom: 30px;
+     left: calc(100% + -60px);
+     background-color: #333;
+     color: #fff;
+     padding: 5px;
+     border-radius: 3px;
+     white-space: pre-wrap;
+     z-index: 1;
+     width: 230px;
+     max-height: auto;
+     overflow-y: auto;
+     text-align: left;
+}
+ .tooltipstwo {
+     visibility: hidden;
+     position: absolute;
+     bottom: 30px;
+     left: calc(100% + 55px);
+     background-color: #333;
+     color: #fff;
+     padding: 5px;
+     border-radius: 3px;
+     white-space: pre-wrap;
+     z-index: 1;
+     width: 230px;
+     max-height: auto;
+     overflow-y: auto;
+     text-align: left;
+}
+ .tooltip-container:hover .tooltips {
+     visibility: visible;
+}
+/* Style for the review table */
+ table {
+     width: 100%;
+     border-collapse: collapse;
+     margin-bottom: 20px;
+}
+ th, td {
+     border: 1px solid #ddd;
+     padding: 8px;
+     text-align: left;
+     text-transform: uppercase;
+}
+ th {
+     background-color: #f2f2f2;
+}
+/* Optional: Style for even and odd rows */
+ tr:nth-child(even) {
+     background-color: #f2f2f2;
+}
+ td:nth-child(even) {
+     font-weight: bolder;
+}
+ .disabled {
+     pointer-events: none;
+    /* Disable pointer events on the button */
+     opacity: 0.5;
+    /* Reduce opacity to indicate it's disabled */
 }

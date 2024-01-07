@@ -1,5 +1,5 @@
 <!-- LPPPConfirm popup -->
-<div class="popupOut" id="LPPPConfirmPopUp">
+<div class="popupOut" id="lpppConfirmPopUp">
     <div class="popupIn">
         <i class="ri-error-warning-line" style="font-size: 6em; color: #F54021;"></i>
         <strong>

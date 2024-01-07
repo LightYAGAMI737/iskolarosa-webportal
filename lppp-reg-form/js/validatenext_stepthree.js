@@ -144,10 +144,27 @@ const requiredFields = [
 
 // Function to enable/disable the submit button based on validation
 function updateSubmitButton() {
-    const submitButton = document.getElementById('popupsubmit');
+    const submitButton = document.getElementById('nextButtonStep_three');
     const isMonthlyIncomeValid = !isNaN(monthlyIncomeInput.value) && parseFloat(monthlyIncomeInput.value) <= 25000;
     submitButton.disabled = !areFieldsValid(requiredFields) || !isMonthlyIncomeValid;
 }
+
+// Add event listeners to show/hide tooltips on hover of the Next button
+const submitButton = document.getElementById('nextButtonStep_three');
+submitButton.addEventListener('mouseenter', () => {
+    displayTooltipStepThree();
+});
+submitButton.addEventListener('mouseleave', () => {
+    hideTooltipStepThree();
+});
+
+// Function to hide the tooltip for step three
+function hideTooltipStepThree() {
+    const tooltips = document.getElementById('tooltips_step_three');
+    tooltips.style.visibility = 'hidden';
+    tooltips.classList.remove('active');
+}
+
 
 // Attach input and blur event listeners to all required fields
 for (const field of requiredFields) {
@@ -158,32 +175,60 @@ for (const field of requiredFields) {
 // Initial check to disable/enable the submit button
 updateSubmitButton();
 
-// Handle form submission
-const submitButton = document.getElementById('submit');
-submitButton.addEventListener('click', function (event) {
-   
-        // Create a new FormData object to collect form data
-        const formData = new FormData(document.getElementById('msform'));
+// Function to display tooltips with required fields that have no value for step_three
+function displayTooltipStepThree() {
+    const tooltips = document.getElementById('tooltips_step_three');
+    const requiredFields = document.querySelectorAll('#step_three [required]');
 
-        // Perform the AJAX request
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', 'ceapregformdatabaseinsert.php', true);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    // AJAX request was successful, handle the response as needed
-                    console.log(xhr.responseText); // Log the response for debugging
-                    // Re-enable the submit button after a successful submission
-                    submitButton.disabled = false;
-                } else {
-                    // AJAX request encountered an error, handle it as needed
-                    console.error('AJAX Error:', xhr.status, xhr.statusText);
-                    // You might want to provide user feedback about the error.
-                }
-        };
-        
-        // Send the form data
-        xhr.send(formData);
+    const tooltipsData = [
+        { field: 'uploadResidency', tooltip: 'Guardian\'s Residency' },
+        { field: 'uploadITR', tooltip: 'Guardian\'s ITR' },
+        { field: 'uploadVotersParent', tooltip: 'Guardian\'s Voter\'s Certificate' },
+        { field: 'guardian_occupation', tooltip: 'Guardian\'s Occupation' },
+    ];
+
+    const missingRequiredFieldNames = Array.from(requiredFields)
+        .filter(field => !field.value.trim())
+        .map(field => {
+            const fieldName = field.getAttribute('name'); // Use name attribute for mapping
+            const tooltipObj = tooltipsData.find(item => item.field === fieldName);
+            if (tooltipObj) {
+                return tooltipObj.tooltip;
+            } else {
+                const previousElement = field.previousElementSibling;
+                return previousElement ? previousElement.textContent.trim() : '';
+            }
+        });
+
+    // Combine missing field names with line breaks
+    const tooltipText = missingRequiredFieldNames.length > 0 ? missingRequiredFieldNames.join("\n") : "";
+
+    if (missingRequiredFieldNames.length > 0) {
+        tooltips.textContent = tooltipText;
+        tooltips.style.visibility = 'visible';
+        tooltips.classList.add('active');
+    } else {
+        hideTooltipStepThree(); // Hide the tooltip if there are no missing fields
     }
-});
+}
 
+// Select all input and textarea elements with placeholders
+const inputElementsThree = document.querySelectorAll('input[placeholder]');
+
+// Add event listeners for focus and blur
+inputElementsThree.forEach(input => {
+    input.addEventListener('focus', function () {
+        // Store the placeholder attribute in a data attribute only if it exists
+        if (this.getAttribute('placeholder')) {
+            this.setAttribute('data-placeholder', this.getAttribute('placeholder'));
+            this.removeAttribute('placeholder'); // Remove the placeholder attribute
+        }
+    });
+
+    input.addEventListener('blur', function () {
+        // Restore the placeholder attribute from the data attribute if it exists
+        if (this.getAttribute('data-placeholder')) {
+            this.setAttribute('placeholder', this.getAttribute('data-placeholder'));
+        }
+    });
+});
