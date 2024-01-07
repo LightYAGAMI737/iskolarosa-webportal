@@ -169,3 +169,13 @@ table {
         margin-right: 0px;
     }
 }
+@media (max-width: 766px) {
+    .content-out-profile{
+        margin: 15px 20px !important; 
+    }
+}
+@media (max-width: 500px) {
+    .content-out-profile{
+        margin: 15px 10px !important; 
+    }
+}
