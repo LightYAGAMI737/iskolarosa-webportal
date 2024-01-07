@@ -33,8 +33,9 @@ if ($row['toggle_value'] == 0) {
 <html lang="en">
    <head>
       <meta charset="UTF-8">
-      <title>iSKOLAROSA | CEAP REG FORM</title>
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>iSKOLAROSA | CEAP REG FORM</title>
+      <link rel="icon" href="../admin-side/system-images/iskolarosa-logo.png" type="image/png">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
       <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css'>
