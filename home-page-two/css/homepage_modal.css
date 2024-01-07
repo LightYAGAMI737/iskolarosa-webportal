@@ -141,7 +141,7 @@ button.applynow-button {
 .scrollable-content {
     overflow-y: auto;
     height: 280px; 
-    width: 400px;
+    width: 100%;
     border: 1px solid black;
     padding: 20px;
     border-radius: 15px;
@@ -183,7 +183,7 @@ button.applynow-button {
         .leftColumn,
         .rightColumn {
           margin-bottom: 10px;
-          margin: 0 auto;
+          margin: 0;
         }
         .modalBody{
           overflow-y: auto;
@@ -218,14 +218,11 @@ button.applynow-button {
 
       }
       @media screen and (max-width: 500px) {
-        .ModalInHeader {
-            width: 100%;
-        }
         .ModalIn {
             width: 90%;
             padding: 10px;
           }
         .ModalInHeader {
-            width: 110%;
+            width: 106%;
         }
     }
