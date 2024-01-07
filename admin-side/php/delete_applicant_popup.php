@@ -9,7 +9,7 @@
             <p>Are you sure you want to proceed with the <strong>deletion</strong> of this applicant?<br>This is not irreversible.</p>
         </center>
         <div style="padding: 3px;">
-            <button type="button" id="disqualified-cancel-button" class="cancel-button" style="margin-right: 15px; background-color: #C0C0C0;">
+            <button type="button" id="cancel-button" class="cancel-button delete-applicant" style="margin-right: 15px; background-color: #C0C0C0;">
                 <i class="ri-close-fill"></i>
                 <span>Cancel</span>
             </button>

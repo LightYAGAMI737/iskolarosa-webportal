@@ -8,6 +8,11 @@ function closedeleteApplicantpopup() {
   deleteApplicantpopup.style.display = "none";
 }
 
+const cancelButtonsDeleteApplicant = document.querySelectorAll(".delete-applicant");
+cancelButtonsDeleteApplicant.forEach((cancelButtonDeleteApplicant) => {
+  cancelButtonDeleteApplicant.addEventListener("click", closedeleteApplicantpopup);
+});
+
 function deleteApplicant(applicantId) {
         // Send an AJAX request to update is_deleted
         $.ajax({

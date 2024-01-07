@@ -569,7 +569,6 @@ foreach ($pdfFiles as $key => $pdfFile) {
     <button type="submit" name="update_all_info" id="saveChanges" class="status-button" disabled>Save Changes</button>
 </form>
 <button onclick="opendeleteApplicantpopup()" class="status-button delete">Delete</button>
-
 </div>
 </div>
 
