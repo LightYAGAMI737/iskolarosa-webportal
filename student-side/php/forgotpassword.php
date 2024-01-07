@@ -35,8 +35,8 @@
                             <label for="floatingInput">Email address</label>
                             <span class="emailCheckMsg" style="color: #A5040A"></span>
                         </div>  
-                        <button type="submit" class="btn btn-primary submit_btn  confirm-button" id="submitForgotPassword" disabled>Submit</button>
-                        <button type="button" class="btn btn-secondary submit_btn  ms-3 cancel-button" id="cancelForgotPassword">Cancel</button> 
+                        <button type="submit" class="btn btn-primary submit_btn " id="submitForgotPassword" disabled>Submit</button>
+                        <button type="button" class="btn btn-secondary submit_btn  ms-3" id="cancelForgotPassword">Cancel</button> 
                     </form>
                 </div>
             </div>
