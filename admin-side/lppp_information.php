@@ -142,18 +142,49 @@ if (mysqli_num_rows($result) > 0) {
         <?php foreach ($applicantInfo as $field => $value) : ?>
             <?php if (in_array($field, [
                 'control_number', 'last_name', 'first_name', 'middle_name', 'suffix_name',
-                'date_of_birth', 'age', 'gender', 'civil_status', 'place_of_birth', 'religion', 'contact_number',
+                'date_of_birth', 'gender', 'civil_status', 'place_of_birth', 'religion', 'contact_number',
                 'active_email_address', 'house_number', 'province', 'municipality', 'barangay'
             ])) : ?>
                 <tr>
-                    <th><?php echo ucwords(str_replace('_', ' ', $field)) . ': '; ?></th>
-                    <td><?php echo $value; ?></td>
-                </tr>
-            <?php endif; ?>
-        <?php endforeach; ?>
-    </table>
-</div>
-
+                <th><?php echo ucwords(str_replace('_', ' ', $field)) . ': '; ?></th>
+                  <td>
+                     <?php
+                        if ($field === 'date_of_birth') {
+                            echo $value; // Display date of birth
+                        } else {
+                            echo $value;
+                        }
+                        ?>
+                  </td>
+               </tr>
+               <?php if ($field === 'date_of_birth') : ?>
+               <tr>
+                  <th>Age:</th>
+                  <td>
+                     <?php
+                        // Calculate age from date of birth
+                        $birthDate = new DateTime($value);
+                        $currentDate = new DateTime();
+                        $age = $currentDate->diff($birthDate);
+                        
+                        // Check if the birthday has occurred in the current year
+                        if (($currentDate < $birthDate->modify('+' . $age->y . ' years'))) {
+                            $age->y--; // Decrement the age by 1
+                            $birthDate->modify('-1 year'); // Adjust the birthdate for correct calculation
+                        }
+                        
+                        // Reset the birthdate to its original value
+                        $birthDate->modify('+' . $age->y . ' years');
+                        
+                        echo $age->y . ' years old'; // Display calculated age
+                        ?>
+                  </td>
+               </tr>
+               <?php endif; ?>
+               <?php endif; ?>
+               <?php endforeach; ?>
+            </table>
+         </div>
 <!-- Table 2: Family Background -->
 <div class="applicant-info">
     <h2>Family Background</h2>
