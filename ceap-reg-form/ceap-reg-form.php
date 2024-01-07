@@ -58,7 +58,7 @@ if ($row['toggle_value'] == 0) {
       <form id="msform" action="./php/ceapregformdatabaseinsert.php" enctype="multipart/form-data" method="post">
          <!-- MultiStep Form -->
          <div class="row">
-         <div class="col-md-6 col-md-offset-3">
+         <div>
             <!-- progressbar -->
             <ul id="progressbar">
                <li class="active">Personal Details</li>
@@ -204,7 +204,6 @@ if ($row['toggle_value'] == 0) {
                   </div>
                   <input type="button" name="next" id="nextButtonStep_One" class="next action-button next-button" value="Next" disabled />
                </fieldset>
-               <!--STEP TWO-->
                <fieldset id="step_two">
                   <h2 class="fs-title"><strong>Educational Background</strong></h2>
                   <h3 class="fs-subtitle"></h3>
@@ -422,7 +421,7 @@ if ($row['toggle_value'] == 0) {
                   <input type="button" name="next" id="nextButtonStep_three" class="next action-button" value="Next" disabled/>
                </fieldset>
                <!-- Add a new fieldset for the review step -->
-               <fieldset id="step_four">
+               <fieldset id="step_four" style="width: 73%;">
                   <h2 class="fs-title"><strong>Review Your Information</strong></h2>
                   <h3 class="fs-subtitle"></h3>
                   <!-- Create a container to display the review information -->
@@ -432,10 +431,10 @@ if ($row['toggle_value'] == 0) {
                   <input type="button" name="previous" id="previous-stepthree" class="previous action-button-previous" value="Previous"/>
                   <button type="button" id="submitReview" class="submit action-button cooldown" value="Submit" onclick="openceapconfirmpopup()"></button>
                </fieldset>
-
-      </form>
+            </div>
+         </form>
       </div>
-      </div>
+   </div>
 <!-- Include jQuery library -->
 
       <script src="./js/script.js"></script>

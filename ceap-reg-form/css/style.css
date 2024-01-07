@@ -21,14 +21,21 @@
      align-items: flex-start;
 }
 
+.fieldset-container {
+display: flex;
+align-items: center;
+flex-direction: column;
+}
 /* Add a media query for screens with a maximum width of 800px */
-@media (max-width: 991px) {
-
+ @media (max-width: 991px) {
+    #progressbar {
+        width: 90% !important;
+    }
     .text-row {
         flex-direction: column !important;
         height: auto !important;
-        justify-content: center !important; /* Center horizontally */
-        align-items: center !important; /* Center vertically */
+        justify-content: center !important; 
+        align-items: center !important; 
     }
 
     .input-container {
@@ -42,32 +49,27 @@
     }
 
     .fieldset-container {
-        width: 400px !important;
         margin: 0 auto !important;
     }
     #headerceap {
         font-size: 20px;
+    }
+    #msform fieldset {
+        width: 80% ;
     }
 }
 
 @media (max-width: 600px) {
     .fieldset-container {
-        width: 280px !important; 
         margin: 0 auto !important;
     }
     #headerceap {
         font-size: 20px;
     }
-}
-
-@media (max-width: 410px) {
-
-    .fieldset-container {
-        width: 200px !important; 
-        margin: 0 auto !important;
+    #msform fieldset {
+        width: 90% !important;
     }
 }
-
  .input-container {
      flex: 1;
      max-width: 200px;
@@ -86,6 +88,7 @@
      text-align: center;
      position: relative;
      margin-top: 30px;
+     overflow: hidden;
 }
  #msform fieldset {
      background: white;
@@ -94,7 +97,6 @@
      box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
      padding: 10px 30px;
      box-sizing: border-box;
-     width: 140%;
      margin:0% -20%;
      position: relative;
 }
@@ -163,13 +165,15 @@
      margin-bottom: 30px;
      overflow: hidden;
      counter-reset: step;
+     display: inline-flex;
+     width: 60%;
 }
  #progressbar li {
      list-style-type: none;
      color: #000000;
      text-transform: uppercase;
-     font-size: 10px;
-     width: 25%;
+     font-size: 12px;
+     width: 100%;
      float: left;
      position: relative;
      letter-spacing: 1px;
@@ -322,4 +326,3 @@
      opacity: 0.5;
     /* Reduce opacity to indicate it's disabled */
 }
-
