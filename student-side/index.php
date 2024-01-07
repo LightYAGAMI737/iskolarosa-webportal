@@ -34,8 +34,8 @@
                      <h1 class="titleIskolarosa"><span>iSKOLAROSA</span></h1>
                      <h6>Scholars in Santa Rosa Laguna</h6>
                   </div>
-                  <div>
-                  <h5 style="font-weight: normal !important; margin: 30px 113px; font-size: 15px;">Login to start your session</h5>
+                  <div style="text-align: center; margin: 0 auto; margin-top: 10px;">
+                  <h5 style="font-weight: normal !important; font-size: 15px;">Login to start your session</h5>
                   </div>
                   <form method="post"  action ="./php/login_process.php" class="module__wrapper__form__content__login">
                      <div class="module__wrapper__form__content__login__field-input js-username">
