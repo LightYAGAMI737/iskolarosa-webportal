@@ -36,7 +36,7 @@
   
 $currentStatus = 'grantee';
 $currentPage = 'lppp_list';
-$currentSubPage = 'GRADE 7';
+$currentSubPage = 'LPPP';
 
 include '../../../php/config_iskolarosa_db.php';
 
