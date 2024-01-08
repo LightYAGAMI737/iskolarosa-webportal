@@ -1,3 +1,15 @@
+document.addEventListener('input', function (event) {
+    if (event.target.getAttribute('type') === 'text') {
+      const inputValueSpacing = event.target.value;
+
+      // Replace consecutive spaces with a single space
+      const sanitizedValueSpacing = inputValueSpacing.replace(/\s{2,}/g, ' ');
+
+      // Update the input field value
+      event.target.value = sanitizedValueSpacing;
+    }
+  });
+  
 // Function to check if all required fields are valid
 function areFieldsValid(fields) {
     for (const field of fields) {
