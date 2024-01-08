@@ -98,7 +98,7 @@ mysqli_close($conn);
     <div class="applBTN" style="padding: 3px; margin-top: 20px;">
             <!-- CEAP Apply Now Button -->
             <button type="button" class="applynow-button confirmBTN" id="ApplynowCEAP" name="submit" onclick="openCEAPApplyNowBtn()" disabled>
-                <span>Apply Now</span>
+                <span>Apply</span>
             </button>
         </div>
         <?php
@@ -143,7 +143,7 @@ mysqli_close($conn);
         <div class="applBTN" style="padding: 3px; margin-top: 20px;">
             <!-- LPPP Apply Now Button -->
             <button type="button" class="applynow-button confirmBTN" id="ApplynowLPPP" name="submit" onclick="openLPPPApplyNowBtn()" disabled>
-                <span>Apply Now</span>
+                <span>Apply</span>
             </button>
         </div>
         <?php
