@@ -35,7 +35,7 @@
         const okButtonCEAP = document.getElementById("confirm-button-CEAP");
         okButtonCEAP.addEventListener("click", function () {
             // Redirect to another page
-            closeLPPPApplyNowBtn();
+            closeCEAPApplyNowBtn();
             window.location.href = "../ceap-reg-form/ceap-reg-form.php";
         });
 
