@@ -35,6 +35,7 @@
         const okButtonCEAP = document.getElementById("confirm-button-CEAP");
         okButtonCEAP.addEventListener("click", function () {
             // Redirect to another page
+            closeLPPPApplyNowBtn();
             window.location.href = "../ceap-reg-form/ceap-reg-form.php";
         });
 
@@ -46,6 +47,7 @@
         const okButtonLPPP = document.getElementById("confirm-button-LPPP");
         okButtonLPPP.addEventListener("click", function () {
             // Redirect to another page
+            closeLPPPApplyNowBtn();
             window.location.href = "../lppp-reg-form/lppp-reg-form.php";
         });
 
