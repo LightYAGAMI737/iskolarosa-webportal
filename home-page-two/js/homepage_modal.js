@@ -26,7 +26,6 @@
             });
         });
 
-
         const ApplyNoWcancelButtons = document.querySelectorAll(".cancel-button");
         ApplyNoWcancelButtons.forEach((ApplyNoWcancelButton) => {
           ApplyNoWcancelButton.addEventListener("click", closeCEAPApplyNowBtn);
