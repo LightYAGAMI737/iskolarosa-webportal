@@ -148,7 +148,7 @@ if (mysqli_num_rows($result) > 0) {
                         <th><?php echo ucwords(str_replace('_', ' ', $field)) . ': '; ?></th>
                         <td>
                             <?php if ($field === 'grade_level') : ?>
-                                <select name="grade_level" style="width: 100px; padding: 5px; border: 1px solid #ccc;"
+                                <select name="grade_level" id="GradeLVL" style="width: 100px; padding: 5px; border: 1px solid #ccc;"
                                 onchange="validateInput(this);">
                             <?php
                             $currentGradeLevel = $value; // Set the current grade level from the database
@@ -278,7 +278,7 @@ if (mysqli_num_rows($result) > 0) {
                </tr>
             </table>
   <div style="display: flex; justify-content: center;">
-            <button type="submit" class = "update-btn" name="update_info">Update</button>
+            <button type="submit" id="UpdateGradeLVL" class = "update-btn" name="update_info" disabled>Update</button>
             <input type="hidden" name="id" value="<?php echo $ceapRegFormId; ?>">
   </div>
         </form>
@@ -358,6 +358,15 @@ if ($result) {
      window.location.href = "lppp_information.php?lppp_reg_form_id=" + id;
  }
 
+const gradeLVLSelect = document.getElementById("GradeLVL");
+const updateGradeLVLButton = document.getElementById("UpdateGradeLVL");
+
+let initialGradeLevel = gradeLVLSelect.value; // Store the initial grade level
+
+gradeLVLSelect.addEventListener("change", () => {
+  const currentGradeLevel = gradeLVLSelect.value;
+  updateGradeLVLButton.disabled = currentGradeLevel === initialGradeLevel;
+});
 </script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
