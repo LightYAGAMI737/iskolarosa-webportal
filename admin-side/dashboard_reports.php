@@ -92,7 +92,7 @@
         <div class="label-header">
             <label for="sortingOrder">Program:</label>
         </div>
-        <div class="ceaplpppradio">
+        <div class="ceaplpppradio" style="margin-bottom: 5px;">
             <label for="ceapRadio">
                 <input type="radio" id="ceapRadio" name="dataChoice" value="ceap" checked>
                 CEAP
@@ -109,9 +109,9 @@
         </div>
         <div class="sorting-options">
             <input type="radio" id="ascending" name="sortingOrder" value="ASC" checked>
-            <label for="ascending">Ascending</label>
+            <label for="ascending"></label>
             <input type="radio" id="descending" name="sortingOrder" value="DESC">
-            <label for="descending">Descending</label>
+            <label for="descending"></label>
         </div>
         </div>
         <div class="datato-download">
@@ -119,13 +119,13 @@
             <label for="filterOption">Choose Filtering Options:</label>
         </div>
         <div class="filterselectdata">
-    <select id="filterOption" name="filterOption[]" class="select-dropdown">
-        <option value="listOfApplicants">List of Applicants Name</option>
-        <option value="totalCountGender">Total Count of Sex (Male/Female)</option>
-        <option value="totalCountStatus">Total Count of Applicant Status</option>
-        <option value="totalCountBarangay">Total Count of Applicant each Barangay</option>
-    </select>
-</div>
+            <select id="filterOption" name="filterOption[]" class="select-dropdown">
+                <option value="listOfApplicants" selected>List of Applicants Name</option>
+                <option value="totalCountGender">Total Count of Sex (Male/Female)</option>
+                <option value="totalCountStatus">Total Count of Applicant Status</option>
+                <option value="totalCountBarangay">Total Count of Applicant each Barangay</option>
+            </select>
+        </div>
         </div>
         <div class="submitBTN">
         <button type="submit">Download Data</button>
@@ -151,6 +151,36 @@
         window.location.href = 'generate_report.php';
     }
 </script>
+<script>
+// Your existing JavaScript code for updating labels based on selection
+document.addEventListener('DOMContentLoaded', function () {
+    // Set initial labels based on the default selected option
+    const selectedOption = document.getElementById('filterOption').value;
+    const ascendingLabel = document.querySelector('label[for="ascending"]');
+    const descendingLabel = document.querySelector('label[for="descending"]');
 
+    if (selectedOption === 'listOfApplicants') {
+        ascendingLabel.textContent = 'Alphabetical (A-Z)';
+        descendingLabel.textContent = 'Alphabetical (Z-A)';
+    } else {
+        ascendingLabel.textContent = 'Ascending';
+        descendingLabel.textContent = 'Descending';
+    }
+
+    // Add event listener for changes in the filtering option
+    document.getElementById('filterOption').addEventListener('change', function () {
+        const selectedOption = this.value;
+
+        // Update labels based on the selected option
+        if (selectedOption === 'listOfApplicants') {
+            ascendingLabel.textContent = 'Alphabetical (A-Z)';
+            descendingLabel.textContent = 'Alphabetical (Z-A)';
+        } else {
+            ascendingLabel.textContent = 'Ascending';
+            descendingLabel.textContent = 'Descending';
+        }
+    });
+});
+</script>
    </body>
 </html>

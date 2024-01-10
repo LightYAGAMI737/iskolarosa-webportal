@@ -1,18 +1,17 @@
 .container-reports {
     display: flex;
-    flex-direction: row;
     align-items: center; /* Optional: Adjust as needed to center content vertically */
-    justify-content: space-evenly; /* Optional: Adjust as needed to distribute space between elements */
+     /* Optional: Adjust as needed to distribute space between elements */
+    flex-direction: row;
+    justify-content: space-evenly;
 }
 .label-header {
     margin-bottom: 10px;
 }
-.ceaplpppradio,
-.sorting-options,
-.filterselectdata {
+.sorting-options, .filterselectdata {
     display: flex;
     flex-direction: row;
-    align-items: flex-start; /* Optional: Align items to the start (left) of the container */
+    align-items: baseline; /* Optional: Align items to the start (left) of the container */
 }
 
 .ceaplpppradio label,
@@ -40,9 +39,6 @@
     border: 1px solid #000;
     cursor: pointer;
 }
-.sorting-options input[type="radio"]{
-    top: -2px !important;
-}
 .ceaplpppradio input[type="radio"]:checked,
 .sorting-options input[type="radio"]:checked{
     background-color: #a5040a;
@@ -63,4 +59,3 @@
 .submitBTN button:hover {
     background-color: #400000; /* Change background color on hover */
 }
-
