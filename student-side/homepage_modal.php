@@ -1,5 +1,5 @@
 <?php
-include '../../admin-side/php/config_iskolarosa_db.php';
+include '../admin-side/php/config_iskolarosa_db.php';
 
 // Fetch the last inserted ID from the ceap_configuration table
 $fetchReqAndQualiCEAP = "SELECT MAX(id) AS last_id, start_date, end_date, start_time, end_time, toggle_value FROM ceap_configuration";

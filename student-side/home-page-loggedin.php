@@ -42,7 +42,7 @@ include '../admin-side/php/config_iskolarosa_db.php';
 </head>
 <body>
 <?php 
-    include '../home-page-two/homepage_modal.php';
+    include 'homepage_modal.php';
     include 'tempAcc_nav.php';
 ?>
 
@@ -136,7 +136,7 @@ include '../admin-side/php/config_iskolarosa_db.php';
           </div>
       </div>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-    <script src="../home-page-two/homepage_modal.js"></script>
+    <script src="../home-page-two/js/homepage_modal.js"></script>
 
       </body>
       </html>

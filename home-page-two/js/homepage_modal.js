@@ -17,15 +17,6 @@
             HomePageModalLPPP.style.display = "none";
             }
 
-        const applynoNextwButtons = document.querySelectorAll('.confirmBTN');
-        applynoNextwButtons.forEach(function(button) {
-            button.addEventListener('click', function() {
-                this.classList.add('disabled');
-                const ApplyNoWcancelButton = this.parentElement.querySelector('.cancel-button');
-                ApplyNoWcancelButton.classList.add('disabled');
-            });
-        });
-
         const ApplyNoWcancelButtons = document.querySelectorAll(".cancel-button");
         ApplyNoWcancelButtons.forEach((ApplyNoWcancelButton) => {
           ApplyNoWcancelButton.addEventListener("click", closeCEAPApplyNowBtn);
@@ -34,7 +25,7 @@
         const okButtonCEAP = document.getElementById("confirm-button-CEAP");
         okButtonCEAP.addEventListener("click", function () {
             // Redirect to another page
-            closeCEAPApplyNowBtn();
+            closeLPPPApplyNowBtn();
             window.location.href = "../ceap-reg-form/ceap-reg-form.php";
         });
 
@@ -69,115 +60,119 @@ function openCEAPApplyNowBtn(){
 }
 function closeCEAPApplyNowBtn(){
     applynowNextButton.style.display = "none";
-    location.reload();
 }
 function openLPPPApplyNowBtn(){
     applynowLPPPNextButton.style.display = "block";
 }
 function closeLPPPApplyNowBtn(){
     applynowLPPPNextButton.style.display = "none";
-    location.reload();
 }
 
-//ceap cooldown time
+//ceap cooldown timer
 document.addEventListener("DOMContentLoaded", function () {
     var confirmButton = document.getElementById('confirm-button-CEAP');
     var cooldownSeconds = 10;
     var countdownInterval;
+    var startTime;
 
-    // Function to update the button text and handle cooldown
     function startCooldown() {
-        // Disable the confirm button initially
+        var remainingTime;
+
         confirmButton.disabled = true;
 
-        // Update the button text to show the countdown
         function updateCountdown() {
-            confirmButton.innerHTML = `<i class="ri-check-fill"></i> <span>OK (${cooldownSeconds})</span>`;
+            remainingTime = Math.max(0, cooldownSeconds - Math.floor((Date.now() - startTime) / 1000));
+            confirmButton.innerHTML = `<i class="ri-check-fill"></i> <span>OK (${remainingTime})</span>`;
         }
 
-        // Enable the confirm button after 5 seconds
-        setTimeout(function () {
+        function enableButton() {
             confirmButton.disabled = false;
             confirmButton.classList.remove("cooldown");
-            confirmButton.innerHTML = `<i class="ri-check-fill"></i> <span>OK</span>`; // Reset the button text
-            clearInterval(countdownInterval); // Clear the interval once the cooldown is over
-        }, cooldownSeconds * 1000);
+            confirmButton.innerHTML = `<i class="ri-check-fill"></i> <span>OK</span>`;
+            clearInterval(countdownInterval);
+        }
 
-        // Add cooldown styling during the 5 seconds
-        confirmButton.classList.add("cooldown");
-
-        // Set up the countdown timer
-        countdownInterval = setInterval(function () {
-            cooldownSeconds--;
-            if (cooldownSeconds >= 0) {
-                updateCountdown();
-            }
-        }, 1000);
-
-        // Initial update
+        // Calculate remaining time once
         updateCountdown();
+
+        // Check if cooldown has already ended
+        if (remainingTime <= 0) {
+            enableButton();
+        } else {
+            // Start the countdown interval
+            countdownInterval = setInterval(function () {
+                updateCountdown();
+                if (remainingTime <= 0) {
+                    enableButton();
+                }
+            }, 1000);
+        }
     }
-    
+
     const HomeModalCEAP = document.getElementById("HomePageModalCEAP");
-        function closeHomePageModalCEAP() {
-            HomeModalCEAP.style.display = "none";
-            }
-    // Event listener for the applyNowButtonCEAP click event
+
+    function closeHomePageModalCEAP() {
+        HomeModalCEAP.style.display = "none";
+    }
+
     applyNowButtonCEAP.addEventListener('click', function () {
         closeHomePageModalCEAP();
         openCEAPApplyNowBtn();
-        startCooldown(); // Start the cooldown after clicking the apply now button
+        startTime = Date.now(); // Record the start time
+        startCooldown();
     });
 });
 
-
-//lppp cooldown time
+//lppp cooldown timer
 document.addEventListener("DOMContentLoaded", function () {
     var confirmButton = document.getElementById('confirm-button-LPPP');
     var cooldownSeconds = 10;
     var countdownInterval;
+    var startTime;
+    var remainingTime;  // Declare remainingTime here
 
-    // Function to update the button text and handle cooldown
     function startCooldown() {
-        // Disable the confirm button initially
         confirmButton.disabled = true;
 
-        // Update the button text to show the countdown
         function updateCountdown() {
-            confirmButton.innerHTML = `<i class="ri-check-fill"></i> <span>OK (${cooldownSeconds})</span>`;
+            remainingTime = Math.max(0, cooldownSeconds - Math.floor((Date.now() - startTime) / 1000));
+            confirmButton.innerHTML = `<i class="ri-check-fill"></i> <span>OK (${remainingTime})</span>`;
         }
 
-        // Enable the confirm button after 5 seconds
-        setTimeout(function () {
+        function enableButton() {
             confirmButton.disabled = false;
             confirmButton.classList.remove("cooldown");
-            confirmButton.innerHTML = `<i class="ri-check-fill"></i> <span>OK</span>`; // Reset the button text
-            clearInterval(countdownInterval); // Clear the interval once the cooldown is over
-        }, cooldownSeconds * 1000);
+            confirmButton.innerHTML = `<i class="ri-check-fill"></i> <span>OK</span>`;
+            clearInterval(countdownInterval);
+        }
 
-        // Add cooldown styling during the 5 seconds
-        confirmButton.classList.add("cooldown");
-
-        // Set up the countdown timer
-        countdownInterval = setInterval(function () {
-            cooldownSeconds--;
-            if (cooldownSeconds >= 0) {
-                updateCountdown();
-            }
-        }, 1000);
-
-        // Initial update
+        // Calculate remaining time once
         updateCountdown();
+
+        // Check if cooldown has already ended
+        if (remainingTime <= 0) {
+            enableButton();
+        } else {
+            // Start the countdown interval
+            countdownInterval = setInterval(function () {
+                updateCountdown();
+                if (remainingTime <= 0) {
+                    enableButton();
+                }
+            }, 1000);
+        }
     }
 
     const HomeModalLPPP = document.getElementById("HomePageModalLPPP");
-        function closeHomePageModalLPPP() {
-            HomeModalLPPP.style.display = "none";
-            }
-    // Event listener for the applyNowButtonLPPP click event
+
+    function closeHomePageModalLPPP() {
+        HomeModalLPPP.style.display = "none";
+    }
+
     applyNowButtonLPPP.addEventListener('click', function () {
         closeHomePageModalLPPP();
         openLPPPApplyNowBtn();
-        startCooldown(); // Start the cooldown after clicking the apply now button
+        startTime = Date.now(); // Record the start time
+        startCooldown();
     });
 });
