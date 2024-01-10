@@ -11,11 +11,13 @@ function validatePassword() {
     const password = newPassword.value;
     const confirm = confirmPassword.value;
 
+    const passwordPattern = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[_\W]).{8,}$/;
     const hasMinimumLength = password.length >= 8;
-    const hasUppercase = /[A-Z]/.test(password);  // New condition for at least one uppercase letter
-    const hasLowercase = /[a-z]/.test(password);  // New condition for at least one lowercase letter
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasLowercase = /[a-z]/.test(password);
     const hasAlphanumeric = /^(?=.*[0-9])(?=.*[a-zA-Z])/.test(password);
-    const hasSpecialCharacter = /[!@#$%^&*]/.test(password);
+    const hasSpecialCharacter = passwordPattern.test(password);
+
 
     newPasswordError.textContent = '';
     confirmPasswordError.textContent = '';
