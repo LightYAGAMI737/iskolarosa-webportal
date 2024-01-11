@@ -4,10 +4,29 @@
 
         function openHomePageModalCEAP() {
             HomePageModalCEAP.style.display = "block";
+        
+            // Add event listener to prevent body scrolling
+            document.body.addEventListener('click', () => {
+                if (HomePageModalCEAP.style.display === 'block') {
+                    document.body.style.overflowY = 'hidden';
+                } else {
+                    // Remove the styling when the modal is closed
+                    document.body.style.overflowY = '';
+                }
+            });
         }
-
-         function openHomePageModalLPPP() {
+        function openHomePageModalLPPP() {
             HomePageModalLPPP.style.display = "block";
+        
+            // Add event listener to prevent body scrolling
+            document.body.addEventListener('click', () => {
+                if (HomePageModalLPPP.style.display === 'block') {
+                    document.body.style.overflowY = 'hidden';
+                } else {
+                    // Remove the styling when the modal is closed
+                    document.body.style.overflowY = '';
+                }
+            });
         }
 
             function closeHomePageModalCEAP() {
