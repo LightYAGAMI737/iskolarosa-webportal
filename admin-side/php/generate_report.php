@@ -53,7 +53,7 @@ $lineYHeader = $this->GetY() + 5; // Adjust the vertical position as needed
 
 $this->Line($lineStartXHeader, $lineYHeader, $lineEndXHeader, $lineYHeader);
     }
-      
+    
     public function AddPage($orientation = '', $format = '', $keepmargins = false, $tocpage = false) {
         // Check if it's the second page or subsequent pages
         if ($this->PageNo() >= 1) {
@@ -62,12 +62,11 @@ $this->Line($lineStartXHeader, $lineYHeader, $lineEndXHeader, $lineYHeader);
         } 
     
         // Set the auto page break distance from the bottom (in millimeters)
-        parent::SetAutoPageBreak(true, 33);
+        parent::SetAutoPageBreak(true, 34);
     
         // Call the parent AddPage method
         parent::AddPage($orientation, $format, $keepmargins, $tocpage);
     }
-
 // Footer
 public function Footer() {
     // Set line width for the footer
@@ -106,14 +105,6 @@ public function Footer() {
     $image_filetwo = K_PATH_IMAGES . '../system-images/SMLM-logo.jpg';
     $imageWidthtwo = 20; // Adjust the image width as needed
     $this->Image($image_filetwo, $this->GetPageWidth() - 35, $this->GetY(), $imageWidthtwo, '', 'JPG', '', 'T', false, 300, '', false, false, 0, false, false, false);
-
-// Add a black line after the footer
-$lineStartX = $this->GetX() - 10; // Adjust the starting x-coordinate as needed
-$lineEndX = $this->GetPageWidth() - $this->GetMargins()['right'] - 160; // Adjust the ending x-coordinate as needed
-
-$lineY = $this->GetY() - 2; // Adjust the vertical position as needed
-
-$this->Line($lineStartX, $lineY, $lineEndX, $lineY);
 }
     }
 
@@ -204,13 +195,12 @@ foreach ($filterOption as $option) {
     }
 }
 
-// Mapping array for Barangay values
+// Mapping array for Barangay
 $barangayMapping = [
     'PULONGSANTACRUZ' => 'PULONG SANTA CRUZ',
     'SANTODOMINGO' => 'SANTO DOMINGO',
     'MARKETAREA' => 'MARKET AREA',
     'DONJOSE' => 'DON JOSE',
-    // Add more mappings as needed
 ];
 
 // Initialize an array to store totals for each label
@@ -244,7 +234,7 @@ foreach ($sqlQueries as $sqlQuery) {
 
 
         // Generate the HTML table header for the current label
-        $html .= '<p>This is to confirm the Santa Rosa City Government Scholars for the<br><strong>';
+        $html .= '<p>This <strong>';
 
         foreach ($filterOption as $option) {
             switch ($option) {
@@ -270,10 +260,11 @@ foreach ($sqlQueries as $sqlQuery) {
             }
 
             // Add the label to the HTML
-            $html .= $option === 'listOfApplicants' ? 'LIST OF APPLICANTS' : 'TOTAL COUNT OF ' . $label;
+            $html .= $option === 'listOfApplicants' ? 'LIST OF APPLICANTS ' : 'TOTAL COUNT OF ' . $label . ' ';
         }
-
-$html .= '</strong> as follows:</p>';
+$CurrentYear = date('Y');
+$PastYear = date('Y') - 1; 
+$html .= '</strong>is to confirm the Santa Rosa City Government<br>Scholars for the Academic Year ' . $PastYear . '-' . $CurrentYear . '.</p>';
   // Add the date generated
 $html .= '<p class="date-generated">Generated on: <strong>' . date('F j, Y') . '</strong></p>';
 // Start the table
