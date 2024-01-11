@@ -142,7 +142,6 @@ $todayInterviewCount = $todayCountRow['todayCount'];
                 }
                 ?>
          <input type="text" name="search" class="form-control" id="search" placeholder="Search by Control Number or Last name"  oninput="formatInput(this)">
-         <button type="button" class="btn btn-primary" onclick="searchApplicants()">Search</button>
          <!-- Add a button to trigger the Reschedmodal -->
             <?php
                 function hasInterviewStatusInDatabase($conn, $currentBarangay, $currentStatus) {

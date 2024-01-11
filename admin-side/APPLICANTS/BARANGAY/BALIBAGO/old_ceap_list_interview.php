@@ -161,7 +161,6 @@
                 ?>
 
          <input type="text" name="search" class="form-control" id="search" placeholder="Search by Control Number or Last name"  oninput="formatInput(this)">
-         <button type="button" class="btn btn-primary" style="margin-right: 10px;" onclick="searchApplicants()">Search</button>
       </div>
       <!-- Reschedule Modal (hidden by default) -->
       <div id="myModal" class="modal">

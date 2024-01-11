@@ -79,7 +79,6 @@ $currentStatus = mysqli_real_escape_string($conn, $currentStatus);
       <!-- home content-->    
       <div class="form-group">
       <input type="text" name="search" class="form-control" id="search" placeholder="Search by Control Number or Last name"  oninput="formatInput(this)">
-         <button type="button" class="btn btn-primary" onclick="searchApplicants()">Search</button>
       </div>
       <!-- table for displaying the applicant list -->
       <div class="background">
