@@ -1,15 +1,19 @@
-const RescheduleAPLAYA = document.getElementById ('RescheduleAplayaPopUp');
+const RescheduleCurrent = document.getElementById ('RescheduleCurrentPopUp');
+const ReschedulePast = document.getElementById ('ReschedulePastPopUp');
 
-function openRescheduleAPLAYA(){
-    RescheduleAPLAYA.style.display="block";
+function openReschedulePast(){
+  ReschedulePast.style.display="block";
 }
-function closeRescheduleAPLAYA(){
-    RescheduleAPLAYA.style.display="none";
+function openRescheduleCurrent(){
+  RescheduleCurrent.style.display="block";
+}
+function closeRescheduleCurrent(){
+    RescheduleCurrent.style.display="none";
     goBack();
 }
 
 function openConfirmationPopup() {
-    closeRescheduleAPLAYA();
+    closeRescheduleCurrent();
     closeModalInterview();
     const RescheduleconfirmPopup = document.getElementById("RescheduleMsgPopUp");
     RescheduleconfirmPopup.style.display = "block";
@@ -30,7 +34,7 @@ function openConfirmationPopup() {
  
 const ReschedulecancelButtons = document.querySelectorAll(".cancel-button");
 ReschedulecancelButtons.forEach((ReschedulecancelButton) => {
-  ReschedulecancelButton.addEventListener("click", closeRescheduleAPLAYA);
+  ReschedulecancelButton.addEventListener("click", closeRescheduleCurrent);
 });
 
 function goBack() {
