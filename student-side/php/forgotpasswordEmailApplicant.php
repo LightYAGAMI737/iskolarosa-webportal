@@ -81,7 +81,7 @@ $resultEmployee = mysqli_stmt_get_result($stmtEmployee);
 
 if (mysqli_num_rows($resultEmployee) === 1) {
     $row = mysqli_fetch_assoc($resultEmployee);
-    $resetLink = "http://localhost/iskolarosa-7.0/student-side/php/updatePasswordApplicant.php?username=" . urlencode($row['username']);
+    $resetLink = "https://iskolarosa.com/iskolarosa/student-side/php/updatePasswordApplicant.php?username=" . urlencode($row['username']);
 } else {
     header("Location: ../index.php?error=EmailNotFound");
     exit();
