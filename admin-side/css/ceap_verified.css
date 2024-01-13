@@ -1,9 +1,6 @@
 /* Additional Styling */
 .form-group {
-    display: flex;
-    align-items: center;
-    justify-content: center; /* Center horizontally */
-    margin-bottom: 15px;
+    align-items: left;
 }
 .form-control {
     max-width: 600px !important;
@@ -70,9 +67,7 @@
     position: relative;
     top: 50%;
     transform: translateY(-50%);
-    width: 50%;
-    max-width: 400px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    width: 30%;
 }
 .close {
     position: absolute;
@@ -102,6 +97,10 @@
         width: 100%;
     }
 }
+.form-label {
+    font-weight: bolder;
+    margin-right: 5px;
+}
 .modal-body {
     display: flex;
     flex-direction: column;
@@ -111,12 +110,12 @@ input[type="date"],
 input[type="number"],
 select {
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    border: 1px solid #878787;
+    border-radius: 10px;
     font-size: 14px;
     box-sizing: border-box;
     margin-right: 10px;
-    margin-bottom: 10px; /* Add spacing between elements */
+    margin-bottom: 5px;
     flex: 1;
 }
 select {

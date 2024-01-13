@@ -167,9 +167,9 @@ $todayInterviewCountPast = $todayCountRowPast['todayCountPast'];
     <div class="modal-content">
         <span class="close" id="closeModalBtn">&times;</span>
         <div class="modal-body">
-            <label class="form-label" for="current_time">Reschedule Interview Date</label>
+            <label class="form-label" for="current_time" style="font-size: 18px;">Reschedule Interview Date</label>
                 <!-- Add radio buttons for past and current applicants -->
-                <div class="form-group">
+                <div class="form-group" style="display: flex; flex-direction: column;">
                     <label>
                         <input type="radio" name="applicant_type" value="past" id="pastApplicant" checked onchange="updateMaxQuantityInput()"> Past Applicants (Before Today)
                     </label>
@@ -180,7 +180,7 @@ $todayInterviewCountPast = $todayCountRowPast['todayCountPast'];
                 <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                 <!-- Date input for interview -->
                 <div class="form-group">
-                    <label class="form-label" for="interview_date">Date</label>
+                    <label class="form-label" for="interview_date" style="width: 65px; text-align: center;">Date</label>
                     <input type="date" name="interview_date" id="interview_date" class="form-control" required
                     <?php
                         // Set the minimum date to 1 day after the current day
@@ -195,7 +195,7 @@ $todayInterviewCountPast = $todayCountRowPast['todayCountPast'];
 
                 <!-- Time input for interview -->
                 <div class="form-group">
-                    <label class="form-label">Time</label>
+                    <label class="form-label" style="width: 65px; text-align: center;">Time</label>
                     <div style="display: flex; align-items: center;">
                         <input type="number" name="interview_hours" id="interview_hours" class="form-control" min="1" max="12" required>
                         <span style="margin: 0 5px;">:</span>
@@ -206,13 +206,13 @@ $todayInterviewCountPast = $todayCountRowPast['todayCountPast'];
                         </select>
                     </div>
                 </div>
-                <span id="error-message" style="text-align: center; display: flex; justify-content: center; color: gray; max-width: 275px !important;"></span>
+                <span id="error-message" style="text-align: center; display: flex; justify-content: center; color: gray; max-width: 275px !important; margin-left: 70px;"></span>
                 <!-- Quantity input for interview -->
                 <div class="form-group">
-                    <label class="form-label" for="limit">Quantity</label>
+                    <label class="form-label" for="limit" style="width: 65px; text-align: center;">Quantity</label>
                     <input type="number" class="form-control" name="limit" id="limit" min="1" required>
                 </div>
-                <span id="error-message-limit" style="text-align: center; display: flex; justify-content: center;  color: gray; "></span>
+                <span id="error-message-limit" style="text-align: center; display: flex; justify-content: center;  color: gray;"></span>
 
                 <!-- Reschedule button with dynamic onclick -->
                 <div class="form-group">

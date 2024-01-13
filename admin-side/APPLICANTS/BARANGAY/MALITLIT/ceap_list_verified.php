@@ -103,8 +103,54 @@ $verifiedCountRow = mysqli_fetch_assoc($verifiedCountResult);
       <?php 
          include '../../../php/status_popup.php';
          include '../../../php/confirmStatusPopUp.php';
+         ?>
+           <!-- Set Interview Modal (hidden by default) -->
+      <div id="myModal" class="modal">
+         <div class="modal-content">
+            <span class="close" id="closeModalBtn">&times;</span>
+            <div class="modal-body">
+               <label  class="form-label" for="current_time"  style="font-size: 18px;"></h3>Set Interview Date</h3></label>
+               <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                  <div class="form-group">
+                     <label for="interview_date" class="form-label" style="width: 65px; text-align: center;">Date</label>
+                     <input type="date" name="interview_date" id="interview_date" class="form-control" required onkeydown="preventInput(event)"
+                     <?php
+                            echo 'min="' . date('Y-m-d') . '"';
+                            
+                            // Calculate the max date (6 months from the current date)
+                            $maxDate = date('Y-m-d', strtotime('+6 months'));
+                            echo ' max="' . $maxDate . '"';
+                        ?>>
+                  </div>
+                  <div class="form-group">
+                     <label class="form-label" style="width: 65px; text-align: center;">Time</label>
+                     <div style="display: flex; align-items: center;">
+                        <input type="number" name="interview_hours" id="interview_hours" class="form-control" min="1" max="12" required>
+                        <span style="margin: 0 5px;">:</span>
+                        <input type="number" name="interview_minutes" id="interview_minutes" class="form-control" min="0" max="59" required>
+                        <select class="form-control" name="interview_ampm" id="interview_ampm" required>
+                           <option value="AM">AM</option>
+                           <option value="PM">PM</option>
+                        </select>
+                     </div>
+                  </div>
+                  <span id="error-message" style="text-align: center; display: flex; justify-content: center; max-width: 275px; margin-left: 70px;"></span>
+                  <div class="form-group">
+                     <label for="limit" class="form-label" style="width: 65px; text-align: center;">Quantity</label>
+                     <input type="number" class="form-control" name="limit" id="limit" min="1" max="<?php echo $verifiedCount; ?>" required>
+                  </div>
+                  <span id="error-message-limit" style="text-align: center; display: flex; justify-content: center;"></span>
+                  <div class="form-group">
+                     <button type="button" class="btn btn-primary" id="saveBtn" onclick="openInterviewPopup(), closeModalInterview()" disabled>Set</button>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+      <?php 
          include '../../side_bar_barangay.php';
          ?>
+      <!-- end search and modal -->
       <!-- home content--> 
       <!-- search bar and set interview modal -->   
       <div class="form-group">
@@ -146,64 +192,7 @@ $verifiedCountRow = mysqli_fetch_assoc($verifiedCountResult);
     
              ?>
       </div>
-      <!-- Set Interview Modal (hidden by default) -->
-      <div id="myModal" class="modal">
-         <div class="modal-content">
-            <span class="close" id="closeModalBtn">&times;</span>
-            <div class="modal-body">
-               <label for="current_time"></h3>Set Interview Date</h3></label>
-               <!-- <span id="currentDateTime"></span>
-               <script>
-                  // Function to update the current date and time
-                  function updateCurrentDateTime() {
-                      const currentDateTimeElement = document.getElementById('currentDateTime');
-                      const options = { timeZone: 'Asia/Manila', hour12: true, hour: 'numeric', minute: 'numeric', second: 'numeric', year: 'numeric', month: 'numeric', day: 'numeric' };
-                      const currentDateTime = new Date().toLocaleString([], options);
-                      currentDateTimeElement.textContent = currentDateTime;
-                  }
-                  
-                  // Update the current date and time initially and then every second
-                  updateCurrentDateTime();
-                  setInterval(updateCurrentDateTime, 1000); // Update every 1 second
-               </script> -->
-               <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                  <div class="form-group">
-                     <label for="interview_date">Date</label>
-                     <input type="date" name="interview_date" id="interview_date" class="form-control" required onkeydown="preventInput(event)"
-                     <?php
-                            echo 'min="' . date('Y-m-d') . '"';
-                            
-                            // Calculate the max date (6 months from the current date)
-                            $maxDate = date('Y-m-d', strtotime('+6 months'));
-                            echo ' max="' . $maxDate . '"';
-                        ?>>
-                  </div>
-                  <div class="form-group">
-                     <label>Time</label>
-                     <div style="display: flex; align-items: center;">
-                        <input type="number" name="interview_hours" id="interview_hours" class="form-control" min="1" max="12" required>
-                        <span style="margin: 0 5px;">:</span>
-                        <input type="number" name="interview_minutes" id="interview_minutes" class="form-control" min="0" max="59" required>
-                        <select class="form-control" name="interview_ampm" id="interview_ampm" required>
-                           <option value="AM">AM</option>
-                           <option value="PM">PM</option>
-                        </select>
-                     </div>
-                  </div>
-                  <span id="error-message" style="text-align: center; display: flex; justify-content: center;"></span>
-                  <div class="form-group">
-                     <label for="limit">Qty.</label>
-                     <input type="number" class="form-control" name="limit" id="limit" min="1" max="<?php echo $verifiedCount; ?>" required>
-                  </div>
-                  <span id="error-message-limit" style="text-align: center; display: flex; justify-content: center;"></span>
-                  <div class="form-group">
-                     <button type="button" class="btn btn-primary" id="saveBtn" onclick="openInterviewPopup(), closeModalInterview()" disabled>Set</button>
-                  </div>
-               </form>
-            </div>
-         </div>
-      </div>
-      <!-- end search and modal -->
+    
       <!-- table for displaying the applicant list -->
       <div class="background">
          <h2 style="text-align: center">CEAP APPLICANT LIST</h2>
@@ -400,8 +389,8 @@ function validateLimitInput() {
         errorMessageLimit.textContent = '';
     } else {
         limitInput.classList.add('invalid');
-        errorMessageLimit.textContent = 'Quantity cannot exceed to <?php echo $verifiedCount; ?>.';
-        errorMessageLimit.style.color = 'red';
+        errorMessageLimit.textContent = 'Quantity max limit:  <?php echo $verifiedCount; ?>.';
+        errorMessageLimit.style.color = 'gray';
     }
 }
 
