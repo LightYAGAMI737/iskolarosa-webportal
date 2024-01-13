@@ -8,22 +8,18 @@ document.addEventListener('DOMContentLoaded', function () {
       }
   });
 });
-
-// Declare employeeIdInput as a global variable
 var employeeIdInput = document.getElementById('employeeId');
-var employeeIdErrors = document.getElementById('employeeIdErrors'); // Declare employeeIdErrors as a global variable
+var employeeIdErrors = document.getElementById('employeeIdErrors');
 
-employeeIdInput.addEventListener("change", function () {
-    // Remove special characters and keep only letters, numbers, and dashes
-    employeeIdInput.value = employeeIdInput.value.replace(/[^A-Za-z0-9-]/g, '');
+employeeIdInput.addEventListener("input", function () {
+    // Remove non-numeric characters
+    employeeIdInput.value = employeeIdInput.value.replace(/\D/g, '');
 
     // Check if the input has a length of 5
     if (employeeIdInput.value.length === 5) {
         checkDuplicateEmployeeId();
-        
     } else {
         validateEmployeeId();
-
     }
 });
 
@@ -34,17 +30,17 @@ employeeIdInput.addEventListener('input', function (event) {
 
 function validateEmployeeId() {
     var employeeId = employeeIdInput.value;
-
-    // Check if the input has a length of 5
-    if (employeeId.length !== 5) {
-        employeeIdErrors.textContent = 'Must be 5 characters.';
-        employeeIdErrors.style.display = 'block';
-        employeeIdInput.classList.add('invalid');
-    } else {
-        employeeIdErrors.textContent = '';
-        employeeIdErrors.style.display = 'none';
-        employeeIdInput.classList.remove('invalid');
-    }
+      // Check if the input has a length of 5
+ if (employeeIdInput.value.length !== 5) {
+      employeeIdErrors.textContent = 'At least 5 characters.';
+      employeeIdErrors.style.display = 'block';
+      employeeIdInput.classList.add('invalid');
+  } else {
+      // No errors, reset the error message and styles
+      employeeIdErrors.textContent = '';
+      employeeIdErrors.style.display = 'none';
+      employeeIdInput.classList.remove('invalid');
+  }
 }
 
 // Function to check for duplicate employee IDs
