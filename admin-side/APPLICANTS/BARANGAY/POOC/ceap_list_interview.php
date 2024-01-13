@@ -156,7 +156,13 @@ $todayInterviewCountPast = $todayCountRowPast['todayCountPast'];
       </script>
    </head>
    <body>
-    <!-- Reschedule Modal (hidden by default) -->
+    
+
+      <!-- end search and reschedule -->
+      <?php 
+            include '../../../php/reschedulepopups.php';
+         ?>
+         <!-- Reschedule Modal (hidden by default) -->
 <div id="myModal" class="modal">
     <div class="modal-content">
         <span class="close" id="closeModalBtn">&times;</span>
@@ -176,12 +182,14 @@ $todayInterviewCountPast = $todayCountRowPast['todayCountPast'];
                 <div class="form-group">
                     <label class="form-label" for="interview_date">Date</label>
                     <input type="date" name="interview_date" id="interview_date" class="form-control" required
-                        <?php
-                            echo 'min="' . date('Y-m-d') . '"';
-                            
-                            // Calculate the max date (6 months from the current date)
-                            $maxDate = date('Y-m-d', strtotime('+6 months'));
-                            echo ' max="' . $maxDate . '"';
+                    <?php
+                        // Set the minimum date to 1 day after the current day
+                        $minDate = date('Y-m-d', strtotime('+1 day'));
+                        echo 'min="' . $minDate . '"';
+
+                        // Calculate the max date (6 months from the current date)
+                        $maxDate = date('Y-m-d', strtotime('+6 months'));
+                        echo ' max="' . $maxDate . '"';
                         ?>>
                 </div>
 
@@ -204,7 +212,7 @@ $todayInterviewCountPast = $todayCountRowPast['todayCountPast'];
                     <label class="form-label" for="limit">Quantity</label>
                     <input type="number" class="form-control" name="limit" id="limit" min="1" required>
                 </div>
-                <span id="error-message-limit" style="text-align: center; display: flex; justify-content: center;  color: #A5040A; "></span>
+                <span id="error-message-limit" style="text-align: center; display: flex; justify-content: center;  color: gray; "></span>
 
                 <!-- Reschedule button with dynamic onclick -->
                 <div class="form-group">
@@ -214,10 +222,7 @@ $todayInterviewCountPast = $todayCountRowPast['todayCountPast'];
         </div>
     </div>
 </div>
-
-      <!-- end search and reschedule -->
-      <?php 
-            include '../../../php/reschedulepopups.php';
+<?php 
          include '../../side_bar_barangay.php';
          ?>
       <!-- home content-->
@@ -334,6 +339,7 @@ $todayInterviewCountPast = $todayCountRowPast['todayCountPast'];
       <script  src="../../../js/side_bar.js"></script>
       <script  src="../../../js/VerifiedandInterview.js"></script>
       <script  src="../../../js/rescheduleInterview.js"></script>
+      <script  src="../../../js/rescheduleInterviewPast.js"></script>
       <script  src="../../../js/openReschedulePopup.js"></script>
       <script>
 $(document).ready(function() {
@@ -557,53 +563,8 @@ function searchApplicants() {
 
     }
 }
-// Your existing validation function
-function validaterescheduleLimitInput() {
-        const limit = parseInt(document.getElementById('limit').value);
-        const isLimitValid =
-            !isNaN(limit) &&
-            limit >= 1 &&
-            limit <= (pastApplicant.checked ? <?php echo $todayInterviewCountPast; ?> : <?php echo $todayInterviewCount; ?>);
 
-        // Add or remove 'invalid' class based on validation
-        if (isLimitValid) {
-            document.getElementById('limit').classList.remove('invalid');
-            document.getElementById('error-message-limit').textContent = '';
-        } else {
-            document.getElementById('limit').classList.add('invalid');
-            document.getElementById('error-message-limit').textContent = 'Quantity cannot exceed to ' + (pastApplicant.checked ? <?php echo $todayInterviewCountPast; ?> : <?php echo $todayInterviewCount; ?>) + '.';
-            document.getElementById('error-message-limit').style.color = 'red';
-        }
-    }
-
-// Get references to the required input fields and the save button
-const requiredInputs = document.querySelectorAll('[required]'); // Get all required fields
-const rescheduleBtn = document.getElementById('rescheduleBtn');
-
-// Function to check if all required inputs are valid
-function checkRequiredInputs() {
-    const allInputsValid = Array.from(requiredInputs).every((input) => {
-        return input.value.trim() !== '' && !input.classList.contains('invalid');
-    });
-
-    if (allInputsValid) {
-        rescheduleBtn.removeAttribute('disabled');
-    } else {
-        rescheduleBtn.setAttribute('disabled', 'true');
-    }
-}
-
-// Add input event listeners to required input fields
-requiredInputs.forEach((input) => {
-    input.addEventListener('input', checkRequiredInputs);
-});
-
-// Initial check
-checkRequiredInputs();
-
-</script>
-<script>
-    function rescheduleButtonClick() {
+function rescheduleButtonClick() {
         var pastApplicantRadio = document.getElementById('pastApplicant');
         var currentApplicantRadio = document.getElementById('currentApplicant');
 
@@ -614,40 +575,100 @@ checkRequiredInputs();
         }
         closeModalInterview();
     }
-</script>
-<script>
-    function updateMaxQuantityInput() {
-        var pastApplicant = document.getElementById('pastApplicant');
-        var currentApplicant = document.getElementById('currentApplicant');
-        var quantityInput = document.getElementById('limit');
+    function validaterescheduleLimitInput() {
+    const limitInput = document.getElementById('limit');
+    const limit = parseInt(limitInput.value);
+    const todayInterviewCount = document.getElementById('pastApplicant').checked
+        ? <?php echo $todayInterviewCountPast; ?>
+        : <?php echo $todayInterviewCount; ?>;
+    
+    const isLimitValid = !isNaN(limit) && limit >= 1 && limit <= todayInterviewCount;
 
-        if (pastApplicant.checked) {
-            quantityInput.max = <?php echo $todayInterviewCountPast; ?>;
-        } else if (currentApplicant.checked)  {
-            quantityInput.max = <?php echo $todayInterviewCount; ?>;
-        }
+    // Add or remove 'invalid' class based on validation
+    limitInput.classList.toggle('invalid', !isLimitValid);
+
+    const errorMessage = isLimitValid ? '' : `Quantity max limit: ${todayInterviewCount}.`;
+    document.getElementById('error-message-limit').textContent = errorMessage;
+    document.getElementById('error-message-limit').style.color = 'gray';
+}
+
+function updateMaxQuantityInput() {
+    const quantityInput = document.getElementById('limit');
+    const todayInterviewCount = document.getElementById('pastApplicant').checked
+        ? <?php echo $todayInterviewCountPast; ?>
+        : <?php echo $todayInterviewCount; ?>;
+    
+    quantityInput.max = todayInterviewCount;
+}
+
+// Call the function initially to set the correct max value
+updateMaxQuantityInput();
+
+// Add event listeners to call the function when the radio buttons change
+['pastApplicant', 'currentApplicant'].forEach(function(radioId) {
+    const radio = document.getElementById(radioId);
+    radio.addEventListener('change', function() {
+        updateMaxQuantityInput();
+        validaterescheduleLimitInput();
+    });
+});
+
+// Add event listener for the "Quantity" input
+const quantityInput = document.getElementById('limit');
+quantityInput.addEventListener('input', function() {
+    validaterescheduleLimitInput();
+    // Assuming you have the `checkRequiredInputs` function defined elsewhere
+    checkRequiredInputs();
+});
+
+// Get references to the required input fields and the save button
+const requiredInputs = document.querySelectorAll('[required]'); // Get all required fields
+const rescheduleBtn = document.getElementById('rescheduleBtn');
+// Function to check if all required inputs are valid
+
+
+function checkRequiredInputs() {
+    const limitInput = document.getElementById('limit');
+    const isPastApplicant = document.getElementById('pastApplicant').checked;
+    const todayInterviewCount = isPastApplicant ? <?php echo $todayInterviewCountPast; ?> : <?php echo $todayInterviewCount; ?>;
+    
+    const allInputsValid = Array.from(requiredInputs).every((input) => {
+        return input.value.trim() !== '' && !input.classList.contains('invalid');
+    });
+
+    const isLimitValid = !isNaN(parseInt(limitInput.value)) && parseInt(limitInput.value) <= todayInterviewCount;
+
+    if (allInputsValid && isLimitValid) {
+        rescheduleBtn.removeAttribute('disabled');
+    } else {
+        rescheduleBtn.setAttribute('disabled', 'true');
     }
+}
 
-    // Call the function initially to set the correct max value
-    updateMaxQuantityInput();
+// Add input event listeners to required input fields and the limit input
+requiredInputs.forEach((input) => {
+    input.addEventListener('input', checkRequiredInputs);
+});
 
-    // Add event listeners to call the function when the radio buttons change
-    var pastApplicant = document.getElementById('pastApplicant');
-    var currentApplicant = document.getElementById('currentApplicant');
+// Add input event listener for the "Quantity" input
+quantityInput.addEventListener('input', function() {
+    validaterescheduleLimitInput();
+    checkRequiredInputs();
+});
 
-    pastApplicant.addEventListener('change', function() {
+// Add event listeners to call the function when the radio buttons change
+['pastApplicant', 'currentApplicant'].forEach(function(radioId) {
+    const radio = document.getElementById(radioId);
+    radio.addEventListener('change', function() {
         updateMaxQuantityInput();
         validaterescheduleLimitInput();
+        checkRequiredInputs(); // Call checkRequiredInputs when the applicant type changes
     });
+});
 
-    currentApplicant.addEventListener('change', function() {
-        updateMaxQuantityInput();
-        validaterescheduleLimitInput();
-    });
+// Initial check
+checkRequiredInputs();
 
-    // Add event listener for the "Quantity" input
-    var quantityInput = document.getElementById('limit');
-    quantityInput.addEventListener('input', validaterescheduleLimitInput);
 </script>
    </body>
 </html>

@@ -1,4 +1,4 @@
-function RescheduleInterviewCurrent() {
+function RescheduleInterviewPast() {
     // Gather the data you want to send
     const RescheduleinterviewDate = document.getElementById('interview_date').value;
     const RescheduleinterviewHours = document.getElementById('interview_hours').value;
@@ -17,7 +17,7 @@ function RescheduleInterviewCurrent() {
     console.log('Data to be sent:', data); // Log the data you're sending
 
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', 'rescheduleINTERVIEWCurrent.php', true);
+    xhr.open('POST', 'rescheduleINTERVIEWPast.php', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     
     xhr.onreadystatechange = function () {
