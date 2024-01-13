@@ -141,7 +141,6 @@ if ($_SESSION['role'] !== 1) {
 }
 ?>
          <input type="text" name="search" class="form-control" id="search" placeholder="Search by Control Number or Last name"  oninput="formatInput(this)">
-         <button type="button" class="btn btn-primary" onclick="searchApplicants()">Search</button>
          <!-- Add a button to trigger the modal -->
       </div>
       <!-- Set Interview Modal (hidden by default) -->

@@ -77,6 +77,7 @@ $result = mysqli_stmt_get_result($stmt);
       <link rel='stylesheet' href="../../../css/unpkg-layout.css">
       <link rel="stylesheet" href="../../../css/side_bar.css">
       <link rel="stylesheet" href="../../../css/ceap_list.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css">
       <style>
       </style>
    </head>
@@ -86,8 +87,7 @@ $result = mysqli_stmt_get_result($stmt);
          ?>
       <!-- home content-->    
       <div class="form-group">
-         <input type="text" name="search" class="form-control" id="search"  autocomplete="off"  placeholder="Search by Control Number or Last name"  oninput="formatInput(this)">
-         <button type="button" class="btn btn-primary" onclick="searchApplicants()">Search</button>
+         <input type="text" name="search-bar" class="form-control" id="search" placeholder="Search by Control Number or Last name"  oninput="formatInput(this)">
       </div>
       <!-- table for displaying the applicant list -->
       <div class="background">

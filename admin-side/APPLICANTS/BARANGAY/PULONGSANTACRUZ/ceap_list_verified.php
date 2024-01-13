@@ -121,7 +121,6 @@ $verifiedCountRow = mysqli_fetch_assoc($verifiedCountResult);
             }
             ?>
          <input type="text" name="search" class="form-control" id="search" placeholder="Search by Control Number or Last name"  oninput="formatInput(this)">
-         <button type="button" class="btn btn-primary" onclick="searchApplicants()">Search</button>
          <!-- Add a button to trigger the modal -->
          <?php
      function hasVerifiedStatusInDatabase($conn, $currentBarangay, $currentStatus) {
