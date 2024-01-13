@@ -37,7 +37,7 @@ guardianRelationshipInput.addEventListener("input", function () {
 });
 
 guardianOccupationInput.addEventListener("input", function () {
-    validateInputWithMinLength(guardianOccupationInput, 5, "guardian_occupation_error");
+    validateInputWithMinLength(guardianOccupationInput, 4, "guardian_occupation_error");
 });
     
 
