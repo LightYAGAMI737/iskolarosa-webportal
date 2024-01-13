@@ -15,8 +15,7 @@ $(document).ready(function () {
                     openemailconfirmpopup();
                 } else {
                     // Handle the case where email sending failed
-                    console.log('Email sending failed. Response: ' + response);
-                    alert('Email sending failed.'); // You can keep the alert for user notification
+                    console.log('Email sending failed. Response: ' + response + xhr.status);
                 }
             } else {
                 // Handle errors here
