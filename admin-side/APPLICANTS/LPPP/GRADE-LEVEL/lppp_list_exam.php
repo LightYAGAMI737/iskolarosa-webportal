@@ -174,7 +174,6 @@ $setInterviewButtonDisabled = !$hasVerifiedApplicants ? 'disabled' : '';
 </div>
 
 <input type="text" name="search" class="form-control" id="search" placeholder="Search by Control Number or Last name" oninput="formatInput(this)">
-<button type="button" class="btn btn-primary" style="margin-right: 10px;" onclick="searchApplicants()">Search</button>
 <button type="button" class="btn btn-primary btn-rad" id="openModalBtn" <?php echo $setInterviewButtonDisabled; ?>>Set Interview</button>
 
 
