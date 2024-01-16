@@ -116,6 +116,10 @@ $todayexamCount = $todayCountRow['todayCount'];
             border-radius: 15px !important;
             box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.40) !important;
         }
+        .lppp-interviewBTN {
+            margin-left: 40px !important;
+            margin-right: 40px !important;
+        }
         </style>
       <script>
         // Prevent manual input in date fields
@@ -174,7 +178,7 @@ $setInterviewButtonDisabled = !$hasVerifiedApplicants ? 'disabled' : '';
 </div>
 
 <input type="text" name="search" class="form-control" id="search" placeholder="Search by Control Number or Last name" oninput="formatInput(this)">
-<button type="button" class="btn btn-primary btn-rad" id="openModalBtn" <?php echo $setInterviewButtonDisabled; ?>>Set Interview</button>
+<button type="button" class="btn btn-primary btn-rad lppp-interviewBTN" id="openModalBtn" <?php echo $setInterviewButtonDisabled; ?>>Set Interview</button>
 
 
 <?php

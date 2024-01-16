@@ -2,6 +2,7 @@
 // Include configuration and functions
 session_start();
 include '../../../php/config_iskolarosa_db.php';
+require_once '../../../php/email_update_status_setInterviewLPPP.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Process and update interview dates
@@ -21,34 +22,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         WHERE t.status = 'interview' AND applicant_score >= 75 AND interview_date = '0000-00-00'
         LIMIT ?";
     
- $stmt = mysqli_prepare($conn, $qualifiedQuery);
- mysqli_stmt_bind_param($stmt, "i", $limit);
- mysqli_stmt_execute($stmt);
- $qualifiedResult = mysqli_stmt_get_result($stmt);
+        $stmt = mysqli_prepare($conn, $qualifiedQuery);
+        mysqli_stmt_bind_param($stmt, "i", $limit);
+        mysqli_stmt_execute($stmt);
+        $qualifiedResult = mysqli_stmt_get_result($stmt);
  
- $updateCount = 0; // Track the number of applicants updated
- while ($row = mysqli_fetch_assoc($qualifiedResult)) {
- if ($updateCount >= $limit) {
- break; // Stop updating once the limit is reached
- }
- $adminUsername = $_SESSION['username'];
- $ceapRegFormId = $row['lppp_reg_form_id'];
+        $updateCount = 0; // Track the number of applicants updated
+        while ($row = mysqli_fetch_assoc($qualifiedResult)) {
+            if ($updateCount >= $limit) {
+                break; // Stop updating once the limit is reached
+            }
+            $adminUsername = $_SESSION['username'];
+            $ceapRegFormId = $row['lppp_reg_form_id'];
  
- $updateTimeQuery = "UPDATE lppp_temporary_account SET interview_date = ?, interview_hour = ?, interview_minute = ?, interview_period = ?, updated_by = ? WHERE lppp_reg_form_id = ?";
- $stmtTimeUpdate = mysqli_prepare($conn, $updateTimeQuery);
- mysqli_stmt_bind_param($stmtTimeUpdate, "siiisi", $interviewDate, $interview_hour, $interview_minutes, $interview_ampm, $adminUsername, $ceapRegFormId);
- mysqli_stmt_execute($stmtTimeUpdate);
+            $updateTimeQuery = "UPDATE lppp_temporary_account SET interview_date = ?, interview_hour = ?, interview_minute = ?, interview_period = ?, updated_by = ? WHERE lppp_reg_form_id = ?";
+            $stmtTimeUpdate = mysqli_prepare($conn, $updateTimeQuery);
+            mysqli_stmt_bind_param($stmtTimeUpdate, "siiisi", $interviewDate, $interview_hour, $interview_minutes, $interview_ampm, $adminUsername, $ceapRegFormId);
+            mysqli_stmt_execute($stmtTimeUpdate);
  
- // Update the status to 'interview'
- $statusUpdateQuery = "UPDATE lppp_temporary_account SET status = 'interview' WHERE lppp_reg_form_id = ?";
- $stmtStatusUpdate = mysqli_prepare($conn, $statusUpdateQuery);
- mysqli_stmt_bind_param($stmtStatusUpdate, "i", $ceapRegFormId);
- mysqli_stmt_execute($stmtStatusUpdate);
- 
- $updateCount++;
- 
- echo 'success';
- }
- }
- }
+            // Update the status to 'interview'
+            $statusUpdateQuery = "UPDATE lppp_temporary_account SET status = 'interview' WHERE lppp_reg_form_id = ?";
+            $stmtStatusUpdate = mysqli_prepare($conn, $statusUpdateQuery);
+            mysqli_stmt_bind_param($stmtStatusUpdate, "i", $ceapRegFormId);
+            mysqli_stmt_execute($stmtStatusUpdate);
+
+            // Fetch the applicant's email address and control number from the database
+            $applicantEmailQuery = "SELECT active_email_address, control_number FROM lppp_reg_form WHERE lppp_reg_form_id = ?";
+            $stmtApplicantEmail = $conn->prepare($applicantEmailQuery);
+            $stmtApplicantEmail->bind_param("i", $ceapRegFormId);
+            $stmtApplicantEmail->execute();
+            $stmtApplicantEmail->bind_result($applicantEmail, $control_number);
+            $stmtApplicantEmail->fetch();
+            $stmtApplicantEmail->close();
+
+            // Send an email to the applicant
+            $recipientEmail = $applicantEmail; // Use the fetched applicant email
+            $emailSent = sendEmailInterview($recipientEmail, $control_number, 'interview', $interviewDate);
+
+            if ($emailSent) {
+                echo 'success'; // Update, log, and email sending were successful
+            } else {
+                echo 'email_error'; // Email sending failed, but the update and log were successful
+            }
+
+            $updateCount++;
+        }
+    } else {
+        echo 'error'; // Update failed
+    }
+}
 ?>
