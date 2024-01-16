@@ -157,8 +157,7 @@ include 'logoutpopup.php';
         <li class="menu-item">
            <a href="../admin-side/APPLICANTS/LPPP/GRADE-LEVEL/lppp_list.php" <?php if ($currentPage === 'lppp_list') echo 'class="active"'; ?>>
            <span class="menu-icon">
-           <i class="ri-user-search-fill"></i>
-
+           <i class="ri-graduation-cap-fill" style="color: #FEC021;"></i>
            </span>
            <span class="menu-title">LPPP</span>
            </a>
