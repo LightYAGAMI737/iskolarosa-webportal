@@ -116,7 +116,18 @@
                                 <p class="#"><?php echo trim($postTitle); ?></p>
                             </div>
 
-                            <div class="posted-tag <?php echo ($postTag == 'lppp') ? 'lppp-tag' : ''; ?>">
+                                 <div class="posted-tag 
+                                     <?php
+                                         if ($postTag == 'public') {
+                                             echo 'public-tag';
+                                         } elseif ($postTag == 'ceap') {
+                                             echo '';
+                                         } elseif ($postTag == 'lppp') {
+                                             echo 'lppp-tag';
+                                         } else {
+                                             echo ''; // Add a default case if none of the options match
+                                         }
+                                     ?>">
                                 <span><?php echo $postTag; ?></span>
                             </div>
                             <div class="posted-description">
