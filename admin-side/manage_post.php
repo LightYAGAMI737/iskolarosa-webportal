@@ -38,7 +38,7 @@
    
    $selectedTag = $_GET['tag'] ?? '';
    if ($selectedTag === 'all') {
-    $sql = "SELECT * FROM create_post WHERE tag IN ('ceap', 'lppp') ORDER BY post_created_at DESC";
+    $sql = "SELECT * FROM create_post WHERE tag IN ('ceap', 'lppp','public') ORDER BY post_created_at DESC";
    } elseif (!empty($selectedTag)) {
     $sql = "SELECT * FROM create_post WHERE tag = '$selectedTag' ORDER BY post_created_at DESC";
    } else {
@@ -85,6 +85,7 @@
                <select id="tag-filter" onchange="applyFilter()">
                   <option value="" hidden>Tags</option>
                   <option value="all">All</option>
+                  <option value="public">PUBLIC</option>
                   <option value="ceap">CEAP</option>
                   <option value="lppp">LPPP</option>
                </select>

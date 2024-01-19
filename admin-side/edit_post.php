@@ -99,6 +99,7 @@
                   <div class="input-row">
                      <input type="text" id="title" name="post_title" minlength="5" maxlength="100" style="margin-right: 10px;" oninput="formatInput(this)" required value="<?php echo htmlspecialchars($postData['post_title']); ?>">
                      <select id="tag" name="tag">
+                        <option value="public" <?php if ($postData['tag'] === 'public') echo 'selected'; ?>>PUBLIC</option>
                         <option value="ceap" <?php if ($postData['tag'] === 'ceap') echo 'selected'; ?>>CEAP</option>
                         <option value="lppp" <?php if ($postData['tag'] === 'lppp') echo 'selected'; ?>>LPPP</option>
                      </select>
