@@ -150,6 +150,9 @@ body {
 .lppp-tag {
     background: #FEC021 !important;
 }
+.public-tag {
+    background: #400000 !important;
+}
 .announcement-inner-card .posted-title p::after{
     content: "";
     display: block;
