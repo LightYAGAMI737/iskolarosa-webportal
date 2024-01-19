@@ -93,6 +93,7 @@
                      <div class="input-row">
                            <input type="text" id="title" name="post_title" minlength="5" maxlength="100" style="margin-right: 10px;" oninput="formatInput(this)" required>
                            <select id="tag" name="tag" style="padding: 5px; text-align: center;">
+                              <option value="public">PUBLIC</option>
                               <option value="ceap">CEAP</option>
                               <option value="lppp">LPPP</option>
                            </select>
