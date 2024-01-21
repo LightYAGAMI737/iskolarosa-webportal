@@ -9,12 +9,13 @@ if (!isset($_SESSION['username'])) {
 }
 
 include 'config_iskolarosa_db.php';
+require_once 'email_update_infoHA.php'; 
 
 // Check if the form was submitted
 if (isset($_POST['update_all_info'])) {
     // Get the ceap_reg_form_id from the hidden input field
     $ceapRegFormId = $_POST['ceap_reg_form_id'];
-
+    $control_number = $_POST['control_number'];
     // Update Personal Information fields
     $personalFieldsToUpdate = [
         'control_number', 'last_name', 'first_name', 'middle_name', 'suffix_name',
@@ -82,9 +83,17 @@ if (isset($_POST['update_all_info'])) {
         }
     }
 
-    echo '<script>window.location.href = "../ceap_list.php";</script>';
+// Call sendEmail function after the data has been updated
+$email = $_POST['active_email_address']; // Assuming 'active_email_address' is the email field in your form
+$control_numbers = $control_number;
+    // Send the email with the updated status message
+    if (sendEmail($email, $control_number)) {
+        echo '<script>window.location.href = "../ceap_list.php";</script>';
+    } else {
+        echo 'Failed to send email.';
+    }
 } else {
-    error_log('Error: Form not submitted.');
-    echo 'Form not submitted.';
+    // No fields were changed
+    echo '<script>window.location.href = "../ceap_list.php";</script>';
 }
 ?>
