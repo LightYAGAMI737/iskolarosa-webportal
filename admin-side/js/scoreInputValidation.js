@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     var scoreInput = document.getElementById('applicantScore');
-    var submitButton = document.getElementById('ScoreFormBTN');
+    var submitButton = document.getElementById('ScoreFormBTNSubmit');
     var errorSpan = document.getElementById('ScoreInputError');
 
     // Add input event listener to validate input using regex
