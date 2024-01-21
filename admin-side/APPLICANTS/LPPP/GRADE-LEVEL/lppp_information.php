@@ -302,10 +302,17 @@ if (mysqli_num_rows($resultScore) > 0) {
                 <span class="close" onclick="closeReasonModalLPPP()">&times;</span>
                 <h2>Enter Reason</h2>
                 <input type="text" name="reason" id="disqualificationReasonLPPP" minlength="10" maxlength="255" placeholder="Enter reason for disqualification">
-                <button id="submitReasonLPPP" onclick="submitStatusAndReason()" class="disabled">Submit</button>
+                <button id="submitReasonLPPP" onclick="submitStatusAndReasonLPPP()" class="disabled">Submit</button>
             </div>
         </div>
-
+        <div id="reasonModalLPPPFail" class="modal">
+         <div class="modal-content">
+            <span class="close" onclick="closeReasonModalLPPPFail()">&times;</span>
+            <h2>Enter Reason</h2>
+            <input type="text" name="reasonFail" id="FailReason" minlength="10" maxlength="255" placeholder="Enter reason for failing">
+            <button id="submitReasonFail" onclick="submitStatusAndReasonLPPPFail()" class="disabled">Submit</button>
+         </div>
+      </div>
          <footer class="footer">
        
          <?php
@@ -338,13 +345,13 @@ if ($result) {
             echo '<label for="applicantScore" class="ScoreLabel">Enter Applicant Score (0-100):</label>';
             echo '<input type="text" class="ScoreInput" id="applicantScore" name="applicantScore" minlength="1" maxlength="3" required>';
             echo '<input type="hidden" id="applicantId" value="' . $id . '">';
-            echo '<button type="button" onclick="openExamScorePopup()" id="ScoreFormBTNSubmit" class="ScoreBTN" value="Submit" disabled>Submit</button>';
+            echo '<button type="button" id="ScoreFormBTNSubmit" class="ScoreBTN" value="Submit" onclick="openExamScorePopup()" disabled>Submit</button>';
             echo '<br><span id="ScoreInputError" style="color: red; display: inline-block; margin-bottom: 30px;"></span>';
             echo '</form>';
         } elseif ($applicantStatus === 'interview' && $applicantInterviewDate === '0000-00-00') {
         } elseif ($applicantStatus === 'interview') {
-            echo '<button onclick="updateStatusLPPP(\'Fail\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">Not Grantee</button>';
-            echo '<button onclick="updateStatusLPPP(\'Grantee\', ' . $id . ')" style="background-color: #FEC021;" class="status-button">Grantee</button>';
+            echo '<button onclick="openReasonModalLPPPFail(\'Fail\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">Not Grantee</button>';
+            echo '<button onclick="openLPPPGranteePopup()" style="background-color: #FEC021;" class="status-button">Grantee</button>';
         }
     } else {
         // No row found
@@ -356,9 +363,6 @@ if ($result) {
     echo "Error executing query: " . mysqli_error($conn);
 }
 ?>
-
-
-
          </footer>
          </main>
          <div class="overlay"></div>
@@ -368,11 +372,27 @@ if ($result) {
       <script  src="../../../js/side_bar.js"></script>
       <script  src="../../../js/LPPPStatus_Popup.js"></script>
       <script  src="../../../js/LPPPReasonModal.js"></script>
+      <script  src="../../../js/LPPPReasonModalFail.js"></script>
       <script  src="../../../js/scoreInputValidation.js"></script>
       
       <script type="text/javascript">
          var LPPPregFormID = <?php echo $LPPPregFormID; ?>;
       </script>
+      <script>
+  // Add an event listener for the Enter key on the input field
+  document.getElementById('applicantScore').addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      // Prevent the default Enter key behavior
+      event.preventDefault();
+    }
+  });
+
+  // Add an event listener for the button click
+  document.getElementById('ScoreFormBTNSubmit').addEventListener('click', function() {
+    // Call your custom function (e.g., openExamScorePopup()) or any other logic
+    openExamScorePopup();
+  });
+</script>
 <script>
  
  function seeMore(id) {
@@ -395,9 +415,29 @@ const ExamScorePopup = document.getElementById('openExamScorePopup');
 function openExamScorePopup() {
     ExamScorePopup.style.display = "block";
 }
-function closeExamPopupScore() {
-    ExamScorePopup.style.display = "none";
+
+const LPPPGranteePopup = document.getElementById('openLPPPGranteePopup');
+function openLPPPGranteePopup() {
+    LPPPGranteePopup.style.display = "block";
 }
+
+function closeLPPPStatusPopup() {
+    if (ExamScorePopup) {
+        ExamScorePopup.style.display = "none";
+    }
+    if (LPPPFailPopup) {
+        LPPPFailPopup.style.display = "none";
+    }
+    if (LPPPGranteePopup) {
+        LPPPGranteePopup.style.display = "none";
+    }
+ 
+}
+
+const cancelButtons = document.querySelectorAll(".cancel-button");
+cancelButtons.forEach((cancelButton) => {
+  cancelButton.addEventListener("click", closeLPPPStatusPopup);
+});
 
 function searchApplicants() {
     var searchValue = $('#search').val().toUpperCase();

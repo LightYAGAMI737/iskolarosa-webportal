@@ -103,5 +103,22 @@ function submitStatusAndReasonLPPP(status, reason, applicantId) {
      }
    };
    // Send the AJAX request with status, reason, and applicantId
-   xhr.send("status=" + status + "&id=" + applicantId + "&reason=" + reason);
+   xhr.send("status=" + status + "&reason=" + reason + "&id=" + applicantId );
+}
+
+
+function openconfirmationLPPPpopup(){
+ const confirmPopup = document.getElementById("ConfrimMsgPopUp");
+ confirmPopup.style.display = "block";
+
+ const okButton = document.getElementById("okConfirm");
+ okButton.addEventListener("click", function () {
+   confirmPopup.style.display = "none";
+   goBackPrev();
+ });
+ // Call the goBack function after a 5-second delay
+ setTimeout(goBackPrev, 5000);
+}
+function goBackPrev() {
+   window.history.back();
 }
