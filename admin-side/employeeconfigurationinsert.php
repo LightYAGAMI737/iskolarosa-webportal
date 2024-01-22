@@ -1,5 +1,17 @@
 <?php
 include './php/config_iskolarosa_db.php';
+require_once './php/email_create_employeeAcc.php';
+
+// Function to generate a random password
+function generateRandomPassword() {
+    $length = 8;
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $password = '';
+    for ($i = 0; $i < $length; $i++) {
+        $password .= $characters[random_int(0, strlen($characters) - 1)];
+    }
+    return $password;
+}
 
 // Map role names to role IDs
 $roleNameToId = [
@@ -14,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $selectedRoleName = $_POST['role_name'];
 
     // Use the mapping to get the corresponding role ID
-    $selectedRoleId = $roleNameToId[$selectedRoleName];
+    $department = $roleNameToId[$selectedRoleName];
 
     // Get form data with proper validation and sanitization
     $employeeId = filter_input(INPUT_POST, 'employeeId', FILTER_SANITIZE_STRING);
@@ -22,9 +34,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $firstName = filter_input(INPUT_POST, 'first_Name', FILTER_SANITIZE_STRING);
     $contactNumber = filter_input(INPUT_POST, 'contact_Number', FILTER_SANITIZE_STRING);
     $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-    $department = $selectedRoleId;
-    $username = strtoupper(filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING)); // Convert to uppercase
-    $password = $_POST['confirmPassword'];
+
+    // Generate username by combining employee_id and department
+    $username = strtoupper($selectedRoleName . '-' . $employeeId);
+
+    // Generate a random password
+    $password = generateRandomPassword();
 
     // Hash the password securely
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
@@ -57,11 +72,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // If everything is fine, try to upload the file
         if (move_uploaded_file($_FILES["picture"]["tmp_name"], $targetFile)) {
             // Insert the data into the database using prepared statements
-          // Insert the data into the database using prepared statements
-                $sql = "INSERT INTO employee_list (employee_id_no, last_Name, first_Name, contact_Number, email, role_id, username, password, picture, account_status) 
+            $sql = "INSERT INTO employee_list (employee_id_no, last_Name, first_Name, contact_Number, email, role_id, username, password, picture, account_status) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
-                $stmt = $conn->prepare($sql);
-                $stmt->bind_param(
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param(
                 "sssssssss",
                 $employeeId,
                 $lastName,
@@ -72,13 +86,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $username,
                 $hashedPassword, // Hashed password instead of plain text
                 $targetFile
-                );
+            );
 
             if ($stmt->execute()) {
                 // Data inserted successfully
                 echo "Data inserted successfully!";
+            
+                // Send welcome email
+                $emailSent = sendEmail($email, $firstName . ' ' . $lastName, $username, $password);
+            
+                if ($emailSent) {
+                    echo "Welcome email sent successfully!";
+                } else {
+                    echo "Failed to send welcome email.";
+                }
+            
                 // Redirect to the desired page after successful insertion
-                exit; // Terminate the script after redirection
+                exit;
             } else {
                 // Error occurred while inserting data
                 if ($conn->errno === 1062) {
@@ -87,7 +111,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     echo "Error: " . $conn->error;
                 }
             }
-
             // Close the statement
             $stmt->close();
         } else {

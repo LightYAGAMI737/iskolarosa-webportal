@@ -296,68 +296,69 @@ function validatePicture() {
   document.getElementById('department').addEventListener("change", generateUsername);
   document.getElementById('employeeId').addEventListener("change", generateUsername);
 
-  const passwordInput = document.getElementById("password");
-  const confirmPasswordInput = document.getElementById("confirmPassword");
-  const passwordError = document.getElementById("passwordError");
-  const confirmPasswordError = document.getElementById("confirmPasswordError");
+  // const passwordInput = document.getElementById("password");
+  // const confirmPasswordInput = document.getElementById("confirmPassword");
+  // const passwordError = document.getElementById("passwordError");
+  // const confirmPasswordError = document.getElementById("confirmPasswordError");
   
-  passwordInput.addEventListener('input', function (event) {
-    // Remove spaces from the input's value
-    passwordInput.value = passwordInput.value.replace(/\s/g, '');
-  });
-  confirmPasswordInput.addEventListener('input', function (event) {
-    // Remove spaces from the input's value
-    confirmPasswordInput.value = confirmPasswordInput.value.replace(/\s/g, '');
-  });
+  // passwordInput.addEventListener('input', function (event) {
+  //   // Remove spaces from the input's value
+  //   passwordInput.value = passwordInput.value.replace(/\s/g, '');
+  // });
+  // confirmPasswordInput.addEventListener('input', function (event) {
+  //   // Remove spaces from the input's value
+  //   confirmPasswordInput.value = confirmPasswordInput.value.replace(/\s/g, '');
+  // });
   
-  passwordInput.addEventListener("change", validatePassword);
-  confirmPasswordInput.addEventListener("change", validateConfirmPassword);
+  // passwordInput.addEventListener("change", validatePassword);
+  // confirmPasswordInput.addEventListener("change", validateConfirmPassword);
   
-  function validatePassword() {
-      const password = passwordInput.value;
-      // Include the underscore (_) as an allowed special character
-      const passwordPattern = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[_\W]).{8,}$/;
+  // function validatePassword() {
+  //     const password = passwordInput.value;
+  //     // Include the underscore (_) as an allowed special character
+  //     const passwordPattern = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[_\W]).{8,}$/;
   
-      if (passwordPattern.test(password)) {
-          closepasswordpopup();
-          passwordInput.classList.remove('invalid');
-      } else {
-          openpasswordpopup();
-          passwordInput.classList.add('invalid');
-      }
-      validateConfirmPassword();
-  }
+  //     if (passwordPattern.test(password)) {
+  //         closepasswordpopup();
+  //         passwordInput.classList.remove('invalid');
+  //     } else {
+  //         openpasswordpopup();
+  //         passwordInput.classList.add('invalid');
+  //     }
+  //     validateConfirmPassword();
+  // }
   
-  function validateConfirmPassword() {
-      const password = passwordInput.value;
-      const confirmPassword = confirmPasswordInput.value;
+  // function validateConfirmPassword() {
+  //     const password = passwordInput.value;
+  //     const confirmPassword = confirmPasswordInput.value;
   
-      if (confirmPassword) {
-          if (password === confirmPassword) {
-              confirmPasswordError.textContent = "";
-              confirmPasswordInput.classList.remove('invalid');
-          } else {
-              confirmPasswordError.textContent = "Passwords do not match.";
-              confirmPasswordInput.classList.add('invalid');
-              checkFormValidity();
-          }
-      }
-  }
+  //     if (confirmPassword) {
+  //         if (password === confirmPassword) {
+  //             confirmPasswordError.textContent = "";
+  //             confirmPasswordInput.classList.remove('invalid');
+  //         } else {
+  //             confirmPasswordError.textContent = "Passwords do not match.";
+  //             confirmPasswordInput.classList.add('invalid');
+  //             checkFormValidity();
+  //         }
+  //     }
+  // }
   
-  const passwordInputshowhide = document.getElementById("password");
-  const confirmpasswordInputshowhide = document.getElementById("confirmPassword");
-  const passwordToggle = document.querySelector(".password-toggle");
-  const confirmPasswordToggle = document.getElementById("password-toggle-confirmPassword");
+  // const passwordInputshowhide = document.getElementById("password");
+  // const confirmpasswordInputshowhide = document.getElementById("confirmPassword");
+  // const passwordToggle = document.querySelector(".password-toggle");
+  // const confirmPasswordToggle = document.getElementById("password-toggle-confirmPassword");
   
-  function togglePassword() {
-      if (passwordInputshowhide.type === "password") {
-          passwordInputshowhide.type = "text";
-          passwordToggle.innerHTML = '<i class="ri-eye-fill"></i>'; // Change to a crossed-out eye
-      } else {
-          passwordInputshowhide.type = "password";
-          passwordToggle.innerHTML = '<i class="ri-eye-off-fill"></i>'; // Change back to a regular eye
-      }
-  }
+  // function togglePassword() {
+  //     if (passwordInputshowhide.type === "password") {
+  //         passwordInputshowhide.type = "text";
+  //         passwordToggle.innerHTML = '<i class="ri-eye-fill"></i>'; // Change to a crossed-out eye
+  //     } else {
+  //         passwordInputshowhide.type = "password";
+  //         passwordToggle.innerHTML = '<i class="ri-eye-off-fill"></i>'; // Change back to a regular eye
+  //     }
+  // }
+
 const buttonContainer = document.querySelector(".button-container"); // Get the button container
 const submitButton = document.getElementById("submitButton");
 
@@ -389,21 +390,21 @@ function checkFormValidity() {
 }
 
 
-function toggleConfirmPassword() {
-  if (confirmpasswordInputshowhide.type === "password") {
-      confirmpasswordInputshowhide.type = "text";
-      confirmPasswordToggle.innerHTML = '<i class="ri-eye-off-fill"></i>'; // Change to a crossed-out eye
-  } else {
-      confirmpasswordInputshowhide.type = "password";
-      confirmPasswordToggle.innerHTML = '<i class="ri-eye-fill"></i>'; // Change back to a regular eye
-  }
-}
-const passwordpopop = document.getElementById('openpasswordpopup'); 
+// function toggleConfirmPassword() {
+//   if (confirmpasswordInputshowhide.type === "password") {
+//       confirmpasswordInputshowhide.type = "text";
+//       confirmPasswordToggle.innerHTML = '<i class="ri-eye-off-fill"></i>'; // Change to a crossed-out eye
+//   } else {
+//       confirmpasswordInputshowhide.type = "password";
+//       confirmPasswordToggle.innerHTML = '<i class="ri-eye-fill"></i>'; // Change back to a regular eye
+//   }
+// }
+// const passwordpopop = document.getElementById('openpasswordpopup'); 
 
-function openpasswordpopup() {
-passwordpopop.style.display="block";
-} 
-function closepasswordpopup(){
-passwordpopop.style.display="none";
+// function openpasswordpopup() {
+// passwordpopop.style.display="block";
+// } 
+// function closepasswordpopup(){
+// passwordpopop.style.display="none";
 
-}
+// }

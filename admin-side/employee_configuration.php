@@ -153,7 +153,7 @@ input:focus::placeholder {
 
 </div>
     </div>
-    <div class="form-row">
+    <!-- <div class="form-row">
       <div class="form-group">
         <label class="required"  for="username">Username:</label>
         <input type="text" id="username"  style="border: none; background-color: #ccc;"  name="username" readonly required>
@@ -179,7 +179,7 @@ input:focus::placeholder {
     </div>
     <span id="confirmPasswordError" class="error-message"></span>
 </div>
-    </div>
+    </div> -->
     <div class="button-container">
                 <button type="button" id="submitButton" onclick="openemployeeConfigPopup()" disabled>Submit</button>
             </div>
