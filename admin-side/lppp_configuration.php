@@ -36,7 +36,7 @@
    
    // Set variables
    $currentPage = "configuration";
-   $currentSubPage = "";
+   $currentSubPage = "application";
    
    
    // Retrieve the toggle value from the database
