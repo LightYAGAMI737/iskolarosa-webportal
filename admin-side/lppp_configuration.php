@@ -339,6 +339,7 @@ function EditConfigurationLPPP() {
         formElements[i].disabled = false;
     }
 
+    submitConfigBtnLPPP.innerText = "Save";
     // Add event listener to form elements for the "input" event
     form.addEventListener('input', function () {
         var currentFormState = getFormState();

@@ -341,6 +341,9 @@ function EditConfiguration() {
         formElements[i].disabled = false;
     }
 
+      // Change the text of the Submit button to "Save"
+      submitConfigBtnCEAP.innerText = "Save";
+
     // Add event listener to form elements for the "input" event
     form.addEventListener('input', function () {
         var currentFormState = getFormState();
