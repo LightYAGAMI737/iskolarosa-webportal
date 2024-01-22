@@ -1,7 +1,5 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);// Start the session
-
+// Start the session
 session_start();
 
 include 'config_iskolarosa_db.php';
@@ -48,17 +46,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Log the status change in the applicant_status_logs table
         date_default_timezone_set('Asia/Manila');
         $currentTimeStatus = date('Y-m-d H:i:s');
-       // Log the status change in the applicant_status_logs table using a prepared statement
-        $logQuery = "INSERT INTO applicant_status_logs (previous_status, updated_status, lppp_reg_form_id, employee_logs_id, timestamp) VALUES (?, ?, ?, ?, ?)";
+      // Log the status change in the applicant_status_logs table using a prepared statement
+        $logQuery = "INSERT INTO applicant_status_logs (previous_status, updated_status, employee_logs_id, timestamp , lppp_reg_form_id) VALUES (?, ?, ?, ?, ?)";
         $stmtLog = $conn->prepare($logQuery);
-        $stmtLog->bind_param("ssiis", $previousStatus, $status, $applicantId, $employeeLogsId, $currentTimeStatus);
+        $stmtLog->bind_param("ssiis", $previousStatus, $status, $employeeLogsId, $currentTimeStatus, $applicantId);
 
         // Add debugging output
         error_log("applicantId: $applicantId");
         error_log("stmtLog SQL: $logQuery");
 
         $stmtLog->execute();
-   
         // Check for errors after preparing the log statement
         if (!$stmtLog) {
             http_response_code(500);
