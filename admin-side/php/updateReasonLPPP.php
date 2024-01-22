@@ -65,16 +65,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //     exit;
         // }
 
-        $stmtLog->execute();
+        // $stmtLog->execute();
 
-        // Check for errors after executing the log statement
-        if ($stmtLog->error) {
-            http_response_code(500);
-            echo 'Log execution error: ' . $stmtLog->error;
-            exit;
-        }
+        // // Check for errors after executing the log statement
+        // if ($stmtLog->error) {
+        //     http_response_code(500);
+        //     echo 'Log execution error: ' . $stmtLog->error;
+        //     exit;
+        // }
 
-        $stmtLog->close();
+        // $stmtLog->close();
 
         // Fetch the applicant's email address and control number from the database
         $applicantEmailQuery = "SELECT active_email_address, control_number FROM lppp_reg_form WHERE lppp_reg_form_id = ?";
