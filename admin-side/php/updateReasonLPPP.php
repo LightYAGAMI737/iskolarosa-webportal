@@ -49,32 +49,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         date_default_timezone_set('Asia/Manila');
         $currentTimeStatus = date('Y-m-d H:i:s');
       // Log the status change in the applicant_status_logs table using a prepared statement
-        // $logQuery = "INSERT INTO applicant_status_logs (previous_status, updated_status, employee_logs_id, timestamp , lppp_reg_form_id) VALUES (?, ?, ?, ?, ?)";
-        // $stmtLog = $conn->prepare($logQuery);
-        // $stmtLog->bind_param("ssiis", $previousStatus, $status, $employeeLogsId, $currentTimeStatus, $applicantId);
+        $logQuery = "INSERT INTO applicant_status_logs (previous_status, updated_status, employee_logs_id, timestamp , lppp_reg_form_id) VALUES (?, ?, ?, ?, ?)";
+        $stmtLog = $conn->prepare($logQuery);
+        $stmtLog->bind_param("ssiis", $previousStatus, $status, $employeeLogsId, $currentTimeStatus, $applicantId);
 
-        // // Add debugging output
-        // error_log("applicantId: $applicantId");
-        // error_log("stmtLog SQL: $logQuery");
+        // Add debugging output
+        error_log("applicantId: $applicantId");
+        error_log("stmtLog SQL: $logQuery");
 
-        // $stmtLog->execute();
-        // // Check for errors after preparing the log statement
-        // if (!$stmtLog) {
-        //     http_response_code(500);
-        //     echo 'Failed to prepare log statement';
-        //     exit;
-        // }
+        $stmtLog->execute();
+        // Check for errors after preparing the log statement
+        if (!$stmtLog) {
+            http_response_code(500);
+            echo 'Failed to prepare log statement';
+            exit;
+        }
 
-        // $stmtLog->execute();
+        $stmtLog->execute();
 
-        // // Check for errors after executing the log statement
-        // if ($stmtLog->error) {
-        //     http_response_code(500);
-        //     echo 'Log execution error: ' . $stmtLog->error;
-        //     exit;
-        // }
+        // Check for errors after executing the log statement
+        if ($stmtLog->error) {
+            http_response_code(500);
+            echo 'Log execution error: ' . $stmtLog->error;
+            exit;
+        }
 
-        // $stmtLog->close();
+        $stmtLog->close();
 
         // Fetch the applicant's email address and control number from the database
         $applicantEmailQuery = "SELECT active_email_address, control_number FROM lppp_reg_form WHERE lppp_reg_form_id = ?";
