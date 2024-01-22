@@ -65,8 +65,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit;
         }
 
-        $stmtLog->execute();
-
         // Check for errors after executing the log statement
         if ($stmtLog->error) {
             http_response_code(500);
