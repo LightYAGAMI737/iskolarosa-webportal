@@ -34,9 +34,9 @@ if ($row['toggle_value'] == 0) {
    <head>
       <meta charset="UTF-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>iSKOLAROSA | CEAP REG FORM</title>
       <link rel="icon" href="../admin-side/system-images/iskolarosa-logo.png" type="image/png">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
       <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css'>
       <link rel="stylesheet" href="css/style.css">
@@ -195,10 +195,16 @@ if ($row['toggle_value'] == 0) {
                         <span class="error-message" id="uploadVotersApplicant_error"></span>
                      </div>
                      <div class="input-container upload">
+                        <label class="required">Upload Residency (pdf, 1mb)</label>
+                        <input type="file" name="uploadResidency"  id="uploadResidency" accept=".pdf" required/>
+                        <span class="error-message" id="uploadResidency_error"></span>
+                     </div>
+                     <div class="input-container upload">
                         <label class="required">Upload 2x2 Picture (jpg, 2mb)</label>
                         <input type="file" name="uploadPhotoJPG" id="uploadPhotoJPG" accept="image/jpeg" required/>
                         <span class="error-message" id="uploadPhotoJPG_error"></span>
                      </div>
+                
                   </div>
                   <div class="tooltip-container">
                      <div class="tooltips" id="tooltips"></div>
@@ -409,11 +415,7 @@ if ($row['toggle_value'] == 0) {
                         <input type="file" name="uploadITR" id="uploadITR" accept=".pdf" required/>
                         <span class="error-message" id="uploadITR_error"></span>
                      </div>
-                     <div class="input-container upload">
-                        <label class="required">Upload Residency (pdf, 1mb)</label>
-                        <input type="file" name="uploadResidency"  id="uploadResidency" accept=".pdf" required/>
-                        <span class="error-message" id="uploadResidency_error"></span>
-                     </div>
+                
                   </div>
                   <div class="tooltip-container">
                      <div class="tooltipstwo" id="tooltips_step_three"></div>

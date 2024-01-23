@@ -37,7 +37,7 @@ guardianRelationshipInput.addEventListener("input", function () {
 });
 
 guardianOccupationInput.addEventListener("input", function () {
-    validateInputWithMinLength(guardianOccupationInput, 4, "guardian_occupation_error");
+    validateInputWithMinLength(guardianOccupationInput, "guardian_occupation_error");
 });
     
 
@@ -77,11 +77,9 @@ monthlyIncomeInput.addEventListener("input", function () {
 
 const voterCertificateParentInput = document.querySelector('input[name="uploadVotersParent"]');
 const itrInput = document.querySelector('input[name="uploadITR"]');
-const residencyInput = document.querySelector('input[name="uploadResidency"]');
 
 voterCertificateParentInput.addEventListener("change", handleFileUpload);
 itrInput.addEventListener("change", handleFileUpload);
-residencyInput.addEventListener("change", handleFileUpload);
 
 function handleFileUpload(event) {
     const fileInput = event.target;
@@ -137,7 +135,7 @@ const requiredFields = [
     monthlyIncomeInput,
     voterCertificateParentInput, // Add the file inputs here
     itrInput,
-    residencyInput
+    
 ];
 
 // Function to enable/disable the submit button based on validation
@@ -181,7 +179,6 @@ function displayTooltipStepThree() {
     const requiredFields = document.querySelectorAll('#step_three [required]');
 
     const tooltipsData = [
-        { field: 'uploadResidency', tooltip: 'Guardian\'s Residency' },
         { field: 'uploadITR', tooltip: 'Guardian\'s ITR' },
         { field: 'uploadVotersParent', tooltip: 'Guardian\'s Voter\'s Certificate' },
         { field: 'guardian_occupation', tooltip: 'Guardian\'s Occupation' },

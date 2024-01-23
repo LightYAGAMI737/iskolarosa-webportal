@@ -198,6 +198,23 @@ document.addEventListener('DOMContentLoaded', function() {
 // Validate file uploads
 const voterCertificateInput = document.querySelector('input[name="uploadVotersApplicant"]');
 const pictureInput = document.querySelector('input[name="uploadPhotoJPG"]');
+const ResidencyInput = document.querySelector('input[name="uploadResidency"]');
+
+ResidencyInput.addEventListener('change', () => {
+    const file = ResidencyInput.files[0];
+    const maxSize = 1024 * 1024;
+    const errorSpan = document.getElementById('uploadResidency_error');
+
+    if (file && file.type === 'application/pdf' && file.size <= maxSize) {
+        ResidencyInput.classList.remove('invalid');
+        errorSpan.textContent = '';
+    } else {
+        ResidencyInput.classList.add('invalid');
+        errorSpan.textContent = 'Upload a valid PDF file (up to 1MB).';
+        ResidencyInput.value = null;
+    }
+    updateNextButtonStatus();
+});
 
 voterCertificateInput.addEventListener('change', () => {
     const file = voterCertificateInput.files[0];
@@ -325,7 +342,7 @@ function displayTooltip() {
     const tooltipsData = [
         { field: 'uploadVotersApplicant', tooltip: 'Applicant\'s Voter Certificate' },
         { field: 'uploadPhotoJPG', tooltip: 'Applicant\'s 2x2 Picture' },
-        { field: 'uploadPhotoJPG', tooltip: 'Applicant\'s 2x2 Picture' },
+        { field: 'uploadResidency', tooltip: 'Applicant\'s Residency' },
     ];
 
     const missingFieldNames = Array.from(requiredFields)
