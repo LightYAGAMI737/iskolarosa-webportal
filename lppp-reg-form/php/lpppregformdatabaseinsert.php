@@ -44,7 +44,7 @@ function handleEmptyValue($value) {
  </head>
  <body>
      <div class="greeting">Greetings,</div>
-     <div>As you begin your journey towards a bright academic future, we hope this email finds you in good spirits. On behalf of the City Scholarship Office, congratulations on successfully registering as an iSKOLAR under the<strong> Libreng Pagpapaaral sa Pribadong Paaralan!</strong></div>
+     <div>As you begin your journey towards a bright academic future, we hope this email finds you in good spirits. On behalf of the City Scholarship Office, congratulations on successfully registering as an iSKOLAR under the<strong> Libreng Pag-aaral sa Pribadong Paaralan!</strong></div>
      <br>
      <div class="login-details">
          Please find your Control Number below:<br>
