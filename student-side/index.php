@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -10,12 +9,19 @@
       <link rel="stylesheet" href="css/index.css">
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
       <link rel="stylesheet" href="../admin-side/css/remixicon.css">
+      <link rel="stylesheet" href="./css/termsAndCondiModal.css">
       <script src="js/app.js" defer></script>
       <style>
+         .termsAndCondi:hover {
+            cursor: pointer;
+         }
+
       </style>
    </head>
    <body>
+      <?php include './php/termsAndCondiModal.php';?>
       <section class="module">
          <div class="module__wrapper">
             <div class="module__wrapper__seal">
@@ -74,7 +80,7 @@
                      </div> -->
                      <br>
                      <div class="module__wrapper__form__content__login__terms">
-                        <p>By using this service, you understood and agree to the iSKOLAROSA Online Services <a href="#">Terms of Use</a> and <a href="#">Privacy Statement</a>.
+                     <p>By using this service, you understand and agree to the iSKOLAROSA Online Services <a class="termsAndCondi" onclick="openTermsCondiModal()">Terms and Conditions</a>.</p>
                         </p>
                      </div>
                      <div class="module__wrapper__form__content__login__copyright">
@@ -116,6 +122,15 @@
             passwordToggle.innerHTML = '<i class="ri-eye-off-fill"></i>'; // Change back to a regular eye
         }
     }
+
+    const TermsCondiModal = document.getElementById('termsAndCondiModal');
+function openTermsCondiModal() {
+   TermsCondiModal.style.display = "block";
+}
+function closeHomePageModal() {
+   TermsCondiModal.style.display = "none";
+
+}
       </script>
    </body>
 </html>

@@ -1,0 +1,145 @@
+*{
+    font-family: 'Inter', sans-serif;
+}
+.ModalOut {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+}
+
+.ModalIn {
+    background: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    width: 1000px;
+    height: 580px;
+    position: relative; 
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+}
+
+.ModalInHeader {
+    display: flex;
+    justify-content: flex-end;
+    background: #FEC021;
+    width: 1000px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    margin-top: -20px;
+    margin-bottom: 20px;
+}
+
+.btn-close {
+    border: none;
+    font-size: 20px;
+    color: black;
+    cursor: pointer;
+    margin: 0px 10px;
+}
+
+.modalBody {
+    flex-grow: 1;
+    max-height: 400px; 
+}
+a:link {
+    color: red !important;
+    text-decoration: none !important;
+  }
+  .termsAndCondi {
+    color: red !important;
+    text-decoration: none !important;
+  }
+.modalHeadingText {
+    font-weight: bolder;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.paragraphModal {
+    text-indent: 2em;
+    font-weight: normal;
+    text-align: justify;
+    padding-left: 2em; /* Add padding to maintain indentation on the next line */
+}
+.paragraphModal br::after {
+    content: '\00a0\00a0'; /* Adding two non-breaking spaces as indentation */
+    white-space: pre;
+}
+
+.scrollable-content {
+    overflow-y: auto;
+    height: 500px; 
+    width: 100%;
+    border: 1px solid black;
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.scrollable-content::-webkit-scrollbar {
+    width: 7px; 
+    margin: 10px;
+}
+
+.scrollable-content::-webkit-scrollbar-thumb {
+    background-color: #8F8F8F; 
+    border-radius: 10px; 
+}
+
+.scrollable-content::-webkit-scrollbar-track {
+    background-color: transparent; 
+}
+
+@media screen and (max-width: 991px) {
+    .ModalInHeader {
+        width: 100%;
+    }    
+
+        .modalBody{
+          overflow-y: auto;
+          max-height: 500px;
+
+        }
+        .ModalIn {
+          width: 90%;
+          padding: 0px;
+        }
+      
+        .modalBody::-webkit-scrollbar {
+            width: 7px; 
+            margin: 10px;
+        }
+
+        .modalBody::-webkit-scrollbar-thumb {
+            background-color: #8F8F8F; 
+            border-radius: 10px; 
+        }
+
+        .modalBody::-webkit-scrollbar-track {
+            background-color: transparent; 
+        }
+        .applBTN{
+            margin-top: 10px !important;
+        }
+
+      }
+      @media screen and (max-width: 500px) {
+        .ModalIn {
+            width: 90%;
+            padding: 10px;
+          }
+        .ModalInHeader {
+            width: 106%;
+        }
+    }
