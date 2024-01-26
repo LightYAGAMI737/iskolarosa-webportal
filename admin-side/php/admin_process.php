@@ -29,6 +29,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // Fetch the employee data
         $employee = $result->fetch_assoc();
 
+        if ($employee['first_time_login'] == 1) {
+            // Redirect to first time login page with the username
+            header('Location: ../resetpasswordemployee.php?username=' . urlencode($username));
+            exit();
+        }
+
         // Check account_status
         if ($employee['account_status'] == '1') {
             

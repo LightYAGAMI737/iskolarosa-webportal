@@ -6,7 +6,7 @@ function updatePassword($conn, $username, $newPassword) {
     $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
 
     // Update the user's hashed password in the employee_list table
-    $updatePasswordSql = "UPDATE employee_list SET password = ? WHERE username = ?";
+    $updatePasswordSql = "UPDATE employee_list SET password = ?, first_time_login = 0 WHERE username = ?";
     $stmt = mysqli_prepare($conn, $updatePasswordSql);
     mysqli_stmt_bind_param($stmt, "ss", $hashedPassword, $username);
     mysqli_stmt_execute($stmt);
