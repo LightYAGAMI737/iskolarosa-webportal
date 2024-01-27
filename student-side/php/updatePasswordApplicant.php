@@ -64,6 +64,29 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     background-color: #FEC021;
     border-color: #FEC021;
     }
+      
+    #tooltipsID {
+        position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    z-index: 1000;
+    width: 300px;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    bottom: 57%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: left;
+
+}
+
+.tooltips.active {
+    visibility: visible;
+    opacity: 1;
+}
 </style>
 </head>
 <body> 
@@ -78,6 +101,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <h3 class="text-dark fw-bolder fs-4 mb-2">Update Password</h3>
                         <div class="fw-normal text-muted mb-4">
                         </div>  
+                        <div id="tooltipsID">
+                <div class="tooltips"></div>
+                </div>
 
     <div class="form-floating mb-3">
         <input type="password" class="form-control" style="margin-bottom: 10px;" id="new_password" name="new_password" placeholder="New Password">

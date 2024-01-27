@@ -64,42 +64,64 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     background-color: #FEC021;
     border-color: #FEC021;
     }
+   
+    #tooltipsID {
+        position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    z-index: 1000;
+    width: 300px;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    bottom: 57%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: left;
+
+}
+
+.tooltips.active {
+    visibility: visible;
+    opacity: 1;
+}
 </style>
 </head>
 <body> 
-    <section class="wrapper">
-		<div class="container">
-			<div class="col-sm-8 offset-sm-2 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4 text-center">
-				<div class="logo">
-					<img decoding="async" src="./system-images/iskolarosa-logo.png" class="img-fluid" alt="logo" >
-				</div>
-                <form class="rounded bg-white shadow p-5" action="resetpasswordemployee.php" method="post">
-    <input type="hidden" name="username" value="<?php echo $_GET['username']; ?>">
-    <h3 class="text-dark fw-bolder fs-4 mb-2">Reset Password</h3>
+<section class="wrapper">
+    <div class="container">
+        <div class="col-sm-8 offset-sm-2 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4 text-center">
+            <div class="logo">
+                <img decoding="async" src="./system-images/iskolarosa-logo.png" class="img-fluid" alt="logo">
+            </div>
+            <form class="rounded bg-white shadow p-5" action="resetpasswordemployee.php" method="post">
+                <input type="hidden" name="username" value="<?php echo $_GET['username']; ?>">
+                <h3 class="text-dark fw-bolder fs-4 mb-2">Reset Password</h3>
+                <div id="tooltipsID">
+                <div class="tooltips"></div>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" style="margin-bottom: 10px;" id="new_password" name="new_password" placeholder="New Password">
+                    <label for="new_password">New Password</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" style="margin-bottom: 10px;" id="confirm_password" name="confirm_password" placeholder="Confirm New Password">
+                    <label for="confirm_password">Confirm New Password</label>
+                </div>
 
-    <div class="form-floating mb-3">
-        <input type="password" class="form-control" style="margin-bottom: 10px;" id="new_password" name="new_password" placeholder="New Password">
-        <label for="new_password">New Password</label>
-        <span id="new_password_error"></span>
+                <div class="form-check mt-2">
+                    <input type="checkbox" class="form-check-input" id="showPassword">
+                    <label class="form-check-label" for="showPassword">Show Password</label>
+                </div>
+              
+                <button type="submit" class="btn btn-primary submit_btn my-4" id="submitForgotPassword" disabled>Submit</button>
+                <button type="button" class="btn btn-secondary submit_btn my-4 ms-3" id="cancelForgotPassword">Cancel</button>
+            </form>
+        </div>
     </div>
-
-    <div class="form-floating mb-3">
-        <input type="password" class="form-control" style="margin-bottom: 10px;" id="confirm_password" name="confirm_password" placeholder="Confirm New Password">
-        <label for="confirm_password">Confirm New Password</label>
-        <span id="confirm_password_error"></span>
-    </div>
-
-    <div class="form-check mt-2">
-        <input type="checkbox" class="form-check-input" id="showPassword">
-        <label class="form-check-label" for="showPassword">Show Password</label>
-    </div>
-
-    <button type="submit" class="btn btn-primary submit_btn my-4" id="submitForgotPassword" disabled>Submit</button>
-    <button type="button" class="btn btn-secondary submit_btn my-4 ms-3" id="cancelForgotPassword">Cancel</button>
-</form>
-			</div>
-		</div>
-	</section>
+</section>
 	<script src="./js/resetpassword.js"></script>
     <script src="./js/validatepassword.js"></script>
 </body>
