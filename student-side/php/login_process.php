@@ -76,7 +76,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 mysqli_close($conn);
                                 header("Location: ../tempAcc_status.php");
                                 exit();
-                            }
+                            } 
+                        }else {
+                            // Invalid first-time login password, redirect back to the login page with an error message
+                            mysqli_close($conn);
+                            $error = "Invalid username or password.";
+                            header('Location: ../index.php?error=' . urlencode($error));
+                            exit();
                         }
                     }
                 }
