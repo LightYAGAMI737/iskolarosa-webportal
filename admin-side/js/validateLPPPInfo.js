@@ -2,14 +2,14 @@ document.addEventListener('DOMContentLoaded', function () {
     var personalInfoFields = document.getElementById('personal-info-fields');
     var familyBackgroundFields = document.getElementById('family-background-fields');
     var educationalBackgroundFields = document.getElementById('educational-background-fields');
-    var saveChangesButton = document.getElementById('saveChanges');
+    var saveChangesLPPPButton = document.getElementById('saveChangesLPPP');
 
     // Initialize original values
     var originalValues = {};
 
-    enableSaveChangesOnInput(personalInfoFields, saveChangesButton);
-    enableSaveChangesOnInput(familyBackgroundFields, saveChangesButton);
-    enableSaveChangesOnInput(educationalBackgroundFields, saveChangesButton);
+    enableSaveChangesOnInput(personalInfoFields, saveChangesLPPPButton);
+    enableSaveChangesOnInput(familyBackgroundFields, saveChangesLPPPButton);
+    enableSaveChangesOnInput(educationalBackgroundFields, saveChangesLPPPButton);
 
     function enableSaveChangesOnInput(fieldset, button) {
         var inputFields = fieldset.querySelectorAll('input');

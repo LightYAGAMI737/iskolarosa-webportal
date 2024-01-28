@@ -14,9 +14,9 @@ include 'config_iskolarosa_db.php';
 require_once 'email_update_infoHA.php'; 
 
 // Check if the form was submitted
-if (isset($_POST['update_all_info'])) {
+if (isset($_POST['update_all_info_lppp'])) {
     // Get the lppp_reg_form_id from the hidden input field
-    $LPPPRegFormId = $_POST['lppp_reg_form_id'];
+    $LPPPregFormID = $_POST['lppp_reg_form_id'];
     $control_number = $_POST['control_number'];
     // Update Personal Information fields
     $personalFieldsToUpdate = [
@@ -33,7 +33,7 @@ if (isset($_POST['update_all_info'])) {
             if (!$stmt) {
                 error_log('Error preparing statement: ' . mysqli_error($conn));
             }
-            mysqli_stmt_bind_param($stmt, "si", $value, $LPPPRegFormId);
+            mysqli_stmt_bind_param($stmt, "si", $value, $LPPPregFormID);
             if (!mysqli_stmt_execute($stmt)) {
                 error_log('Error executing statement: ' . mysqli_stmt_error($stmt));
             }
@@ -54,7 +54,7 @@ if (isset($_POST['update_all_info'])) {
             if (!$stmt) {
                 error_log('Error preparing statement: ' . mysqli_error($conn));
             }
-            mysqli_stmt_bind_param($stmt, "si", $value, $LPPPRegFormId);
+            mysqli_stmt_bind_param($stmt, "si", $value, $LPPPregFormID);
             if (!mysqli_stmt_execute($stmt)) {
                 error_log('Error executing statement: ' . mysqli_stmt_error($stmt));
             }
@@ -74,7 +74,7 @@ if (isset($_POST['update_all_info'])) {
             if (!$stmt) {
                 error_log('Error preparing statement: ' . mysqli_error($conn));
             }
-            mysqli_stmt_bind_param($stmt, "si", $value, $LPPPRegFormId);
+            mysqli_stmt_bind_param($stmt, "si", $value, $LPPPregFormID);
             if (!mysqli_stmt_execute($stmt)) {
                 error_log('Error executing statement: ' . mysqli_stmt_error($stmt));
             }

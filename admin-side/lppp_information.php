@@ -19,7 +19,6 @@ if (isset($_GET['lppp_reg_form_id'])) {
     echo 'No applicant selected.';
     exit();
 }
-
 $id = $_GET['lppp_reg_form_id'];
 $query = "SELECT * FROM lppp_reg_form WHERE lppp_reg_form_id = ?";
 $stmt = mysqli_prepare($conn, $query);
@@ -419,7 +418,7 @@ fieldset:disabled input, select{
 
                                 case 'guardian_annual_income':
                                     // Make certain fields non-editable by adding the "disabled" attribute
-                                    echo '<input type="text" name="' . $field . '" id="' . $field . '"  value="' . $value . '" disabled>';
+                                    echo '<input type="text" name="' . $field . '" id="' . $field . '"  value="' . $value . '" readonly>';
                                           echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
                                     break;
                                 default:
@@ -443,38 +442,51 @@ fieldset:disabled input, select{
             <th>Uploaded Files:</th>
             <td>
             <div class="file-group">
-                    <?php
-                    // Loop through uploaded files and display them in groups of three
-                    $fileCounter = 0;
-                 
-// Path to Ghostscript executable
-$ghostscriptPath = 'C:\Program Files\gs10.01.2\bin\gswin64c.exe';  // Replace with your Ghostscript path
+            <?php
+                        // Ensure Imagick is installed and enabled
+                        if (!extension_loaded('imagick')) {
+                            echo 'Imagick extension is not available.';
+                            // Handle the situation where Imagick is not available
+                            exit;
+                        }
 
-$pdfFiles = array(
-    'uploadVotersApplicant' => '../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_VotersApplicant.pdf',
-    'uploadVotersParent' => '../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_VotersParent.pdf',
-    'uploadITR' => '../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_ITR.pdf',
-    'uploadResidency' => '../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Residency.pdf',
-    'uploadCOR' => '../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_COR.pdf',
-    'uploadGrade' => '../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Grade.pdf'
-);
+                        // Loop through uploaded files and display them in groups of three
+                        $fileCounter = 0;
 
-// Output image file paths
-$imageFiles = array();
+                        $pdfFiles = array(
+                            'uploadVotersParent' => '../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_VotersParent.pdf',
+                            'uploadITR' => '../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_ITR.pdf',
+                            'uploadResidency' => '../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Residency.pdf',
+                            'uploadCOR' => '../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_COR.pdf',
+                            'uploadGrade' => '../lppp-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Grade.pdf'
+                        );
 
-// Convert PDF files to images
-foreach ($pdfFiles as $key => $pdfFile) {
-  $outputImage = '../lppp-reg-form/converted-images/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_' . $key . '.jpg'; // Replace with the desired output image path and extension
-  $imageFiles[$key] = $outputImage;
+                        // Output image file paths
+                        $imageFiles = array();
+                        foreach ($pdfFiles as $key => $pdfFile) {
+                            $outputImage = '../lppp-reg-form/converted-images/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_' . $key . '.jpg';
 
-  // Command to convert PDF to image using Ghostscript
-  $command = '"' . $ghostscriptPath . '" -dSAFER -dBATCH -dNOPAUSE -sDEVICE=jpeg -r300 -sOutputFile="' . $outputImage . '" "' . $pdfFile . '"';
+                            try {
+                                $imagick = new Imagick();
+                                $imagick->readImage($pdfFile);
+                                $imagick->setIteratorIndex(0); // Adjust the page index if needed
 
-  // Execute the Ghostscript command
-  exec($command);
+                                // Optional: Set resolution and background color
+                                // $imagick->setResolution(300, 300);
+                                // $imagick->setImageBackgroundColor('white');
 
+                                $imagick->setImageCompressionQuality(100);
+                                $imagick->setImageFormat('jpg');
+                                $imagick->writeImage($outputImage);
+                                $imagick->destroy();
 
-}
+                                // Log success
+                                echo "<script>console.log('Conversion success for $key. Output Image: $outputImage');</script>";
+                            } catch (Exception $e) {
+                                // Log error
+                                echo "<script>console.error('Error converting $key:', '" . $e->getMessage() . "', PDF File: $pdfFile, Output Image: $outputImage');</script>";
+                            }
+                        }
   echo "<h2 class='to_center'>Scanned Documents</h2>";
   // Voters applicant
   echo '<table class="table" style="width: 80%;">';
@@ -560,10 +572,10 @@ foreach ($pdfFiles as $key => $pdfFile) {
         </tr>
     </table>
 
-<input type="hidden" name="lppp_reg_form_id" value="<?php echo $LPPPRegFormId; ?>">
+<input type="hidden" name="lppp_reg_form_id" value="<?php echo $id; ?>">
 <input type="hidden" name="control_number" value="<?php echo $control_number; ?>">
     <button id="edit-button" class="status-button" type="button">Edit</button>
-    <button type="submit" name="update_all_info" id="saveChanges" class="status-button" disabled>Save Changes</button>
+    <button type="submit" name="update_all_info_lppp" id="saveChangesLPPP" class="status-button" disabled>Save Changes</button>
 </form>
 <button onclick="opendeleteApplicantpopupLPPP()" class="status-button delete">Delete</button>
 </div>
@@ -616,28 +628,6 @@ $(document).ready(function() {
     });
 });
 
-function searchApplicants() {
-    var searchValue = $('#search').val().toUpperCase();
-    var found = false; // Flag to track if any matching applicant is found
-    $('.contents').each(function () {
-        var controlNumber = $(this).find('td:nth-child(2)').text().toUpperCase();
-        var lastName = $(this).find('td:nth-child(3)').text().toUpperCase();
-        if (searchValue.trim() === '' || controlNumber.includes(searchValue) || lastName.includes(searchValue)) {
-            $(this).show();
-            found = true;
-        } else {
-            $(this).hide();
-        }
-    });
-
-    // Display "No applicant found" message if no matching applicant is found
-    if (!found) {
-        $('#noApplicantFound').show();
-    } else {
-        $('#noApplicantFound').hide();
-    }
-}
-
 function expandImage(element) {
     var expandedImage = element.nextElementSibling;
     expandedImage.style.display = 'flex';
@@ -647,9 +637,6 @@ function collapseImage(element) {
     element.style.display = 'none';
 }
 
-
-     // Function to go back to the previous page
-   
 function goBack() {
       window.history.back();
   }

@@ -111,12 +111,13 @@ if (mysqli_num_rows($result) > 0) {
 }
 
 /* Style the input fields */
-.applicant-info input[type="text"] {
-    width: 100%;
+.applicant-info input,select {
+    width: 95% !important;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    box-sizing: border-box;
+    border-radius: 4px !important;
+    font-size: 14px !important;
+    box-sizing: border-box !important;
+    height: 40px !important;
 }
 
 /* Add some spacing between sections */
@@ -219,16 +220,59 @@ fieldset:disabled input, select{
                                           echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
                                           echo '<div id="suffix_options" class="suffix-options"></div>';
                                           break;
-                                    case 'date_of_birth':
-                                          // Editable text fields
-                                          echo '<input type="date" name="' . $field . '" id="' . $field . '"  value="' . $value . '" min="1960-01-01" onkeydown="event.preventDefault();">';
-                                          echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
-                                          break;
-                                    case 'active_email_address':
-                                         // Editable text fields
-                                          echo '<input type="email" name="' . $field . '" id="' . $field . '"  value="' . $value . '">';
-                                          echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
-                                          break;
+                                          case 'date_of_birth':
+                                            // Editable date field
+                                            echo '<input type="date" name="' . $field . '" id="' . $field . '"  value="' . $value . '" min="1960-01-01" oninput="updateAge(this.value)">';
+                                            echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
+                                            
+                                            if ($field === 'date_of_birth') : ?>
+                                                <tr>
+                                                    <th>Age:</th>
+                                                    <td style="opacity: 0.7;" id="ageDisplay">
+                                                        <?php
+                                                        // Calculate age from date of birth
+                                                        $birthDate = new DateTime($value);
+                                                        $currentDate = new DateTime();
+                                                        $adjustedBirthDate = clone $birthDate; // Create a new DateTime object to avoid modifying the original
+                                        
+                                                        $age = $currentDate->diff($adjustedBirthDate);
+                                        
+                                                        // Check if the birthday has occurred in the current year
+                                                        if ($currentDate < $birthDate->modify('+' . $age->y . ' years')) {
+                                                            $age->y--; // Decrement the age by 1
+                                                            $birthDate->modify('-1 year'); // Adjust the birthdate for correct calculation
+                                                        }
+                                        
+                                                        // Reset the birthdate to its original value
+                                                        $birthDate = clone $adjustedBirthDate;
+                                        
+                                                        echo $age->y . ' years old'; // Display calculated age
+                                                        ?>
+                                                    </td>
+                                                </tr>
+                                                <script>
+            function updateAge(newDate) {
+                // Update age dynamically when the date of birth is changed
+                var birthDate = new Date(newDate);
+                var currentDate = new Date();
+                var age = currentDate.getFullYear() - birthDate.getFullYear();
+                
+                // Check if the birthday has occurred in the current year
+                if (currentDate < new Date(currentDate.getFullYear(), birthDate.getMonth(), birthDate.getDate())) {
+                    age--; // Decrement the age by 1
+                }
+
+                document.getElementById('ageDisplay').innerText = age + ' years old';
+            }
+        </script>
+    <?php endif;
+    break;
+                                        
+                                        case 'active_email_address':
+                                            // Editable email field
+                                            echo '<input type="email" name="' . $field . '" id="' . $field . '"  value="' . $value . '">';
+                                            echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
+                                            break;
                                     case 'barangay':
                                         // Select options for Barangay
                                         echo '<select name="barangay">';
@@ -425,7 +469,7 @@ fieldset:disabled input, select{
 
                                 case 'guardian_annual_income':
                                     // Make certain fields non-editable by adding the "disabled" attribute
-                                    echo '<input type="text" name="' . $field . '" id="' . $field . '"  value="' . $value . '" disabled>';
+                                    echo '<input type="text" name="' . $field . '" id="' . $field . '"  value="' . $value . '" readonly>';
                                           echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
                                     break;
                                 default:
@@ -449,38 +493,52 @@ fieldset:disabled input, select{
             <th>Uploaded Files:</th>
             <td>
             <div class="file-group">
-                    <?php
-                    // Loop through uploaded files and display them in groups of three
-                    $fileCounter = 0;
-                 
-// Path to Ghostscript executable
-$ghostscriptPath = 'C:\Program Files\gs10.01.2\bin\gswin64c.exe';  // Replace with your Ghostscript path
+            <?php
+                        // Ensure Imagick is installed and enabled
+                        if (!extension_loaded('imagick')) {
+                            echo 'Imagick extension is not available.';
+                            // Handle the situation where Imagick is not available
+                            exit;
+                        }
 
-$pdfFiles = array(
-    'uploadVotersApplicant' => '../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_VotersApplicant.pdf',
-    'uploadVotersParent' => '../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_VotersParent.pdf',
-    'uploadITR' => '../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_ITR.pdf',
-    'uploadResidency' => '../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Residency.pdf',
-    'uploadCOR' => '../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_COR.pdf',
-    'uploadGrade' => '../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Grade.pdf'
-);
+                        // Loop through uploaded files and display them in groups of three
+                        $fileCounter = 0;
 
-// Output image file paths
-$imageFiles = array();
+                        $pdfFiles = array(
+                            'uploadVotersApplicant' => '../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_VotersApplicant.pdf',
+                            'uploadVotersParent' => '../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_VotersParent.pdf',
+                            'uploadITR' => '../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_ITR.pdf',
+                            'uploadResidency' => '../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Residency.pdf',
+                            'uploadCOR' => '../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_COR.pdf',
+                            'uploadGrade' => '../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Grade.pdf'
+                        );
 
-// Convert PDF files to images
-foreach ($pdfFiles as $key => $pdfFile) {
-  $outputImage = '../ceap-reg-form/converted-images/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_' . $key . '.jpg'; // Replace with the desired output image path and extension
-  $imageFiles[$key] = $outputImage;
+                        // Output image file paths
+                        $imageFiles = array();
+                        foreach ($pdfFiles as $key => $pdfFile) {
+                            $outputImage = '../ceap-reg-form/converted-images/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_' . $key . '.jpg';
 
-  // Command to convert PDF to image using Ghostscript
-  $command = '"' . $ghostscriptPath . '" -dSAFER -dBATCH -dNOPAUSE -sDEVICE=jpeg -r300 -sOutputFile="' . $outputImage . '" "' . $pdfFile . '"';
+                            try {
+                                $imagick = new Imagick();
+                                $imagick->readImage($pdfFile);
+                                $imagick->setIteratorIndex(0); // Adjust the page index if needed
 
-  // Execute the Ghostscript command
-  exec($command);
+                                // Optional: Set resolution and background color
+                                // $imagick->setResolution(300, 300);
+                                // $imagick->setImageBackgroundColor('white');
 
+                                $imagick->setImageCompressionQuality(100);
+                                $imagick->setImageFormat('jpg');
+                                $imagick->writeImage($outputImage);
+                                $imagick->destroy();
 
-}
+                                // Log success
+                                echo "<script>console.log('Conversion success for $key. Output Image: $outputImage');</script>";
+                            } catch (Exception $e) {
+                                // Log error
+                                echo "<script>console.error('Error converting $key:', '" . $e->getMessage() . "', PDF File: $pdfFile, Output Image: $outputImage');</script>";
+                            }
+                        }
   echo "<h2 class='to_center'>Scanned Documents</h2>";
   // Voters applicant
   echo '<table class="table" style="width: 80%;">';
