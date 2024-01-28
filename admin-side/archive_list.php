@@ -63,7 +63,50 @@
       <link rel='stylesheet' href='./css/unpkg-layout.css'>
       <link rel="stylesheet" href="./css/side_bar.css">
       <link rel="stylesheet" href="./css/ceap_list.css">
-   </head>
+   <style>
+    
+/* Navigation styles */
+.navbar-collapse {
+text-align: center;
+width: 100%; /* Set the width to 100% */
+height: 60px; 
+}
+
+.navbar-nav {
+display: flex;
+align-items: center; /* Vertically center the content */
+justify-content: center; /* Horizontally center the content */
+margin: 0;
+padding: 0;
+height: 100%; /* Make sure the navbar-nav takes full height of the navbar-collapse */
+}
+
+.nav-item {
+display: inline-block;
+padding-right: 20px;
+}
+
+.nav-link {
+text-decoration: none;
+color: white;
+font-weight: bold;
+display: block;
+padding: 10px 15px;
+border-radius: 15px;
+width: 150px;
+background-color: #8F8F8F;
+}
+
+.nav-link:hover {
+background-color: #400000;
+color: white;
+}
+
+.actives {
+background-color: #400000;
+}
+    </style>
+    </head>
    <body>
       <?php 
           include './php/head_admin_side_bar.php';
@@ -75,12 +118,24 @@
       <div class="header-label">
 <h1>Archive</h1>
 </div>
+<nav class="navbar navbar-expand-xl custom-nav" style="font-size: 15px; padding: 10px;">
+         <div class="collapse navbar-collapse">
+            <ul class="navbar-nav">
+               <li class="nav-item" style="padding-right: 25px;">
+                  <strong><a class="nav-link status actives" href="archive_list.php">CEAP</a></strong>
+               </li>
+               <li class="nav-item" style="padding-right: 20px;">
+                  <strong><a class="nav-link status" href="archive_list_lppp.php">LPPP</a></strong>
+               </li>
+            </ul>
+         </div>
+      </nav>
       <div class="form-group">
-      <input type="text" name="search" class="form-control" id="search" placeholder="Search by Control Number or Last name"  oninput="formatInput(this)">
+      <input type="text" name="search-bar" class="form-control" id="search" placeholder="Search by Control Number or Last name"  oninput="formatInput(this)">
       </div>
       <!-- table for displaying the applicant list -->
       <div class="background">
-         <h2 style="text-align: center">ARCHIVED MASTER LIST</h2>
+         <h2 style="text-align: center">Archive Master List</h2>
          <div class="applicant-info">
             <table>
                <tr>
