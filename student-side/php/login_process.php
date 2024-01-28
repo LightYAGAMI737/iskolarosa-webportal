@@ -130,11 +130,5 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         header('Location: ../index.php?error=' . urlencode($error));
         exit();
     }
-} else {
-    // Error in ceap_reg_form query, handle accordingly
-    mysqli_close($conn);
-    $error = "Database error.";
-    header('Location: ../index.php?error=' . urlencode($error));
-    exit();
 }
 ?>
