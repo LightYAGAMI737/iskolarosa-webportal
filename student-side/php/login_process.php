@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         } else {
                             // Invalid first-time login password, redirect back to the login page with an error message
                             mysqli_close($conn);
-                            $error = "Invalid username or password.";
+                            $error = "Incorrect username or password.";
                             header('Location: ../index.php?error=' . urlencode($error));
                             exit();
                         }
@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         }else {
                             // Invalid first-time login password, redirect back to the login page with an error message
                             mysqli_close($conn);
-                            $error = "Invalid username or password.";
+                            $error = "Incorrect username or password.";
                             header('Location: ../index.php?error=' . urlencode($error));
                             exit();
                         }
@@ -125,7 +125,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             // Invalid credentials, redirect back to the login page with an error message
             // Username or password not found in the database
             mysqli_close($conn);
-            $error = "Invalid username or password.";
+            $error = "Incorrect username or password.";
             header('Location: ../index.php?error=' . urlencode($error));
             exit();
         }
