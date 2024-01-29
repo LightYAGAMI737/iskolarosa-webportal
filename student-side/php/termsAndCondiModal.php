@@ -1,6 +1,6 @@
 <!-- HomePageModalCEAP -->
-<div class="ModalOut" id="termsAndCondiModal">
-   <div class="ModalIn">
+<div class="ModalOut" id="termsAndCondiModal" onclick="closeHomePageModal()">
+   <div class="ModalIn" >
       <div class="ModalInHeader">
          <button type="button" class="btn-close" aria-label="Close" onclick="closeHomePageModal()"></button>
       </div>

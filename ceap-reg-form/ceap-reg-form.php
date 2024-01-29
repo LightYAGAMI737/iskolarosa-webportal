@@ -41,6 +41,8 @@ if ($row['toggle_value'] == 0) {
       <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css'>
       <link rel="stylesheet" href="css/style.css">
       <link rel="stylesheet" href="../admin-side/css/status_popup.css">
+      <link rel="stylesheet" href="../student-side/css/termsandCondiModal.css">
+
 
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  
       <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js'></script>
@@ -49,7 +51,8 @@ if ($row['toggle_value'] == 0) {
    </head>
    <body>
       <?php 
-         include './php/submitconfirmpopup.php';
+           include '../student-side/php/termsAndCondiModal.php';
+           include './php/submitconfirmpopup.php';
       ?>
       <div class="header">
          <h3>COLLEGE EDUCATIONAL ASSISTANCE PROGRAM (CEAP)</h3>
@@ -427,10 +430,15 @@ if ($row['toggle_value'] == 0) {
                <fieldset id="step_four" style="width: 73%;">
                   <h2 class="fs-title"><strong>Review Your Information</strong></h2>
                   <h3 class="fs-subtitle"></h3>
+                  
                   <!-- Create a container to display the review information -->
-                     <div id="review-container">
-                     </div>
+                  <div id="review-container"></div>
 
+                  <label for="agreeCheckbox" style="text-align: center !important; font-weight: normal !important;">
+                  By submitting this form, you hereby certify that you have read the <span onclick="openTermsCondiModal()" style="color: #A5040A; cursor: pointer;">Terms and Conditions</span> outlined <br>by the City Scholarship Office,
+                  along with its implementing rules and regulations.
+                  </label>
+                  <br>
                   <input type="button" name="previous" id="previous-stepthree" class="previous action-button-previous" value="Previous"/>
                   <button type="button" id="submitReview" class="submit action-button cooldown" value="Submit" onclick="openceapconfirmpopup()"></button>
                </fieldset>
@@ -446,5 +454,19 @@ if ($row['toggle_value'] == 0) {
       <script src="./js/validatenext_stepthree.js"></script>
       <script src="./js/check_duplicate.js"></script>
       <script src="./js/validatenext_stepfour.js"></script>
+      <script>
+const TermsCondiModal = document.getElementById('termsAndCondiModal');
+
+function openTermsCondiModal() {
+    TermsCondiModal.style.display = "block";
+}
+
+function closeHomePageModal() {
+    TermsCondiModal.style.display = "none";
+}
+
+
+
+      </script>
    </body>
 </html>
