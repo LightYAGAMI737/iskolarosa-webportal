@@ -50,7 +50,7 @@ function displayUserInput() {
     // Create a container element to display the review information
     var reviewContainer = document.getElementById("review-container");
 
-   var tableHTML = '<table>';
+   var tableHTML = '<table class="tbleInfo">';
    tableHTML += '<tr><td>Last Name:</td><td>' + lastName + '</td></tr>';
    tableHTML += '<tr><td>First Name:</td><td>' + firstName + '</td></tr>';
    tableHTML += '<tr><td>Middle Name:</td><td>' + middleName + '</td></tr>';

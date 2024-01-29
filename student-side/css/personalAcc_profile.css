@@ -130,11 +130,31 @@ select[disabled] {
 .invalid {
     border-color: #A5040A;
 }
-
 table {
     text-transform: uppercase !important;
-}/* Optional: Add some spacing between table cells on smaller screens */
-/* Optional: Add some spacing between table cells on smaller screens */
+}
+/* Style for the table */
+.tbleInfo table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+/* Style for table rows */
+.tbleInfo tr:nth-child(even) {
+    background-color: #f2f2f2; /* Light gray background for even rows */
+}
+
+.tbleInfo tr:nth-child(odd) {
+    background-color: #ffffff; /* White background for odd rows */
+}
+
+/* Style for table cells */
+.tbleInfo td {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
 @media (max-width: 767px) {
     .applicant-info-left th,
     .applicant-info-left td,
