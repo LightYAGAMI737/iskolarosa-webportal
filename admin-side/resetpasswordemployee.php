@@ -91,8 +91,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </head>
 <body> 
 <section class="wrapper">
-    <div class="container">
-        <div class="col-sm-8 offset-sm-2 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4 text-center">
+<div class="container" style="margin-top: 100px;">
+<div class="col-sm-8 offset-sm-2 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4 text-center">
             <div class="logo">
                 <img decoding="async" src="./system-images/iskolarosa-logo.png" class="img-fluid" alt="logo">
             </div>
