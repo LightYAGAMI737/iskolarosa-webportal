@@ -128,8 +128,8 @@ if ($_SESSION['role'] === 3) {
          </div>
       </div>
       <!-- end applicant list -->
-      <footer class="footer">
-      </footer>
+      <!-- <footer class="footer">
+      </footer> -->
       </main>
       <div class="overlay"></div>
       </div>

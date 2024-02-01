@@ -53,6 +53,7 @@
    
    $result = mysqli_query($conn, $query);
    ?>
+
 <!DOCTYPE html>
 <html lang="en" >
    <head>
@@ -68,6 +69,8 @@
       <?php 
           include './php/head_admin_side_bar.php';
          ?>
+         
+
       <!-- home content-->   
       <div class="header-label">
 <h1>Libreng Pagpapaaral sa Pribadong Paaralan (LPPP)</h1>
@@ -90,6 +93,7 @@
                </tr>
                <?php
                   $counter = 1;
+                  
                            // Display applicant info using a table
                            while ($row = mysqli_fetch_assoc($result)) {
                               echo '<tr class="applicant-row contents" onclick="seeMore(\'' . $row['lppp_reg_form_id'] . '\')" style="cursor: pointer;">';
@@ -109,8 +113,8 @@
          </div>
       </div>
       <!-- end applicant list -->
-      <footer class="footer">
-      </footer>
+      <!-- <footer class="footer">
+      </footer> -->
       </main>
       <div class="overlay"></div>
       </div>
@@ -121,6 +125,7 @@
              // Redirect to a page where you can retrieve the reserved data based on the given ID
              window.location.href = "lppp_information.php?lppp_reg_form_id=" + id;
          }
+         
       </script>
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       <script>
@@ -161,6 +166,8 @@
     // Convert input text to uppercase
     inputElement.value = inputElement.value.toUpperCase();
   }
+
+         
       </script>
    </body>
 </html>
