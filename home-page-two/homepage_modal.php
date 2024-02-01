@@ -249,9 +249,10 @@ mysqli_close($conn);
         <strong>
             <h2>Reminders</h2>
         </strong>
-            <p style="margin-bottom: 2px; text-align: left; padding: 0px 10px">1. Make sure to answer this form correctly and completely.<br>
-                2. Fields with asterisk (*) must be filled up.<br>
-                3. Make sure you've prepared all the documents needed for uploading: <br></p>
+        <p style="margin-bottom: 2px; text-align: left; padding: 0px 10px">1. Make sure to answer this form correctly and completely.<br>
+                2. Submission of incorrect requirements will result in automatic disqualification.<br>
+                3. Fields with asterisk (*) must be filled up.<br>
+                4. Make sure you've prepared all the documents needed for uploading: <br></p>
         <div class="reminders">
             <div class="column">
             <!-- <p>Applicant:</p> -->
