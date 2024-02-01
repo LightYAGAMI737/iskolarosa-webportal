@@ -108,16 +108,20 @@ if ($_SESSION['role'] === 3) {
                <?php
                   $counter = 1;
                   
-                           // Display applicant info using a table
-                           while ($row = mysqli_fetch_assoc($result)) {
-                              echo '<tr class="applicant-row contents" onclick="seeMore(\'' . $row['employee_id'] . '\')" style="cursor: pointer;">';
-                              echo '<td><strong>' . $counter++ . '</strong></td>';
-                              echo '<td>' . strtoupper($row['employee_id_no']) . '</td>';
-                              echo '<td>' . strtoupper($row['role_id']) . '</td>';
-                              echo '<td>' . strtoupper($row['last_name']) . '</td>';
-                              echo '<td>' . strtoupper($row['first_name']) . '</td>';
-                              echo '</tr>';
-                           }
+                         // Display applicant info using a table
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            echo '<tr class="applicant-row contents" onclick="seeMore(\'' . $row['employee_id'] . '\')" style="cursor: pointer;">';
+                            echo '<td><strong>' . $counter++ . '</strong></td>';
+                            echo '<td>' . strtoupper($row['employee_id_no']) . '</td>';
+                            
+                            // Display "admin" or "staff" based on the role_id
+                            echo '<td>' . strtoupper($row['role_id'] == 2 ? 'ADMIN' : 'STAFF') . '</td>';
+                            
+                            echo '<td>' . strtoupper($row['last_name']) . '</td>';
+                            echo '<td>' . strtoupper($row['first_name']) . '</td>';
+                            echo '</tr>';
+                        }
+
                            ?>
             </table>
           

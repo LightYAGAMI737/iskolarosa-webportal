@@ -137,10 +137,14 @@ if ($_SESSION['role'] === 3) {
             echo '<td><input type="text" id ="email" name="email" value="' . strtoupper($row['email']) . '" disabled>';
             echo '<span id="emailError" class="error-message"></span></td>';
             echo '</tr>';
-            echo '<tr>';
             echo '<td>Department</td>';
-            echo '<td><input type="text" id ="department" name="department" value="' . strtoupper($row['role_id']) . '" disabled>';
-            echo '<span id="departmentError" class="error-message"></span></td>';
+            echo '<td>';
+            echo '<select name="department" id="department" disabled>';
+            echo '<option value="1" ' . ($row['role_id'] == 1 ? 'selected' : '') . '>Staff</option>';
+            echo '<option value="2" ' . ($row['role_id'] == 2 ? 'selected' : '') . '>Admin</option>';
+            echo '</select>';
+            echo '<span id="departmentError" class="error-message"></span>';
+            echo '</td>';
             echo '</tr>';
 
 

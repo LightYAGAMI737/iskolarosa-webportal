@@ -14,11 +14,11 @@ function closeemployeeInfoPopup(){
     if(deleteEmployee)
     {deleteEmployee.style.display="none";}
 }
-
 function toggleEditing() {
     var form = document.getElementById('editForm');
     var inputs = form.getElementsByTagName('input');
     var accountStatus = document.getElementById('accountStatus');
+    var departmentDropdown = document.getElementById('department');
 
     if (document.querySelector('.editBtn').textContent === 'Edit') {
         // Switch to "Cancel" mode
@@ -27,6 +27,7 @@ function toggleEditing() {
             inputs[i].removeAttribute('disabled');
         }
         accountStatus.removeAttribute('disabled');
+        departmentDropdown.removeAttribute('disabled');
     } else {
         // Switch to "Edit" mode
         document.querySelector('.editBtn').textContent = 'Edit';
@@ -34,8 +35,10 @@ function toggleEditing() {
             inputs[i].setAttribute('disabled', 'disabled');
         }
         accountStatus.setAttribute('disabled', 'disabled');
+        departmentDropdown.setAttribute('disabled', 'disabled');
     }
 }
+
 
 function submitEditEmployeeInfo() {
     var xhr = new XMLHttpRequest();
