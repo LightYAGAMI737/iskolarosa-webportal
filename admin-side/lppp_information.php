@@ -487,7 +487,11 @@ fieldset:disabled input, select{
             }
         }
   echo "<h2 class='to_center'>Scanned Documents</h2>";
-  
+  // Voters applicant
+  echo '<table class="table" style="width: 80%;">';
+  echo "<tbody>";
+  echo "<tr>";
+ 
   // Voters Cert Parent
   echo "<td>";
   echo "<label>Voters Certificate Parent</label>";
@@ -516,6 +520,10 @@ fieldset:disabled input, select{
   echo "</div>";
   echo "</td>";
   echo "</tr>";
+  
+  // COR
+  echo "<tr>";
+ 
   
   // GRADE
   echo "<td>";
