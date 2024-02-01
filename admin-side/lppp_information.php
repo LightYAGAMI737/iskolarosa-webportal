@@ -212,13 +212,17 @@ fieldset:disabled input, select{
                                     case 'first_name':
                                     case 'middle_name':
                                     case 'religion':
-                                    case 'contact_number':
                                     case 'place_of_birth':
                                     case 'house_number':
                                           // Editable text fields
                                           echo '<input type="text" name="' . $field . '" id="' . $field . '"  value="' . $value . '" minlength="2" maxlength="25" >';
                                           echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
                                           break;
+                                    case 'contact_number':
+                                            // Editable text fields
+                                           echo '<input type="text" name="' . $field . '" id="'.$field.'" value="' . $value . '" minlength="13" maxlength="13">';
+                                           echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
+                                        break;
                                     case 'suffix_name':
                                           // Editable text fields
                                           echo '<input type="text" name="' . $field . '" id="'.$field.'" value="' . $value . '" minlength="1" maxlength="8">';

@@ -144,37 +144,68 @@ emailInput.addEventListener('blur', () => {
     emailFieldBlurred = true; // Set the flag to true when the field is blurred
 });
 
+
 const contactNumberInput = document.getElementById('contact_number');
 let contactNumberIsValid = false; // Flag to track contact number validation status
 
-contactNumberInput.addEventListener("input", () => {
-    const value = contactNumberInput.value;
-    const sanitizedValue = value.replace(/[^0-9]/g, '');
-    if (sanitizedValue.length > 11) {
-        contactNumberInput.value = sanitizedValue.slice(0, 11);
-    } else {
-        contactNumberInput.value = sanitizedValue;
+contactNumberInput.addEventListener('input', (event) => {
+    // Remove any non-digit characters from the input
+    contactNumberInput.value = contactNumberInput.value.replace(/[^0-9]/g, '');
+
+    // Limit the input to 13 digits
+    if (contactNumberInput.value.length > 13) {
+        contactNumberInput.value = contactNumberInput.value.slice(0, 13);
+    }
+
+    // Format with hyphens after the fourth and seventh digits
+    if (contactNumberInput.value.length >= 2) {
+        contactNumberInput.value = '09' + contactNumberInput.value.slice(2);
+    }
+    if (contactNumberInput.value.length >= 5) {
+        contactNumberInput.value =
+            contactNumberInput.value.slice(0, 4) + '-' + contactNumberInput.value.slice(4);
+    }
+    if (contactNumberInput.value.length >= 10) {
+        contactNumberInput.value =
+            contactNumberInput.value.slice(0, 9) + '-' + contactNumberInput.value.slice(9);
+    }
+
+    // Prevent modification of initial "09"
+    if (contactNumberInput.selectionStart < 2) {
+        event.preventDefault();
+        contactNumberInput.setSelectionRange(2, 2);
     }
 
     // Check if the contact number input is valid
-    if (sanitizedValue.startsWith('09') && sanitizedValue.length === 11) {
+    if (contactNumberInput.value.startsWith('09') && contactNumberInput.value.length === 13) {
         contactNumberIsValid = true;
     } else {
         contactNumberIsValid = false;
     }
-});
 
-contactNumberInput.addEventListener('blur', () => {
-    const errorSpan = document.getElementById('contact_number_error'); // Get the error message span
-    if (!contactNumberIsValid) {
-        contactNumberInput.classList.add('invalid'); // Add "invalid" class if contact number is invalid when leaving the field
-        errorSpan.textContent = 'Invalid contact number.'; // Display the "invalid" error message
+
+
+// Add event listeners to contact number fields
+document.getElementById('contact_number').addEventListener('change', validateContactNumber);
+
+function validateContactNumber() {
+    var contactNumberInputFormat = document.getElementById('contact_number');
+    var contactNumberError = document.getElementById('contact_number_error');
+
+    if (contactNumberIsValid) {
+        contactNumberError.textContent = '';
+        contactNumberError.style.display = 'none';
+        contactNumberInputFormat.classList.remove('invalid');
     } else {
-        contactNumberInput.classList.remove('invalid'); // Remove "invalid" class if contact number is valid when leaving the field
-        errorSpan.textContent = ''; // Clear the error message
+        contactNumberError.textContent = 'Invalid contact number';
+        contactNumberError.style.display = 'block';
+        contactNumberInputFormat.classList.add('invalid');
     }
+}
 });
 
+// Validate the contact number initially
+validateContactNumber();
 
 document.addEventListener('DOMContentLoaded', function() {
     const dateOfBirthInput = document.getElementById('date_of_birth');
@@ -518,7 +549,7 @@ guardianOccupationInput.addEventListener("change", function () {
 
 const errorSpan = document.getElementById("guardian_annual_income_error");
 
-monthlyIncomeInput.addEventListener("change", function () {
+monthlyIncomeInput.addEventListener("input", function () {
     const inputValue = this.value;
     const sanitizedValue = inputValue.replace(/[^\d.]/g, ''); // Replace non-digit and non-dot characters
     const parts = sanitizedValue.split('.');
