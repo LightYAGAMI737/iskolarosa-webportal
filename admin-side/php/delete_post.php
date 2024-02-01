@@ -21,14 +21,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selected_posts'])) {
     $action = "Deleted Post(s) with Titles: " . implode(", ", $postTitles); // Define the action as post deletion
 
     // Insert a new log entry into the employee_logs table
-    $logQuery = "INSERT INTO employee_logs (employee_username, action) VALUES (?, ?)";
-    $logStmt = mysqli_prepare($conn, $logQuery);
+$logQuery = "INSERT INTO employee_logs (employee_username, action, timestamp) VALUES (?, ?, ?)";
+$logStmt = mysqli_prepare($conn, $logQuery);
 
-    if ($logStmt) {
-        mysqli_stmt_bind_param($logStmt, "ss", $employee_username, $action);
-        mysqli_stmt_execute($logStmt);
-        mysqli_stmt_close($logStmt);
-    }
+if ($logStmt) {
+    // Set the default time zone to 'Asia/Manila'
+    date_default_timezone_set('Asia/Manila');
+
+    // Get the current date and time
+    $currentDateTime = date('Y-m-d H:i:s');
+
+    mysqli_stmt_bind_param($logStmt, "sss", $employee_username, $action, $currentDateTime);
+    mysqli_stmt_execute($logStmt);
+    mysqli_stmt_close($logStmt);
+}
+
 
     // Prepare the query to delete selected posts
     $placeholders = implode(',', array_fill(0, count($selectedPosts), '?'));
