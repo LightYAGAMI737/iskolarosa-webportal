@@ -187,42 +187,43 @@ mysqli_close($conn);
         <strong>
             <h2>Reminders</h2>
         </strong>
-            <p style="margin-bottom: 2px;">1. Make sure to answer this form correctly and completely.<br>
-                2. Fields with asterisk (*) must be filled up.<br>
-                3. Make sure you've prepared all the documents needed for uploading: <br></p>
+            <p style="margin-bottom: 2px; text-align: left; padding: 0px 10px">1. Make sure to answer this form correctly and completely.<br>
+                2. Submission of incorrect requirements will result in automatic disqualification.<br>
+                3. Fields with asterisk (*) must be filled up.<br>
+                4. Make sure you've prepared all the documents needed for uploading: <br></p>
         <div class="reminders">
             <div class="column">
             <!-- <p>Applicant:</p> -->
                 <div class="document">
                     <i class="ri-check-fill"></i>
-                    <p>Applicant's Voters Certificate.</p>
+                    <p>Applicant's Voters Certificate</p>
                 </div>
                 <div class="document">
                     <i class="ri-check-fill"></i>
-                    <p>2x2 Picture.</p>
+                    <p>2x2 Picture</p>
                 </div>
                 <div class="document">
                     <i class="ri-check-fill"></i>
-                    <p>Current semester's Grade.</p>
+                    <p>Barangay Residency</p>
                 </div>
                 <div class="document">
                     <i class="ri-check-fill"></i>
-                    <p>Certificate of Registration.</p>
+                    <p>Latest Semester Grades</p>
                 </div>
             </div>
             <div class="column">
             <!-- <p>Guardian:</p> -->
                 <div class="document">
                     <i class="ri-check-fill"></i>
-                    <p>Guardian's Voters Certificate.</p>
+                    <p>Current Certificate of Registration</p>
                 </div>
                 <div class="document">
                     <i class="ri-check-fill"></i>
-                    <p>Guardian's Income Tax Return.</p>
+                    <p>Guardian's Voters Certificate</p>
                 </div>
                 <div class="document">
                     <i class="ri-check-fill"></i>
-                    <p>Residency.</p>
+                    <p>Guardian's Income Tax Return</p>
                 </div>
             </div>
         </div>
@@ -248,7 +249,7 @@ mysqli_close($conn);
         <strong>
             <h2>Reminders</h2>
         </strong>
-            <p style="margin-bottom: 2px;">1. Make sure to answer this form correctly and completely.<br>
+            <p style="margin-bottom: 2px; text-align: left; padding: 0px 10px">1. Make sure to answer this form correctly and completely.<br>
                 2. Fields with asterisk (*) must be filled up.<br>
                 3. Make sure you've prepared all the documents needed for uploading: <br></p>
         <div class="reminders">
@@ -256,26 +257,26 @@ mysqli_close($conn);
             <!-- <p>Applicant:</p> -->
                 <div class="document">
                     <i class="ri-check-fill"></i>
-                    <p>2x2 Picture.</p>
+                    <p>2x2 Picture</p>
                 </div>
                 <div class="document">
                     <i class="ri-check-fill"></i>
-                    <p>Current semester's Grade.</p>
+                    <p>Latest Grade</p>
                 </div>
             </div>
             <div class="column">
             <!-- <p>Guardian:</p> -->
                 <div class="document">
                     <i class="ri-check-fill"></i>
-                    <p>Guardian's Voters Certificate.</p>
+                    <p>Barangay Residency</p>
                 </div>
                 <div class="document">
                     <i class="ri-check-fill"></i>
-                    <p>Guardian's Income Tax Return.</p>
+                    <p>Guardian's Voters Certificate</p>
                 </div>
                 <div class="document">
                     <i class="ri-check-fill"></i>
-                    <p>Residency.</p>
+                    <p>Guardian's Income Tax Return</p>
                 </div>
             </div>
         </div>

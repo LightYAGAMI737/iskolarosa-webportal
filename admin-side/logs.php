@@ -102,7 +102,7 @@ if (!$resultApplicantStatusLogs) {
 
       <!-- home content-->    
       <div class="header-label">
-        <h1>Activity Logs</h1>
+        <h1>Audit Logs</h1>
       </div>
       <nav class="navbar navbar-expand-xl custom-nav" style="font-size: 15px; padding: 10px;">
          <div class="collapse navbar-collapse">
