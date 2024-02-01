@@ -69,26 +69,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Check if the post was created successfully
-if (mysqli_stmt_execute($stmt)) {
-    // Log the post creation action
-    $employee_username = $_SESSION['username'];
-    $action = "Created a new post: $post_title";
-
-    // Insert a new log entry into the employee_logs table
-    $sql = "INSERT INTO employee_logs (employee_username, action) VALUES (?, ?)";
-    $stmt = mysqli_prepare($conn, $sql);
-
-    if ($stmt) {
-        mysqli_stmt_bind_param($stmt, 'ss', $employee_username, $action);
-        mysqli_stmt_execute($stmt);
-
-        // Respond with success
-        $response = array(
-            'success' => true,
-            'message' => 'Post created successfully'
-        );
-        echo json_encode($response);
-    } else {
+        if (mysqli_stmt_execute($stmt)) {
+            // Log the post creation action
+            $employee_username = $_SESSION['username'];
+            $action = "Created a new post: $post_title";
+        
+            // Insert a new log entry into the employee_logs table
+            $sql = "INSERT INTO employee_logs (employee_username, action, creation_date) VALUES (?, ?, ?)";
+            $stmt = mysqli_prepare($conn, $sql);
+        
+            if ($stmt) {
+                // Set the default time zone to 'Asia/Manila'
+                date_default_timezone_set('Asia/Manila');
+        
+                // Get the current date and time
+                $currentDateTime = date('Y-m-d H:i:s');
+        
+                mysqli_stmt_bind_param($stmt, 'sss', $employee_username, $action, $currentDateTime);
+                mysqli_stmt_execute($stmt);
+        
+                // Respond with success
+                $response = array(
+                    'success' => true,
+                    'message' => 'Post created successfully'
+                );
+                echo json_encode($response);
+            }else {
         $response = array(
             'success' => false,
             'message' => 'Error inserting log entry'
