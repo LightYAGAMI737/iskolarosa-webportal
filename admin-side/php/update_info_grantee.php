@@ -82,7 +82,7 @@ if (isset($_POST['update_all_info'])) {
         }
     }
 
-    echo '<script>window.location.href = "../ceap_list.php";</script>';
+    echo '<script>window.location.href = "../old_ceap_list.php";</script>';
 } else {
     error_log('Error: Form not submitted.');
     echo 'Form not submitted.';

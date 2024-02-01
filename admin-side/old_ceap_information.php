@@ -191,7 +191,7 @@ fieldset:disabled input, select{
 <!-- Table 1: Personal Info -->
 <div class="applicant-info">
     <h2>Personal Information</h2>
-    <form id="update-form" method="post" action="./php/update_personal_info.php">
+    <form id="update-form" method="post" action="./php/update_info_grantee.php">
         <fieldset id="personal-info-fields" disabled>    
             <table>
                 <?php foreach ($applicantInfo as $field => $value) : ?>
