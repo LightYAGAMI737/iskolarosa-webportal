@@ -124,7 +124,7 @@ if ($row['toggle_value'] == 0) {
                      </div>
                      <div class="input-container">
                         <label class="required" for="contact_number">Contact Number</label>
-                        <input type="text" name="contact_number" id="contact_number" placeholder="09xxxxxxxxx"  minlength="11" maxlength="11" required />
+                        <input type="text" name="contact_number" id="contact_number" placeholder="09xxxxxxxxx"  minlength="13" maxlength="13" required />
                         <span class="error-message" id="contact_number_error"></span>
                      </div>
                   </div>
@@ -464,9 +464,6 @@ function openTermsCondiModal() {
 function closeHomePageModal() {
     TermsCondiModal.style.display = "none";
 }
-
-
-
       </script>
    </body>
 </html>

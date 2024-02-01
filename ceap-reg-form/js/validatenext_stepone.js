@@ -136,39 +136,62 @@ emailInput.addEventListener('change', () => {
     emailFieldBlurred = true;
     updateNextButtonStatus();
 });
-
-
-const contactNumberInput = document.getElementById('contact_number');
-let contactNumberIsValid = false;
-
-contactNumberInput.addEventListener('input', () => {
-    const value = contactNumberInput.value;
-    const sanitizedValue = value.replace(/[^0-9]/g, '');
-    if (sanitizedValue.length > 11) {
-        contactNumberInput.value = sanitizedValue.slice(0, 11);
+// Function to validate the contact number (PH mobile sim format)
+function validateContactNumber() {
+    var contactNumberInputFormat = document.getElementById('contact_number');
+    var contactNumberError = document.getElementById('contactNumberError');
+  
+    if (contactNumberInput.value.length <= 12) {
+      contactNumberError.textContent = 'Invalid contact number';
+      contactNumberError.style.display = 'block';
+      contactNumberInputFormat.classList.add('invalid');
     } else {
-        contactNumberInput.value = sanitizedValue;
+      contactNumberError.textContent = '';
+      contactNumberError.style.display = 'none';
+      contactNumberInputFormat.classList.remove('invalid');
     }
-
-    // Check if the contact number input is valid
-    if (sanitizedValue.startsWith('09') && sanitizedValue.length === 11) {
-        contactNumberIsValid = true;
-    } else {
-        contactNumberIsValid = false;
+  }
+  
+  // Set initial value "09" and format with hyphens
+  var contactNumberInput = document.getElementById('contact_number');
+  contactNumberInput.value = '09';
+  
+  // Add event listener for contact number input
+  contactNumberInput.addEventListener('input', function(event) {
+    // Remove any non-digit characters from the input
+    contactNumberInput.value = contactNumberInput.value.replace(/[^0-9]/g, '');
+  
+    // Limit the input to 11 digits
+    if (contactNumberInput.value.length > 13) {
+      contactNumberInput.value = contactNumberInput.value.slice(0, 13);
     }
-});
-
-contactNumberInput.addEventListener('change', () => {
-    const errorSpan = document.getElementById('contact_number_error');
-    if (!contactNumberIsValid) {
-        contactNumberInput.classList.add('invalid');
-        errorSpan.textContent = 'Invalid contact number.';
-    } else {
-        contactNumberInput.classList.remove('invalid');
-        errorSpan.textContent = '';
+  
+    // Format with hyphens after the fourth and seventh digits
+    if (contactNumberInput.value.length >= 2) {
+      contactNumberInput.value = "09" + contactNumberInput.value.slice(2);
     }
+    if (contactNumberInput.value.length >= 5) {
+      contactNumberInput.value =
+        contactNumberInput.value.slice(0, 4) + '-' + contactNumberInput.value.slice(4);
+    }
+    if (contactNumberInput.value.length >= 9) {
+      contactNumberInput.value =
+        contactNumberInput.value.slice(0, 8) + '-' + contactNumberInput.value.slice(8);
+    }
+    
+    // Prevent modification of initial "09"
+    if (contactNumberInput.selectionStart < 2) {
+      event.preventDefault();
+      contactNumberInput.setSelectionRange(2, 2);
+    }
+  
+    // Validate the contact number after modification
+    validateContactNumber();
     updateNextButtonStatus();
-});
+  });
+  
+  // Add event listeners to contact number fields
+  document.getElementById('contact_number').addEventListener("change", validateContactNumber);
 
 
 document.addEventListener('DOMContentLoaded', function() {
