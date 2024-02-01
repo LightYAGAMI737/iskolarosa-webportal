@@ -39,6 +39,8 @@ if ($row['toggle_value'] == 0) {
       <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css'>
       <link rel="stylesheet" href="css/style.css">
       <link rel="stylesheet" href="../admin-side/css/status_popup.css">
+      <link rel="stylesheet" href="../student-side/css/termsandCondiModal.css">
+
       <style>
 .suffix-options {
     display: none;
@@ -67,6 +69,7 @@ if ($row['toggle_value'] == 0) {
    </head>
    <body>
       <?php
+           include '../student-side/php/termsAndCondiModal.php';
          include './php/submitLPPPpopup.php';
          ?>
    <div class="header">
@@ -140,7 +143,7 @@ if ($row['toggle_value'] == 0) {
                      </div>
                      <div class="input-container">
                         <label class="required" for="contact_number">Contact Number</label>
-                        <input type="text" name="contact_number" id="contact_number" placeholder="Contact Number"  minlength="11" maxlength="11" required />
+                        <input type="text" name="contact_number" id="contact_number" placeholder="Contact Number"  minlength="13" maxlength="13" required />
                         <span class="error-message" id="contact_number_error"></span>
                      </div>
                   </div>
@@ -341,6 +344,11 @@ if ($row['toggle_value'] == 0) {
                   <!-- Create a container to display the review information -->
                      <div id="review-container">
                      </div>
+                     <label for="agreeCheckbox" style="text-align: center !important; font-weight: normal !important;">
+                  By submitting this form, you hereby certify that you have read the <span onclick="openTermsCondiModal()" style="color: #A5040A; cursor: pointer;">Terms and Conditions</span> outlined <br>by the City Scholarship Office,
+                  along with its implementing rules and regulations.
+                  </label>
+                  <br>
                      <input type="button" name="previous" id="previous-stepthree" class="previous action-button-previous" value="Previous"/>
                   <button type="button" id="submitReview" class="submit action-button cooldown" value="Submit" onclick="openlpppconfirmpopup()"></button>
                   </fieldset>
@@ -359,4 +367,15 @@ if ($row['toggle_value'] == 0) {
       <script src="./js/validatenext_stepthree.js"></script>
       <script src="./js/validatenext_stepfour.js"></script>
    </body>
+   <script>
+const TermsCondiModal = document.getElementById('termsAndCondiModal');
+
+function openTermsCondiModal() {
+    TermsCondiModal.style.display = "block";
+}
+
+function closeHomePageModal() {
+    TermsCondiModal.style.display = "none";
+}
+      </script>
 </html>
