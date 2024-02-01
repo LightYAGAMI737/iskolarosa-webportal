@@ -487,17 +487,6 @@ fieldset:disabled input, select{
             }
         }
   echo "<h2 class='to_center'>Scanned Documents</h2>";
-  // Voters applicant
-  echo '<table class="table" style="width: 80%;">';
-  echo "<tbody>";
-  echo "<tr>";
-  echo "<td>";
-  echo "<label>Voters Certificate Applicant</label>";
-  echo "<div class='image'>";
-  echo "<img src='../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadVotersApplicant.jpg' onclick='expandImage(this)' class='smaller-image'>";
-  echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadVotersApplicant.jpg'></div>";
-  echo "</div>";
-  echo "</td>";
   
   // Voters Cert Parent
   echo "<td>";
@@ -527,16 +516,6 @@ fieldset:disabled input, select{
   echo "</div>";
   echo "</td>";
   echo "</tr>";
-  
-  // COR
-  echo "<tr>";
-  echo "<td>";
-  echo "<label>Certificate of Registration</label>";
-  echo "<div class='image'>";
-  echo "<img src='../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadCOR.jpg' onclick='expandImage(this)' class='smaller-image'>";
-  echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadCOR.jpg'></div>";
-  echo "</div>";
-  echo "</td>";
   
   // GRADE
   echo "<td>";
