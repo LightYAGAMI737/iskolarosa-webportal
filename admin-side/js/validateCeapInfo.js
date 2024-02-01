@@ -144,7 +144,6 @@ emailInput.addEventListener('blur', () => {
     emailFieldBlurred = true; // Set the flag to true when the field is blurred
 });
 
-
 const contactNumberInput = document.getElementById('contact_number');
 let contactNumberIsValid = false; // Flag to track contact number validation status
 
@@ -152,7 +151,7 @@ contactNumberInput.addEventListener('input', (event) => {
     // Remove any non-digit characters from the input
     contactNumberInput.value = contactNumberInput.value.replace(/[^0-9]/g, '');
 
-    // Limit the input to 13 digits
+    // Limit the input to exactly 13 digits
     if (contactNumberInput.value.length > 13) {
         contactNumberInput.value = contactNumberInput.value.slice(0, 13);
     }
@@ -183,7 +182,9 @@ contactNumberInput.addEventListener('input', (event) => {
         contactNumberIsValid = false;
     }
 
-
+    // Validate the contact number after modification
+    validateContactNumber();
+});
 
 // Add event listeners to contact number fields
 document.getElementById('contact_number').addEventListener('change', validateContactNumber);
@@ -202,10 +203,6 @@ function validateContactNumber() {
         contactNumberInputFormat.classList.add('invalid');
     }
 }
-});
-
-// Validate the contact number initially
-validateContactNumber();
 
 document.addEventListener('DOMContentLoaded', function() {
     const dateOfBirthInput = document.getElementById('date_of_birth');

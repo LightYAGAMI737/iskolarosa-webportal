@@ -360,27 +360,41 @@ fieldset:disabled input, select{
                                           echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
                                 break;
 
-                            case 'elementary_year':
-                                // Select element for elementary_year
-                                echo '<select  name="' . $field . '" id="' . $field . '" value="' . $value . '"';
-                                $currentYear = date("Y");
-                                for ($year = 2017; $year >= 2000; $year--) {
-                                    echo '<option value="' . $year . '"' . ($value == $year ? 'selected' : '') . '>' . $year . '</option>';
-                                }
-                                echo '</select>';
-                                          echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
-                                break;
-
+                                case 'elementary_year':
+                                    // Select element for elementary_year
+                                    echo '<select name="' . $field . '" id="' . $field . '" value="' . $value . '"';
+                                    $currentYear = date("Y");
+                                    for ($year = 2017; $year >= 2000; $year--) {
+                                        echo '<option value="' . $year . '"' . ($value == $year ? 'selected' : '') . '>' . $year . '</option>';
+                                    }
+                                    echo '</select>';
+                                    echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
+                                    break;
+                                
                                 case 'secondary_year':
+                                    // Select element for secondary_year
+                                    echo '<select name="' . $field . '" id="' . $field . '" class="year-graduated" required>';
+                                    echo '<option value="' . $value . '" selected>' . $value . '</option>'; // Include the selected value
+                                    echo '</select>';
+                                    echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
+                                    break;
+                                
                                 case 'senior_high_year':
+                                    // Select element for senior_high_year
+                                    echo '<select name="' . $field . '" id="' . $field . '" class="year-graduated" required>';
+                                    echo '<option value="' . $value . '" selected>' . $value . '</option>'; // Include the selected value
+                                    echo '</select>';
+                                    echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
+                                    break;
+                                
                                 case 'expected_year_of_graduation':
-                                        // Select element for secondary_year, senior_high_year, expected_year_of_graduation
-                                        echo '<select name="' . $field . '" id="' . $field . '" class="year-graduated" required>';
-                                        echo '<option value="' . $value . '"></option>';
-                                        echo '</select>';
-                                          echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
-                                        break;
-
+                                    // Select element for expected_year_of_graduation
+                                    echo '<select name="' . $field . '" id="' . $field . '" class="year-graduated" required>';
+                                    echo '<option value="' . $value . '" selected>' . $value . '</option>'; // Include the selected value
+                                    echo '</select>';
+                                    echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
+                                    break;
+                                
                             case 'year_level':
                                         // Select options for Civil Status
                                         echo '<select name="year_level" id="year_level">';
@@ -467,7 +481,7 @@ fieldset:disabled input, select{
               
                                 case 'guardian_monthly_income':
                                     // Editable text fields
-                                    echo '<input type="text" name="' . $field . '" id="' . $field . '" value="' . $value . '">';
+                                    echo '<input type="text" name="' . $field . '" id="' . $field . '" value="' . $value . ' " maxlength = "6" minlength = "1">';
                                           echo '<span class="' . $field . '_error" id="' . $field . '_error"></span>';
                                     break; 
 
@@ -497,52 +511,38 @@ fieldset:disabled input, select{
             <th>Uploaded Files:</th>
             <td>
             <div class="file-group">
-            <?php
-                        // Ensure Imagick is installed and enabled
-                        if (!extension_loaded('imagick')) {
-                            echo 'Imagick extension is not available.';
-                            // Handle the situation where Imagick is not available
-                            exit;
-                        }
+                    <?php
+                    // Loop through uploaded files and display them in groups of three
+                    $fileCounter = 0;
+                 
+// Path to Ghostscript executable
+$ghostscriptPath = 'C:\Program Files\gs10.01.2\bin\gswin64c.exe';  // Replace with your Ghostscript path
 
-                        // Loop through uploaded files and display them in groups of three
-                        $fileCounter = 0;
+$pdfFiles = array(
+    'uploadVotersApplicant' => '../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_VotersApplicant.pdf',
+    'uploadVotersParent' => '../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_VotersParent.pdf',
+    'uploadITR' => '../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_ITR.pdf',
+    'uploadResidency' => '../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Residency.pdf',
+    'uploadCOR' => '../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_COR.pdf',
+    'uploadGrade' => '../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Grade.pdf'
+);
 
-                        $pdfFiles = array(
-                            'uploadVotersApplicant' => '../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_VotersApplicant.pdf',
-                            'uploadVotersParent' => '../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_VotersParent.pdf',
-                            'uploadITR' => '../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_ITR.pdf',
-                            'uploadResidency' => '../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Residency.pdf',
-                            'uploadCOR' => '../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_COR.pdf',
-                            'uploadGrade' => '../ceap-reg-form/pdfFiles/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_Grade.pdf'
-                        );
+// Output image file paths
+$imageFiles = array();
 
-                        // Output image file paths
-                        $imageFiles = array();
-                        foreach ($pdfFiles as $key => $pdfFile) {
-                            $outputImage = '../ceap-reg-form/converted-images/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_' . $key . '.jpg';
+// Convert PDF files to images
+foreach ($pdfFiles as $key => $pdfFile) {
+  $outputImage = '../ceap-reg-form/converted-images/' . $applicantInfo['last_name'] . '_' . $applicantInfo['first_name'] . '_' . $key . '.jpg'; // Replace with the desired output image path and extension
+  $imageFiles[$key] = $outputImage;
 
-                            try {
-                                $imagick = new Imagick();
-                                $imagick->readImage($pdfFile);
-                                $imagick->setIteratorIndex(0); // Adjust the page index if needed
+  // Command to convert PDF to image using Ghostscript
+  $command = '"' . $ghostscriptPath . '" -dSAFER -dBATCH -dNOPAUSE -sDEVICE=jpeg -r300 -sOutputFile="' . $outputImage . '" "' . $pdfFile . '"';
 
-                                // Optional: Set resolution and background color
-                                // $imagick->setResolution(300, 300);
-                                // $imagick->setImageBackgroundColor('white');
+  // Execute the Ghostscript command
+  exec($command);
 
-                                $imagick->setImageCompressionQuality(100);
-                                $imagick->setImageFormat('jpg');
-                                $imagick->writeImage($outputImage);
-                                $imagick->destroy();
 
-                                // Log success
-                                echo "<script>console.log('Conversion success for $key. Output Image: $outputImage');</script>";
-                            } catch (Exception $e) {
-                                // Log error
-                                echo "<script>console.error('Error converting $key:', '" . $e->getMessage() . "', PDF File: $pdfFile, Output Image: $outputImage');</script>";
-                            }
-                        }
+}
   echo "<h2 class='to_center'>Scanned Documents</h2>";
   // Voters applicant
   echo '<table class="table" style="width: 80%;">';
