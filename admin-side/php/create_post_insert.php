@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $action = "Created a new post: $post_title";
         
             // Insert a new log entry into the employee_logs table
-            $sql = "INSERT INTO employee_logs (employee_username, action, creation_date) VALUES (?, ?, ?)";
+            $sql = "INSERT INTO employee_logs (employee_username, action, timestamp) VALUES (?, ?, ?)";
             $stmt = mysqli_prepare($conn, $sql);
         
             if ($stmt) {
