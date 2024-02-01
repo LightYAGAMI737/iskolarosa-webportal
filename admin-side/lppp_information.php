@@ -486,70 +486,66 @@ fieldset:disabled input, select{
                 echo "<script>console.error('Error converting $key:', '" . $e->getMessage() . "', PDF File: $pdfFile, Output Image: $outputImage');</script>";
             }
         }
-  echo "<h2 class='to_center'>Scanned Documents</h2>";
-  // Voters applicant
-  echo '<table class="table" style="width: 80%;">';
-  echo "<tbody>";
-  echo "<tr>";
- 
-  // Voters Cert Parent
-  echo "<td>";
-  echo "<label>Voters Certificate Parent</label>";
-  echo "<div class='image'>";
-  echo "<img src='../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadVotersParent.jpg' onclick='expandImage(this)' class='smaller-image'>";
-  echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadVotersParent.jpg'></div>";
-  echo "</div>";
-  echo "</td>";
-  echo "</tr>";
-  
-  // TAX
-  echo "<tr>";
-  echo "<td>";
-  echo "<label>Income Tax Return</label>";
-  echo "<div class='image'>";
-  echo "<img src='../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadITR.jpg' onclick='expandImage(this)' class='smaller-image'>";
-  echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadITR.jpg'></div>";
-  echo "</div>";
-  echo "</td>";
-  // Residency
-  echo "<td>";
-  echo "<label>Residency</label>";
-  echo "<div class='image'>";
-  echo "<img src='../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadResidency.jpg' onclick='expandImage(this)' class='smaller-image'>";
-  echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadResidency.jpg'></div>";
-  echo "</div>";
-  echo "</td>";
-  echo "</tr>";
-  
-  // COR
-  echo "<tr>";
- 
-  
-  // GRADE
-  echo "<td>";
-  echo "<label>GWA for Current Sem</label>";
-  echo "<div class='image'>";
-  echo "<img src='../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadGrade.jpg' onclick='expandImage(this)' class='smaller-image'>";
-  echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadGrade.jpg'></div>";
-  echo "</div>";
-  echo "</td>";
-  echo "</tr>";
-  
-  echo "</tbody>";
-  echo "</table>";
-  
-  // GRADE
-  echo "<td>";
-  echo "<label>Applicant 2x2 Picture</label>";
-  echo "<div class='image'>";
-  echo "<img src='../lppp-reg-form/applicant2x2/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_2x2_Picture.jpg' onclick='expandImage(this)' class='smaller-image'>";
-  echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../lppp-reg-form/applicant2x2/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_2x2_Picture.jpg'></div>";
-  echo "</div>";
-  echo "</td>";
-  echo "</tr>";
-  
-  echo "</tbody>";
-  echo "</table>";
+        echo "<h2 class='to_center'>Scanned Documents</h2>";
+        // Voters applicant
+        echo '<table class="table" style="width: 80%;">';
+        echo "<tbody>";
+        echo "<tr>";
+        // Voters Cert Parent
+        echo "<td>";
+        echo "<label>Voters Certificate Parent</label>";
+        echo "<div class='image'>";
+        echo "<img src='../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadVotersParent.jpg' onclick='expandImage(this)' class='smaller-image'>";
+        echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadVotersParent.jpg'></div>";
+        echo "</div>";
+        echo "</td>";
+        
+        // TAX
+        echo "<td>";
+        echo "<label>Income Tax Return</label>";
+        echo "<div class='image'>";
+        echo "<img src='../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadITR.jpg' onclick='expandImage(this)' class='smaller-image'>";
+        echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadITR.jpg'></div>";
+        echo "</div>";
+        echo "</td>";
+
+
+        // Residency
+        echo "<tr>";
+        echo "<td>";
+        echo "<label>Residency</label>";
+        echo "<div class='image'>";
+        echo "<img src='../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadResidency.jpg' onclick='expandImage(this)' class='smaller-image'>";
+        echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadResidency.jpg'></div>";
+        echo "</div>";
+        echo "</td>";
+
+
+        
+        // GRADE\        
+        echo "<td>";
+        echo "<label>GWA for Current Sem</label>";
+        echo "<div class='image'>";
+        echo "<img src='../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadGrade.jpg' onclick='expandImage(this)' class='smaller-image'>";
+        echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../lppp-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadGrade.jpg'></div>";
+        echo "</div>";
+        echo "</td>";
+        echo "</tr>";
+        echo "</tbody>";
+        echo "</table>";
+        
+        //2x2
+        echo "<td>";
+        echo "<label>Applicant 2x2 Picture</label>";
+        echo "<div class='image'>";
+        echo "<img src='../lppp-reg-form/applicant2x2/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_2x2_Picture.jpg' onclick='expandImage(this)' class='smaller-image'>";
+        echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../lppp-reg-form/applicant2x2/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_2x2_Picture.jpg'></div>";
+        echo "</div>";
+        echo "</td>";
+        echo "</tr>";
+        
+        echo "</tbody>";
+        echo "</table>";
   
 
                     ?>
