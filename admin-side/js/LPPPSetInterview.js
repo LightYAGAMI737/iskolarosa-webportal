@@ -49,7 +49,7 @@ function LPPPSetInterview() {
 
 function openConfirmationEXAMPop() {
     closeLPPPStatusPopup();
-const confirmPop = document.getElementById("ConfrimMsgPopUp");
+const confirmPop = document.getElementById("ConfrimMsgEXAMPopUp");
 confirmPop.style.display = "block";
 
 const okButtonn = document.getElementById("okConfirm");
