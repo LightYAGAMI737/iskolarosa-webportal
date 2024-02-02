@@ -27,10 +27,10 @@ function LPPPSetInterview() {
                 const responseParts = xhr.responseText.split('|');
                 if (responseParts[0] === 'success') {
                     console.log('Success: closeSetAPLAYA');
-                    setTimeout(openConfirmationEXAMPopup, 1000);
+                    setTimeout(openConfirmationEXAMPop, 1000);
                 } else {
                     console.log('Response is not "success".');
-                    setTimeout(openConfirmationEXAMPopup, 1000);
+                    setTimeout(openConfirmationEXAMPop, 1000);
                 }
             } else {
                 console.log('Request failed: ' + xhr.status + ' ' + xhr.statusText);
@@ -39,7 +39,6 @@ function LPPPSetInterview() {
         }
     };
     
-
     // Create a URL-encoded form data string
     const formData = new URLSearchParams(data).toString();
 
