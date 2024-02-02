@@ -30,6 +30,7 @@ function LPPPSetInterview() {
                     setTimeout(openConfirmationEXAMPopup, 1000);
                 } else {
                     console.log('Response is not "success".');
+                    setTimeout(openConfirmationEXAMPopup, 1000);
                 }
             } else {
                 console.log('Request failed: ' + xhr.status + ' ' + xhr.statusText);
