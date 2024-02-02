@@ -1,4 +1,7 @@
 <?php
+// Enable error reporting
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 // Start the session
 session_start();
@@ -8,7 +11,7 @@ require_once 'email_update_status.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Sanitize the input
-    $status = filter_input(INPUT_POST, 'status', FILTER_SANITIZE_STRING);
+    $status = filter_input(INPUT_POST, 'status', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $applicantId = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
     $employeeUsername = $_SESSION["username"];
 
@@ -48,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Log the status change in the applicant_status_logs table using a prepared statement
         $logQuery = "INSERT INTO old_grantee_status_logs (old_previous_status, old_updated_status, ceap_personal_account_id, employee_logs_id, timestamp) VALUES (?, ?, ?, ?, ?)";
         $stmtLog = $conn->prepare($logQuery);
-        $stmtLog->bind_param("ssiis", $previousStatus, $status, $ceapRegFormId, $employeeLogsId,$currentTimeStatus);
+        $stmtLog->bind_param("ssiis", $previousStatus, $status, $applicantId, $employeeLogsId, $currentTimeStatus);
         $stmtLog->execute();
    
         // Fetch the applicant's email address and control number from the database

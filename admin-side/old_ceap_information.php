@@ -679,12 +679,11 @@ function updateStatusOLD(status, applicantId) {
           // Handle the response here
           var response = xhr.responseText.trim(); // Trim whitespace from the response text
           if (response === 'success') {
-             // Status updated successfully; open the confirmation popupOLD
-             openConfirmationPopupOLD();
-          } else {
-             alert('Failed to update status.');
-             goBack(); // Corrected function name
-          }
+                // Status updated successfully; open the confirmation popup
+                openConfirmationPopupOLD();
+            } else {
+    console.error('Failed to update status.', xhr.responseText);
+}
        }
     };
     // Send the AJAX request

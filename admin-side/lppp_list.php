@@ -48,7 +48,7 @@
           p.date_of_birth, 
           UPPER(t.status) AS status, UPPER(p.grade_level) AS grade_level 
    FROM lppp_reg_form p
-   INNER JOIN lppp_temporary_account t ON p.lppp_reg_form_id = t.lppp_reg_form_id
+   INNER JOIN lppp_temporary_account t ON p.lppp_reg_form_id = t.lppp_reg_form_id WHERE is_deleted = '0'
    SQL;
    
    $result = mysqli_query($conn, $query);
