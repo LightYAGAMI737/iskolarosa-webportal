@@ -240,7 +240,7 @@ if ($row['toggle_value'] == 0) {
                         <select name="elementary_year" id="elementary_year" class="year-graduated" required>
                         <?php
     $currentYear = date("Y");
-    for ($year = $currentYear; $year >= 2010; $year--) {
+    for ($year = $currentYear; $year >= 1964; $year--) {
         echo '<option value="' . $year . '">' . $year . '</option>';
         // Add a hidden option for separation if needed
         if ($year > 2000) {
