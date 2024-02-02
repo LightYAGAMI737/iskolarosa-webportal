@@ -46,3 +46,21 @@ function LPPPSetInterview() {
 
     xhr.send(formData);
 }
+
+function openConfirmationEXAMPop() {
+    closeLPPPStatusPopup();
+const confirmPop = document.getElementById("ConfrimMsgPopUp");
+confirmPop.style.display = "block";
+
+const okButtonn = document.getElementById("okConfirm");
+okButtonn.addEventListener("click", function () {
+  confirmPop.style.display = "none";
+  goBackInterviewEXAM();
+});
+// Call the goBackInterviewEXAM function after a 5-second delay
+setTimeout(goBackInterviewEXAM, 5000);
+}
+
+function goBackInterviewEXAM() {
+  location.reload();
+}
