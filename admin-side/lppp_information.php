@@ -309,7 +309,7 @@ fieldset:disabled input, select{
                                     case 'civil_status':
                                         // Select options for Civil Status
                                         echo '<select name="civil_status">';
-                                        $civilStatusOptions = ['Single', 'Married'];
+                                        $civilStatusOptions = ['SINGLE', 'MARRIED', 'WIDOWED', 'DIVORCED', 'SEPARATED', 'LIVED IN'];
 
                                         foreach ($civilStatusOptions as $option) {
                                             echo '<option value="' . $option . '" ' . ($value === $option ? 'selected' : '') . '>' . $option . '</option>';

@@ -4,51 +4,53 @@ document.addEventListener('DOMContentLoaded', function () {
     var educationalBackgroundFields = document.getElementById('educational-background-fields');
     var saveChangesButton = document.getElementById('saveChanges');
 
-    // Initialize original values
-    var originalValues = {};
+   // Initialize original values
+var originalValues = {};
 
-    enableSaveChangesOnInput(personalInfoFields, saveChangesButton);
-    enableSaveChangesOnInput(familyBackgroundFields, saveChangesButton);
-    enableSaveChangesOnInput(educationalBackgroundFields, saveChangesButton);
+enableSaveChangesOnInput(personalInfoFields, saveChangesButton);
+enableSaveChangesOnInput(familyBackgroundFields, saveChangesButton);
+enableSaveChangesOnInput(educationalBackgroundFields, saveChangesButton);
 
-    function enableSaveChangesOnInput(fieldset, button) {
-        var inputFields = fieldset.querySelectorAll('input');
+function enableSaveChangesOnInput(fieldset, button) {
+    var inputFields = fieldset.querySelectorAll('input, select'); // Include select elements
 
-        // Store the original values when the page loads
-        inputFields.forEach(function (field) {
-            originalValues[field.name] = field.value;
-            field.addEventListener('input', checkChanges);
+    // Store the original values when the page loads
+    inputFields.forEach(function (field) {
+        originalValues[field.name] = field.value;
+        field.addEventListener('input', checkChanges);
+        if (field.tagName === 'SELECT') {
+            field.addEventListener('change', checkChanges); // Listen for change events on select elements
+        }
+    });
+
+    function checkChanges() {
+        // Disable the button if any input field has the "invalid" class
+        var hasInvalidClass = Array.from(inputFields).some(function (field) {
+            return field.classList.contains("invalid");
         });
 
-        function checkChanges() {
-            // Disable the button if any input field has the "invalid" class
-            var hasInvalidClass = Array.from(inputFields).some(function (field) {
-                return field.classList.contains("invalid");
-            });
+        if (hasInvalidClass) {
+            button.setAttribute("disabled", true);
+            console.log('Save Changes button is now disabled due to invalid input.');
+            return;
+        }
 
-            if (hasInvalidClass) {
-                button.setAttribute("disabled", true);
-                console.log('Save Changes button is now disabled due to invalid input.');
-                return;
-            }
+        // Enable the button if any value has changed
+        var changesDetected = Array.from(inputFields).some(function (field) {
+            return field.value !== originalValues[field.name];
+        });
 
-            // Enable the button if any value has changed
-            var changesDetected = Array.from(inputFields).some(function (field) {
-                return field.value !== originalValues[field.name];
-            });
-
-            if (changesDetected) {
-                button.removeAttribute("disabled");
-                console.log('Save Changes button is now enabled.');
-            } else {
-                // Disable the button if there are no changes
-                button.setAttribute("disabled", true);
-                console.log('Save Changes button is now disabled.');
-            }
+        if (changesDetected) {
+            button.removeAttribute("disabled");
+            console.log('Save Changes button is now enabled.');
+        } else {
+            // Disable the button if there are no changes
+            button.setAttribute("disabled", true);
+            console.log('Save Changes button is now disabled.');
         }
     }
+}
 });
-
 
 const fieldsToValidate = document.querySelectorAll('input[name="last_name"], input[name="first_name"]');
 
@@ -577,4 +579,3 @@ monthlyIncomeInput.addEventListener("input", function () {
         monthlyIncomeInput.classList.remove("invalid");
     }
 });
-
