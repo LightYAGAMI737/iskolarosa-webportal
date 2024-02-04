@@ -211,7 +211,7 @@
     background-color: #fefefe;
     margin: 225px auto;
     padding: 20px;
-    height: 200px;
+    height: auto;
     border: 1px solid #888;
     width: 40%;
     border-radius: 10px;
@@ -234,7 +234,25 @@ input[readonly] {
     border: none !important;
     background: #ececec;
 }
+.selectReason {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
 
+/* Style for the "Others" text input */
+#otherReason {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    display: none; /* Hide initially */
+}
 input[type="text"], input[type="email"] {
     width: 100%;
     height: 40px;

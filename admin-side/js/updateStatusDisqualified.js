@@ -1,15 +1,37 @@
 
 const reasonInput = document.getElementById("disqualificationReason");
+const otherReasonInput = document.getElementById("otherReason");
 const submitButton = document.getElementById("submitReason");
+
+function validateOtherReason() {
+    const isValid = otherReasonInput.value.trim().length >= 5 && otherReasonInput.value.match(/^\S+(\s\S+)*$/);
+    return isValid;
+}
+
 reasonInput.addEventListener("input", function () {
-   if (reasonInput.value.length >= 5) {
-      submitButton.classList.remove("disabled");
-      submitButton.removeAttribute("disabled");
+   const selectedReason = reasonInput.value;
+   const isValidOtherReason = selectedReason === "Others" && otherReasonInput.value.trim().length >= 5;
+
+   if ((selectedReason && selectedReason !== "Others") || isValidOtherReason) {
+       submitButton.classList.remove("disabled");
+       submitButton.removeAttribute("disabled");
    } else {
-      submitButton.classList.add("disabled");
-      submitButton.setAttribute("disabled", "disabled");
+       submitButton.classList.add("disabled");
+       submitButton.setAttribute("disabled", "disabled");
    }
 });
+
+otherReasonInput.addEventListener("input", function () {
+   if (reasonInput.value === "Others" && otherReasonInput.value.trim().length >= 5) {
+       submitButton.classList.remove("disabled");
+       submitButton.removeAttribute("disabled");
+   } else {
+       submitButton.classList.add("disabled");
+       submitButton.setAttribute("disabled", "disabled");
+   }
+});
+
+
 const disqualifiedpopup = document.getElementById("DisqualifiedPopUp");
 
 function openDisqualifiedPopup(status, reason, applicantId) {
@@ -41,19 +63,24 @@ function closeReasonModal() {
    Reasonmodal.style.display = "none";
 }
 
-
 document.addEventListener("DOMContentLoaded", function () {
-    const confirmButton = document.getElementById("confirmButton");
-    if (confirmButton) {
-        confirmButton.addEventListener("click", function () {
-            const status = "Disqualified"; // You can adjust this value as needed
-            const reason = document.getElementById("disqualificationReason").value;
-            const applicantId = ceapRegFormId; // Access the value from PHP
-            submitStatusAndReason(status, reason, applicantId);
-        });
-    }
-});
+   const confirmButton = document.getElementById("confirmButton");
+   if (confirmButton) {
+       confirmButton.addEventListener("click", function () {
+           const status = "Disqualified"; // You can adjust this value as needed
+           const reasonDropdown = document.getElementById("disqualificationReason");
+           const reason = reasonDropdown.value;
+           const otherReasonInput = document.getElementById("otherReason");
+           const otherReason = otherReasonInput.value;
+           const applicantId = ceapRegFormId; // Access the value from PHP
 
+           // If the reason is "Others," use the value from the "otherReason" input
+           const finalReason = (reason === "Others") ? otherReason : reason;
+
+           submitStatusAndReason(status, finalReason, applicantId);
+       });
+   }
+});
 
 //disqualified and fail
 let reason;
