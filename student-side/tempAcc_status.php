@@ -1,18 +1,27 @@
 <?php
-    include '../admin-side/php/config_iskolarosa_db.php';
-    session_start();
-    // Check if the session is not set (user is not logged in)
-    if (!isset($_SESSION['control_number'])) {
-        // You can either show a message or redirect to the login page
-        echo 'You need to log in to access this page.';
-        // OR
-         header("Location: index.php"); // Redirect to the login page
-        exit();
-    }
+// Define custom error handler function
+function customErrorHandler($errno, $errstr, $errfile, $errline) {
+    echo ' ';
+}
 
-    $status='';
-                            
-    if (isset($_SESSION['control_number'])) {
+// Set custom error handler
+set_error_handler("customErrorHandler");
+
+// Your existing code goes here
+include '../admin-side/php/config_iskolarosa_db.php';
+session_start();
+// Check if the session is not set (user is not logged in)
+if (!isset($_SESSION['control_number'])) {
+    // You can either show a message or redirect to the login page
+    echo 'You need to log in to access this page.';
+    // OR
+    header("Location: index.php"); // Redirect to the login page
+    exit();
+}
+
+$status = '';
+
+if (isset($_SESSION['control_number'])) {
     $control_number = $_SESSION['control_number'];
     
     // Retrieve data from the ceap_reg_form table based on control_number
@@ -42,20 +51,21 @@
         exit(); // Stop execution as there is no data to display
     }
 
-    // Prepare the second query
-    $tempAccountSqlTable = "
-    SELECT DISTINCT p.last_name, p.first_name, p.control_number, t.status, t.reason, t.status_updated_at, t.interview_date, e.employee_username AS updated_by, l.previous_status AS prevSTAT , l.updated_status AS currentSTAT
-    FROM ceap_reg_form p
-    JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
-    LEFT JOIN applicant_status_logs l ON p.ceap_reg_form_id = l.ceap_reg_form_id
-    LEFT JOIN employee_logs e ON l.employee_logs_id = e.employee_logs_id
-    WHERE p.control_number = '$control_number'
-    ORDER BY t.status_updated_at DESC";
+  // Prepare the second query
+$tempAccountSqlTable = "
+SELECT DISTINCT p.last_name, p.first_name, p.control_number, t.status, t.reason, t.status_updated_at, t.interview_date, e.employee_username AS updated_by, l.previous_status AS prevSTAT , l.updated_status AS currentSTAT , l.timestamp
+FROM ceap_reg_form p
+JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
+LEFT JOIN applicant_status_logs l ON p.ceap_reg_form_id = l.ceap_reg_form_id
+LEFT JOIN employee_logs e ON l.employee_logs_id = e.employee_logs_id
+WHERE p.control_number = ? AND t.is_grantee = 0
+ORDER BY l.timestamp ASC";
 
-    $stmtTable = mysqli_prepare($conn, $tempAccountSqlTable);
-    mysqli_stmt_execute($stmtTable);
-    $tempAccountResultTable = mysqli_stmt_get_result($stmtTable);
-}
+$stmtTable = mysqli_prepare($conn, $tempAccountSqlTable);
+mysqli_stmt_bind_param($stmtTable, "s", $control_number); // Bind control number parameter
+mysqli_stmt_execute($stmtTable);
+$tempAccountResultTable = mysqli_stmt_get_result($stmtTable);
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -106,29 +116,28 @@
                         <i class="uil ri-check-fill"></i>
                      </div>
                      <p class="text">IN PROGRESS</p>
-                    
                   </li>
                   <li class="progress-step">
-                     <i class="icon uil"></i>
-                     <div class="progress-bar-custom two">
+                    <i class="icon uil"></i>
+                    <div class="progress-bar-custom two">
                         <p>2</p>
                         <i class="uil ri-check-fill"></i>
-                     </div>
-                        <p class="text"><?php
-                                // Update the text content based on the fetched status
-                            switch ($status) {
-                                case 'Disqualified':
-                                    echo 'DISQUALIFIED';
-                                    break;
-                                case 'Verified':
-                                    echo 'VERIFIED';
-                                    break;
-                                default:
-                                    echo 'VERIFIED';
-                                    break;
-                            }
+                    </div>
+                    <p class="text"><?php
+                        // Update the text content based on the fetched status
+                        switch ($status) {
+                            case 'Disqualified':
+                                echo 'DISQUALIFIED';
+                                break;
+                            case 'Verified':
+                                echo 'VERIFIED';
+                                break;
+                            default:
+                                echo 'VERIFIED';
+                                break;
+                        }
                     ?></p>
-                  </li>
+                </li>
                   <li class="progress-step">
                      <i class="icon uil"></i>
                      <div class="progress-bar-custom three">
@@ -138,25 +147,25 @@
                         <p class="text">TO INTERVIEW</p>
                   </li>
                   <li class="progress-step">
-                     <i class="icon uil"></i>
-                     <div class="progress-bar-custom four">
+                    <i class="icon uil"></i>
+                    <div class="progress-bar-custom four" id="progress-bar-four">
                         <p>4</p>
                         <i class="uil ri-check-fill"></i>
-                     </div>
-                     <p class="text"><?php
-                                // Update the text content based on the fetched status
-                            switch ($status) {
-                                case 'Fail':
-                                    echo 'FAIL';
-                                    break;
-                                case 'Grantee':
-                                    echo 'GRANTEE';
-                                    break;
-                                default:
-                                    echo '';
-                            }
+                    </div>
+                    <p class="text"><?php
+                        // Update the text content based on the fetched status
+                        switch ($status) {
+                            case 'Fail':
+                                echo 'FAIL';
+                                break;
+                            case 'Grantee':
+                                echo 'GRANTEE';
+                                break;
+                            default:
+                                echo '';
+                        }
                     ?></p>
-                  </li>
+                </li>
                </ul>
             </div>
          </div>
@@ -178,11 +187,14 @@
             // Fetch all rows in an array
             $tempAccountRows = mysqli_fetch_all($tempAccountResultTable, MYSQLI_ASSOC);
 
-            // Loop through the fetched data to display the current status and previous status
             for ($i = 0; $i < count($tempAccountRows); $i++) {
                 $tempAccountRow = $tempAccountRows[$i];
+                $updated_date = $tempAccountRow['timestamp'];
+                $UpdatedDateFormatted = date('F d, Y', strtotime($updated_date));
                 $interview_date = $tempAccountRow['interview_date'];
                 $dateFormatted = date('F d, Y', strtotime($interview_date));
+                $status_updated_at = $tempAccountRow['status_updated_at'];
+                $status_updated_atFormatted = date('F d, Y', strtotime($status_updated_at));
                 $status = $tempAccountRow['status']; // Fetch the current status
                 $updatedBy = $tempAccountRow['updated_by']; // You need to fetch and populate this value
 
@@ -190,22 +202,20 @@
                 if (!empty($tempAccountRow['prevSTAT'])) {
                     // Display a new row for the previous status
                     echo '<tr>';
-                    echo '<td data-label="Date:">' . $dateFormatted . '</td>';
+                    echo '<td data-label="Date:">' . $UpdatedDateFormatted . '</td>';
                     echo '<td data-label="Status:">' . strtoupper($tempAccountRow['prevSTAT']) . '</td>';
                     echo '<td data-label="Description:">' . getDescription($tempAccountRow['prevSTAT'], $tempAccountRow['reason'], $dateFormatted) . '</td>';
                     echo '<td data-label="Approved by:">' . $updatedBy . '</td>';
                     echo '</tr>';
                 }
             }
-
                 // Display the current status row
                 echo '<tr>';
-                echo '<td data-label="Date:">' . $dateFormatted . '</td>';
+                echo '<td data-label="Date:">' . $status_updated_atFormatted . '</td>';
                 echo '<td data-label="Status:">' . strtoupper($status) . '</td>';
                 echo '<td data-label="Description:">' . getDescription($status, $tempAccountRow['reason'], $dateFormatted) . '</td>';
                 echo '<td data-label="Approved by:">' . $updatedBy . '</td>';
                 echo '</tr>';
-
             // Function to get the description based on the status
             function getDescription($status, $reason, $dateFormatted) {
                 switch ($status) {
@@ -232,10 +242,58 @@
         </tbody>
     </table>
 </div>
-
-
-
       <script src="./js/bootstrap.min.js"></script>
+      <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Fetch the status from PHP
+        var status = '<?php echo $status; ?>';
+
+        // Select the progress bar element and the icon element
+        var progressBar = document.querySelector('.progress-bar-custom.two'); // Update selector to target the appropriate progress bar
+        var icon = progressBar.querySelector('i');
+
+        // Update the background color, icon, and font size based on the status
+        switch (status) {
+            case 'Disqualified':
+                progressBar.style.setProperty('background-color', '#A5040A', 'important');
+                icon.className = 'ri-close-fill';
+                icon.style.fontSize = '20px'; // Set font size to 20px
+                break;
+            case 'Verified':
+                icon.className = 'uil ri-check-fill';
+                break;
+            default:
+                // Handle other cases or set a default behavior
+                break;
+        }
+    });
+</script>
+ <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Fetch the status from PHP
+        var status = '<?php echo $status; ?>';
+
+        // Select the progress bar element and the icon element
+        var progressBar = document.getElementById('progress-bar-four');
+        var icon = progressBar.querySelector('i');
+
+        // Update the background color and icon based on the status
+        switch (status) {
+            case 'Fail':
+                progressBar.style.setProperty('background-color', '#A5040A', 'important');
+                icon.className = 'ri-close-fill';
+                icon.style.fontSize = '20px'; // Set font size to 20px
+                break;
+            case 'Grantee':
+                progressBar.style.setProperty('background-color', '#006A1E', 'important');
+                icon.className = 'uil ri-check-fill';
+                break;
+            default:
+                // Handle other cases or set a default behavior
+                break;
+        }
+    });
+</script>
 
 <!-- Add this JavaScript code after your PHP code and HTML -->
 <script>
@@ -326,6 +384,33 @@
             }
         }
     });
+
+    // Function to update the database state
+function LogoutIFGrantee() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', './php/checkApplicantSTAT.php', true);
+
+    xhr.onload = function () {
+        if (xhr.status >= 200 && xhr.status < 300) {
+            // Request was successful, you can log or handle the response
+            console.log(xhr.responseText);
+        } else {
+            // Request failed, handle the error
+            console.error('Error logging out. Status:', xhr.status, 'Response:', xhr.responseText);
+        }
+    };
+
+    xhr.onerror = function () {
+        // Handle network errors
+        //console.error('Network error while updating database state.');
+    };
+
+    xhr.send();
+}
+
+// Call the function immediately on page load
+LogoutIFGrantee();
+
 </script>
    </body>
 </html>

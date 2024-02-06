@@ -110,7 +110,7 @@ $currentStatus = mysqli_real_escape_string($conn, $currentStatus);
       <script>
          function seeMore(id) {
              // Redirect to a page where you can retrieve the reserved data based on the given ID
-             window.location.href = "old_ceap_information.php?ceap_reg_form_id=" + id;
+             window.location.href = "ceap_information.php?ceap_reg_form_id=" + id;
          }
          
       </script>
