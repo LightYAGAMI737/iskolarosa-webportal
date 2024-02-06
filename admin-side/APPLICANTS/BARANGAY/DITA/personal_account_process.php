@@ -1,4 +1,3 @@
-
 <?php
 // Your database connection details
 include '../../../php/config_iskolarosa_db.php';
@@ -24,7 +23,7 @@ try {
         } else {
             throw new Exception("Error updating data in temporary_account table: " . $conn->error);
         }
-    } 
+    }
 } catch (Exception $e) {
     // Rollback the transaction in case of an error
     $conn->rollback();

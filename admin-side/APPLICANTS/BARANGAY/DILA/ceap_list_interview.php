@@ -60,70 +60,35 @@
        t.interview_date
    FROM ceap_reg_form p
    INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
-   WHERE p.barangay = ? AND t.status = ?";
+   WHERE p.barangay = ? AND t.status = ? AND t.is_grantee = 0";
 
 $stmt = mysqli_prepare($conn, $query);
 mysqli_stmt_bind_param($stmt, "ss", $currentBarangay, $currentStatus);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
+   
 date_default_timezone_set('Asia/Manila');
-
-
-
 // Get the current date in the format 'Y-m-d'
 $currentDate = date('Y-m-d');
 
 // Query to count applicants with interview dates today
-$todayCountQuery = "SELECT COUNT(*) AS todayCount, UPPER(p.barangay) AS barangay, 
+$countQuery = "SELECT COUNT(*) AS todayCount, UPPER(p.barangay) AS barangay, 
     p.control_number, 
     p.date_of_birth, 
     UPPER(t.status) AS status,
     t.interview_date
 FROM ceap_reg_form p
 INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
-WHERE p.barangay = ? AND t.status = ? AND t.interview_date = ?";
+WHERE p.barangay = ? AND t.status = ? AND t.interview_date = ? AND t.is_grantee = 0";
 
-$stmtTodayCount = mysqli_prepare($conn, $todayCountQuery);
-mysqli_stmt_bind_param($stmtTodayCount, "sss", $currentBarangay, $currentStatus, $currentDate);
-
-if (!mysqli_stmt_execute($stmtTodayCount)) {
-    echo "Error: " . mysqli_error($conn);
-    // Handle the error as needed
-}
-
-$todayCountResult = mysqli_stmt_get_result($stmtTodayCount);
+$stmtCount = mysqli_prepare($conn, $countQuery);
+mysqli_stmt_bind_param($stmtCount, "sss", $currentBarangay, $currentStatus, $currentDate);
+mysqli_stmt_execute($stmtCount);
+$todayCountResult = mysqli_stmt_get_result($stmtCount);
 $todayCountRow = mysqli_fetch_assoc($todayCountResult);
 
 // Store the count in a variable
 $todayInterviewCount = $todayCountRow['todayCount'];
-
-// Reset the statement for reuse
-mysqli_stmt_reset($stmtTodayCount);
-
-
-// Query for past applicants
-$todayCountQueryPast = "SELECT COUNT(*) AS todayCountPast, UPPER(p.barangay) AS barangay, 
-    p.control_number, 
-    p.date_of_birth, 
-    UPPER(t.status) AS status,
-    t.interview_date
-FROM ceap_reg_form p
-INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
-WHERE p.barangay = ? AND t.status = ? AND t.interview_date < ?";
-
-mysqli_stmt_prepare($stmtTodayCount, $todayCountQueryPast);
-mysqli_stmt_bind_param($stmtTodayCount, "sss", $currentBarangay, $currentStatus, $currentDate);
-
-if (!mysqli_stmt_execute($stmtTodayCount)) {
-    echo "Error: " . mysqli_error($conn);
-    // Handle the error as needed
-}
-
-$todayCountResultPast = mysqli_stmt_get_result($stmtTodayCount);
-$todayCountRowPast = mysqli_fetch_assoc($todayCountResultPast);
-
-// Store the count in a variable
-$todayInterviewCountPast = $todayCountRowPast['todayCountPast'];
 
    ?>
 <!DOCTYPE html>
@@ -156,78 +121,13 @@ $todayInterviewCountPast = $todayCountRowPast['todayCountPast'];
       </script>
    </head>
    <body>
-    
-
-      <!-- end search and reschedule -->
       <?php 
             include '../../../php/reschedulepopups.php';
-         ?>
-         <!-- Reschedule Modal (hidden by default) -->
-<div id="myModal" class="modal">
-    <div class="modal-content">
-        <span class="close" id="closeModalBtn">&times;</span>
-        <div class="modal-body">
-            <label class="form-label" for="current_time" style="font-size: 18px;">Reschedule Interview Date</label>
-                <!-- Add radio buttons for past and current applicants -->
-                <div class="form-group" style="display: flex; flex-direction: column;">
-                    <label>
-                        <input type="radio" name="applicant_type" value="past" id="pastApplicant" checked onchange="updateMaxQuantityInput()"> Past Applicants (Before Today)
-                    </label>
-                    <label>
-                        <input type="radio" name="applicant_type" id="currentApplicant" value="current" onchange="updateMaxQuantityInput()"> Current Applicants (Today)
-                    </label>
-                </div>
-                <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                <!-- Date input for interview -->
-                <div class="form-group">
-                    <label class="form-label" for="interview_date" style="width: 65px; text-align: center;">Date</label>
-                    <input type="date" name="interview_date" id="interview_date" class="form-control" required
-                    <?php
-                        // Set the minimum date to 1 day after the current day
-                        $minDate = date('Y-m-d', strtotime('+1 day'));
-                        echo 'min="' . $minDate . '"';
-
-                        // Calculate the max date (6 months from the current date)
-                        $maxDate = date('Y-m-d', strtotime('+6 months'));
-                        echo ' max="' . $maxDate . '"';
-                        ?>>
-                </div>
-
-                <!-- Time input for interview -->
-                <div class="form-group">
-                    <label class="form-label" style="width: 65px; text-align: center;">Time</label>
-                    <div style="display: flex; align-items: center;">
-                        <input type="number" name="interview_hours" id="interview_hours" class="form-control" min="1" max="12" required>
-                        <span style="margin: 0 5px;">:</span>
-                        <input type="number" name="interview_minutes" id="interview_minutes" class="form-control" min="0" max="59" required>
-                        <select class="form-control" name="interview_ampm" id="interview_ampm" required>
-                            <option value="AM">AM</option>
-                            <option value="PM">PM</option>
-                        </select>
-                    </div>
-                </div>
-                <span id="error-message" style="text-align: center; display: flex; justify-content: center; color: gray; max-width: 275px !important; margin-left: 70px;"></span>
-                <!-- Quantity input for interview -->
-                <div class="form-group">
-                    <label class="form-label" for="limit" style="width: 65px; text-align: center;">Quantity</label>
-                    <input type="number" class="form-control" name="limit" id="limit" min="1" required>
-                </div>
-                <span id="error-message-limit" style="text-align: center; display: flex; justify-content: center;  color: gray;"></span>
-
-                <!-- Reschedule button with dynamic onclick -->
-                <div class="form-group">
-                    <button type="button" class="btn btn-primary" id="rescheduleBtn" onclick="rescheduleButtonClick(), closeModalInterview()" disabled>Reschedule</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<?php 
          include '../../side_bar_barangay.php';
          ?>
       <!-- home content-->
       <!-- search and reschedule -->
-      <div class="form-group-interview">
+      <div class="form-group">
       <?php
                 // Check if the user's role is not "Staff"
                 if ($_SESSION['role'] !== 1) {
@@ -243,32 +143,89 @@ $todayInterviewCountPast = $todayCountRowPast['todayCountPast'];
                 ?>
          <input type="text" name="search" class="form-control" id="search" placeholder="Search by Control Number or Last name"  oninput="formatInput(this)">
          <!-- Add a button to trigger the Reschedmodal -->
-         <?php
-    function hasInterviewStatusInDatabase($conn, $currentBarangay, $currentStatus) {
-        date_default_timezone_set('Asia/Manila');
-        $currentDateReschedBTN = date('Y-m-d');
-        $query = "SELECT COUNT(*) FROM temporary_account AS t
-                  INNER JOIN ceap_reg_form AS p ON t.ceap_reg_form_id = p.ceap_reg_form_id
-                  WHERE t.status = ? AND UPPER(p.barangay) = ? AND t.interview_date <= ?";
+            <?php
+                function hasInterviewStatusInDatabase($conn, $currentBarangay, $currentStatus) {
+                    $interviewDate = date('Y-m-d');
 
-        $stmt = mysqli_prepare($conn, $query);
-        mysqli_stmt_bind_param($stmt, "sss", $currentStatus, $currentBarangay, $currentDateReschedBTN);
+                    $query = "SELECT COUNT(*) FROM temporary_account AS t
+                    INNER JOIN ceap_reg_form AS p ON t.ceap_reg_form_id = p.ceap_reg_form_id
+                    WHERE t.status = ? AND UPPER(p.barangay) = ? AND t.interview_date = ?";
 
-        if (mysqli_stmt_execute($stmt)) {
-            $result = mysqli_stmt_get_result($stmt);
-            $count = mysqli_fetch_row($result)[0];
-            mysqli_stmt_close($stmt);
-            return $count > 0;
-        } else {
-            echo "Error: " . mysqli_error($conn);
-            mysqli_stmt_close($stmt);
-            return false;
-        }
-    }
-?>
+                    $stmt = mysqli_prepare($conn, $query);
+                    mysqli_stmt_bind_param($stmt, "sss", $currentStatus, $currentBarangay, $interviewDate);
+                    if (mysqli_stmt_execute($stmt)) {
+                        $result = mysqli_stmt_get_result($stmt);
+                        $count = mysqli_fetch_row($result)[0];
+                        mysqli_stmt_close($stmt);
+                        return $count > 0;
+                    } else {
+                        echo "Error: " . mysqli_error($conn);
+                        mysqli_stmt_close($stmt);
+                        return false;
+                    }
+                }
+    ?>
 
       </div>
-    
+      <!-- Reschedule Modal (hidden by default) -->
+      <div id="myModal" class="modal">
+         <div class="modal-content">
+            <span class="close" id="closeModalBtn">&times;</span>
+            <div class="modal-body">
+               <label for="current_time">Reschedule Interview Date</label>
+               <!-- <span id="currentDateTime"></span>
+               <script>
+                  
+                  function updateCurrentDateTime() {
+                      const currentDateTimeElement = document.getElementById('currentDateTime');
+                      const options = { timeZone: 'Asia/Manila', hour12: true, hour: 'numeric', minute: 'numeric', second: 'numeric', year: 'numeric', month: 'numeric', day: 'numeric' };
+                      const currentDateTime = new Date().toLocaleString([], options);
+                      currentDateTimeElement.textContent = currentDateTime;
+                  }
+                  
+                  // Update the current date and time initially and then every second
+                  updateCurrentDateTime();
+                  setInterval(updateCurrentDateTime, 1000); // Update every 1 second
+               </script> -->
+               <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+               <!-- <h3 style="text-align: center;">Reschedule today's applicants</h3> -->
+               <div class="form-group">
+                    <label for="interview_date">Date</label>
+                    <input type="date" name="interview_date" id="interview_date" class="form-control" required onkeydown="preventInput(event)"
+                        <?php
+                            echo 'min="' . date('Y-m-d') . '"';
+                            
+                            // Calculate the max date (6 months from the current date)
+                            $maxDate = date('Y-m-d', strtotime('+6 months'));
+                            echo ' max="' . $maxDate . '"';
+                        ?>>
+                </div>
+                  <div class="form-group">
+                     <label>Time</label>
+                     <div style="display: flex; align-items: center;">
+                        <input type="number" name="interview_hours" id="interview_hours" class="form-control" min="1" max="12" required>
+                        <span style="margin: 0 5px;">:</span>
+                        <input type="number" name="interview_minutes" id="interview_minutes" class="form-control" min="0" max="59" required>
+                        <select class="form-control" name="interview_ampm" id="interview_ampm" required>
+                           <option value="AM">AM</option>
+                           <option value="PM">PM</option>
+                        </select>
+                     </div>
+                  </div>
+                  <span id="error-message" style="text-align: center; display: flex; justify-content: center;"></span>
+                  <div class="form-group">
+                     <label for="limit">Qty</label>
+                     <input type="number" class="form-control" name="limit" id="limit" min="1" max="<?php echo $todayInterviewCount; ?>" required>
+                  </div>
+                  <span id="error-message-limit" style="text-align: center; display: flex; justify-content: center;"></span>
+                  <div class="form-group">
+                     <button type="button" class="btn btn-primary" id="rescheduleBtn" onclick="openRescheduleAPLAYA(), closeModalInterview()" disabled>Reschedule</button>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+      <!-- end search and reschedule -->
       <!-- table for displaying the applicant list -->
       <div class="background">
          <h2 style="text-align: center">CEAP APPLICANT LIST</h2>
@@ -339,7 +296,6 @@ $todayInterviewCountPast = $todayCountRowPast['todayCountPast'];
       <script  src="../../../js/side_bar.js"></script>
       <script  src="../../../js/VerifiedandInterview.js"></script>
       <script  src="../../../js/rescheduleInterview.js"></script>
-      <script  src="../../../js/rescheduleInterviewPast.js"></script>
       <script  src="../../../js/openReschedulePopup.js"></script>
       <script>
 $(document).ready(function() {
@@ -564,106 +520,45 @@ function searchApplicants() {
     }
 }
 
-function rescheduleButtonClick() {
-        var pastApplicantRadio = document.getElementById('pastApplicant');
-        var currentApplicantRadio = document.getElementById('currentApplicant');
-
-        if (pastApplicantRadio.checked) {
-            openReschedulePast();
-        } else if (currentApplicantRadio.checked) {
-            openRescheduleCurrent();
-        }
-        closeModalInterview();
-    }
-    function validaterescheduleLimitInput() {
-    const limitInput = document.getElementById('limit');
-    const limit = parseInt(limitInput.value);
-    const todayInterviewCount = document.getElementById('pastApplicant').checked
-        ? <?php echo $todayInterviewCountPast; ?>
-        : <?php echo $todayInterviewCount; ?>;
-    
-    const isLimitValid = !isNaN(limit) && limit >= 1 && limit <= todayInterviewCount;
+function validaterescheduleLimitInput() {
+    const limit = parseInt(reschedulelimitInput.value);
+    const isLimitValid =
+        !isNaN(limit) &&
+        limit >= 1 &&
+        limit <= <?php echo $todayInterviewCount; ?>;
 
     // Add or remove 'invalid' class based on validation
-    limitInput.classList.toggle('invalid', !isLimitValid);
+    if (isLimitValid) {
+        reschedulelimitInput.classList.remove('invalid');
+        rescheduleerrorMessageLimit.textContent = '';
+    } else {
+        reschedulelimitInput.classList.add('invalid');
+        rescheduleerrorMessageLimit.textContent = 'Quantity cannot exceed to <?php echo $todayInterviewCount; ?>.';
+        rescheduleerrorMessage.style.color= 'red';
 
-    const errorMessage = isLimitValid ? '' : `Quantity max limit: ${todayInterviewCount}.`;
-    document.getElementById('error-message-limit').textContent = errorMessage;
-    document.getElementById('error-message-limit').style.color = 'gray';
+    }
 }
-
-function updateMaxQuantityInput() {
-    const quantityInput = document.getElementById('limit');
-    const todayInterviewCount = document.getElementById('pastApplicant').checked
-        ? <?php echo $todayInterviewCountPast; ?>
-        : <?php echo $todayInterviewCount; ?>;
-    
-    quantityInput.max = todayInterviewCount;
-}
-
-// Call the function initially to set the correct max value
-updateMaxQuantityInput();
-
-// Add event listeners to call the function when the radio buttons change
-['pastApplicant', 'currentApplicant'].forEach(function(radioId) {
-    const radio = document.getElementById(radioId);
-    radio.addEventListener('change', function() {
-        updateMaxQuantityInput();
-        validaterescheduleLimitInput();
-    });
-});
-
-// Add event listener for the "Quantity" input
-const quantityInput = document.getElementById('limit');
-quantityInput.addEventListener('input', function() {
-    validaterescheduleLimitInput();
-    // Assuming you have the `checkRequiredInputs` function defined elsewhere
-    checkRequiredInputs();
-});
 
 // Get references to the required input fields and the save button
 const requiredInputs = document.querySelectorAll('[required]'); // Get all required fields
 const rescheduleBtn = document.getElementById('rescheduleBtn');
+
 // Function to check if all required inputs are valid
-
-
 function checkRequiredInputs() {
-    const limitInput = document.getElementById('limit');
-    const isPastApplicant = document.getElementById('pastApplicant').checked;
-    const todayInterviewCount = isPastApplicant ? <?php echo $todayInterviewCountPast; ?> : <?php echo $todayInterviewCount; ?>;
-    
     const allInputsValid = Array.from(requiredInputs).every((input) => {
         return input.value.trim() !== '' && !input.classList.contains('invalid');
     });
 
-    const isLimitValid = !isNaN(parseInt(limitInput.value)) && parseInt(limitInput.value) <= todayInterviewCount;
-
-    if (allInputsValid && isLimitValid) {
+    if (allInputsValid) {
         rescheduleBtn.removeAttribute('disabled');
     } else {
         rescheduleBtn.setAttribute('disabled', 'true');
     }
 }
 
-// Add input event listeners to required input fields and the limit input
+// Add input event listeners to required input fields
 requiredInputs.forEach((input) => {
     input.addEventListener('input', checkRequiredInputs);
-});
-
-// Add input event listener for the "Quantity" input
-quantityInput.addEventListener('input', function() {
-    validaterescheduleLimitInput();
-    checkRequiredInputs();
-});
-
-// Add event listeners to call the function when the radio buttons change
-['pastApplicant', 'currentApplicant'].forEach(function(radioId) {
-    const radio = document.getElementById(radioId);
-    radio.addEventListener('change', function() {
-        updateMaxQuantityInput();
-        validaterescheduleLimitInput();
-        checkRequiredInputs(); // Call checkRequiredInputs when the applicant type changes
-    });
 });
 
 // Initial check

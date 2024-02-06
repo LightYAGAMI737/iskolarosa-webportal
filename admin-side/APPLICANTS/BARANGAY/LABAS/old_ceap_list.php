@@ -43,6 +43,7 @@ $currentBarangay = $currentDirectory;
 $currentStatus = mysqli_real_escape_string($conn, $currentStatus);
 
 $query = <<<SQL
+   SELECT t.*, 
           UPPER(p.first_name) AS first_name, 
           UPPER(p.last_name) AS last_name, 
           UPPER(p.barangay) AS barangay, 
@@ -135,7 +136,7 @@ $result = mysqli_stmt_get_result($stmt);
       <script>
          function seeMore(id) {
              // Redirect to a page where you can retrieve the reserved data based on the given ID
-             window.location.href = "old_ceap_information.php?ceap_reg_form_id=" + id;
+             window.location.href = "ceap_information.php?ceap_reg_form_id=" + id;
          }
          
       </script>

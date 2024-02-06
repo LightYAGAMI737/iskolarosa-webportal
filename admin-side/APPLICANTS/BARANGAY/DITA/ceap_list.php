@@ -54,7 +54,7 @@ $query = "SELECT t.*,
           UPPER(t.status) AS status
    FROM ceap_reg_form p
    INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
-   WHERE p.barangay = ? AND t.status = ?";
+   WHERE p.barangay = ? AND t.status = ? AND t.is_grantee = 0";
 
 $stmt = mysqli_prepare($conn, $query);
 
@@ -77,7 +77,6 @@ $result = mysqli_stmt_get_result($stmt);
       <link rel='stylesheet' href="../../../css/unpkg-layout.css">
       <link rel="stylesheet" href="../../../css/side_bar.css">
       <link rel="stylesheet" href="../../../css/ceap_list.css">
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css">
       <style>
       </style>
    </head>
@@ -87,7 +86,7 @@ $result = mysqli_stmt_get_result($stmt);
          ?>
       <!-- home content-->    
       <div class="form-group">
-         <input type="text" name="search-bar" class="form-control" id="search" placeholder="Search by Control Number or Last name"  oninput="formatInput(this)">
+         <input type="text" name="search" class="form-control" id="search"  autocomplete="off"  placeholder="Search by Control Number or Last name"  oninput="formatInput(this)">
       </div>
       <!-- table for displaying the applicant list -->
       <div class="background">

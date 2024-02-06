@@ -408,7 +408,7 @@
          <li class="nav-item">
             <button>
             <strong>
-            <a class="nav-link status <?php if ($currentStatus === 'interview') echo 'active'; ?>" href="old_ceap_list_interview.php">TO INTERVIEW</a>
+            <a class="nav-link status <?php if ($currentStatus === 'interview') echo 'active'; ?>" href="old_ceap_list_interview.php">FOR INTERVIEW</a>
             </strong>
             </button>
          </li>

@@ -19,7 +19,7 @@ $currentStatus = mysqli_real_escape_string($conn, $currentStatus);
    $query = "SELECT t.*, UPPER(p.first_name) AS first_name, UPPER(p.last_name) AS last_name, UPPER(p.barangay) AS barangay, p.control_number, p.date_of_birth, UPPER(t.status) AS status
    FROM ceap_reg_form p
    INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
-   WHERE p.barangay = ? AND t.status = ?";
+   WHERE p.barangay = ? AND t.status = ? AND t.is_grantee = 0";
    $stmt = mysqli_prepare($conn, $query);
    mysqli_stmt_bind_param($stmt, "ss", $currentBarangay, $currentStatus);
    mysqli_stmt_execute($stmt);

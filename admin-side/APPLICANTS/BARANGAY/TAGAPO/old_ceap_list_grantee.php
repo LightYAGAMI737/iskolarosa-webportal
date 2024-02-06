@@ -18,15 +18,15 @@
 $currentStatus = mysqli_real_escape_string($conn, $currentStatus);
    
    $query = "SELECT t.*, 
-   UPPER(p.first_name) AS first_name, 
-   UPPER(p.last_name) AS last_name, 
-   UPPER(p.barangay) AS barangay, 
-   p.control_number, 
-   p.date_of_birth, t.is_grantee,
-   UPPER(t.status) AS status
-FROM ceap_reg_form p
-INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
-WHERE p.barangay = ? AND t.status = ? AND t.is_grantee = 1;";
+          UPPER(p.first_name) AS first_name, 
+          UPPER(p.last_name) AS last_name, 
+          UPPER(p.barangay) AS barangay, 
+          p.control_number, 
+          p.date_of_birth, t.is_grantee,
+          UPPER(t.status) AS status
+   FROM ceap_reg_form p
+   INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
+   WHERE p.barangay = ? AND t.status = ? AND t.is_grantee = 1;";
    $stmt = mysqli_prepare($conn, $query);
    mysqli_stmt_bind_param($stmt, "ss", $currentBarangay, $currentStatus);
    mysqli_stmt_execute($stmt);
@@ -52,7 +52,8 @@ WHERE p.barangay = ? AND t.status = ? AND t.is_grantee = 1;";
       <!-- home content-->    
       <div class="form-group">
          <input type="text" name="search" class="form-control" id="search" placeholder="Search by Control Number or Last name"  oninput="formatInput(this)">
-               </div>
+          
+      </div>
       <!-- table for displaying the applicant list -->
       <div class="background">
          <h2 style="text-align: center">CEAP OLD GRANTEE LIST</h2>
@@ -80,7 +81,7 @@ WHERE p.barangay = ? AND t.status = ? AND t.is_grantee = 1;";
                   
                            // Display applicant info using a table
                            while ($row = mysqli_fetch_assoc($result)) {
-                              echo '<tr class="applicant-row contents" onclick="seeMore(\'' . $row['ceap_personal_account_id'] . '\')" style="cursor: pointer;">';
+                              echo '<tr class="applicant-row contents" onclick="seeMore(\'' . $row['ceap_reg_form_id'] . '\')" style="cursor: pointer;">';
                               echo '<td><strong>' . $counter++ . '</strong></td>';
                               echo '<td>' . strtoupper($row['control_number']) . '</td>';
                               echo '<td>' . strtoupper($row['last_name']) . '</td>';
@@ -109,7 +110,7 @@ WHERE p.barangay = ? AND t.status = ? AND t.is_grantee = 1;";
       <script>
          function seeMore(id) {
              // Redirect to a page where you can retrieve the reserved data based on the given ID
-             window.location.href = "old_ceap_information.php?ceap_personal_account_id=" + id;
+             window.location.href = "ceap_information.php?ceap_reg_form_id=" + id;
          }
          
       </script>

@@ -168,7 +168,8 @@
                 ?>
 
          <input type="text" name="search" class="form-control" id="search" placeholder="Search by Control Number or Last name"  oninput="formatInput(this)">
-               </div>
+         
+      </div>
       <!-- Reschedule Modal (hidden by default) -->
       <div id="myModal" class="modal">
          <div class="modal-content">
@@ -258,7 +259,7 @@
                            // Display applicant info using a table
                            while ($row = mysqli_fetch_assoc($result)) {
                               // Inside the loop that displays applicant info
-                              echo '<tr class="applicant-row contents" data-interview-date="' . $row['interview_date'] . '" onclick="seeMore(\'' . $row['ceap_personal_account_id'] . '\')" style="cursor: pointer;">';
+                              echo '<tr class="applicant-row contents" data-interview-date="' . $row['interview_date'] . '" onclick="seeMore(\'' . $row['ceap_reg_form_id'] . '\')" style="cursor: pointer;">';
                                  echo '<td><strong>' . $counter++ . '</strong></td>';
                               echo '<td>' . strtoupper($row['control_number']) . '</td>';
                               echo '<td>' . strtoupper($row['last_name']) . '</td>';
@@ -293,7 +294,7 @@
       <script>
          function seeMore(id) {
              // Redirect to a page where you can retrieve the reserved data based on the given ID
-             window.location.href = "old_ceap_information.php?ceap_personal_account_id=" + id;
+             window.location.href = "ceap_information.php?ceap_reg_form_id=" + id;
          }
          
       </script>

@@ -54,7 +54,7 @@ $currentStatus = mysqli_real_escape_string($conn, $currentStatus);
           UPPER(t.reason) AS reason
    FROM ceap_reg_form p
    INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
-   WHERE p.barangay = ? AND t.status = ?";
+   WHERE p.barangay = ? AND t.status = ? AND t.is_grantee = 0";
 
    $stmt = mysqli_prepare($conn, $query);
    mysqli_stmt_bind_param($stmt, "ss", $currentBarangay, $currentStatus);

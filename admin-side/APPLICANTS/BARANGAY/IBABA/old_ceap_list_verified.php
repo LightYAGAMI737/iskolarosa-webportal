@@ -4,6 +4,7 @@
    include '../../../php/config_iskolarosa_db.php';
    include '../../../php/functions.php';
    
+   
    // Description: This script handles permission checks and retrieves applicant information.
    
    // Check if the session is not set (user is not logged in)
@@ -34,50 +35,50 @@
        exit();
    }
    
-   date_default_timezone_set('Asia/Manila');
+   // Set variables
+   $currentStatus = 'Verified';
+   $currentPage = 'ceap_list';
+   $currentSubPage = 'old applicant';
 
-  // Set variables
-$currentStatus = 'Verified';
-$currentPage = 'ceap_list';
-$currentSubPage = 'old applicant';
-
-$currentDirectory = basename(__DIR__);
+   $currentDirectory = basename(__DIR__);
 $currentBarangay = $currentDirectory;
 
 // Assuming $currentStatus is also a variable you need to sanitize
 $currentStatus = mysqli_real_escape_string($conn, $currentStatus);
 
-// Construct the SQL query using heredoc syntax
-$query = <<<SQL
- SELECT t.*, 
+// Prepare the SQL query using prepared statements
+$query = "SELECT t.*, 
           UPPER(p.first_name) AS first_name, 
           UPPER(p.last_name) AS last_name, 
           UPPER(p.barangay) AS barangay, 
           p.control_number, 
-          p.date_of_birth, t.is_grantee,
+          p.date_of_birth, 
           UPPER(t.status) AS status
    FROM ceap_reg_form p
    INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
-   WHERE p.barangay = ? AND t.status = ? AND t.is_grantee = 1;
-SQL;
+   WHERE p.barangay = ? AND  t.status = ? AND t.is_grantee = 1";
 
 $stmt = mysqli_prepare($conn, $query);
 mysqli_stmt_bind_param($stmt, "ss", $currentBarangay, $currentStatus);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
+   
 
-// Query to count 'verified' accounts
-$verifiedCountQueryOLD = "SELECT COUNT(*) AS verifiedCount FROM ceap_personal_account WHERE status = ? AND barangay= ?";
-$stmtVerifiedCountOLD = mysqli_prepare($conn, $verifiedCountQueryOLD);
-mysqli_stmt_bind_param($stmtVerifiedCountOLD, "ss", $currentStatus, $currentBarangay);
-mysqli_stmt_execute($stmtVerifiedCountOLD);
-$verifiedCountResultOLD = mysqli_stmt_get_result($stmtVerifiedCountOLD);
-$verifiedCountRowOLD = mysqli_fetch_assoc($verifiedCountResultOLD);
+$verifiedCountQuery = "SELECT COUNT(*) AS verifiedCount, UPPER(p.barangay) AS barangay, UPPER(t.status) AS status
+FROM ceap_reg_form p
+INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
+WHERE p.barangay = ? AND  t.status = ? AND t.is_grantee = 1";
 
-// Store the count of 'verified' accounts in a variable
-$verifiedCountOLD = $verifiedCountRowOLD['verifiedCount'];
+$stmtVerifiedCount = mysqli_prepare($conn, $verifiedCountQuery);
+mysqli_stmt_bind_param($stmtVerifiedCount, "ss", $currentBarangay, $currentStatus);
+mysqli_stmt_execute($stmtVerifiedCount);
+$verifiedCountResult = mysqli_stmt_get_result($stmtVerifiedCount);
+$verifiedCountRow = mysqli_fetch_assoc($verifiedCountResult);
 
-?>
+   // Store the count of 'verified' accounts in a variable
+   $verifiedCount = $verifiedCountRow['verifiedCount'];
+   
+   ?>
 <!DOCTYPE html>
 <html lang="en" >
    <head>
@@ -89,7 +90,8 @@ $verifiedCountOLD = $verifiedCountRowOLD['verifiedCount'];
       <link rel="stylesheet" href="../../../css/side_bar.css">
       <link rel="stylesheet" href="../../../css/ceap_list.css">
       <link rel="stylesheet" href="../../../css/ceap_verified.css">
-      <link rel="stylesheet" href="../../../css/status_popup.css"> 
+      <link rel="stylesheet" href="../../../css/status_popup.css">
+
       <script>
          // Prevent manual input in date fields
          function preventInput(event) {
@@ -99,50 +101,51 @@ $verifiedCountOLD = $verifiedCountRowOLD['verifiedCount'];
    </head>
    <body>
       <?php 
-         include '../../../php/status_popup_old.php';
+         include '../../../php/status_popup.php';
          include '../../../php/confirmStatusPopUp.php';
          include '../../side_bar_barangay_old.php';
          ?>
       <!-- home content--> 
       <!-- search bar and set interview modal -->   
       <div class="form-group">
-      <?php
-// Function to check if there are verified applicants
-function hasVerifiedStatusOLD($conn, $currentBarangay, $currentStatus) {
-    $query = "SELECT COUNT(*) FROM ceap_personal_account
-              WHERE status = ? AND UPPER(barangay) = ?";
-    $stmt = mysqli_prepare($conn, $query);
-
-    if (!$stmt) {
-        error_log("Error preparing statement: " . mysqli_error($conn));
-        return false;
+         <?php
+            // Check if the user's role is not "Staff"
+            if ($_SESSION['role'] !== 1) {
+                // Only display the button if the user's role is not "Staff" and there are verified applicants
+                $hasVerifiedStatus = hasVerifiedStatusInDatabase($conn, $currentBarangay, $currentStatus);
+                if ($hasVerifiedStatus) {
+                    echo '<button type="button" class="btn btn-primary btn-rad" id="openModalBtn">Set Interview</button>';
+                } else {
+                    echo '<button type="button" class="btn btn-primary btn-rad" id="openModalBtn" disabled style="background-color: #ccc; cursor: not-allowed;">Set Interview</button>';
+                }
+            }
+            ?>
+         <input type="text" name="search-bar" class="form-control" id="search" placeholder="Search by Control Number or Last name"  oninput="formatInput(this)">
+         
+         <!-- Add a button to trigger the modal -->
+         <?php
+     function hasVerifiedStatusInDatabase($conn, $currentBarangay, $currentStatus) {
+        // Prepare the SQL query using prepared statements
+        $query = "SELECT COUNT(*) FROM temporary_account AS t
+                  INNER JOIN ceap_reg_form AS p ON t.ceap_reg_form_id = p.ceap_reg_form_id
+                  WHERE  t.status = ? AND t.is_grantee = 1 AND UPPER(p.barangay) = ?";
+    
+        $stmt = mysqli_prepare($conn, $query);
+        mysqli_stmt_bind_param($stmt, "ss", $currentStatus, $currentBarangay);
+        if (mysqli_stmt_execute($stmt)) {
+            $result = mysqli_stmt_get_result($stmt);
+            $count = mysqli_fetch_row($result)[0];
+            mysqli_stmt_close($stmt);
+            return $count > 0;
+        } else {
+            echo "Error: " . mysqli_error($conn);
+            mysqli_stmt_close($stmt);
+            return false;
+        }
+        
     }
-
-    mysqli_stmt_bind_param($stmt, "ss", $currentStatus, $currentBarangay);
-
-    if (mysqli_stmt_execute($stmt)) {
-        $result = mysqli_stmt_get_result($stmt);
-        $count = mysqli_fetch_row($result)[0];
-        mysqli_stmt_close($stmt);
-        return $count > 0;
-    } else {
-        error_log("Error executing statement: " . mysqli_error($conn));
-        mysqli_stmt_close($stmt);
-        return false;
-    }
-}
-
-// Check user role and display the button accordingly
-if ($_SESSION['role'] !== 1) {
-    $buttonHTML = hasVerifiedStatusOLD($conn, $currentBarangay, $currentStatus)
-        ? '<button type="button" class="btn btn-primary btn-rad" id="openModalBtn">Set Interview</button>'
-        : '<button type="button" class="btn btn-primary btn-rad" id="openModalBtn" disabled style="background-color: #ccc; cursor: not-allowed;">Set Interview</button>';
-
-    echo $buttonHTML;
-}
-?>
-         <input type="text" name="search" class="form-control" id="search" placeholder="Search by Control Number or Last name"  oninput="formatInput(this)">
-                  <!-- Add a button to trigger the modal -->
+    
+             ?>
       </div>
       <!-- Set Interview Modal (hidden by default) -->
       <div id="myModal" class="modal">
@@ -191,7 +194,7 @@ if ($_SESSION['role'] !== 1) {
                   <span id="error-message" style="text-align: center; display: flex; justify-content: center;"></span>
                   <div class="form-group">
                      <label for="limit">Qty.</label>
-                     <input type="number" class="form-control" name="limit" id="limit" min="1" max="<?php echo $verifiedCountOLD; ?>" required>
+                     <input type="number" class="form-control" name="limit" id="limit" min="1" max="<?php echo $verifiedCount; ?>" required>
                   </div>
                   <span id="error-message-limit" style="text-align: center; display: flex; justify-content: center;"></span>
                   <div class="form-group">
@@ -229,13 +232,13 @@ if ($_SESSION['role'] !== 1) {
                   
                            // Display applicant info using a table
                            while ($row = mysqli_fetch_assoc($result)) {
-                              echo '<tr class="applicant-row contents" onclick="seeMore(\'' . $row['ceap_personal_account_id'] . '\')" style="cursor: pointer;">';
+                              echo '<tr class="applicant-row contents" onclick="seeMore(\'' . $row['ceap_reg_form_id'] . '\')" style="cursor: pointer;">';
                               echo '<td><strong>' . $counter++ . '</strong></td>';
                               echo '<td>' . strtoupper($row['control_number']) . '</td>';
                               echo '<td>' . strtoupper($row['last_name']) . '</td>';
                               echo '<td>' . strtoupper($row['first_name']) . '</td>';
-                              // echo '<td>' . strtoupper($row['barangay']) . '</td>';
-                              // echo '<td>' . strtoupper($row['status']) . '</td>';
+                            //   echo '<td>' . strtoupper($row['barangay']) . '</td>';
+                            //   echo '<td>' . strtoupper($row['status']) . '</td>';
                               echo '</tr>';
                            }
                            ?>
@@ -257,47 +260,39 @@ if ($_SESSION['role'] !== 1) {
       <script  src="../../../js/side_bar.js"></script>
       <script  src="../../../js/status_popup.js"></script>
       <script  src="../../../js/VerifiedandInterview.js"></script>
-      <script  src="../../../js/updateStatusInterviewOLD.js"></script>
-
-      <script>
-         function seeMore(id) {
-             // Redirect to a page where you can retrieve the reserved data based on the given ID
-             window.location.href = "old_ceap_information.php?ceap_personal_account_id=" + id;
-         }
-         
-      </script>
+      <script  src="../../../js/updateStatusInterview.js"></script>
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      <script>
-         $(document).ready(function() {
-             // Add an event listener to the search input field
-             $('#search').on('input', function() {
-                 searchApplicants();
-             });
-         });
-         
-         function searchApplicants() {
-             var searchValue = $('#search').val().toUpperCase();
-             var found = false; // Flag to track if any matching applicant is found
-             $('.contents').each(function () {
-                 var controlNumber = $(this).find('td:nth-child(2)').text().toUpperCase();
-                 var lastName = $(this).find('td:nth-child(3)').text().toUpperCase();
-                 if (searchValue.trim() === '' || controlNumber.includes(searchValue) || lastName.includes(searchValue)) {
-                     $(this).show();
-                     found = true;
-                 } else {
-                     $(this).hide();
-                 }
-             });
-         
-             // Display "No applicant found" message if no matching applicant is found
-             if (!found) {
-                 $('#noApplicantFound').show();
-             } else {
-                 $('#noApplicantFound').hide();
-             }
-         }
-      </script>
-      
+<script>
+$(document).ready(function() {
+// Add an event listener to the search input field
+$('#search').on('input', function() {
+  searchApplicants();
+});
+});
+
+function searchApplicants() {
+var searchValue = $('#search').val().toUpperCase();
+var found = false; // Flag to track if any matching applicant is found
+$('.contents').each(function () {
+  var controlNumber = $(this).find('td:nth-child(2)').text().toUpperCase();
+  var lastName = $(this).find('td:nth-child(3)').text().toUpperCase();
+  if (searchValue.trim() === '' || controlNumber.includes(searchValue) || lastName.includes(searchValue)) {
+      $(this).show();
+      found = true;
+  } else {
+      $(this).hide();
+  }
+});
+
+// Display "No applicant found" message if no matching applicant is found
+if (!found) {
+  $('#noApplicantFound').show();
+} else {
+  $('#noApplicantFound').hide();
+}
+}
+</script>
+
       <script>
          // Get modal elements using plain JavaScript
          var modal = document.getElementById("myModal");
@@ -398,7 +393,7 @@ function validateLimitInput() {
     const isLimitValid =
         !isNaN(limit) &&
         limit >= 1 &&
-        limit <= <?php echo $verifiedCountOLD; ?>;
+        limit <= <?php echo $verifiedCount; ?>;
 
     // Add or remove 'invalid' class based on validation
     if (isLimitValid) {
@@ -406,7 +401,7 @@ function validateLimitInput() {
         errorMessageLimit.textContent = '';
     } else {
         limitInput.classList.add('invalid');
-        errorMessageLimit.textContent = 'Quantity cannot exceed to <?php echo $verifiedCountOLD; ?>.';
+        errorMessageLimit.textContent = 'Quantity cannot exceed to <?php echo $verifiedCount; ?>.';
         errorMessageLimit.style.color = 'red';
     }
 }
@@ -436,14 +431,7 @@ requiredInputs.forEach((input) => {
 // Initial check
 checkRequiredInputs();
 
-         // function formatInput(inputElement) {
-         //     // Remove multiple consecutive white spaces
-         //     inputElement.value = inputElement.value.replace(/\s+/g, ' ');
-         
-         //     // Convert input text to uppercase
-         //     inputElement.value = inputElement.value.toUpperCase();
-         //   }
-         
-      </script>
+</script>
+
    </body>
 </html>

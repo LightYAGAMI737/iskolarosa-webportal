@@ -83,7 +83,8 @@ $result = mysqli_stmt_get_result($stmt);
       <!-- home content-->    
       <div class="form-group">
          <input type="text" name="search" class="form-control" id="search" placeholder="Search by Control Number or Last name" oninput="formatInput(this)">
-               </div>
+          
+      </div>
       <!-- table for displaying the applicant list -->
       <div class="background">
          <h2 style="text-align: center">CEAP OLD GRANTEE LIST</h2>
@@ -112,7 +113,7 @@ $result = mysqli_stmt_get_result($stmt);
                   
                            // Display applicant info using a table
                            while ($row = mysqli_fetch_assoc($result)) {
-                              echo '<tr class="applicant-row contents" onclick="seeMore(\'' . $row['ceap_personal_account_id'] . '\')" style="cursor: pointer;">';
+                              echo '<tr class="applicant-row contents" onclick="seeMore(\'' . $row['ceap_reg_form_id'] . '\')" style="cursor: pointer;">';
                               echo '<td><strong>' . $counter++ . '</strong></td>';
                               echo '<td>' . strtoupper($row['control_number']) . '</td>';
                               echo '<td>' . strtoupper($row['last_name']) . '</td>';
@@ -143,7 +144,7 @@ $result = mysqli_stmt_get_result($stmt);
       <script>
          function seeMore(id) {
              // Redirect to a page where you can retrieve the reserved data based on the given ID
-             window.location.href = "old_ceap_information.php?ceap_personal_account_id=" + id;
+             window.location.href = "ceap_information.php?ceap_reg_form_id=" + id;
          }
          
       </script>
