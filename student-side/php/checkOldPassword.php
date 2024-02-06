@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userProvidedPassword = $_POST['oldPassword'];
 
     // Use a prepared statement to avoid SQL injection
-    $stmt = $conn->prepare("SELECT hashed_password FROM ceap_personal_account WHERE username = ?");
+    $stmt = $conn->prepare("SELECT hashed_password FROM temporary_account WHERE username = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $stmt->bind_result($hashedPasswordFromDatabase);

@@ -24,8 +24,9 @@ echo 'No applicant selected.';
 exit();
 }
 // Retrieve data from the ceap_personal_account table based on control_number
-$tempAccountSql = "SELECT *
-FROM ceap_personal_account p
+$tempAccountSql = "SELECT p.last_name, p.first_name, p.school_name,p.guardian_firstname,p.guardian_lastname,p.middle_name, p.suffix_name, p.control_number, t.status 
+FROM ceap_reg_form p
+JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id 
 WHERE p.control_number = ?";
 $stmt = mysqli_prepare($conn, $tempAccountSql);
 mysqli_stmt_bind_param($stmt, "s", $control_number);

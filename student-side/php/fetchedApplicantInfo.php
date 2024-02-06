@@ -5,8 +5,9 @@ if (isset($_SESSION['control_number'])) {
 $control_number = $_SESSION['control_number'];
 
 // Retrieve data from the ceap_personal_account table based on control_number
-$tempAccountSql = "SELECT *
-FROM ceap_personal_account p
+$tempAccountSql = "SELECT *, t.status
+FROM ceap_reg_form p
+JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id 
 WHERE p.control_number = ?";
 $stmt = mysqli_prepare($conn, $tempAccountSql);
 mysqli_stmt_bind_param($stmt, "s", $control_number);

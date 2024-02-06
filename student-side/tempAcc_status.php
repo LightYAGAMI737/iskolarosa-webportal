@@ -44,13 +44,13 @@
 
     // Prepare the second query
     $tempAccountSqlTable = "
-        SELECT DISTINCT p.last_name, p.first_name, p.control_number, t.status, t.reason, t.status_updated_at, t.interview_date, e.employee_username AS updated_by
-        FROM ceap_reg_form p
-        JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
-        LEFT JOIN applicant_status_logs l ON p.ceap_reg_form_id = l.ceap_reg_form_id
-        LEFT JOIN employee_logs e ON l.employee_logs_id = e.employee_logs_id
-        WHERE p.control_number = '$control_number'
-        ORDER BY t.status_updated_at DESC";
+    SELECT DISTINCT p.last_name, p.first_name, p.control_number, t.status, t.reason, t.status_updated_at, t.interview_date, e.employee_username AS updated_by, l.previous_status AS prevSTAT , l.updated_status AS currentSTAT
+    FROM ceap_reg_form p
+    JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
+    LEFT JOIN applicant_status_logs l ON p.ceap_reg_form_id = l.ceap_reg_form_id
+    LEFT JOIN employee_logs e ON l.employee_logs_id = e.employee_logs_id
+    WHERE p.control_number = '$control_number'
+    ORDER BY t.status_updated_at DESC";
 
     $stmtTable = mysqli_prepare($conn, $tempAccountSqlTable);
     mysqli_stmt_execute($stmtTable);
@@ -173,63 +173,67 @@
         </thead>
         <tbody>
             <?php
-                $interviewDisplayed = false; // Initialize the variable to track 'interview' status
+            $interviewDisplayed = false; // Initialize the variable to track 'interview' status
 
-                // Loop through the fetched data and populate the table
-                if ($tempAccountRow = mysqli_fetch_assoc($tempAccountResultTable)) {
-                    $status = $tempAccountRow['status'];
-                    $interview_date = $tempAccountRow['interview_date'];
-                    $interview_dateFormatted = date('F d, Y', strtotime($interview_date));
-                    $date = $tempAccountRow['status_updated_at'];
-                    $dateFormatted = date('F d, Y', strtotime($date));
-                    $updatedBy = $tempAccountRow['updated_by']; // You need to fetch and populate this value
-                    $reason = $tempAccountRow['reason'];
+            // Fetch all rows in an array
+            $tempAccountRows = mysqli_fetch_all($tempAccountResultTable, MYSQLI_ASSOC);
 
-                    switch ($status) {
-                        case 'In Progress':
-                            $description = 'Your application is currently under review.';
-                            break;
-                        case 'Disqualified':
-                            $description = 'Your application did not meet the requirements. Reason: ' . $reason;
-                            break;
-                        case 'Deleted':
-                            $description = 'Your account has been deleted.';
-                            break;
-                        case 'Fail':
-                            $description = 'Your application did not meet the requirements. Reason:' . $reason;
-                            break;
-                        case 'Verified':
-                            $description = 'Your documents have been verified.';
-                            break;
-                        case 'interview':
-                            if (!$interviewDisplayed) {
-                                $description = 'You have been scheduled for an interview on ' . $interview_dateFormatted;
-                                $interviewDisplayed = true; // Mark 'INTERVIEW' status as displayed
-                            } else {
-                                $description = ''; // Skip displaying 'INTERVIEW' status again
-                            }
-                            break;
-                        case 'Grantee':
-                            $description = 'Congratulations! You have been approved as a grantee.';
-                            break;
-                        default:
-                            $description = ''; // Handle other cases as needed
-                            break;
-                    }
-            
+            // Loop through the fetched data to display the current status and previous status
+            for ($i = 0; $i < count($tempAccountRows); $i++) {
+                $tempAccountRow = $tempAccountRows[$i];
+                $interview_date = $tempAccountRow['interview_date'];
+                $dateFormatted = date('F d, Y', strtotime($interview_date));
+                $status = $tempAccountRow['status']; // Fetch the current status
+                $updatedBy = $tempAccountRow['updated_by']; // You need to fetch and populate this value
+
+                // Check if this row has a previous status
+                if (!empty($tempAccountRow['prevSTAT'])) {
+                    // Display a new row for the previous status
                     echo '<tr>';
                     echo '<td data-label="Date:">' . $dateFormatted . '</td>';
-                    echo '<td data-label="Status:">' . strtoupper($status) . '</td>';
-                    echo '<td data-label="Description:">' . $description . '</td>'; // Use the variable here
-                    echo '<td data-label="Approved by:">' . $tempAccountRow['updated_by'] . '</td>';
+                    echo '<td data-label="Status:">' . strtoupper($tempAccountRow['prevSTAT']) . '</td>';
+                    echo '<td data-label="Description:">' . getDescription($tempAccountRow['prevSTAT'], $tempAccountRow['reason'], $dateFormatted) . '</td>';
+                    echo '<td data-label="Approved by:">' . $updatedBy . '</td>';
                     echo '</tr>';
-
                 }
+            }
+
+                // Display the current status row
+                echo '<tr>';
+                echo '<td data-label="Date:">' . $dateFormatted . '</td>';
+                echo '<td data-label="Status:">' . strtoupper($status) . '</td>';
+                echo '<td data-label="Description:">' . getDescription($status, $tempAccountRow['reason'], $dateFormatted) . '</td>';
+                echo '<td data-label="Approved by:">' . $updatedBy . '</td>';
+                echo '</tr>';
+
+            // Function to get the description based on the status
+            function getDescription($status, $reason, $dateFormatted) {
+                switch ($status) {
+                    case 'In Progress':
+                        return 'Your application is currently under review.';
+                    case 'Disqualified':
+                        return 'Your application did not meet the requirements. Reason: ' . $reason;
+                    case 'Deleted':
+                        return 'Your account has been deleted.';
+                    case 'Fail':
+                        return 'Your application did not meet the requirements. Reason:' . $reason;
+                    case 'Verified':
+                        return 'Your documents have been verified.';
+                    case 'interview':
+                        global $interviewDisplayed; // Use global variable
+                        return (!$interviewDisplayed) ? 'You have been scheduled for an interview on ' . $dateFormatted : '';
+                    case 'Grantee':
+                        return 'Congratulations! You have been approved as a grantee.';
+                    default:
+                        return ''; // Handle other cases as needed
+                }
+            }
             ?>
         </tbody>
     </table>
 </div>
-      </div>
+
+
 
       <script src="./js/bootstrap.min.js"></script>
 
