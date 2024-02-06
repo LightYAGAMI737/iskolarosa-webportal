@@ -49,9 +49,16 @@
    
    // Construct the SQL query using heredoc syntax
    $query = <<<SQL
-   SELECT * 
-   FROM ceap_personal_account 
-   WHERE barangay = ? AND status = ?
+   SELECT t.*, 
+          UPPER(p.first_name) AS first_name, 
+          UPPER(p.last_name) AS last_name, 
+          UPPER(p.barangay) AS barangay, 
+          p.control_number, 
+          p.date_of_birth, t.is_grantee,
+          UPPER(t.status) AS status
+   FROM ceap_reg_form p
+   INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
+   WHERE p.barangay = ? AND t.status = ? AND t.is_grantee = 1;
    SQL;
    
    $stmt = mysqli_prepare($conn, $query);
@@ -161,7 +168,7 @@
                 ?>
 
          <input type="text" name="search" class="form-control" id="search" placeholder="Search by Control Number or Last name"  oninput="formatInput(this)">
-      </div>
+               </div>
       <!-- Reschedule Modal (hidden by default) -->
       <div id="myModal" class="modal">
          <div class="modal-content">

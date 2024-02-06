@@ -43,16 +43,16 @@ $currentBarangay = $currentDirectory;
 $currentStatus = mysqli_real_escape_string($conn, $currentStatus);
 
 $query = <<<SQL
-   SELECT  
-          UPPER(first_name) AS first_name, 
-          UPPER(last_name) AS last_name, 
-          UPPER(barangay) AS barangay, 
-          control_number, 
-          date_of_birth, 
-          UPPER(status) AS status,
-          ceap_personal_account_id
-   FROM ceap_personal_account p
-   WHERE p.barangay = ? AND p.status = ?;
+   SELECT t.*, 
+          UPPER(p.first_name) AS first_name, 
+          UPPER(p.last_name) AS last_name, 
+          UPPER(p.barangay) AS barangay, 
+          p.control_number, 
+          p.date_of_birth, t.is_grantee,
+          UPPER(t.status) AS status
+   FROM ceap_reg_form p
+   INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
+   WHERE p.barangay = ? AND t.status = ? AND t.is_grantee = 1;
 SQL;
 
 $stmt = mysqli_prepare($conn, $query);
@@ -108,7 +108,7 @@ $result = mysqli_stmt_get_result($stmt);
                   
                            // Display applicant info using a table
                            while ($row = mysqli_fetch_assoc($result)) {
-                              echo '<tr class="applicant-row contents" onclick="seeMore(\'' . $row['ceap_personal_account_id'] . '\')" style="cursor: pointer;">';
+                              echo '<tr class="applicant-row contents" onclick="seeMore(\'' . $row['ceap_reg_form_id'] . '\')" style="cursor: pointer;">';
                               echo '<td><strong>' . $counter++ . '</strong></td>';
                               echo '<td>' . strtoupper($row['control_number']) . '</td>';
                               echo '<td>' . strtoupper($row['last_name']) . '</td>';
@@ -136,7 +136,7 @@ $result = mysqli_stmt_get_result($stmt);
       <script>
          function seeMore(id) {
              // Redirect to a page where you can retrieve the reserved data based on the given ID
-             window.location.href = "old_ceap_information.php?ceap_personal_account_id=" + id;
+             window.location.href = "old_ceap_information.php?ceap_reg_form_id=" + id;
          }
          
       </script>

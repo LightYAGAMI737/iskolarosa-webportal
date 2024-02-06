@@ -11,16 +11,16 @@
    $currentPage = 'ceap_list';
    $currentSubPage = 'old applicant';
    
-   // Get the ceap_personal_account_id parameter from the URL
-   if (isset($_GET['ceap_personal_account_id'])) {
-       $ceapRegFormIdOLD = $_GET['ceap_personal_account_id'];
+   // Get the ceap_reg_form_id parameter from the URL
+   if (isset($_GET['ceap_reg_form_id'])) {
+       $ceapRegFormIdOLD = $_GET['ceap_reg_form_id'];
    } else {
        echo 'No applicant selected.';
        exit();
    }
    
-   $id = $_GET['ceap_personal_account_id'];
-   $query = "SELECT * FROM ceap_personal_account WHERE ceap_personal_account_id = ?";
+   $id = $_GET['ceap_reg_form_id'];
+   $query = "SELECT * FROM ceap_reg_form WHERE ceap_reg_form_id = ?";
    $stmt = mysqli_prepare($conn, $query);
    mysqli_stmt_bind_param($stmt, "i", $id); // "i" indicates an integer parameter
    mysqli_stmt_execute($stmt);
@@ -83,7 +83,7 @@
             <i><i class="ri-close-circle-line"></i></i>
             </a>
          </div>
-         <!-- Table for displaying the applicant updates -->
+         <!-- Table for displaying the applicant updates
          <div class="applicant-info">
             <h2>Updated Information</h2>
             <table class="updated-info-table">
@@ -93,66 +93,66 @@
                   <th>New Information</th>
                   <th>Updated On</th>
                </tr>
-               <?php
-                  // Define a mapping between field names and labels
-                  $fieldLabels = [
-                  'guardian_firstname' => 'Guardian First Name',
-                  'guardian_lastname' => 'Guardian Last Name',
-                  'guardian_occupation' => 'Guardian Occupation',
-                  'guardian_relationship' => 'Guardian Relationship',
-                  'guardian_monthly_income' => 'Guardian Monthly Income',
-                  'guardian_annual_income' => 'Guardian Annual Income',
-                  'elementary_school' => 'Elementary School',
-                  'elementary_year' => 'Elementary Year',
-                  'elementary_honors' => 'Elementary Honors',
-                  'secondary_school' => 'Secondary School',
-                  'secondary_year' => 'Secondary Year',
-                  'secondary_honors' => 'Secondary Honors',
-                  'senior_high_school' => 'Senior High School',
-                  'senior_high_year' => 'Senior High Year',
-                  'senior_high_honors' => 'Senior High Honors',
-                  'course_enrolled' => 'Course Enrolled',
-                  'no_of_units' => 'Number of Units',
-                  'year_level' => 'Year Level',
-                  'current_semester' => 'Current Semester',
-                  'graduating' => 'Graduating',
-                  'school_name' => 'School Name',
-                  'school_type' => 'School Type',
-                  'expected_year_of_graduation' => 'Expected Year of Graduation',
-                  'school_address' => 'School Address',
-                  'student_id_no' => 'Student ID Number',
+              // <?php
+                  // // Define a mapping between field names and labels
+                  // $fieldLabels = [
+                  // 'guardian_firstname' => 'Guardian First Name',
+                  // 'guardian_lastname' => 'Guardian Last Name',
+                  // 'guardian_occupation' => 'Guardian Occupation',
+                  // 'guardian_relationship' => 'Guardian Relationship',
+                  // 'guardian_monthly_income' => 'Guardian Monthly Income',
+                  // 'guardian_annual_income' => 'Guardian Annual Income',
+                  // 'elementary_school' => 'Elementary School',
+                  // 'elementary_year' => 'Elementary Year',
+                  // 'elementary_honors' => 'Elementary Honors',
+                  // 'secondary_school' => 'Secondary School',
+                  // 'secondary_year' => 'Secondary Year',
+                  // 'secondary_honors' => 'Secondary Honors',
+                  // 'senior_high_school' => 'Senior High School',
+                  // 'senior_high_year' => 'Senior High Year',
+                  // 'senior_high_honors' => 'Senior High Honors',
+                  // 'course_enrolled' => 'Course Enrolled',
+                  // 'no_of_units' => 'Number of Units',
+                  // 'year_level' => 'Year Level',
+                  // 'current_semester' => 'Current Semester',
+                  // 'graduating' => 'Graduating',
+                  // 'school_name' => 'School Name',
+                  // 'school_type' => 'School Type',
+                  // 'expected_year_of_graduation' => 'Expected Year of Graduation',
+                  // 'school_address' => 'School Address',
+                  // 'student_id_no' => 'Student ID Number',
                   
                   // Add more field names and labels as needed
-                  ];
+                //  ];
                   
                   // Query the update history for this applicant
-                  $queryUpdateHistory = "SELECT FieldToUpdate, OldValue, NewValue, UpdatedOn FROM ceap_applicantupdates WHERE ceap_personal_account_id = ?";
-                  $stmtUpdateHistory = mysqli_prepare($conn, $queryUpdateHistory);
-                  mysqli_stmt_bind_param($stmtUpdateHistory, "i", $id);
-                  mysqli_stmt_execute($stmtUpdateHistory);
-                  $resultUpdateHistory = mysqli_stmt_get_result($stmtUpdateHistory);
+                  // $queryUpdateHistory = "SELECT FieldToUpdate, OldValue, NewValue, UpdatedOn FROM ceap_applicantupdates WHERE ceap_reg_form_id = ?";
+                  // $stmtUpdateHistory = mysqli_prepare($conn, $queryUpdateHistory);
+                  // mysqli_stmt_bind_param($stmtUpdateHistory, "i", $id);
+                  // mysqli_stmt_execute($stmtUpdateHistory);
+                  // $resultUpdateHistory = mysqli_stmt_get_result($stmtUpdateHistory);
                   
-                  // Display update history in the table
-                  while ($rowUpdateHistory = mysqli_fetch_assoc($resultUpdateHistory)) {
-                  $fieldToUpdate = $rowUpdateHistory['FieldToUpdate'];
-                  $oldValue = $rowUpdateHistory['OldValue'];
-                  $newValue = $rowUpdateHistory['NewValue'];
-                  $label = isset($fieldLabels[$fieldToUpdate]) ? $fieldLabels[$fieldToUpdate] : $fieldToUpdate; // Get the label or use field name if not found
+                  // // Display update history in the table
+                  // while ($rowUpdateHistory = mysqli_fetch_assoc($resultUpdateHistory)) {
+                  // $fieldToUpdate = $rowUpdateHistory['FieldToUpdate'];
+                  // $oldValue = $rowUpdateHistory['OldValue'];
+                  // $newValue = $rowUpdateHistory['NewValue'];
+                  // $label = isset($fieldLabels[$fieldToUpdate]) ? $fieldLabels[$fieldToUpdate] : $fieldToUpdate; // Get the label or use field name if not found
                   
-                  echo '<tr>';
-                  echo '<td>' . $label . '</td>';
-                  echo '<td>' . $oldValue . '</td>';
-                  echo '<td>' . $newValue . '</td>';
-                  echo '<td>' . $rowUpdateHistory['UpdatedOn'] . '</td>';
-                  echo '</tr>';
-                  }
+                  // echo '<tr>';
+                  // echo '<td>' . $label . '</td>';
+                  // echo '<td>' . $oldValue . '</td>';
+                  // echo '<td>' . $newValue . '</td>';
+                  // echo '<td>' . $rowUpdateHistory['UpdatedOn'] . '</td>';
+                  // echo '</tr>';
+                  // }
                   
-                  mysqli_stmt_close($stmtUpdateHistory);
+                  // mysqli_stmt_close($stmtUpdateHistory);
                   
-                    ?>
+                  //   ?>
             </table>
          </div>
-         <br>
+         <br> -->
          <!-- Table 1: Personal Info -->
          <div class="applicant-info">
             <h2 style="margin-top: -55px;">Personal Information</h2>
@@ -164,7 +164,7 @@
                   'active_email_address', 'house_number', 'province', 'municipality', 'barangay'
                   ])) : ?>
                <tr>
-               <th><?php echo ucwords(str_replace('_', ' ', $field)) . ': '; ?></th>
+                  <th><?php echo ucwords(str_replace('_', ' ', $field)) . ': '; ?></th>
                   <td>
                      <?php
                         if ($field === 'date_of_birth') {
@@ -198,7 +198,7 @@
                         ?>
                   </td>
                </tr>
-               <?php endif; ?>
+<?php endif; ?>
                <?php endif; ?>
                <?php endforeach; ?>
             </table>
@@ -399,7 +399,7 @@ foreach ($pdfFiles as $key => $pdfFile) {
       <footer class="footer">
          <?php
             // Fetch the applicant's status from the database
-            $query = "SELECT status FROM ceap_personal_account WHERE ceap_personal_account_id = ?";
+            $query = "SELECT status FROM temporary_account WHERE ceap_reg_form_id = ?";
             $stmt = mysqli_prepare($conn, $query);
             mysqli_stmt_bind_param($stmt, "i", $id);
             mysqli_stmt_execute($stmt);

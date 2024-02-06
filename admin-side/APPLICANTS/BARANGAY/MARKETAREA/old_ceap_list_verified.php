@@ -49,15 +49,16 @@ $currentStatus = mysqli_real_escape_string($conn, $currentStatus);
 
 // Construct the SQL query using heredoc syntax
 $query = <<<SQL
-   SELECT *, 
-          UPPER(first_name) AS first_name, 
-          UPPER(last_name) AS last_name, 
-          UPPER(barangay) AS barangay, 
-          control_number, 
-          date_of_birth, 
-          UPPER(status) AS status
-   FROM ceap_personal_account p
-   WHERE p.barangay = ? AND p.status = ?;
+ SELECT t.*, 
+          UPPER(p.first_name) AS first_name, 
+          UPPER(p.last_name) AS last_name, 
+          UPPER(p.barangay) AS barangay, 
+          p.control_number, 
+          p.date_of_birth, t.is_grantee,
+          UPPER(t.status) AS status
+   FROM ceap_reg_form p
+   INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
+   WHERE p.barangay = ? AND t.status = ? AND t.is_grantee = 1;
 SQL;
 
 $stmt = mysqli_prepare($conn, $query);
@@ -141,7 +142,7 @@ if ($_SESSION['role'] !== 1) {
 }
 ?>
          <input type="text" name="search" class="form-control" id="search" placeholder="Search by Control Number or Last name"  oninput="formatInput(this)">
-         <!-- Add a button to trigger the modal -->
+                  <!-- Add a button to trigger the modal -->
       </div>
       <!-- Set Interview Modal (hidden by default) -->
       <div id="myModal" class="modal">

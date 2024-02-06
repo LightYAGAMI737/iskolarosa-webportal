@@ -17,9 +17,16 @@
 $currentStatus = mysqli_real_escape_string($conn, $currentStatus);
    // Retrieve applicant info using JOIN query for the specified barangay
    // Modify the SQL query to include the selected barangay
-   $query = "SELECT *
-   FROM ceap_personal_account 
-   WHERE barangay = ? AND status = ?";
+   $query = "SELECT t.*, 
+          UPPER(p.first_name) AS first_name, 
+          UPPER(p.last_name) AS last_name, 
+          UPPER(p.barangay) AS barangay, 
+          p.control_number, 
+          p.date_of_birth, 
+          UPPER(t.status) AS status
+   FROM ceap_reg_form p
+   INNER JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
+   WHERE p.barangay = ? AND t.status = ?";
    $stmt = mysqli_prepare($conn, $query);
    mysqli_stmt_bind_param($stmt, "ss", $currentBarangay, $currentStatus);
    mysqli_stmt_execute($stmt);
@@ -73,7 +80,7 @@ $currentStatus = mysqli_real_escape_string($conn, $currentStatus);
                   
                            // Display applicant info using a table
                            while ($row = mysqli_fetch_assoc($result)) {
-                              echo '<tr class="applicant-row contents" onclick="seeMore(\'' . $row['ceap_personal_account_id'] . '\')" style="cursor: pointer;">';
+                              echo '<tr class="applicant-row contents" onclick="seeMore(\'' . $row['ceap_reg_form_id'] . '\')" style="cursor: pointer;">';
                               echo '<td><strong>' . $counter++ . '</strong></td>';
                               echo '<td>' . strtoupper($row['control_number']) . '</td>';
                               echo '<td>' . strtoupper($row['last_name']) . '</td>';
@@ -103,7 +110,7 @@ $currentStatus = mysqli_real_escape_string($conn, $currentStatus);
       <script>
          function seeMore(id) {
              // Redirect to a page where you can retrieve the reserved data based on the given ID
-             window.location.href = "old_ceap_information.php?ceap_personal_account_id=" + id;
+             window.location.href = "old_ceap_information.php?ceap_reg_form_id=" + id;
          }
          
       </script>
