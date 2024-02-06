@@ -23,10 +23,7 @@ try {
         } else {
             throw new Exception("Error updating data in temporary_account table: " . $conn->error);
         }
-    } else {
-        // Handle the case when no records are found for processing
-        echo "No records found for processing.";
-    }
+    }  
 } catch (Exception $e) {
     // Rollback the transaction in case of an error
     $conn->rollback();
