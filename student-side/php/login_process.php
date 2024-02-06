@@ -74,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         } else {
             mysqli_stmt_close($stmtCheckCeapRegForm);
             mysqli_close($conn);
-            $error = "Username not found in ceap_reg_form.";
+            $error = "Incorrect username or password.";
             header('Location: ../index.php?error=' . urlencode($error));
             exit();
         }
