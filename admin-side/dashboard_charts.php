@@ -125,12 +125,12 @@ if (mysqli_num_rows($ceapStatusData) === 0 && mysqli_num_rows($ceapGenderData) =
 <div class="outside-chart-container">
 <div class="chart-container">
     <div class="chart-column">
-    <div class="chart-label">CEAP STATUS</div> <!-- Add chart label -->
+    <div class="chart-label">CEAP APPLICANT STATUS</div> <!-- Add chart label -->
         <div id="ceapStatusChart" class="chart"></div>
     </div>
 
     <div class="chart-column">
-    <div class="chart-label">CEAP GENDER</div> <!-- Add chart label -->
+    <div class="chart-label">CEAP APPLICANT SEX</div> <!-- Add chart label -->
 
         <div id="ceapGenderChart" class="chart"></div>
     </div>
@@ -138,12 +138,12 @@ if (mysqli_num_rows($ceapStatusData) === 0 && mysqli_num_rows($ceapGenderData) =
 
 <div class="chart-container">
     <div class="chart-column">
-    <div class="chart-label">LPPP STATUS</div> <!-- Add chart label -->
+    <div class="chart-label">LPPP APPLICANT STATUS</div> <!-- Add chart label -->
 
         <div id="lpppStatusChart" class="chart"></div>
     </div>
     <div class="chart-column">
-    <div class="chart-label">LPPP GENDER</div> <!-- Add chart label -->
+    <div class="chart-label">LPPP APPLICANT SEX</div> <!-- Add chart label -->
 
         <div id="lpppGenderChart" class="chart"></div>
     </div>

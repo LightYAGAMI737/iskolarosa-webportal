@@ -41,6 +41,18 @@
 .applicant-info tr:nth-child(even) {
     background-color: #ECECEC;
 }
+.file-group tr:nth-child(even) {
+    background-color: white;
+}
+.uploaded-files table {
+    width: 100%;
+}
+.file-group tr {
+    border: 1px solid black;
+}
+.file-group td {
+    padding: 10px;
+}
 
 .applicant-info p {
     margin: 5px 0;
@@ -90,7 +102,7 @@
 }
 
 .table-section {
-    background-color: #FFFFFF;
+    background-color: #ececec;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);

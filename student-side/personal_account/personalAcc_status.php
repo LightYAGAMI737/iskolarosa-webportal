@@ -54,7 +54,7 @@ if (isset($_SESSION['control_number'])) {
 
    // Prepare the second query
     $tempAccountSqlTable = "
-    SELECT DISTINCT p.last_name, p.first_name, p.control_number, t.status, t.reason, t.status_updated_at, t.interview_date, e.employee_username AS updated_by, l.previous_status AS prevSTAT , l.updated_status AS currentSTAT , l.timestamp
+    SELECT DISTINCT p.last_name, p.first_name, p.control_number,p.form_submitted, t.status, t.reason, t.status_updated_at, t.interview_date, e.employee_username AS updated_by, l.previous_status AS prevSTAT , l.updated_status AS currentSTAT , l.timestamp
     FROM ceap_reg_form p
     JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
     LEFT JOIN applicant_status_logs l ON p.ceap_reg_form_id = l.ceap_reg_form_id
@@ -173,14 +173,15 @@ if (isset($_SESSION['control_number'])) {
             </div>
          </div>
 
-         <div class="table-status">
+               
+<div class="table-status">
     <table>
         <thead>
             <tr>
                 <th>Updated Date</th>
                 <th>Status</th>
                 <th>Description</th>
-                <th>Approved By</th>
+                <th>Updated By</th>
             </tr>
         </thead>
         <tbody>
@@ -188,39 +189,46 @@ if (isset($_SESSION['control_number'])) {
             $interviewDisplayed = false; // Initialize the variable to track 'interview' status
 
             // Fetch all rows in an array
-            $tempAccountRows = mysqli_fetch_all($tempAccountResultTable, MYSQLI_ASSOC);
+$tempAccountRows = mysqli_fetch_all($tempAccountResultTable, MYSQLI_ASSOC);
 
-            // Loop through the fetched data to display the current status and previous status
-            for ($i = 0; $i < count($tempAccountRows); $i++) {
-                $tempAccountRow = $tempAccountRows[$i];
-                $updated_date = $tempAccountRow['timestamp'];
-                $UpdatedDateFormatted = date('F d, Y', strtotime($updated_date));
-                $interview_date = $tempAccountRow['interview_date'];
-                $dateFormatted = date('F d, Y', strtotime($interview_date));
-                $status_updated_at = $tempAccountRow['status_updated_at'];
-                $status_updated_atFormatted = date('F d, Y', strtotime($status_updated_at));
-                $status = $tempAccountRow['status']; // Fetch the current status
-                $updatedBy = $tempAccountRow['updated_by']; // You need to fetch and populate this value
+$inProgressDisplayed = false; // Initialize flag to track if the "In Progress" row has been displayed
 
-                // Check if this row has a previous status
-                if (!empty($tempAccountRow['prevSTAT'])) {
-                    // Display a new row for the previous status
-                    echo '<tr>';
-                    echo '<td data-label="Date:">' . $UpdatedDateFormatted . '</td>';
-                    echo '<td data-label="Status:">' . strtoupper($tempAccountRow['prevSTAT']) . '</td>';
-                    echo '<td data-label="Description:">' . getDescription($tempAccountRow['prevSTAT'], $tempAccountRow['reason'], $dateFormatted) . '</td>';
-                    echo '<td data-label="Approved by:">' . $updatedBy . '</td>';
-                    echo '</tr>';
-                }
-            }
-                // Display the current status row
-                echo '<tr>';
-                echo '<td data-label="Date:">' . $status_updated_atFormatted . '</td>';
-                echo '<td data-label="Status:">' . strtoupper($status) . '</td>';
-                echo '<td data-label="Description:">' . getDescription($status, $tempAccountRow['reason'], $dateFormatted) . '</td>';
-                echo '<td data-label="Approved by:">' . $updatedBy . '</td>';
-                echo '</tr>';
-           
+for ($i = 0; $i < count($tempAccountRows); $i++) {
+    $tempAccountRow = $tempAccountRows[$i];
+    $updated_date = $tempAccountRow['timestamp'];
+    $UpdatedDateFormatted = date('F d, Y', strtotime($updated_date));
+    $interview_date = $tempAccountRow['interview_date'];
+    $dateFormatted = date('F d, Y', strtotime($interview_date));
+    $status_updated_at = $tempAccountRow['status_updated_at'];
+    $status_updated_atFormatted = date('F d, Y', strtotime($status_updated_at));
+    $form_submitted = $tempAccountRow['form_submitted'];
+    $form_submittedFormatted = date('F d, Y', strtotime($form_submitted));
+    $status = $tempAccountRow['status']; // Fetch the current status
+    $updatedBy = $tempAccountRow['updated_by']; // You need to fetch and populate this value
+
+    // Check if the status is "In Progress" and it hasn't been displayed yet
+    if (!$inProgressDisplayed) {
+        // Display the "In Progress" row
+        echo '<tr>';
+        echo '<td data-label="Date:">' . $form_submittedFormatted . '</td>';
+        echo '<td data-label="Status:">IN PROGRESS</td>';
+        echo '<td data-label="Description:">Your application is currently under review.</td>';
+        echo '<td data-label="Approved by:"> - </td>';
+        echo '</tr>';
+        $inProgressDisplayed = true; // Set the flag to true to indicate that the "In Progress" row has been displayed
+    }
+
+    // Check if this row has a previous status
+    if (!empty($tempAccountRow['currentSTAT']) && $status != 'In Progress') {
+        // Display a new row for the previous status
+        echo '<tr>';
+        echo '<td data-label="Date:">' . $UpdatedDateFormatted . '</td>';
+        echo '<td data-label="Status:">' . strtoupper($tempAccountRow['currentSTAT']) . '</td>';
+        echo '<td data-label="Description:">' . getDescription($tempAccountRow['currentSTAT'], $tempAccountRow['reason'], $dateFormatted) . '</td>';
+        echo '<td data-label="Approved by:">' . ($status == 'In Progress' ? '-' : $updatedBy) . '</td>';
+        echo '</tr>';
+    }
+}
             // Function to get the description based on the status
             function getDescription($status, $reason, $dateFormatted) {
                 switch ($status) {

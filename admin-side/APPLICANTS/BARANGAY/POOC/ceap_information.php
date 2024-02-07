@@ -26,11 +26,25 @@
    
    if (mysqli_num_rows($result) > 0) {
        $applicantInfo = mysqli_fetch_assoc($result);
+
    } else {
        echo 'Applicant not found.';
        exit();
    }
-   
+     // Prepare the second query
+$tempAccountSqlTable = "
+SELECT DISTINCT p.last_name, p.first_name, p.ceap_reg_form_id, p.form_submitted, t.status, t.reason, t.status_updated_at, t.interview_date, e.employee_username AS updated_by, l.previous_status AS prevSTAT , l.updated_status AS currentSTAT , l.timestamp
+FROM ceap_reg_form p
+JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
+LEFT JOIN applicant_status_logs l ON p.ceap_reg_form_id = l.ceap_reg_form_id
+LEFT JOIN employee_logs e ON l.employee_logs_id = e.employee_logs_id
+WHERE p.ceap_reg_form_id = ?
+ORDER BY l.timestamp ASC";
+
+$stmtTable = mysqli_prepare($conn, $tempAccountSqlTable);
+mysqli_stmt_bind_param($stmtTable, "s", $id); // Bind control number parameter
+mysqli_stmt_execute($stmtTable);
+$tempAccountResultTable = mysqli_stmt_get_result($stmtTable);
    ?>
 <!DOCTYPE html>
 <html lang="en" >
@@ -43,6 +57,26 @@
       <link rel="stylesheet" href="../../../css/side_bar.css">
       <link rel="stylesheet" href="../../../css/ceap_information.css">
       <link rel="stylesheet" href="../../../css/status_popup.css">
+      <style> 
+/* Styles for the table */
+.table-status {
+    margin: 50px 100px;
+    overflow-x: auto;
+}
+
+.table-status table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.table-status th, .table-status td {
+    border: 1px solid #000;
+    padding: 10px;
+    text-align: left;
+}
+
+         </style>
    </head>
    <body>
       <?php 
@@ -151,6 +185,7 @@
          </div>
          <!-- table for displaying the uploaded files as images -->
          <div class="uploaded-files">
+         <h2 class='to_center'>Scanned Documents</h2>
             <table>
                <tr>
                   <td>
@@ -201,9 +236,8 @@ foreach ($pdfFiles as $key => $pdfFile) {
         echo "<script>console.error('Error converting $key:', '" . $e->getMessage() . "', PDF File: $pdfFile, Output Image: $outputImage');</script>";
     }
 }
-                           echo "<h2 class='to_center'>Scanned Documents</h2>";
                            // Voters applicant
-                           echo '<table class="table" style="width: 80%;">';
+                           echo '<table class="table" style="border: 1px solid black; margin: 0 auto !important;border-collapse: collapse;">';
                            echo "<tbody>";
                            echo "<tr>";
                            echo "<td>";
@@ -263,16 +297,19 @@ foreach ($pdfFiles as $key => $pdfFile) {
                            echo "</td>";
                            echo "</tr>";
                            
-                           echo "</tbody>";
-                           echo "</table>";
                            
-                           // GRADE
+                           // 2x2
+                           echo "<tr>";
+
                            echo "<td>";
                            echo "<label>Applicant 2x2 Picture</label>";
                            echo "<div class='image'>";
                            echo "<img src='../../../../ceap-reg-form/applicant2x2/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_2x2_Picture.jpg' onclick='expandImage(this)' class='smaller-image'>";
                            echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../../../../ceap-reg-form/applicant2x2/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_2x2_Picture.jpg'></div>";
                            echo "</div>";
+                           echo "</td>";
+                           echo "<td>";
+                          
                            echo "</td>";
                            echo "</tr>";
                            
@@ -284,11 +321,103 @@ foreach ($pdfFiles as $key => $pdfFile) {
                   </td>
                </tr>
             </table>
-         </div>
+         
+         <?php
+            // Fetch the applicant's status from the database
+            $query = "SELECT status FROM temporary_account WHERE ceap_reg_form_id = ?";
+            $stmt = mysqli_prepare($conn, $query);
+            mysqli_stmt_bind_param($stmt, "i", $id);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            
+            if (mysqli_num_rows($result) > 0) {
+                $row = mysqli_fetch_assoc($result);
+                $applicantStatus = $row['status'];
+            } else {
+                $applicantStatus = ''; // Set a default value if status is not found
+            }
+            echo '<div style= "display: flex; justify-content: center; margin: 50px;">';
+            // Check the status and determine which buttons to display
+            if ($applicantStatus === 'In Progress') {
+                echo '<button onclick="openReasonModal(\'Disqualified\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">DISQUALIFIED</button>';
+                echo '<button onclick="openVerifiedPopup()" style="background-color: #FEC021;" class="status-button">VERIFIED</button>';
+            } elseif ($applicantStatus === 'Verified') {
+                echo '<button onclick="openReasonModal(\'Disqualified\', ' . $id . ')" style="background-color: #A5040A;" class="status-button">DISQUALIFIED</button>';
+            } elseif ($applicantStatus === 'Disqualified') {
+                echo '<button onclick="openVerifiedPopup()" style="background-color: #FEC021;" class="status-button">VERIFIED</button>';
+            } elseif ($applicantStatus === 'interview') {
+                echo '<button onclick="openReasonModalFail(\'Fail\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">NOT GRANTEE</button>';
+                echo '<button onclick="openGranteePopup()" style="background-color: #FEC021;" class="status-button">GRANTEE</button>';
+            }
+            echo '</div>';
+
+            ?>
+        
+</div>
       </div>
+      <div class="applicant-history">
+
+<div class="table-status">
+    <table>
+        <thead>
+            <tr>
+                <th>Updated Date</th>
+                <th>Status</th>
+                <th>Updated By</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            $interviewDisplayed = false; // Initialize the variable to track 'interview' status
+
+            // Fetch all rows in an array
+$tempAccountRows = mysqli_fetch_all($tempAccountResultTable, MYSQLI_ASSOC);
+echo '<h4>Applicant Status History</h4>';
+
+$inProgressDisplayed = false; // Initialize flag to track if the "In Progress" row has been displayed
+
+for ($i = 0; $i < count($tempAccountRows); $i++) {
+    $tempAccountRow = $tempAccountRows[$i];
+    $updated_date = $tempAccountRow['timestamp'];
+    $UpdatedDateFormatted = date('F d, Y', strtotime($updated_date));
+    $interview_date = $tempAccountRow['interview_date'];
+    $dateFormatted = date('F d, Y', strtotime($interview_date));
+    $status_updated_at = $tempAccountRow['status_updated_at'];
+    $status_updated_atFormatted = date('F d, Y', strtotime($status_updated_at));
+    $form_submitted = $tempAccountRow['form_submitted'];
+    $form_submittedFormatted = date('F d, Y', strtotime($form_submitted));
+    $status = $tempAccountRow['status']; // Fetch the current status
+    $updatedBy = $tempAccountRow['updated_by']; // You need to fetch and populate this value
+
+    // Check if the status is "In Progress" and it hasn't been displayed yet
+    if (!$inProgressDisplayed) {
+        // Display the "In Progress" row
+        echo '<tr>';
+        echo '<td data-label="Date:">' . $form_submittedFormatted . '</td>';
+        echo '<td data-label="Status:">IN PROGRESS</td>';
+        echo '<td data-label="Approved by:">-</td>';
+        echo '</tr>';
+        $inProgressDisplayed = true; // Set the flag to true to indicate that the "In Progress" row has been displayed
+    }
+
+    // Check if this row has a previous status
+    if (!empty($tempAccountRow['currentSTAT']) && $status != 'In Progress') {
+        // Display a new row for the previous status
+        echo '<tr>';
+        echo '<td data-label="Date:">' . $UpdatedDateFormatted . '</td>';
+        echo '<td data-label="Status:">' . strtoupper($tempAccountRow['currentSTAT']) . '</td>';
+        echo '<td data-label="Approved by:">' . ($status == 'In Progress' ? '-' : $updatedBy) . '</td>';
+        echo '</tr>';
+    }
+}
+            ?>
+        </tbody>
+    </table>
+</div>
+</div>
       <!-- end applicant info -->
-       <!-- Modal for entering reason -->
-       <div id="reasonModal" class="modal">
+     <!-- Modal for entering reason -->
+     <div id="reasonModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeReasonModal()">&times;</span>
         <h2>Enter Reason</h2>
@@ -334,36 +463,9 @@ foreach ($pdfFiles as $key => $pdfFile) {
             <button id="submitReasonFail" onclick="submitStatusAndReasonFail()" class="disabled">Submit</button>
          </div>
       </div>
-      <footer class="footer">
-         <?php
-            // Fetch the applicant's status from the database
-            $query = "SELECT status FROM temporary_account WHERE ceap_reg_form_id = ?";
-            $stmt = mysqli_prepare($conn, $query);
-            mysqli_stmt_bind_param($stmt, "i", $id);
-            mysqli_stmt_execute($stmt);
-            $result = mysqli_stmt_get_result($stmt);
-            
-            if (mysqli_num_rows($result) > 0) {
-                $row = mysqli_fetch_assoc($result);
-                $applicantStatus = $row['status'];
-            } else {
-                $applicantStatus = ''; // Set a default value if status is not found
-            }
-            
-            // Check the status and determine which buttons to display
-            if ($applicantStatus === 'In Progress') {
-                echo '<button onclick="openReasonModal(\'Disqualified\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">DISQUALIFIED</button>';
-                echo '<button onclick="openVerifiedPopup()" style="background-color: #FEC021;" class="status-button">VERIFIED</button>';
-            } elseif ($applicantStatus === 'Verified') {
-                echo '<button onclick="openReasonModal(\'Disqualified\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">DISQUALIFIED</button>';
-            } elseif ($applicantStatus === 'Disqualified') {
-                echo '<button onclick="openVerifiedPopup()" style="background-color: #FEC021; margin-right: 100px;" class="status-button">VERIFIED</button>';
-            } elseif ($applicantStatus === 'interview') {
-                echo '<button onclick="openReasonModalFail(\'Fail\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">NOT GRANTEE</button>';
-                echo '<button onclick="openGranteePopup()" style="background-color: #FEC021;" class="status-button">GRANTEE</button>';
-            }
-            ?>
-      </footer>
+      <!-- <footer class="footer">
+       
+      </footer> -->
       </main>
       <div class="overlay"></div>
       </div>

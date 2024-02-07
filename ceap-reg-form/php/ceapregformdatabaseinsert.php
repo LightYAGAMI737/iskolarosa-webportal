@@ -7,7 +7,11 @@ function handleEmptyValue($value)
 {
     return empty($value) ? "N/A" : $value;
 }
+// Set default timezone to Asia/Manila
+date_default_timezone_set('Asia/Manila');
 
+// Get the current date and time in the desired format
+$formSubmitted = date('Y-m-d H:i:s');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $last_name = htmlspecialchars($_POST['last_name']);
     $first_name = htmlspecialchars($_POST['first_name']);
@@ -165,11 +169,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Map the school name using the function
         $school_name = mapSchoolName($school_name, $schoolMappings);
 
-        $insertQuery = "INSERT INTO ceap_reg_form (last_name, first_name, middle_name, suffix_name, date_of_birth, gender, civil_status, place_of_birth, religion, contact_number, active_email_address, house_number, province, municipality, barangay, guardian_firstname, guardian_lastname, guardian_occupation, guardian_relationship, guardian_monthly_income, guardian_annual_income, elementary_school, elementary_year, secondary_school, secondary_year, senior_high_school, senior_high_year, course_enrolled, no_of_units, year_level, graduating, school_name, school_type, expected_year_of_graduation, school_address, current_semester, student_id_no, uploadVotersParent, uploadVotersApplicant, uploadITR, uploadResidency, uploadCOR, uploadGrade, uploadPhotoJPG) 
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $insertQuery = "INSERT INTO ceap_reg_form (last_name, first_name, middle_name, suffix_name, date_of_birth, gender, civil_status, place_of_birth, religion, contact_number, active_email_address, house_number, province, municipality, barangay, guardian_firstname, guardian_lastname, guardian_occupation, guardian_relationship, guardian_monthly_income, guardian_annual_income, elementary_school, elementary_year, secondary_school, secondary_year, senior_high_school, senior_high_year, course_enrolled, no_of_units, year_level, graduating, school_name, school_type, expected_year_of_graduation, school_address, current_semester, student_id_no, uploadVotersParent, uploadVotersApplicant, uploadITR, uploadResidency, uploadCOR, uploadGrade, uploadPhotoJPG, form_submitted) 
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
 
         $stmtInsert = mysqli_prepare($conn, $insertQuery);
-        mysqli_stmt_bind_param($stmtInsert, "ssssssssssssssssssssssssssssssssssssssssssss", $last_name, $first_name, $middle_name, $suffix_name, $date_of_birth, $gender, $civil_status, $place_of_birth, $religion, $contact_number, $active_email_address, $house_number, $province, $municipality, $barangay, $guardian_firstname, $guardian_lastname, $guardian_occupation, $guardian_relationship, $guardian_monthly_income, $guardian_annual_income, $elementary_school, $elementary_year, $secondary_school, $secondary_year, $senior_high_school, $senior_high_year, $course_enrolled, $no_of_units, $year_level, $graduating, $school_name, $school_type, $expected_year_of_graduation, $school_address, $current_semester, $student_id_no, $uploadVotersParent, $uploadVotersApplicant, $uploadITR, $uploadResidency, $uploadCOR, $uploadGrade, $uploadPhotoJPG);
+        mysqli_stmt_bind_param($stmtInsert, "sssssssssssssssssssssssssssssssssssssssssssss", $last_name, $first_name, $middle_name, $suffix_name, $date_of_birth, $gender, $civil_status, $place_of_birth, $religion, $contact_number, $active_email_address, $house_number, $province, $municipality, $barangay, $guardian_firstname, $guardian_lastname, $guardian_occupation, $guardian_relationship, $guardian_monthly_income, $guardian_annual_income, $elementary_school, $elementary_year, $secondary_school, $secondary_year, $senior_high_school, $senior_high_year, $course_enrolled, $no_of_units, $year_level, $graduating, $school_name, $school_type, $expected_year_of_graduation, $school_address, $current_semester, $student_id_no, $uploadVotersParent, $uploadVotersApplicant, $uploadITR, $uploadResidency, $uploadCOR, $uploadGrade, $uploadPhotoJPG, $formSubmitted);
 
         if (mysqli_stmt_execute($stmtInsert))
         {
