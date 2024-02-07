@@ -287,15 +287,45 @@ foreach ($pdfFiles as $key => $pdfFile) {
          </div>
       </div>
       <!-- end applicant info -->
-      <!-- Modal for entering reason -->
-      <div id="reasonModal" class="modal">
-         <div class="modal-content">
-            <span class="close" onclick="closeReasonModal()">&times;</span>
-            <h2>Enter Reason</h2>
-            <input type="text" name="reason" id="disqualificationReason" minlength="10" maxlength="255" placeholder="Enter reason for disqualification">
-            <button id="submitReason" onclick="submitStatusAndReason()" class="disabled">Submit</button>
-         </div>
-      </div>
+       <!-- Modal for entering reason -->
+       <div id="reasonModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeReasonModal()">&times;</span>
+        <h2>Enter Reason</h2>
+        <!-- Replace text input with select dropdown -->
+        <select name="reason" id="disqualificationReason" class="selectReason" onchange="checkOtherOption()">
+            <option value="" disabled selected>Select a reason</option>
+            <option value="Failure to Follow Instructions">Failure to Follow Instructions</option>
+            <option value="Inaccurate or False Information">Inaccurate or False Information</option>
+            <option value="Incomplete Application">Incomplete Application</option>
+            <option value="Failure to Meet Eligibility Requirements">Failure to Meet Eligibility Requirements</option>
+            <option value="Academic Dishonesty">Academic Dishonesty</option>
+            <option value="Exceeding Income Limits">Exceeding Income Limits</option>
+            <option value="Discrepancies in Academic Records">Discrepancies in Academic Records</option>
+            <option value="Non-compliance with Additional Requirements">Non-compliance with Additional Requirements</option>
+            <option value="Others">Others</option>
+        </select>
+        <!-- Retain the text input for "others" -->
+        <input type="text" name="otherReason" id="otherReason" minlength="5" maxlength="150" placeholder="Enter other reason" style="display: none;">
+        <button id="submitReason" onclick="submitStatusAndReason()" class="disabled">Submit</button>
+    </div>
+</div>
+
+<script>
+    // Function to show/hide the text input for "others" based on the selected option
+    function checkOtherOption() {
+        var reasonDropdown = document.getElementById("disqualificationReason");
+        var otherReasonInput = document.getElementById("otherReason");
+
+        if (reasonDropdown.value === "Others") {
+            otherReasonInput.style.display = "block";
+        } else {
+            otherReasonInput.style.display = "none";
+        }
+
+    }
+</script>
+
       <div id="reasonModalFail" class="modal">
          <div class="modal-content">
             <span class="close" onclick="closeReasonModalFail()">&times;</span>
