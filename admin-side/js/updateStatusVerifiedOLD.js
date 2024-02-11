@@ -1,8 +1,7 @@
-function expandImage(element) {
-    var expandedImage = element.nextElementSibling;
-    expandedImage.style.display = 'flex';
- }
- 
+function expandImage(img) {
+   var imageUrl = img.src;
+   window.open(imageUrl, "_blank"); // Open the image in a new tab/window
+}
  function collapseImage(element) {
     element.style.display = 'none';
  }
@@ -15,7 +14,7 @@ function expandImage(element) {
 function updateStatusOLD(status, applicantId) {
     // Send an AJAX request to update the applicant status
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "../../../php/updateStatusOldGrantee.php", true);
+    xhr.open("POST", "../../../php/updateStatus.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function () {
        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {

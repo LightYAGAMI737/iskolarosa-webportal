@@ -651,10 +651,9 @@ function searchApplicants() {
         $('#noApplicantFound').hide();
     }
 }
-
-function expandImage(element) {
-    var expandedImage = element.nextElementSibling;
-    expandedImage.style.display = 'flex';
+function expandImage(img) {
+    var imageUrl = img.src;
+    window.open(imageUrl, "_blank"); // Open the image in a new tab/window
 }
 
 function collapseImage(element) {
