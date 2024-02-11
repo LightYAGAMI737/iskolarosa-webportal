@@ -506,9 +506,10 @@ fieldset:disabled input, select{
 
 <!-- table for displaying the uploaded files as images -->
 <div class="uploaded-files">
+  <h2 class='to_center'>Scanned Documents</h2>
+
     <table>
         <tr>
-            <th>Uploaded Files:</th>
             <td>
             <div class="file-group">
                     <?php
@@ -557,91 +558,90 @@ foreach ($pdfFiles as $key => $pdfFile) {
                                 echo "<script>console.error('Error converting $key:', '" . $e->getMessage() . "', PDF File: $pdfFile, Output Image: $outputImage');</script>";
                             }
 }
-  echo "<h2 class='to_center'>Scanned Documents</h2>";
-  // Voters applicant
-  echo '<table class="table" style="width: 80%;">';
-  echo "<tbody>";
-  echo "<tr>";
-  echo "<td>";
-  echo "<label>Voters Certificate Applicant</label>";
-  echo "<div class='image'>";
-  echo "<img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadVotersApplicant.jpg' onclick='expandImage(this)' class='smaller-image'>";
-  echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadVotersApplicant.jpg'></div>";
-  echo "</div>";
-  echo "</td>";
-  
-  // Voters Cert Parent
-  echo "<td>";
-  echo "<label>Voters Certificate Parent</label>";
-  echo "<div class='image'>";
-  echo "<img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadVotersParent.jpg' onclick='expandImage(this)' class='smaller-image'>";
-  echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadVotersParent.jpg'></div>";
-  echo "</div>";
-  echo "</td>";
-  echo "</tr>";
-  
-  // TAX
-  echo "<tr>";
-  echo "<td>";
-  echo "<label>Income Tax Return</label>";
-  echo "<div class='image'>";
-  echo "<img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadITR.jpg' onclick='expandImage(this)' class='smaller-image'>";
-  echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadITR.jpg'></div>";
-  echo "</div>";
-  echo "</td>";
-  // Residency
-  echo "<td>";
-  echo "<label>Residency</label>";
-  echo "<div class='image'>";
-  echo "<img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadResidency.jpg' onclick='expandImage(this)' class='smaller-image'>";
-  echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadResidency.jpg'></div>";
-  echo "</div>";
-  echo "</td>";
-  echo "</tr>";
-  
-  // COR
-  echo "<tr>";
-  echo "<td>";
-  echo "<label>Certificate of Registration</label>";
-  echo "<div class='image'>";
-  echo "<img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadCOR.jpg' onclick='expandImage(this)' class='smaller-image'>";
-  echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadCOR.jpg'></div>";
-  echo "</div>";
-  echo "</td>";
-  
-  // GRADE
-  echo "<td>";
-  echo "<label>GWA for Current Sem</label>";
-  echo "<div class='image'>";
-  echo "<img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadGrade.jpg' onclick='expandImage(this)' class='smaller-image'>";
-  echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadGrade.jpg'></div>";
-  echo "</div>";
-  echo "</td>";
-  echo "</tr>";
-  
-  echo "</tbody>";
-  echo "</table>";
-  
-  // GRADE
-  echo "<td>";
-  echo "<label>Applicant 2x2 Picture</label>";
-  echo "<div class='image'>";
-  echo "<img src='../ceap-reg-form/applicant2x2/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_2x2_Picture.jpg' onclick='expandImage(this)' class='smaller-image'>";
-  echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../ceap-reg-form/applicant2x2/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_2x2_Picture.jpg'></div>";
-  echo "</div>";
-  echo "</td>";
-  echo "</tr>";
-  
-  echo "</tbody>";
-  echo "</table>";
-  
+      // Voters applicant
+      echo '<table class="table" style="border: 1px solid black; margin: 0 auto !important;border-collapse: collapse;">';
+      echo "<tbody>";
+      echo "<tr>";
+      echo "<td>";
+      echo "<label>Voters Certificate Applicant</label>";
+      echo "<div class='image'>";
+      echo "<img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadVotersApplicant.jpg' onclick='expandImage(this)' class='smaller-image'>";
+      echo "</div>";
+      echo "</td>";
+      
+// Voters Cert Parent
+echo "<td>";
+echo "<label>Voters Certificate Parent</label>";
+echo "<div class='image'>";
+echo "<img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadVotersParent.jpg' onclick='expandImage(this)' class='smaller-image'>";
+echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadVotersParent.jpg'></div>";
+echo "</div>";
+echo "</td>";
+echo "</tr>";
 
-                    ?>
-                </div>
-            </td>
-        </tr>
-    </table>
+// TAX
+echo "<tr>";
+echo "<td>";
+echo "<label>Income Tax Return</label>";
+echo "<div class='image'>";
+echo "<img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadITR.jpg' onclick='expandImage(this)' class='smaller-image'>";
+echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadITR.jpg'></div>";
+echo "</div>";
+echo "</td>";
+// Residency
+echo "<td>";
+echo "<label>Residency</label>";
+echo "<div class='image'>";
+echo "<img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadResidency.jpg' onclick='expandImage(this)' class='smaller-image'>";
+echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadResidency.jpg'></div>";
+echo "</div>";
+echo "</td>";
+echo "</tr>";
 
+// COR
+echo "<tr>";
+echo "<td>";
+echo "<label>Certificate of Registration</label>";
+echo "<div class='image'>";
+echo "<img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadCOR.jpg' onclick='expandImage(this)' class='smaller-image'>";
+echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadCOR.jpg'></div>";
+echo "</div>";
+echo "</td>";
+
+// GRADE
+echo "<td>";
+echo "<label>GWA for Current Sem</label>";
+echo "<div class='image'>";
+echo "<img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadGrade.jpg' onclick='expandImage(this)' class='smaller-image'>";
+echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadGrade.jpg'></div>";
+echo "</div>";
+echo "</td>";
+echo "</tr>";
+
+
+// 2x2
+echo "<tr>";
+
+echo "<td>";
+echo "<label>Applicant 2x2 Picture</label>";
+echo "<div class='image'>";
+echo "<img src='../ceap-reg-form/applicant2x2/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_2x2_Picture.jpg' onclick='expandImage(this)' class='smaller-image'>";
+echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../ceap-reg-form/applicant2x2/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_2x2_Picture.jpg'></div>";
+echo "</div>";
+echo "</td>";
+echo "<td>";
+
+echo "</td>";
+echo "</tr>";
+
+echo "</tbody>";
+echo "</table>";
+
+?>
+</div>
+</td>
+</tr>
+</table>
 <input type="hidden" name="ceap_reg_form_id" value="<?php echo $ceapRegFormId; ?>">
 <input type="hidden" name="control_number" value="<?php echo $control_number; ?>">
     <button id="edit-button" class="status-button" type="button">Edit</button>
