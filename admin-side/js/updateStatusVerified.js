@@ -1,4 +1,4 @@
-function expandImage(img) {
+function expandImage(this) {
    var imageUrl = img.src;
    window.open(imageUrl, "_blank"); // Open the image in a new tab/window
 }
