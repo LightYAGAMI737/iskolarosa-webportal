@@ -101,7 +101,6 @@ $currentStatus = mysqli_real_escape_string($conn, $currentStatus);
                   <th>FIRST NAME</th>
                   <!-- <th>BARANGAY</th>
                   <th>STATUS</th> -->
-                  <th>Reason</th>
                </tr>
                <?php
                   $counter = 1;
@@ -115,7 +114,6 @@ $currentStatus = mysqli_real_escape_string($conn, $currentStatus);
                               echo '<td>' . strtoupper($row['first_name']) . '</td>';
                               // echo '<td>' . strtoupper($row['barangay']) . '</td>';
                               // echo '<td>' . strtoupper($row['status']) . '</td>';
-                              echo '<td>' . strtoupper($row['reason']) . '</td>';
                               echo '</tr>';
                            }
                            ?>

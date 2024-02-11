@@ -1,14 +1,35 @@
 const reasonInputFail = document.getElementById("FailReason");
+const otherReasonInputFail = document.getElementById("otherReasonFail");
 const submitButtonFail = document.getElementById("submitReasonFail");
+
+function validateOtherReasonFail() {
+   const isValidFail = otherReasonInputFail.value.trim().length >= 5 && otherReasonInputFail.value.match(/^\S+(\s\S+)*$/);
+   return isValidFail;
+}
+
 reasonInputFail.addEventListener("input", function () {
-   if (reasonInputFail.value.length >= 5) {
+  const selectedReasonFail = reasonInputFail.value;
+  const isValidOtherReasonFail = selectedReasonFail === "OthersFail" && otherReasonInputFail.value.trim().length >= 5;
+
+  if ((selectedReasonFail && selectedReasonFail !== "OthersFail") || isValidOtherReasonFail) {
       submitButtonFail.classList.remove("disabled");
       submitButtonFail.removeAttribute("disabled");
-   } else {
+  } else {
       submitButtonFail.classList.add("disabled");
       submitButtonFail.setAttribute("disabled", "disabled");
-   }
+  }
 });
+
+otherReasonInputFail.addEventListener("input", function () {
+  if (reasonInputFail.value === "OthersFail" && otherReasonInputFail.value.trim().length >= 5) {
+      submitButtonFail.classList.remove("disabled");
+      submitButtonFail.removeAttribute("disabled");
+  } else {
+      submitButtonFail.classList.add("disabled");
+      submitButtonFail.setAttribute("disabled", "disabled");
+  }
+});
+
 const FailPopUp = document.getElementById("FailPopUp");
 
 function openFailPopUp(status, reasonFail, applicantId) {
@@ -40,18 +61,23 @@ function closeReasonModalFail() {
    reasonModalFail.style.display = "none";
 }
 
-
 document.addEventListener("DOMContentLoaded", function () {
-    const confirmButtonFail = document.getElementById("confirmButtonFail");
-    if (confirmButtonFail) {
-        confirmButtonFail.addEventListener("click", function () {
-            const status = "Fail"; // You can adjust this value as needed
-            const reasonFail = document.getElementById("FailReason").value;
-            const applicantId = ceapRegFormId; // Access the value from PHP
-            submitStatusAndReason(status, reasonFail, applicantId);
-        });
-    }
+   const confirmButtonFail = document.getElementById("confirmButtonFail");
+   if (confirmButtonFail) {
+       confirmButtonFail.addEventListener("click", function () {
+           const status = "Fail"; // You can adjust this value as needed
+           const reasonDropdownFail = document.getElementById("FailReason");
+           const reasonFail = reasonDropdownFail.value; // Corrected this line
+           const otherReasonInputFail = document.getElementById("otherReasonFail");
+           const otherReasonFail = otherReasonInputFail.value;
+           const applicantId = ceapRegFormId; // Access the value from PHP
+           // If the reason is "Others," use the value from the "otherReasonFail" input
+           const finalReasonFail = (reasonFail === "OthersFail") ? otherReasonFail : reasonFail;
+           submitStatusAndReasonFail(status, finalReasonFail, applicantId);
+       });
+   }
 });
+
 
 //Fail and fail
 let reasonFail;
@@ -81,7 +107,7 @@ function openReasonModalFail(status) {
    }
 }
 
-function submitStatusAndReason(status, reasonFail, applicantId) {
+function submitStatusAndReasonFail(status, reasonFail, applicantId) {
    // Send an AJAX request to update both status and reasonFail
    var xhr = new XMLHttpRequest();
    xhr.open("POST", "../../../php/updateReasonFail.php", true);

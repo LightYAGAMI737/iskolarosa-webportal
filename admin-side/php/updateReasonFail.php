@@ -7,12 +7,16 @@ require_once 'email_update_status_reason.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Sanitize user input
-// Sanitize user input
-$status = htmlspecialchars($_POST["status"], ENT_QUOTES, 'UTF-8');
-$applicantId = filter_input(INPUT_POST, "id", FILTER_VALIDATE_INT);
-$reasonFail = htmlspecialchars($_POST["reasonFail"], ENT_QUOTES, 'UTF-8');
-$employeeUsername = $_SESSION["username"];
+    $status = htmlspecialchars($_POST["status"], ENT_QUOTES, 'UTF-8');
+    $applicantId = filter_input(INPUT_POST, "id", FILTER_VALIDATE_INT);
+    $reasonFail = htmlspecialchars($_POST["reasonFail"], ENT_QUOTES, 'UTF-8');
+    $employeeUsername = $_SESSION["username"];
 
+    // Check if the selected reason is "Others" and update the reason accordingly
+    if ($reasonFail === "OthersFail") {
+        $otherReasonFail = htmlspecialchars($_POST["otherReasonFail"], ENT_QUOTES, 'UTF-8');
+        $reasonFail = $otherReasonFail; // Update the reason with the value from the "Others" text input
+    }
     
     // Check if input validation failed
     if ($status === false || $applicantId === false || $reasonFail === false || $applicantId === null) {
