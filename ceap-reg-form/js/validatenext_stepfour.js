@@ -184,7 +184,7 @@ document.getElementById("uploadResidency").addEventListener("change", displayUse
 
 document.addEventListener("DOMContentLoaded", function () {
     var confirmButton = document.getElementById('submitReview');
-    var cooldownSeconds = 1;
+    var cooldownSeconds = 2;
     var countdownInterval;
 
     // Function to update the button text and handle cooldown
@@ -228,7 +228,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const previousBTN = document.getElementById('previous-stepthree')
     previousBTN.addEventListener('click', function () {
         clearInterval(countdownInterval); // Clear the countdown interval when going back
-        cooldownSeconds = 1; // Reset the cooldown timer
+        cooldownSeconds = 2; // Reset the cooldown timer
         confirmButton.classList.remove("cooldown");
         confirmButton.innerHTML = `<span>Submit</span>`; // Reset the button text
     });
