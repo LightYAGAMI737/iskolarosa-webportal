@@ -221,7 +221,7 @@ if ($row['toggle_value'] == 0) {
                   <div class="text-row">
                   <div class="input-container school-graduated">
                      <label class="required">School Graduated</label>
-                     <input type="text" name="elementary_school" id="elementary_school" placeholder="Enter school graduated" minlength="5" maxlength="100" required/>
+                     <input type="text" name="elementary_school" id="elementary_school" value ="Elementary School" placeholder="Enter school graduated" minlength="5" maxlength="100" required/>
                      <span class="error-message" id="elementary_school_error"></span>
                   </div>
 
@@ -247,7 +247,7 @@ if ($row['toggle_value'] == 0) {
                   <div class="text-row">
                      <div class="input-container school-graduated">
                         <label class="required">School Graduated</label>
-                        <input type="text" name="secondary_school" id="secondary_school" placeholder="Enter School Graduated"  minlength="5" maxlength="100" required/>
+                        <input type="text" name="secondary_school" id="secondary_school" value ="Junior High School"  placeholder="Enter School Graduated"  minlength="5" maxlength="100" required/>
                         <span class="error-message" id="secondary_school_error"></span>
                      </div>
                      <div class="input-container">
@@ -261,7 +261,7 @@ if ($row['toggle_value'] == 0) {
                   <div class="text-row">
                      <div class="input-container school-graduated">
                         <label class="required">School Graduated</label>
-                        <input type="text" name="senior_high_school" id="senior_high_school" placeholder="Enter School Graduated"  minlength="5" maxlength="100" required/>
+                        <input type="text" name="senior_high_school" id="senior_high_school"  value ="Senior High School" placeholder="Enter School Graduated"  minlength="5" maxlength="100" required/>
                         <span class="error-message" id="senior_high_school_error"></span>
                      </div>
                      <div class="input-container">
