@@ -46,22 +46,6 @@ mysqli_stmt_bind_param($stmtTable, "s", $id); // Bind control number parameter
 mysqli_stmt_execute($stmtTable);
 $tempAccountResultTable = mysqli_stmt_get_result($stmtTable);
 
-   // Fetch the applicant's status from the database
-   $query = "SELECT status,reason, interview_date FROM temporary_account WHERE ceap_reg_form_id = ?";
-   $stmt = mysqli_prepare($conn, $query);
-   mysqli_stmt_bind_param($stmt, "i", $id);
-   mysqli_stmt_execute($stmt);
-   $result = mysqli_stmt_get_result($stmt);
-   
-   if (mysqli_num_rows($result) > 0) {
-       $row = mysqli_fetch_assoc($result);
-       $applicantStatus = $row['status'];
-    $applicantreason = $row['reason'];
-    $applicantinterview_date = $row['interview_date'];
-
-   } else {
-       $applicantStatus = ''; // Set a default value if status is not found
-   }
    ?>
 <!DOCTYPE html>
 <html lang="en" >
@@ -111,38 +95,9 @@ $tempAccountResultTable = mysqli_stmt_get_result($stmtTable);
             <i><i class="ri-close-circle-line"></i></i>
             </a>
          </div>
-
-         <div class="applicant-info">
-    <h2 style="margin-top: -40px;">Applicant's Status Information</h2>
-    <table>
-    <tr>
-                <th>Status:</th>
-                <td> <?php echo $applicantStatus; ?> </td>
-        </tr>      
-            <?php 
-                if ($applicantStatus == 'Disqualified') {
-                    echo '<tr>';
-                    echo '<th>Reason:</th>';
-                    echo '<td>' . $applicantreason . ' </td>';
-                    echo '</tr>';
-                }  elseif ($applicantStatus == 'interview') {
-                    echo '<tr>';
-                    echo '<th>Interview Date:</th>';
-                    echo '<td>' . $applicantinterview_date . ' </td>';
-                    echo '</tr>';
-                }
-                elseif ($applicantStatus == 'Fail') {
-                    echo '<tr>';
-                    echo '<th>Reason:</th>';
-                    echo '<td>' . $applicantreason . ' </td>';
-                    echo '</tr>';
-                }
-            ?>
-    </table>
-</div>
          <!-- Table 1: Personal Info -->
          <div class="applicant-info">
-            <h2>Personal Information</h2>
+            <h2 style="margin-top: -40px;">Personal Information</h2>
             <table>
                <?php foreach ($applicantInfo as $field => $value) : ?>
                <?php if (in_array($field, [
