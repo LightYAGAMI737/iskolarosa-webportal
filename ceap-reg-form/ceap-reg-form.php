@@ -124,7 +124,7 @@ if ($row['toggle_value'] == 0) {
                      </div>
                      <div class="input-container">
                         <label class="required" for="contact_number">Contact Number</label>
-                        <input type="text" name="contact_number" id="contact_number" placeholder="09xxxxxxxxx"  minlength="13" maxlength="13" required />
+                        <input type="text" name="contact_number" id="contact_number" placeholder="09xxxxxxxxx" value="0934-353-1339"  minlength="13" maxlength="13" required />
                         <span class="error-message" id="contact_number_error"></span>
                      </div>
                   </div>
@@ -137,7 +137,7 @@ if ($row['toggle_value'] == 0) {
                      </div>
                      <div class="input-container">
                         <label class="required" for="place_of_birth">Place of Birth</label>
-                        <input type="text" name="place_of_birth" id="place_of_birth" placeholder="Santa Rosa, Philippines"  minlength="5" maxlength="100" required/>
+                        <input type="text" name="place_of_birth" id="place_of_birth" placeholder="Santa Rosa, Philippines" value="Santa Rosa, Philippnes" minlength="5" maxlength="100" required/>
                         <span class="error-message" id="place_of_birth_error"></span>
                      </div>
                      <div class="input-container">
@@ -153,7 +153,7 @@ if ($row['toggle_value'] == 0) {
                   <div class="text-row">
                      <div class="input-container">
                         <label class="required" for="house_number">House No. / Blk / Lot No.</label>
-                        <input type="text" name="house_number" id="house_number" placeholder="House No. / Blk / Lot No."  minlength="3" maxlength="100" required/>
+                        <input type="text" name="house_number" id="house_number" placeholder="House No. / Blk / Lot No." value="#45694" minlength="3" maxlength="100" required/>
                         <span class="error-message" id="house_number_error"></span>
                      </div>
                      <div class="input-container">
@@ -275,7 +275,7 @@ if ($row['toggle_value'] == 0) {
                   <div class="text-row">
                      <div class="input-container school-graduated ">
                         <label class="required">Course Enrolled</label>
-                        <input type="text" name="course_enrolled" id="course_enrolled" placeholder="Bachelor of Science in Information Technology"  minlength="5" maxlength="100" required/>
+                        <input type="text" name="course_enrolled" id="course_enrolled" value="BS in Industrial Engineering" placeholder="Bachelor of Science in Information Technology"  minlength="5" maxlength="100" required/>
                         <span class="error-message" id="course_enrolled_error"></span>
                      </div>
                      <div class="input-container">
@@ -287,7 +287,7 @@ if ($row['toggle_value'] == 0) {
                      </div>
                      <div class="input-container">
                         <label class="required">No. of Units</label>
-                        <input type="number" name="no_of_units" id="no_of_units"  placeholder="Enter No. of Units" required />
+                        <input type="number" name="no_of_units" id="no_of_units"  value = "25" placeholder="Enter No. of Units" required />
                         <span class="error-message" id="no_of_units_error"></span>
                      </div>
                   </div>
@@ -320,14 +320,14 @@ if ($row['toggle_value'] == 0) {
                   <div class="text-row">
                      <div class="input-container school-graduated" id="school-name">
                         <label class="required">Full School Name (Do not abbreviate)</label>
-                        <input type="text" name="school_name" id="school_name" placeholder="Enter School Name" minlength="5" maxlength="150" required/>
+                        <input type="text" name="school_name" id="school_name" placeholder="Enter School Name" value="POLYTECHNIC UNIVERSITY OF THE PHILIPPINES- SANTA ROSA" minlength="5" maxlength="150" required/>
                         <span class="error-message" id="school_name_error"></span>
                      </div>
                   </div>
                   <div class="text-row">
                      <div class="input-container school-graduated">
                         <label class="required">School Address</label>
-                        <input type="text" name="school_address" id="school_address" placeholder="Enter School Adress"  minlength="5" maxlength="150" required/>
+                        <input type="text" name="school_address" id="school_address" placeholder="Enter School Adress" value="Tiongco Subdivision, Santa Rosa, Laguna"  minlength="5" maxlength="150" required/>
                         <span class="error-message" id="school_address_error"></span>
                      </div>
                      <div class="input-container">
@@ -339,7 +339,7 @@ if ($row['toggle_value'] == 0) {
                      </div>
                      <div class="input-container">
                         <label class="required">Student ID No.</label>
-                        <input type="text" name="student_id_no" id="student_id_no" placeholder="Enter School ID No."  minlength="5" maxlength="50" required/>
+                        <input type="text" name="student_id_no" id="student_id_no" placeholder="Enter School ID No." value="2020-1234-SR-0" minlength="5" maxlength="50" required/>
                         <span class="error-message" id="student_id_no_error"></span>
                      </div>
                   </div>
@@ -383,7 +383,7 @@ if ($row['toggle_value'] == 0) {
                      </div>
                      <div class="input-container">
                         <label class="required">Relationship</label>
-                        <input type="text" name="guardian_relationship" id="guardian_relationship" placeholder="Father"  minlength="5" maxlength="25" required/>
+                        <input type="text" name="guardian_relationship" id="guardian_relationship" value="FATHER" placeholder="Father"  minlength="5" maxlength="25" required/>
                         <span class="error-message" id="guardian_relationship_error"></span>
                      </div>
                   </div>
@@ -391,7 +391,7 @@ if ($row['toggle_value'] == 0) {
                   <div class="text-row">
                      <div class="input-container">
                         <label class="required">Occupation</label>
-                        <input type="text" name="guardian_occupation" id="guardian_occupation" placeholder="Enter Occupation"  minlength="5" maxlength="50" required/>
+                        <input type="text" name="guardian_occupation" id="guardian_occupation" value="Construction Worker" placeholder="Enter Occupation"  minlength="5" maxlength="50" required/>
                         <span class="error-message" id="guardian_occupation_error"></span>
                      </div>
                      <div class="input-container">
