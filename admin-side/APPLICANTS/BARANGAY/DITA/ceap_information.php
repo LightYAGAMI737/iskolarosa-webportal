@@ -46,6 +46,22 @@ mysqli_stmt_bind_param($stmtTable, "s", $id); // Bind control number parameter
 mysqli_stmt_execute($stmtTable);
 $tempAccountResultTable = mysqli_stmt_get_result($stmtTable);
 
+   // Fetch the applicant's status from the database
+   $query = "SELECT status,reason, interview_date FROM temporary_account WHERE ceap_reg_form_id = ?";
+   $stmt = mysqli_prepare($conn, $query);
+   mysqli_stmt_bind_param($stmt, "i", $id);
+   mysqli_stmt_execute($stmt);
+   $result = mysqli_stmt_get_result($stmt);
+   
+   if (mysqli_num_rows($result) > 0) {
+       $row = mysqli_fetch_assoc($result);
+       $applicantStatus = $row['status'];
+    $applicantreason = $row['reason'];
+    $applicantinterview_date = $row['interview_date'];
+
+   } else {
+       $applicantStatus = ''; // Set a default value if status is not found
+   }
    ?>
 <!DOCTYPE html>
 <html lang="en" >
@@ -95,7 +111,7 @@ $tempAccountResultTable = mysqli_stmt_get_result($stmtTable);
             <i><i class="ri-close-circle-line"></i></i>
             </a>
          </div>
-         <!-- Table 1: Personal Info -->
+
          <div class="applicant-info">
             <h2 style="margin-top: -40px;">Personal Information</h2>
             <table>
