@@ -1,14 +1,35 @@
-const reasonInputFail = document.getElementById("FailReason");
+const reasonInputFail = document.getElementById("FailReasonLPPP");
+const otherReasonInputFail = document.getElementById("otherReasonFail");
 const submitButtonFail = document.getElementById("submitReasonFail");
+
+function validateOtherReasonFail() {
+   const isValidFail = otherReasonInputFail.value.trim().length >= 5 && otherReasonInputFail.value.match(/^\S+(\s\S+)*$/);
+   return isValidFail;
+}
+
 reasonInputFail.addEventListener("input", function () {
-   if (reasonInputFail.value.length >= 5) {
+  const selectedReasonFail = reasonInputFail.value;
+  const isValidOtherReasonFail = selectedReasonFail === "OthersFail" && otherReasonInputFail.value.trim().length >= 5;
+
+  if ((selectedReasonFail && selectedReasonFail !== "OthersFail") || isValidOtherReasonFail) {
       submitButtonFail.classList.remove("disabled");
       submitButtonFail.removeAttribute("disabled");
-   } else {
+  } else {
       submitButtonFail.classList.add("disabled");
       submitButtonFail.setAttribute("disabled", "disabled");
-   }
+  }
 });
+
+otherReasonInputFail.addEventListener("input", function () {
+  if (reasonInputFail.value === "OthersFail" && otherReasonInputFail.value.trim().length >= 5) {
+      submitButtonFail.classList.remove("disabled");
+      submitButtonFail.removeAttribute("disabled");
+  } else {
+      submitButtonFail.classList.add("disabled");
+      submitButtonFail.setAttribute("disabled", "disabled");
+  }
+});
+
 const LPPPFailPopUp = document.getElementById("LPPPFailPopUp");
 
 function openLPPPFailPopUp(status, reasonFail, applicantId) {
@@ -27,7 +48,7 @@ cancelCloseButtonsFail.forEach((cancelButtonFail) => {
 const closeSymbolFail = document.querySelector(".close");
 if (closeSymbolFail) {
    closeSymbolFail.addEventListener("click", function () {
-      const FailReasonInput = document.getElementById("FailReason");
+      const FailReasonInput = document.getElementById("FailReasonLPPP");
       if (FailReasonInput) {
          FailReasonInput.value = ''; // Reset the input field
       }
@@ -51,7 +72,7 @@ function openReasonModalLPPPFail(status) {
          const submitReasonButton = document.getElementById("submitReasonFail");
          if (submitReasonButton) {
             submitReasonButton.onclick = function () {
-               reasonFail = document.getElementById("FailReason").value;
+               reasonFail = document.getElementById("FailReasonLPPP").value;
                if (reasonFail.trim() !== '') {
                   const applicantId = LPPPregFormID;
                   openLPPPFailPopUp(status, reasonFail, applicantId);
@@ -69,15 +90,20 @@ function openReasonModalLPPPFail(status) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    const LPPPFailconfirmButton = document.getElementById("LPPPFailconfirmButton");
-    if (LPPPFailconfirmButton) {
-        LPPPFailconfirmButton.addEventListener("click", function () {
-            const status = "Fail"; // You can adjust this value as needed
-            const reasonFail = document.getElementById("FailReason").value;
-            const applicantId = LPPPregFormID; // Access the value from PHP
-            submitStatusAndReasonLPPPFail(status, reasonFail, applicantId);
-        });
-    }
+   const LPPPFailconfirmButton = document.getElementById("LPPPFailconfirmButton");
+   if (LPPPFailconfirmButton) {
+       LPPPFailconfirmButton.addEventListener("click", function () {
+           const status = "Fail"; // You can adjust this value as needed
+           const reasonDropdownFail = document.getElementById("FailReasonLPPP");
+           const reasonFail = reasonDropdownFail.value; // Corrected this line
+           const otherReasonInputFail = document.getElementById("otherReasonFail");
+           const otherReasonFail = otherReasonInputFail.value;
+           const applicantId = LPPPregFormID; // Access the value from PHP
+           // If the reason is "Others," use the value from the "otherReasonFail" input
+           const finalReasonFail = (reasonFail === "OthersFail") ? otherReasonFail : reasonFail;
+           submitStatusAndReasonLPPPFail(status, finalReasonFail, applicantId);
+       });
+   }
 });
 
 function submitStatusAndReasonLPPPFail(status, reasonFail, applicantId) {

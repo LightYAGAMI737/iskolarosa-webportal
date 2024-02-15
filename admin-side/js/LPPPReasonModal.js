@@ -1,17 +1,38 @@
 const reasonInput = document.getElementById("disqualificationReasonLPPP");
 const submitButton = document.getElementById("submitReasonLPPP");
+const otherReasonInput = document.getElementById("otherReason");
+
+function validateOtherReason() {
+    const isValid = otherReasonInput.value.trim().length >= 5 && otherReasonInput.value.match(/^\S+(\s\S+)*$/);
+    return isValid;
+}
+
 reasonInput.addEventListener("input", function () {
-   if (reasonInput.value.length >= 5) {
-      submitButton.classList.remove("disabled");
-      submitButton.removeAttribute("disabled");
+   const selectedReason = reasonInput.value;
+   const isValidOtherReason = selectedReason === "Others" && otherReasonInput.value.trim().length >= 5;
+
+   if ((selectedReason && selectedReason !== "Others") || isValidOtherReason) {
+       submitButton.classList.remove("disabled");
+       submitButton.removeAttribute("disabled");
    } else {
-      submitButton.classList.add("disabled");
-      submitButton.setAttribute("disabled", "disabled");
+       submitButton.classList.add("disabled");
+       submitButton.setAttribute("disabled", "disabled");
    }
 });
+
+otherReasonInput.addEventListener("input", function () {
+   if (reasonInput.value === "Others" && otherReasonInput.value.trim().length >= 5) {
+       submitButton.classList.remove("disabled");
+       submitButton.removeAttribute("disabled");
+   } else {
+       submitButton.classList.add("disabled");
+       submitButton.setAttribute("disabled", "disabled");
+   }
+});
+
 const LPPPDisqualifiedPopUp = document.getElementById("LPPPDisqualifiedPopUp");
 
-function openLPPPDisqualifiedPopUp(status, reason, applicantId) {
+function openLPPPDisqualifiedPopUp(status, reason, LPPPapplicantId) {
    document.getElementById("reasonModalLPPP").style.display = "none";
    LPPPDisqualifiedPopUp.style.display = "block";
 }
@@ -53,8 +74,8 @@ function openReasonModalLPPP(status) {
             submitReasonButton.onclick = function () {
                reason = document.getElementById("disqualificationReasonLPPP").value;
                if (reason.trim() !== '') {
-                  const applicantId = LPPPregFormID;
-                  openLPPPDisqualifiedPopUp(status, reason, applicantId);
+                  const LPPPapplicantId = LPPPregFormID;
+                  openLPPPDisqualifiedPopUp(status, reason, LPPPapplicantId);
                } else {
                   alert('Please enter a reason.');
                }
@@ -69,18 +90,25 @@ function openReasonModalLPPP(status) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    const LPPPconfirmButton = document.getElementById("LPPPconfirmButton");
-    if (LPPPconfirmButton) {
-        LPPPconfirmButton.addEventListener("click", function () {
-            const status = "Disqualified"; // You can adjust this value as needed
-            const reason = document.getElementById("disqualificationReasonLPPP").value;
-            const applicantId = LPPPregFormID; // Access the value from PHP
-            submitStatusAndReasonLPPP(status, reason, applicantId);
-        });
-    }
+   const LPPPconfirmButton = document.getElementById("LPPPconfirmButton");
+   if (LPPPconfirmButton) {
+       LPPPconfirmButton.addEventListener("click", function () {
+           const status = "Disqualified"; // You can adjust this value as needed
+           const reasonDropdown = document.getElementById("disqualificationReasonLPPP");
+           const reason = reasonDropdown.value;
+           const otherReasonInput = document.getElementById("otherReason");
+           const otherReason = otherReasonInput.value;
+           const LPPPapplicantId = LPPPregFormID; // Access the value from PHP
+
+           // If the reason is "Others," use the value from the "otherReason" input
+           const finalReason = (reason === "Others") ? otherReason : reason;
+
+           submitStatusAndReasonLPPP(status, finalReason, LPPPapplicantId);
+       });
+   }
 });
 
-function submitStatusAndReasonLPPP(status, reason, applicantId) {
+function submitStatusAndReasonLPPP(status, reason, LPPPapplicantId) {
    // Send an AJAX request to update both status and reason
    var xhr = new XMLHttpRequest();
    xhr.open("POST", "../../../php/updateReasonLPPP.php", true);
@@ -95,15 +123,15 @@ function submitStatusAndReasonLPPP(status, reason, applicantId) {
             openconfirmationLPPPpopup();
          } else {
             alert('Failed to update status and reason.');
-         }
+         }  
       } else if (xhr.readyState === XMLHttpRequest.DONE && xhr.status !== 200) {
          console.error("AJAX request failed with status:", xhr.status);
          console.log("Response FAILED from AJAX:", xhr.responseText); // Log the response
          // Log AJAX errors
      }
    };
-   // Send the AJAX request with status, reason, and applicantId
-   xhr.send("status=" + status + "&reason=" + reason + "&id=" + applicantId );
+   // Send the AJAX request with status, reason, and LPPPapplicantId
+   xhr.send("status=" + status + "&reason=" + reason + "&id=" + LPPPapplicantId );
 }
 
 

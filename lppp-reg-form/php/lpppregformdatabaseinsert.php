@@ -85,6 +85,13 @@ function handleEmptyValue($value) {
          return false; // Failed to send email
      }
  }
+
+ // Set default timezone to Asia/Manila
+date_default_timezone_set('Asia/Manila');
+
+// Get the current date and time in the desired format
+$formSubmitted = date('Y-m-d H:i:s');
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $last_name = $_POST['last_name'];
     $first_name = $_POST['first_name'];
@@ -208,13 +215,13 @@ if (mysqli_num_rows($duplicateCheckResultNameDOB) > 0) {
     // Display a duplicate record error message for matching guardian names
     echo '<div class="ceapRegForm">Only one applicant per family is allowed.</br> <p style="font-size: 20px;"> If this is a mistake, you may visit the scholarship office.</p></div>';
 } else {
-      $insertQuery = "INSERT INTO lppp_reg_form (last_name, first_name, middle_name, suffix_name, date_of_birth, gender, civil_status, place_of_birth, religion, contact_number, active_email_address, house_number, province, municipality, barangay, guardian_lastname, guardian_firstname, guardian_relationship, guardian_occupation, guardian_monthly_income, guardian_annual_income, elementary_school, elementary_year, school_address, grade_level, uploadVotersParent, uploadResidency, uploadITR, uploadGrade, uploadPhotoJPG) 
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      $insertQuery = "INSERT INTO lppp_reg_form (last_name, first_name, middle_name, suffix_name, date_of_birth, gender, civil_status, place_of_birth, religion, contact_number, active_email_address, house_number, province, municipality, barangay, guardian_lastname, guardian_firstname, guardian_relationship, guardian_occupation, guardian_monthly_income, guardian_annual_income, elementary_school, elementary_year, school_address, grade_level, uploadVotersParent, uploadResidency, uploadITR, uploadGrade, uploadPhotoJPG, form_submitted) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmtInsert = mysqli_prepare($conn, $insertQuery);
 
     // Bind parameters to the prepared statement
-    mysqli_stmt_bind_param($stmtInsert, "ssssssssssssssssssssssssssssss", $last_name, $first_name, $middle_name, $suffix_name, $date_of_birth, $gender, $civil_status, $place_of_birth, $religion, $contact_number, $active_email_address, $house_number, $province, $municipality, $barangay, $guardian_lastname, $guardian_firstname, $guardian_relationship, $guardian_occupation, $guardian_monthly_income, $guardian_annual_income, $elementary_school, $elementary_year, $school_address, $grade_level, $uploadVotersParent, $uploadResidency, $uploadITR, $uploadGrade, $uploadPhotoJPG);
+    mysqli_stmt_bind_param($stmtInsert, "sssssssssssssssssssssssssssssss", $last_name, $first_name, $middle_name, $suffix_name, $date_of_birth, $gender, $civil_status, $place_of_birth, $religion, $contact_number, $active_email_address, $house_number, $province, $municipality, $barangay, $guardian_lastname, $guardian_firstname, $guardian_relationship, $guardian_occupation, $guardian_monthly_income, $guardian_annual_income, $elementary_school, $elementary_year, $school_address, $grade_level, $uploadVotersParent, $uploadResidency, $uploadITR, $uploadGrade, $uploadPhotoJPG, $formSubmitted);
 
         if (mysqli_stmt_execute($stmtInsert)) {
             $lppp_reg_form_id = mysqli_stmt_insert_id($stmtInsert);

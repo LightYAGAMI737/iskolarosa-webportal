@@ -78,7 +78,6 @@ document.addEventListener("DOMContentLoaded", function () {
    }
 });
 
-
 //Fail and fail
 let reasonFail;
 function openReasonModalFail(status) {
@@ -105,7 +104,7 @@ function openReasonModalFail(status) {
    } else {
       console.error("Element with ID 'reasonModalFail' not found.");
    }
-}
+} 
 
 function submitStatusAndReasonFail(status, reasonFail, applicantId) {
    // Send an AJAX request to update both status and reasonFail
