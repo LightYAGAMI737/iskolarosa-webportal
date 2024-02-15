@@ -36,16 +36,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $adminUsername = $_SESSION['username'];
             $LPPPregFormID = $row['lppp_reg_form_id'];
 
+            // Retrieve the employee logs ID based on the logged-in user's username
+            $employeeIdQuery = "SELECT employee_logs_id FROM employee_logs WHERE employee_username = ?";
+            $stmtEmployeeId = mysqli_prepare($conn, $employeeIdQuery);
+            mysqli_stmt_bind_param($stmtEmployeeId, "s", $adminUsername);
+            mysqli_stmt_execute($stmtEmployeeId);
+            mysqli_stmt_bind_result($stmtEmployeeId, $employeeLogsId);
+            mysqli_stmt_fetch($stmtEmployeeId);
+            mysqli_stmt_close($stmtEmployeeId);
+
             $updateTimeQuery = "UPDATE lppp_temporary_account SET exam_date = ?, exam_hour = ?, exam_minute = ?, exam_period = ?, updated_by = ? WHERE lppp_reg_form_id = ?";
             $stmtTimeUpdate = mysqli_prepare($conn, $updateTimeQuery);
             mysqli_stmt_bind_param($stmtTimeUpdate, "siiisi", $interviewDate, $exam_hour, $exam_minutes, $exam_ampm, $adminUsername, $LPPPregFormID);
             mysqli_stmt_execute($stmtTimeUpdate);
 
-            // Update the status to 'interview'
+            // Update the status to 'exam'
             $statusUpdateQuery = "UPDATE lppp_temporary_account SET status = 'exam' WHERE lppp_reg_form_id = ?";
             $stmtStatusUpdate = mysqli_prepare($conn, $statusUpdateQuery);
             mysqli_stmt_bind_param($stmtStatusUpdate, "i", $LPPPregFormID);
             mysqli_stmt_execute($stmtStatusUpdate);
+            
+            date_default_timezone_set('Asia/Manila');
+            $currentTimeStatus = date('Y-m-d H:i:s');
+            // Insert log
+            $logQuery = "INSERT INTO applicant_status_logs (previous_status, updated_status, lppp_reg_form_id, employee_logs_id, timestamp) VALUES (?, ?, ?, ?,?)";
+            $stmtLog = mysqli_prepare($conn, $logQuery);
+            $previousStatus = 'Verified';
+            $updatedStatus = 'exam';
+            mysqli_stmt_bind_param($stmtLog, "ssiis", $previousStatus, $updatedStatus, $LPPPregFormID, $employeeLogsId, $currentTimeStatus);
+            mysqli_stmt_execute($stmtLog);
 
             // Fetch the applicant's email address and control number from the database
             $applicantEmailQuery = "SELECT active_email_address, control_number FROM lppp_reg_form WHERE lppp_reg_form_id = ?";

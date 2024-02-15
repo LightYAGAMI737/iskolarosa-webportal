@@ -3,7 +3,7 @@
 session_start();
 
 include 'config_iskolarosa_db.php';
-require_once 'email_update_status_lppp.php'; 
+require_once 'email_update_status.php'; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Sanitize and validate input

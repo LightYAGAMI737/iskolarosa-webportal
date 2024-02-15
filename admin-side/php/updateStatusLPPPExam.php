@@ -10,11 +10,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate and sanitize the score
     $applicantScore = isset($_POST["applicantScore"]) ? filter_var($_POST["applicantScore"], FILTER_VALIDATE_INT) : null;
 
+    // Retrieve the employee logs ID based on the logged-in user's username
+    session_start();
+    $employeeUsername = $_SESSION["username"];
+    $employeeIdQuery = "SELECT employee_logs_id FROM employee_logs WHERE employee_username = ?";
+    $stmtEmployeeId = $conn->prepare($employeeIdQuery);
+    $stmtEmployeeId->bind_param("s", $employeeUsername);
+    $stmtEmployeeId->execute();
+    $stmtEmployeeId->bind_result($employeeLogsId);
+    $stmtEmployeeId->fetch();
+    $stmtEmployeeId->close();
+
     // Update the status and score in the database using prepared statements
     $updateQuery = "UPDATE lppp_temporary_account SET status = ?, applicant_score = ? WHERE lppp_reg_form_id = ?";
     $stmt = $conn->prepare($updateQuery);
     $stmt->bind_param("sii", $status, $applicantScore, $applicantId);
     $stmt->execute();
+
+    date_default_timezone_set('Asia/Manila');
+    $currentTimeStatus = date('Y-m-d H:i:s');
+    // Insert log
+    $logQuery = "INSERT INTO applicant_status_logs (previous_status, updated_status, lppp_reg_form_id, employee_logs_id, timestamp) VALUES (?, ?, ?, ?,?)";
+    $stmtLog = mysqli_prepare($conn, $logQuery);
+    $previousStatus = 'exam';
+    $updatedStatus = 'interview';
+    mysqli_stmt_bind_param($stmtLog, "ssiis", $previousStatus, $updatedStatus, $applicantId, $employeeLogsId, $currentTimeStatus);
+    mysqli_stmt_execute($stmtLog);
 
     // Fetch the applicant's email address and control number from the database
     $applicantEmailQuery = "SELECT active_email_address, control_number FROM lppp_reg_form WHERE lppp_reg_form_id = ?";

@@ -686,7 +686,7 @@ function updateStatusLPPPEXAM(status, applicantScore, LPPPapplicantId) {
                 var response = xhr.responseText.trim();
                 console.log('Response from server:', response);
                 if (response === 'success') {
-                    closeExamPopupScore();
+                   // closeExamPopupScore();
                     openconfirmationLPPPpopup();
                 } else {
                     alert('Failed to updates status.');
