@@ -110,7 +110,7 @@ if ($row['toggle_value'] == 0) {
                         <span class="error-message"></span>
                      </div>
                      <div class="input-container">
-                        <label for="suffix_name">Suffix Name</label>
+                        <label for="suffix_name">Suffix</label>
                         <input type="text" name="suffix_name" id="suffix_name" placeholder="Suffix Name" minlength="1" maxlength="8">
                         <div id="suffix_options" class="suffix-options"></div>
                      </div>
@@ -150,7 +150,7 @@ if ($row['toggle_value'] == 0) {
                   <!--new row-->
                   <div class="text-row">
                      <div class="input-container">
-                        <label class="required" for="active_email_address">Email address</label>
+                        <label class="required" for="active_email_address">Email Address</label>
                         <input type="email" style="text-transform: none;" name="active_email_address" id="active_email_address" placeholder="Active Email Address" minlength="10" maxlength="100" required />
                         <span class="error-message" id="active_email_address_error"></span>
                      </div>
@@ -160,7 +160,7 @@ if ($row['toggle_value'] == 0) {
                         <span class="error-message" id="place_of_birth_error"></span>
                      </div>
                      <div class="input-container">
-                        <label class="required" for="date_of_birth">Date of birth</label>
+                        <label class="required" for="date_of_birth">Date of Birth</label>
                         <input type="date" id="date_of_birth" name="date_of_birth" min="1960-01-01" required onkeydown="event.preventDefault();" />
                      </div>
                      <div class="input-container">
@@ -302,7 +302,7 @@ if ($row['toggle_value'] == 0) {
                      <span class="error-message" id="guardian_occupation_error"></span>
                   </div>
                      <div class="input-container">
-                        <label class="required">Monthly income</label>
+                        <label class="required">Monthly Income</label>
                         <input type="text" id="guardian_monthly_income" name="guardian_monthly_income" placeholder="Monthly income" required pattern="\d+(\.\d{1,2})?" maxlength="8"/>
                      </div>
                      <div class="input-container">

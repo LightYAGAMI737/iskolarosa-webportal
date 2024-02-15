@@ -28,6 +28,9 @@ display: flex;
 align-items: center;
 flex-direction: column;
 }
+.error-message {
+    color: #A5040A;
+}
 /* Add a media query for screens with a maximum width of 800px */
  @media (max-width: 991px) {
     #progressbar {
@@ -36,8 +39,10 @@ flex-direction: column;
     .text-row {
         flex-direction: column !important;
         height: auto !important;
-        justify-content: center !important; 
-        align-items: center !important; 
+        justify-content: center !important;
+        align-items: center !important;
+        margin-top: 20px;
+        margin-bottom: 0px;
     }
 
     .input-container {
