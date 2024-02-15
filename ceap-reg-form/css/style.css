@@ -20,7 +20,9 @@
      justify-content: center;
      align-items: flex-start;
 }
-
+.error-message {
+    color: #A5040A;
+}
 .fieldset-container {
 display: flex;
 align-items: center;
@@ -34,8 +36,10 @@ flex-direction: column;
     .text-row {
         flex-direction: column !important;
         height: auto !important;
-        justify-content: center !important; 
-        align-items: center !important; 
+        justify-content: center !important;
+        align-items: center !important;
+        margin-top: 20px;
+        margin-bottom: 0px;
     }
 
     .input-container {
