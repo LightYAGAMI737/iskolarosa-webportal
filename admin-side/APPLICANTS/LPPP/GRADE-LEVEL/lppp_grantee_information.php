@@ -34,6 +34,20 @@ if (mysqli_num_rows($result) > 0) {
     exit();
 }
 
+  // Prepare the second query
+  $tempAccountSqlTable = "
+  SELECT DISTINCT p.last_name, p.first_name, p.lppp_reg_form_id, t.status, p.form_submitted, t.reason, t.status_updated_at, t.interview_date, e.employee_username AS updated_by, l.previous_status AS prevSTAT , l.updated_status AS currentSTAT , l.timestamp
+  FROM lppp_reg_form p
+  JOIN lppp_temporary_account t ON p.lppp_reg_form_id = t.lppp_reg_form_id
+  LEFT JOIN applicant_status_logs l ON p.lppp_reg_form_id = l.lppp_reg_form_id
+  LEFT JOIN employee_logs e ON l.employee_logs_id = e.employee_logs_id
+  WHERE p.lppp_reg_form_id = ?
+  ORDER BY l.timestamp ASC";
+  
+  $stmtTable = mysqli_prepare($conn, $tempAccountSqlTable);
+  mysqli_stmt_bind_param($stmtTable, "s", $id); // Bind control number parameter
+  mysqli_stmt_execute($stmtTable);
+  $tempAccountResultTable = mysqli_stmt_get_result($stmtTable);
 ?>
 
 
@@ -48,6 +62,26 @@ if (mysqli_num_rows($result) > 0) {
       <link rel='stylesheet' href='../../../css/unpkg-layout.css'>
       <link rel="stylesheet" href="../../../css/side_bar.css">
       <link rel="stylesheet" href="../../../css/ceap_information.css">
+      <style> 
+/* Styles for the table */
+.table-status {
+    margin: 50px 100px;
+    overflow-x: auto;
+}
+
+.table-status table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.table-status th, .table-status td {
+    border: 1px solid #000;
+    padding: 10px;
+    text-align: left;
+}
+
+         </style>
    </head>
    <body>
       <?php 
@@ -179,7 +213,7 @@ if (mysqli_num_rows($result) > 0) {
                <tr>
                   <td>
                      <div class="file-group">
-                       <?php
+                     <?php
 // Ensure Imagick is installed and enabled
 if (!extension_loaded('imagick')) {
     echo 'Imagick extension is not available.';
@@ -301,7 +335,66 @@ foreach ($pdfFiles as $key => $pdfFile) {
 
 <!-- end applicant info -->
 
-        
+<div class="applicant-history">
+
+<div class="table-status">
+    <table>
+        <thead>
+            <tr>
+                <th>Updated Date</th>
+                <th>Status</th>
+                <th>Updated By</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            $interviewDisplayed = false; // Initialize the variable to track 'interview' status
+
+            // Fetch all rows in an array
+$tempAccountRows = mysqli_fetch_all($tempAccountResultTable, MYSQLI_ASSOC);
+echo '<h4>Applicant Status History</h4>';
+
+$inProgressDisplayed = false; // Initialize flag to track if the "In Progress" row has been displayed
+
+for ($i = 0; $i < count($tempAccountRows); $i++) {
+    $tempAccountRow = $tempAccountRows[$i];
+    $updated_date = $tempAccountRow['timestamp'];
+    $UpdatedDateFormatted = date('F d, Y', strtotime($updated_date));
+    $interview_date = $tempAccountRow['interview_date'];
+    $dateFormatted = date('F d, Y', strtotime($interview_date));
+    $status_updated_at = $tempAccountRow['status_updated_at'];
+    $status_updated_atFormatted = date('F d, Y', strtotime($status_updated_at));
+    $form_submitted = $tempAccountRow['form_submitted'];
+    $form_submittedFormatted = date('F d, Y', strtotime($form_submitted));
+    $status = $tempAccountRow['status']; // Fetch the current status
+    $updatedBy = $tempAccountRow['updated_by']; // You need to fetch and populate this value
+
+    // Check if the status is "In Progress" and it hasn't been displayed yet
+    if (!$inProgressDisplayed) {
+        // Display the "In Progress" row
+        echo '<tr>';
+        echo '<td data-label="Date:">' . $form_submittedFormatted . '</td>';
+        echo '<td data-label="Status:">IN PROGRESS</td>';
+        echo '<td data-label="Approved by:">-</td>';
+        echo '</tr>';
+        $inProgressDisplayed = true; // Set the flag to true to indicate that the "In Progress" row has been displayed
+    }
+
+    // Check if this row has a previous status
+    if (!empty($tempAccountRow['currentSTAT']) && $status != 'In Progress') {
+        // Display a new row for the previous status
+        echo '<tr>';
+        echo '<td data-label="Date:">' . $UpdatedDateFormatted . '</td>';
+        echo '<td data-label="Status:">' . strtoupper($tempAccountRow['currentSTAT']) . '</td>';
+        echo '<td data-label="Approved by:">' . ($status == 'In Progress' ? '-' : $updatedBy) . '</td>';
+        echo '</tr>';
+    }
+}
+            ?>
+        </tbody>
+    </table>
+</div>
+</div>
          <footer class="footer">
        
          <?php
@@ -414,8 +507,8 @@ function searchApplicants() {
 }
 
 function expandImage(img) {
-    var imageUrl = img.src;
-    window.open(imageUrl, "_blank"); // Open the image in a new tab/window
+   var imageUrl = img.src;
+   window.open(imageUrl, "_blank"); // Open the image in a new tab/window
 }
 
 function collapseImage(element) {
