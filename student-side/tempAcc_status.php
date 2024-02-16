@@ -144,7 +144,9 @@ $tempAccountResultTable = mysqli_stmt_get_result($stmtTable);
                         <p>3</p>
                         <i class="uil ri-check-fill"></i>
                      </div>
-                        <p class="text">TO INTERVIEW</p>
+                     <?php if ($status != 'Disqualified') { ?>
+                        <p class="text">FOR INTERVIEW</p>
+                    <?php } ?>
                   </li>
                   <li class="progress-step">
                     <i class="icon uil"></i>
