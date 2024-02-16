@@ -85,95 +85,90 @@ $tempAccountResultTable = mysqli_stmt_get_result($stmtTable);
          include 'tempAcc_nav.php';
          ?>
       <div class="content-bg">
-    <div class="content-header">
-        <div class="applicant-name">
-            <span class="name-uppercase">
-                <?php
-                $fullName = $last_name . ', ' . $first_name;
+         <div class="content-header">
+            <div class="applicant-name">
+                <span class="name-uppercase">
+                    <?php
+                    $fullName = $last_name . ', ' . $first_name;
 
-                // Check if middle_name and suffix_name are not 'n/a' before adding them to the full name
-                if (isset($middle_name) && $middle_name !== 'N/A') {
-                    $fullName .= ' ' . $middle_name;
-                }
+                    // Check if middle_name and suffix_name are not 'n/a' before adding them to the full name
+                    if (isset($middle_name) && $middle_name !== 'N/A') {
+                        $fullName .= ' ' . $middle_name;
+                    }
 
-                if (isset($suffix_name) && $suffix_name !== 'N/A') {
-                    $fullName .= ' ' . $suffix_name;
-                }
+                    if (isset($suffix_name) && $suffix_name !== 'N/A') {
+                        $fullName .= ' ' . $suffix_name;
+                    }
 
-                echo $fullName;
-                echo ' (' . $control_number . ')';
-                ?>
-            </span>
-        </div>
-    </div>
-    <div class="content-in">
-        <div class="main-progress">
-            <ul class="ul-progress">
-                <li class="progress-step">
-                    <i class="icon uil"></i>
-                    <div class="progress-bar-custom one">
+                    echo $fullName;
+                    echo ' (' . $control_number . ')';
+                    ?>
+                </span>
+            </div>
+            </div>
+         <div class="content-in">
+            <div class="main-progress">
+               <ul class="ul-progress">
+                  <li class="progress-step">
+                     <i class="icon uil"></i>
+                     <div class="progress-bar-custom one">
                         <p>1</p>
                         <i class="uil ri-check-fill"></i>
+                     </div>
+                     <p class="text">IN PROGRESS</p>
+                  </li>
+                  <li class="progress-step">
+                    <i class="icon uil"></i>
+                    <div class="progress-bar-custom two">
+                        <p>2</p>
+                        <i class="uil ri-check-fill"></i>
                     </div>
-                    <p class="text">IN PROGRESS</p>
+                    <p class="text"><?php
+                        // Update the text content based on the fetched status
+                        switch ($status) {
+                            case 'Disqualified':
+                                echo 'DISQUALIFIED';
+                                break;
+                            case 'Verified':
+                                echo 'VERIFIED';
+                                break;
+                            default:
+                                echo 'VERIFIED';
+                                break;
+                        }
+                    ?></p>
                 </li>
-                <?php if ($status !== 'Disqualified') : ?>
-                    <li class="progress-step">
-                        <i class="icon uil"></i>
-                        <div class="progress-bar-custom two">
-                            <p>2</p>
-                            <i class="uil ri-check-fill"></i>
-                        </div>
-                        <p class="text">
-                            <?php
-                            // Update the text content based on the fetched status
-                            switch ($status) {
-                                case 'Verified':
-                                    echo 'VERIFIED';
-                                    break;
-                                default:
-                                    echo 'VERIFIED';
-                                    break;
-                            }
-                            ?>
-                        </p>
-                    </li>
-                    <li class="progress-step">
-                        <i class="icon uil"></i>
-                        <div class="progress-bar-custom three">
-                            <p>3</p>
-                            <i class="uil ri-check-fill"></i>
-                        </div>
+                  <li class="progress-step">
+                     <i class="icon uil"></i>
+                     <div class="progress-bar-custom three">
+                        <p>3</p>
+                        <i class="uil ri-check-fill"></i>
+                     </div>
                         <p class="text">TO INTERVIEW</p>
-                    </li>
-                    <li class="progress-step">
-                        <i class="icon uil"></i>
-                        <div class="progress-bar-custom four" id="progress-bar-four">
-                            <p>4</p>
-                            <i class="uil ri-check-fill"></i>
-                        </div>
-                        <p class="text">
-                            <?php
-                            // Update the text content based on the fetched status
-                            switch ($status) {
-                                case 'Fail':
-                                    echo 'FAIL';
-                                    break;
-                                case 'Grantee':
-                                    echo 'GRANTEE';
-                                    break;
-                                default:
-                                    echo '';
-                            }
-                            ?>
-                        </p>
-                    </li>
-                <?php endif; ?>
-            </ul>
-        </div>
-    </div>
-</div>
-
+                  </li>
+                  <li class="progress-step">
+                    <i class="icon uil"></i>
+                    <div class="progress-bar-custom four" id="progress-bar-four">
+                        <p>4</p>
+                        <i class="uil ri-check-fill"></i>
+                    </div>
+                    <p class="text"><?php
+                        // Update the text content based on the fetched status
+                        switch ($status) {
+                            case 'Fail':
+                                echo 'FAIL';
+                                break;
+                            case 'Grantee':
+                                echo 'GRANTEE';
+                                break;
+                            default:
+                                echo '';
+                        }
+                    ?></p>
+                </li>
+               </ul>
+            </div>
+         </div>
        
 <div class="table-status">
     <table>
