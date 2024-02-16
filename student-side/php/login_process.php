@@ -38,6 +38,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 mysqli_close($conn);
                                 header("Location: first_time_login.php");
                                 exit();
+                            }else {
+                                mysqli_close($conn);
+                                $error = "Incorrect username or password.";
+                                header('Location: ../index.php?error=' . urlencode($error));
+                                exit();
                             }
                     } elseif ($first_time_login == 0 && password_verify($password, $hashed_password)) {
                         $_SESSION['username'] = $username;
@@ -54,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         exit();
                     } else {
                         mysqli_close($conn);
-                        $error = "Invalid username or password.";
+                        $error = "Incorrect username or password.";
                         header('Location: ../index.php?error=' . urlencode($error));
                         exit();
                     }
