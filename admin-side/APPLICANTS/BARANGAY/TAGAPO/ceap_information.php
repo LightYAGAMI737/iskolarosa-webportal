@@ -406,21 +406,24 @@ for ($i = 0; $i < count($tempAccountRows); $i++) {
     }
 
     // Check if this row has a previous status
-    if (!empty($tempAccountRow['currentSTAT']) && $status != 'In Progress') {
-        // Display a new row for the previous status
-        echo '<tr>';
-        echo '<td data-label="Date:">' . $UpdatedDateFormatted . '</td>';
+if (!empty($tempAccountRow['currentSTAT']) && $status != 'In Progress') {
+    // Display a new row for the previous status
+    echo '<tr>';
+    echo '<td data-label="Date:">' . $UpdatedDateFormatted . '</td>';
+    
+    // Check if the current status is "Disqualified" or "Fail"
+    if ($status == 'Disqualified' || $status == 'Fail') {
+        // Display the status along with the reason for disqualification
+        echo '<td data-label="Status:">' . strtoupper($tempAccountRow['currentSTAT']) . ' - Reason: ' . $tempAccountRow['reason'] . '</td>';
+    } else {
+        // Display only the status
         echo '<td data-label="Status:">' . strtoupper($tempAccountRow['currentSTAT']) . '</td>';
-        echo '<td data-label="Approved by:">' .  $updatedBy . '</td>';
-        echo '</tr>';
-
-        // Check if the current status is "Disqualified" and display the reason if so
-        if ($status == 'Disqualified' || 'Fail') {
-            echo '<tr>';
-            echo '<td colspan="3" style="font-style: italic;">Reason for Disqualification: <strong>' . $tempAccountRow['reason'] . '<strong></td>';
-            echo '</tr>';
-        }
     }
+    
+    echo '<td data-label="Approved by:">' . $updatedBy . '</td>';
+    echo '</tr>';
+}
+
 }
             ?>
         </tbody>
