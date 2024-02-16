@@ -743,7 +743,7 @@ for ($i = 0; $i < count($tempAccountRows); $i++) {
             <button id="submitReasonFail" onclick="submitStatusAndReasonFail()" class="disabled">Submit</button>
          </div>
       </div>
-         <footer class="footer">
+         <!--<footer class="footer">
 <div class="button-container">
             <?php 
 
@@ -761,7 +761,7 @@ for ($i = 0; $i < count($tempAccountRows); $i++) {
          </main>
          <div class="overlay"></div>
       </div>
-      <!-- partial -->
+      partial -->
       <script src='https://unpkg.com/@popperjs/core@2'></script>
       <script  src="./js/side_bar.js"></script>
       <script  src="./js/validateCeapInfo.js"></script>
