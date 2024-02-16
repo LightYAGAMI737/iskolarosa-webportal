@@ -658,42 +658,7 @@ echo '';
 <button onclick="opendeleteApplicantpopup()" class="status-button delete">Delete</button>
 </div>
 </div>
-
-<div class="button-container">
-            <?php 
-
-             // Check the status and determine which buttons to display
-             if ($applicantStatus === 'In Progress') {
-                echo '<button onclick="openReasonModal(\'Disqualified\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">DISQUALIFIED</button>';
-                echo '<button onclick="openVerifiedPopup()" style="background-color: #FEC021;" class="status-button">VERIFIED</button>';
-            } elseif ($applicantStatus === 'Disqualified') {
-                echo '<button onclick="openVerifiedPopup()" style="background-color: #FEC021; margin-right: 100px;" class="status-button">VERIFIED</button>';
-            } 
-            ?>
-</div>
-
-<!-- end applicant info -->
-
-         <!-- Modal for entering reason -->
-      <div id="reasonModal" class="modal">
-         <div class="modal-content">
-            <span class="close" onclick="closeReasonModal()">&times;</span>
-            <h2>Enter Reason</h2>
-            <input type="text" name="reason" id="disqualificationReason" minlength="10" maxlength="255" placeholder="Enter reason for disqualification">
-            <button id="submitReason" onclick="submitStatusAndReason()" class="disabled">Submit</button>
-         </div>
-      </div>
-      <div id="reasonModalFail" class="modal">
-         <div class="modal-content">
-            <span class="close" onclick="closeReasonModalFail()">&times;</span>
-            <h2>Enter Reason</h2>
-            <input type="text" name="reasonFail" id="FailReason" minlength="10" maxlength="255" placeholder="Enter reason for failing">
-            <button id="submitReasonFail" onclick="submitStatusAndReasonFail()" class="disabled">Submit</button>
-         </div>
-      </div>
-         <footer class="footer">
-
-         <div class="applicant-history">
+<div class="applicant-history">
 
 <div class="table-status">
     <table>
@@ -749,16 +714,49 @@ for ($i = 0; $i < count($tempAccountRows); $i++) {
     }
 }
  // Check if the current status is "Disqualified" and display the reason if so
- if ($status == 'Disqualified' || $status ==  'Fail') {
-    echo '<tr>';
-    echo '<td colspan="3" style="font-style: italic;">Reason for Disqualification: <strong>' . $tempAccountRow['reason'] . '<strong></td>';
-    echo '</tr>';
-}
+        if ($status == 'Disqualified' || $status ==  'Fail') {
+            echo '<tr>';
+            echo '<td colspan="3" style="font-style: italic;">Reason for Disqualification: <strong>' . $tempAccountRow['reason'] . '<strong></td>';
+            echo '</tr>';
+        }
             ?>
         </tbody>
     </table>
 </div>
 </div>
+<!-- end applicant info -->
+
+         <!-- Modal for entering reason -->
+      <div id="reasonModal" class="modal">
+         <div class="modal-content">
+            <span class="close" onclick="closeReasonModal()">&times;</span>
+            <h2>Enter Reason</h2>
+            <input type="text" name="reason" id="disqualificationReason" minlength="10" maxlength="255" placeholder="Enter reason for disqualification">
+            <button id="submitReason" onclick="submitStatusAndReason()" class="disabled">Submit</button>
+         </div>
+      </div>
+      <div id="reasonModalFail" class="modal">
+         <div class="modal-content">
+            <span class="close" onclick="closeReasonModalFail()">&times;</span>
+            <h2>Enter Reason</h2>
+            <input type="text" name="reasonFail" id="FailReason" minlength="10" maxlength="255" placeholder="Enter reason for failing">
+            <button id="submitReasonFail" onclick="submitStatusAndReasonFail()" class="disabled">Submit</button>
+         </div>
+      </div>
+         <footer class="footer">
+<div class="button-container">
+            <?php 
+
+             // Check the status and determine which buttons to display
+             if ($applicantStatus === 'In Progress') {
+                echo '<button onclick="openReasonModal(\'Disqualified\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">DISQUALIFIED</button>';
+                echo '<button onclick="openVerifiedPopup()" style="background-color: #FEC021;" class="status-button">VERIFIED</button>';
+            } elseif ($applicantStatus === 'Disqualified') {
+                echo '<button onclick="openVerifiedPopup()" style="background-color: #FEC021; margin-right: 100px;" class="status-button">VERIFIED</button>';
+            } 
+            ?>
+</div>
+
          </footer>
          </main>
          <div class="overlay"></div>
