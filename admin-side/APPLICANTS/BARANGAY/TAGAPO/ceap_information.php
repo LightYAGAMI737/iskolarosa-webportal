@@ -415,9 +415,9 @@ for ($i = 0; $i < count($tempAccountRows); $i++) {
         echo '</tr>';
 
         // Check if the current status is "Disqualified" and display the reason if so
-        if ($status == 'Disqualified') {
+        if ($status == 'Disqualified' || 'Fail') {
             echo '<tr>';
-            echo '<td colspan="3" style="font-style: italic;">Reason for Disqualification: ' . $tempAccountRow['reason'] . '</td>';
+            echo '<td colspan="3" style="font-style: italic;">Reason for Disqualification: <strong>' . $tempAccountRow['reason'] . '<strong></td>';
             echo '</tr>';
         }
     }
