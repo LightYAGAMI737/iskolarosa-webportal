@@ -415,14 +415,14 @@ for ($i = 0; $i < count($tempAccountRows); $i++) {
         echo '<td data-label="Approved by:">' .  $updatedBy . '</td>';
         echo '</tr>';
 }
-        // Check if the current status is "Disqualified" and display the reason if so
+ }       // Check if the current status is "Disqualified" and display the reason if so
         if ($status == 'Disqualified' || 'Fail') {
             echo '<tr>';
             echo '<td colspan="3" style="font-style: italic;">Reason for Disqualification: <strong>' . $tempAccountRow['reason'] . '<strong></td>';
             echo '</tr>';
         }
     
-}
+
             ?>
         </tbody>
     </table>
