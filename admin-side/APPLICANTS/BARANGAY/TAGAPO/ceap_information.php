@@ -395,7 +395,7 @@ for ($i = 0; $i < count($tempAccountRows); $i++) {
     $updatedBy = $tempAccountRow['updated_by']; // You need to fetch and populate this value
 
     // Check if the status is "In Progress" and it hasn't been displayed yet
-    if (!$inProgressDisplayed) {
+    if (!$inProgressDisplayed && $status == 'In Progress') {
         // Display the "In Progress" row
         echo '<tr>';
         echo '<td data-label="Date:">' . $form_submittedFormatted . '</td>';
@@ -405,15 +405,22 @@ for ($i = 0; $i < count($tempAccountRows); $i++) {
         $inProgressDisplayed = true; // Set the flag to true to indicate that the "In Progress" row has been displayed
     }
 
- // Check if this row has a previous status
-if (!empty($tempAccountRow['currentSTAT']) && $status != 'IN PROGRESS') {
-    // Display a new row for the previous status
-    echo '<tr>';
-    echo '<td data-label="Date:">' . $updatedDateFormatted . '</td>';
-    echo '<td data-label="Status:">' . ($status == 'Disqualified' ? $applicantReason : $tempAccountRow['currentSTAT']) . '</td>';
-    echo '<td data-label="Approved by:">' . $updatedBy . '</td>';
-    echo '</tr>';
-}
+   // Check if this row has a previous status
+    if (!empty($tempAccountRow['currentSTAT']) && $status != 'In Progress') {
+        // Display a new row for the previous status
+        echo '<tr>';
+        echo '<td data-label="Date:">' . $UpdatedDateFormatted . '</td>';
+        echo '<td data-label="Status:">' . strtoupper($tempAccountRow['currentSTAT']) . '</td>';
+        echo '<td data-label="Approved by:">' .  $updatedBy . '</td>';
+        echo '</tr>';
+
+        // Check if the current status is "Disqualified" and display the reason if so
+        if ($status == 'Disqualified') {
+            echo '<tr>';
+            echo '<td colspan="3" style="font-style: italic;">Reason for Disqualification: ' . $tempAccountRow['reason'] . '</td>';
+            echo '</tr>';
+        }
+    }
 }
             ?>
         </tbody>
