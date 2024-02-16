@@ -410,7 +410,7 @@ if (!empty($tempAccountRow['currentSTAT']) && $status != 'IN PROGRESS') {
     // Display a new row for the previous status
     echo '<tr>';
     echo '<td data-label="Date:">' . $updatedDateFormatted . '</td>';
-    echo '<td data-label="Status:">' . ($status === 'Disqualified' ? $applicantReason : $tempAccountRow['currentSTAT']) . '</td>';
+    echo '<td data-label="Status:">' . ($status === 'DISQUALIFIED' ? $applicantReason : $tempAccountRow['currentSTAT']) . '</td>';
     echo '<td data-label="Approved by:">' . $updatedBy . '</td>';
     echo '</tr>';
 }
