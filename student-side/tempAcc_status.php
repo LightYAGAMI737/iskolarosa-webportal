@@ -231,7 +231,7 @@ for ($i = 0; $i < count($tempAccountRows); $i++) {
                     case 'In Progress':
                         return 'Your application is currently under review.';
                     case 'Disqualified':
-                        return 'Your application did not meet the requirements. Reason: ' . $reason;
+                        return  $reason;
                     case 'Deleted':
                         return 'Your account has been deleted.';
                     case 'Fail':
