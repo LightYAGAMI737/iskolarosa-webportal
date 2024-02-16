@@ -35,6 +35,20 @@ if (mysqli_num_rows($result) > 0) {
     echo 'Applicant not found.';
     exit();
 }
+     // Prepare the second query
+     $tempAccountSqlTable = "
+     SELECT DISTINCT p.last_name, p.first_name, p.ceap_reg_form_id, p.form_submitted, t.status, t.reason, t.status_updated_at, t.interview_date, e.employee_username AS updated_by, l.previous_status AS prevSTAT , l.updated_status AS currentSTAT , l.timestamp
+     FROM ceap_reg_form p
+     JOIN temporary_account t ON p.ceap_reg_form_id = t.ceap_reg_form_id
+     LEFT JOIN applicant_status_logs l ON p.ceap_reg_form_id = l.ceap_reg_form_id
+     LEFT JOIN employee_logs e ON l.employee_logs_id = e.employee_logs_id
+     WHERE p.ceap_reg_form_id = ?
+     ORDER BY l.timestamp ASC";
+     
+     $stmtTable = mysqli_prepare($conn, $tempAccountSqlTable);
+     mysqli_stmt_bind_param($stmtTable, "s", $id); // Bind control number parameter
+     mysqli_stmt_execute($stmtTable);
+     $tempAccountResultTable = mysqli_stmt_get_result($stmtTable);
 
 // Fetch the applicant's status from the database
 $query = "SELECT status,reason, interview_date FROM temporary_account WHERE ceap_reg_form_id = ?";
@@ -143,7 +157,25 @@ fieldset {
 fieldset:disabled input, select{
     border: none !important;
 }
-</style>
+/* Styles for the table */
+.table-status {
+    margin: 50px 100px;
+    overflow-x: auto;
+}
+
+.table-status table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.table-status th, .table-status td {
+    border: 1px solid #000;
+    padding: 10px;
+    text-align: left;
+}
+
+         </style>
    </head>
    <body>
       <?php 
@@ -164,35 +196,9 @@ fieldset:disabled input, select{
         </a>
     </div>
 
-    <div class="applicant-info">
-    <h2 style="margin-top: -40px;">Applicant's Status Information</h2>
-        <fieldset id="applicant-info-fields" disabled>    
-    
-    <table>
-    <tr>
-                <th>Status:</th>
-                <td> <?php echo $applicantStatus; ?> </td>
-        </tr>      
-            <?php 
-                if ($applicantStatus == 'Disqualified') {
-                    echo '<tr>';
-                    echo '<th>Reason:</th>';
-                    echo '<td>' . $applicantreason . ' </td>';
-                    echo '</tr>';
-                }  elseif ($applicantStatus == 'interview') {
-                    echo '<tr>';
-                    echo '<th>Interview Date:</th>';
-                    echo '<td>' . $applicantinterview_date . ' </td>';
-                    echo '</tr>';
-                }
-            ?>
-    </table>
-</fieldset>
-</div>
-
 <!-- Table 1: Personal Info -->
 <div class="applicant-info">
-    <h2>Personal Information</h2>
+    <h2  style="margin-top: -40px;">Personal Information</h2>
     <form id="update-form" method="post" action="./php/update_personal_info.php">
         <fieldset id="personal-info-fields" disabled>    
             <table>
@@ -512,7 +518,7 @@ fieldset:disabled input, select{
         <tr>
             <td>
             <div class="file-group">
-                    <?php
+            <?php
 // Ensure Imagick is installed and enabled
                         if (!extension_loaded('imagick')) {
                             echo 'Imagick extension is not available.';
@@ -558,90 +564,92 @@ foreach ($pdfFiles as $key => $pdfFile) {
                                 echo "<script>console.error('Error converting $key:', '" . $e->getMessage() . "', PDF File: $pdfFile, Output Image: $outputImage');</script>";
                             }
 }
-      // Voters applicant
-      echo '<table class="table" style="border: 1px solid black; margin: 0 auto !important;border-collapse: collapse;">';
-      echo "<tbody>";
-      echo "<tr>";
-      echo "<td>";
-      echo "<label>Voters Certificate Applicant</label>";
-      echo "<div class='image'>";
-      echo "<img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadVotersApplicant.jpg' onclick='expandImage(this)' class='smaller-image'>";
-      echo "</div>";
-      echo "</td>";
-      
-// Voters Cert Parent
-echo "<td>";
-echo "<label>Voters Certificate Parent</label>";
-echo "<div class='image'>";
-echo "<img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadVotersParent.jpg' onclick='expandImage(this)' class='smaller-image'>";
-echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadVotersParent.jpg'></div>";
-echo "</div>";
-echo "</td>";
-echo "</tr>";
+echo '';
+                           // Voters applicant
+                           echo '<table class="table" style="border: 1px solid black; margin: 0 auto !important;border-collapse: collapse;">';
+                           echo "<tbody>";
+                           echo "<tr>";
+                           echo "<td>";
+                           echo "<label>Voters Certificate Applicant</label>";
+                           echo "<div class='image'>";
+                           echo "<img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadVotersApplicant.jpg' onclick='expandImage(this)' class='smaller-image'>";
+                           echo "</div>";
+                           echo "</td>";
+                           
+         // Voters Cert Parent
+         echo "<td>";
+         echo "<label>Voters Certificate Parent</label>";
+         echo "<div class='image'>";
+         echo "<img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadVotersParent.jpg' onclick='expandImage(this)' class='smaller-image'>";
+         echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadVotersParent.jpg'></div>";
+         echo "</div>";
+         echo "</td>";
+         echo "</tr>";
+         
+         // TAX
+         echo "<tr>";
+         echo "<td>";
+         echo "<label>Income Tax Return</label>";
+         echo "<div class='image'>";
+         echo "<img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadITR.jpg' onclick='expandImage(this)' class='smaller-image'>";
+         echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadITR.jpg'></div>";
+         echo "</div>";
+         echo "</td>";
+         // Residency
+         echo "<td>";
+         echo "<label>Residency</label>";
+         echo "<div class='image'>";
+         echo "<img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadResidency.jpg' onclick='expandImage(this)' class='smaller-image'>";
+         echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadResidency.jpg'></div>";
+         echo "</div>";
+         echo "</td>";
+         echo "</tr>";
+         
+         // COR
+         echo "<tr>";
+         echo "<td>";
+         echo "<label>Certificate of Registration</label>";
+         echo "<div class='image'>";
+         echo "<img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadCOR.jpg' onclick='expandImage(this)' class='smaller-image'>";
+         echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadCOR.jpg'></div>";
+         echo "</div>";
+         echo "</td>";
+         
+         // GRADE
+         echo "<td>";
+         echo "<label>GWA for Current Sem</label>";
+         echo "<div class='image'>";
+         echo "<img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadGrade.jpg' onclick='expandImage(this)' class='smaller-image'>";
+         echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadGrade.jpg'></div>";
+         echo "</div>";
+         echo "</td>";
+         echo "</tr>";
+         
+         
+         // 2x2
+         echo "<tr>";
 
-// TAX
-echo "<tr>";
-echo "<td>";
-echo "<label>Income Tax Return</label>";
-echo "<div class='image'>";
-echo "<img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadITR.jpg' onclick='expandImage(this)' class='smaller-image'>";
-echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadITR.jpg'></div>";
-echo "</div>";
-echo "</td>";
-// Residency
-echo "<td>";
-echo "<label>Residency</label>";
-echo "<div class='image'>";
-echo "<img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadResidency.jpg' onclick='expandImage(this)' class='smaller-image'>";
-echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadResidency.jpg'></div>";
-echo "</div>";
-echo "</td>";
-echo "</tr>";
-
-// COR
-echo "<tr>";
-echo "<td>";
-echo "<label>Certificate of Registration</label>";
-echo "<div class='image'>";
-echo "<img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadCOR.jpg' onclick='expandImage(this)' class='smaller-image'>";
-echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadCOR.jpg'></div>";
-echo "</div>";
-echo "</td>";
-
-// GRADE
-echo "<td>";
-echo "<label>GWA for Current Sem</label>";
-echo "<div class='image'>";
-echo "<img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadGrade.jpg' onclick='expandImage(this)' class='smaller-image'>";
-echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../ceap-reg-form/converted-images/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_uploadGrade.jpg'></div>";
-echo "</div>";
-echo "</td>";
-echo "</tr>";
-
-
-// 2x2
-echo "<tr>";
-
-echo "<td>";
-echo "<label>Applicant 2x2 Picture</label>";
-echo "<div class='image'>";
-echo "<img src='../ceap-reg-form/applicant2x2/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_2x2_Picture.jpg' onclick='expandImage(this)' class='smaller-image'>";
-echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../ceap-reg-form/applicant2x2/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_2x2_Picture.jpg'></div>";
-echo "</div>";
-echo "</td>";
-echo "<td>";
-
-echo "</td>";
-echo "</tr>";
-
-echo "</tbody>";
-echo "</table>";
-
-?>
-</div>
+         echo "<td>";
+         echo "<label>Applicant 2x2 Picture</label>";
+         echo "<div class='image'>";
+         echo "<img src='../ceap-reg-form/applicant2x2/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_2x2_Picture.jpg' onclick='expandImage(this)' class='smaller-image'>";
+         echo "<div class='expanded-image' onclick='collapseImage(this)'><img src='../ceap-reg-form/applicant2x2/" . $applicantInfo['last_name'] . "_" . $applicantInfo['first_name'] . "_2x2_Picture.jpg'></div>";
+         echo "</div>";
+         echo "</td>";
+         echo "<td>";
+        
+         echo "</td>";
+         echo "</tr>";
+         
+         echo "</tbody>";
+         echo "</table>";
+         
+         ?>
+   </div>
 </td>
 </tr>
 </table>
+
 <input type="hidden" name="ceap_reg_form_id" value="<?php echo $ceapRegFormId; ?>">
 <input type="hidden" name="control_number" value="<?php echo $control_number; ?>">
     <button id="edit-button" class="status-button" type="button">Edit</button>
@@ -650,7 +658,66 @@ echo "</table>";
 <button onclick="opendeleteApplicantpopup()" class="status-button delete">Delete</button>
 </div>
 </div>
+<div class="applicant-history">
 
+<div class="table-status">
+    <table>
+        <thead>
+            <tr>
+                <th>Updated Date</th>
+                <th>Status</th>
+                <th>Updated By</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            $interviewDisplayed = false; // Initialize the variable to track 'interview' status
+
+            // Fetch all rows in an array
+$tempAccountRows = mysqli_fetch_all($tempAccountResultTable, MYSQLI_ASSOC);
+echo '<h4>Applicant Status History</h4>';
+
+$inProgressDisplayed = false; // Initialize flag to track if the "In Progress" row has been displayed
+
+for ($i = 0; $i < count($tempAccountRows); $i++) {
+    $tempAccountRow = $tempAccountRows[$i];
+    $updated_date = $tempAccountRow['timestamp'];
+    $UpdatedDateFormatted = date('F d, Y', strtotime($updated_date));
+    $interview_date = $tempAccountRow['interview_date'];
+    $dateFormatted = date('F d, Y', strtotime($interview_date));
+    $status_updated_at = $tempAccountRow['status_updated_at'];
+    $status_updated_atFormatted = date('F d, Y', strtotime($status_updated_at));
+    $form_submitted = $tempAccountRow['form_submitted'];
+    $form_submittedFormatted = date('F d, Y', strtotime($form_submitted));
+    $status = $tempAccountRow['status']; // Fetch the current status
+    $updatedBy = $tempAccountRow['updated_by']; // You need to fetch and populate this value
+
+    // Check if the status is "In Progress" and it hasn't been displayed yet
+    if (!$inProgressDisplayed) {
+        // Display the "In Progress" row
+        echo '<tr>';
+        echo '<td data-label="Date:">' . $form_submittedFormatted . '</td>';
+        echo '<td data-label="Status:">IN PROGRESS</td>';
+        echo '<td data-label="Approved by:">-</td>';
+        echo '</tr>';
+        $inProgressDisplayed = true; // Set the flag to true to indicate that the "In Progress" row has been displayed
+    }
+
+    // Check if this row has a previous status
+    if (!empty($tempAccountRow['currentSTAT']) && $status != 'In Progress') {
+        // Display a new row for the previous status
+        echo '<tr>';
+        echo '<td data-label="Date:">' . $UpdatedDateFormatted . '</td>';
+        echo '<td data-label="Status:">' . strtoupper($tempAccountRow['currentSTAT']) . '</td>';
+        echo '<td data-label="Approved by:">' . ($status == 'In Progress' ? '-' : $updatedBy) . '</td>';
+        echo '</tr>';
+    }
+}
+            ?>
+        </tbody>
+    </table>
+</div>
+</div>
 <!-- end applicant info -->
 
          <!-- Modal for entering reason -->
@@ -734,7 +801,6 @@ function expandImage(img) {
     var imageUrl = img.src;
     window.open(imageUrl, "_blank"); // Open the image in a new tab/window
 }
-
 function collapseImage(element) {
     element.style.display = 'none';
 }
