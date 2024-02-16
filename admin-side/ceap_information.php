@@ -748,12 +748,12 @@ for ($i = 0; $i < count($tempAccountRows); $i++) {
             <?php 
 
              // Check the status and determine which buttons to display
-             if ($applicantStatus === 'In Progress') {
-                echo '<button onclick="openReasonModal(\'Disqualified\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">DISQUALIFIED</button>';
-                echo '<button onclick="openVerifiedPopup()" style="background-color: #FEC021;" class="status-button">VERIFIED</button>';
-            } elseif ($applicantStatus === 'Disqualified') {
-                echo '<button onclick="openVerifiedPopup()" style="background-color: #FEC021; margin-right: 100px;" class="status-button">VERIFIED</button>';
-            } 
+            //  if ($applicantStatus === 'In Progress') {
+            //     echo '<button onclick="openReasonModal(\'Disqualified\', ' . $id . ')" style="background-color: #A5040A; margin-right: 100px;" class="status-button">DISQUALIFIED</button>';
+            //     echo '<button onclick="openVerifiedPopup()" style="background-color: #FEC021;" class="status-button">VERIFIED</button>';
+            // } elseif ($applicantStatus === 'Disqualified') {
+            //     echo '<button onclick="openVerifiedPopup()" style="background-color: #FEC021; margin-right: 100px;" class="status-button">VERIFIED</button>';
+            // } 
             ?>
 </div>
 
