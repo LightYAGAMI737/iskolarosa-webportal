@@ -395,7 +395,7 @@ for ($i = 0; $i < count($tempAccountRows); $i++) {
     $updatedBy = $tempAccountRow['updated_by']; // You need to fetch and populate this value
 
     // Check if the status is "In Progress" and it hasn't been displayed yet
-    if (!$inProgressDisplayed && $status == 'In Progress') {
+    if (!$inProgressDisplayed) {
         // Display the "In Progress" row
         echo '<tr>';
         echo '<td data-label="Date:">' . $form_submittedFormatted . '</td>';
@@ -405,7 +405,7 @@ for ($i = 0; $i < count($tempAccountRows); $i++) {
         $inProgressDisplayed = true; // Set the flag to true to indicate that the "In Progress" row has been displayed
     }
 
-   // Check if this row has a previous status
+    // Check if this row has a previous status
     if (!empty($tempAccountRow['currentSTAT']) && $status != 'In Progress') {
         // Display a new row for the previous status
         echo '<tr>';
