@@ -86,6 +86,11 @@
       <link rel="stylesheet" href="css/ceap_configuration.css">
       <link rel="stylesheet" href="css/status_popup.css">
       <link rel="stylesheet" href="css/errorpopup.css">
+      <style>
+        .requiredFields {
+            color: red;
+        }
+        </style>
       <script>
          // Prevent manual input in date fields
          function preventInput(event) {
@@ -159,7 +164,7 @@ setInterval(updateCurrentDateTime, 1000); // Update every 1 second
             </script>
             <div class="toggle-applicant">
                <label for="toggleButton" class="toggle-label">
-                  <span class="slider-text">Application Period:</span>
+                  <span class="slider-text"><span class="requiredFields"> *</span>Application Period:</span>
                   <div class="slider-toggle">
                      <input type="checkbox" id="toggleButton" required name="toggleButton" <?php echo ($toggleValue == 1) ? 'checked' : ''; ?>>
                      <div class="slider"></div>
@@ -176,10 +181,10 @@ setInterval(updateCurrentDateTime, 1000); // Update every 1 second
                }
                ?>
             <p class="application-dates">
-               <label for="startDate">Application starts at:</label>
+               <label for="startDate"><span class="requiredFields"> *</span>Application starts at:</label>
                <input type="date" id="startDate" name="startDate" disabled required value="<?php echo ($startDate); ?>" onkeydown="preventInput(event)"  onchange="checkTimeValidity()" <?php if (!empty($startDate)) echo 'disabled'; ?>>
                <input type="time" id="startTime" name="startTime" disabled  required value="<?php echo ($startTime); ?>" onkeydown="preventInput(event)"  onchange="checkTimeValidity()">
-               <label for="endDate">and ends at:</label>
+               <label for="endDate"><span class="requiredFields"> *</span>ends at:</label>
                <input type="date" id="endDate" name="endDate" disabled required value="<?php echo ($endDate); ?>"  onkeydown="preventInput(event)" onchange="checkTimeValidity()">
                <input type="time" id="endTime" name="endTime"disabled required value="<?php echo ($endTime); ?>"  onkeydown="preventInput(event)" onchange="checkTimeValidity()">
             </p>
@@ -215,13 +220,13 @@ setInterval(updateCurrentDateTime, 1000); // Update every 1 second
              <div class="two-column-layout">
                <div class="column">
                   <div class="text-input">
-                     <label for="qualifications">Qualifications:</label>
+                     <label for="qualifications"><span class="requiredFields"> *</span>Qualifications:</label>
                      <textarea id="qualifications" name="qualifications" disabled placeholder="Enter text here" rows="4" maxlength="1000" oninput="formatInput(this)"   required><?php echo ($qualifications) ?></textarea>
                   </div>
                </div>
                <div class="column">
                   <div class="text-input">
-                     <label for="requirements">Requirements:</label>
+                     <label for="requirements"><span class="requiredFields"> *</span>Requirements:</label>
                      <textarea id="requirements" name="requirements" disabled placeholder="Enter text here" rows="4" maxlength="1000"  oninput="formatInput(this)"   required><?php echo ($requirements) ?></textarea>
                   </div>
                </div>
@@ -340,6 +345,7 @@ function EditConfigurationLPPP() {
     }
 
     submitConfigBtnLPPP.innerText = "Save";
+
     // Add event listener to form elements for the "input" event
     form.addEventListener('input', function () {
         var currentFormState = getFormState();
