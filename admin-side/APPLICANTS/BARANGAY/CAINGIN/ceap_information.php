@@ -111,78 +111,97 @@ $tempAccountResultTable = mysqli_stmt_get_result($stmtTable);
             <i><i class="ri-close-circle-line"></i></i>
             </a>
          </div>
-
+         
          <div class="applicant-info">
-            <h2 style="margin-top: -40px;">Personal Information</h2>
-            <table>
-               <?php foreach ($applicantInfo as $field => $value) : ?>
-               <?php if (in_array($field, [
-                  'control_number', 'last_name', 'first_name', 'middle_name', 'suffix_name',
-                  'date_of_birth', 'gender', 'civil_status', 'place_of_birth', 'religion', 'contact_number',
-                  'active_email_address', 'house_number', 'province', 'municipality', 'barangay'
-                  ])) : ?>
-               <tr>
-                  <th><?php echo ucwords(str_replace('_', ' ', $field)) . ': '; ?></th>
-                  <td>
-                     <?php
+    <h2 style="margin-top: -40px;">Personal Information</h2>
+    <table>
+        <?php 
+        // Define the desired sequence of fields
+        $desiredFields = ['control_number', 'last_name', 'suffix_name', 'first_name', 'middle_name', 'date_of_birth', 'gender', 'civil_status', 'place_of_birth', 'religion', 'contact_number', 'active_email_address', 'house_number', 'province', 'municipality', 'barangay', 'control_number'];
+        
+        foreach ($desiredFields as $field) : ?>
+            <?php if (isset($applicantInfo[$field]) && $applicantInfo[$field] !== 'N/A') : ?>
+                <tr>
+                    <th>
+                        <?php 
+                        $label = ucwords(str_replace('_', ' ', $field)); 
+                        if ($field === 'suffix_name') {
+                            $label = 'Suffix';
+                        }
+                        echo $label . ': ';
+                        ?>
+                    </th>
+                    <td>
+                        <?php 
                         if ($field === 'date_of_birth') {
-                            echo $value; // Display date of birth
+                            echo $applicantInfo[$field]; // Display date of birth
                         } else {
-                            echo $value;
+                            echo $applicantInfo[$field];
                         }
                         ?>
-                  </td>
-               </tr>
-               <?php if ($field === 'date_of_birth') : ?>
-               <tr>
-                  <th>Age:</th>
-                  <td>
-                     <?php
-                        // Calculate age from date of birth
-                        $birthDate = new DateTime($value);
+                    </td>
+                </tr>
+                <?php if ($field === 'date_of_birth') : ?>
+                <tr>
+                    <th>Age:</th>
+                    <td>
+                        <?php
+                        // Calculate age
+                        $birthDate = new DateTime($applicantInfo[$field]);
                         $currentDate = new DateTime();
                         $age = $currentDate->diff($birthDate);
-                        
-                        // Check if the birthday has occurred in the current year
-                        if (($currentDate < $birthDate->modify('+' . $age->y . ' years'))) {
-                            $age->y--; // Decrement the age by 1
-                            $birthDate->modify('-1 year'); // Adjust the birthdate for correct calculation
-                        }
-                        
-                        // Reset the birthdate to its original value
-                        $birthDate->modify('+' . $age->y . ' years');
-                        
-                        echo $age->y . ' years old'; // Display calculated age
+                        echo $age->y . ' years old';
                         ?>
-                  </td>
-               </tr>
-               <?php endif; ?>
-               <?php endif; ?>
-               <?php endforeach; ?>
-            </table>
-         </div>
-     
-         <!-- Table 3: Educational Background -->
-         <div class="applicant-info">
-            <h2>Educational Background</h2>
-            <table>
-               <?php foreach ($applicantInfo as $field => $value) : ?>
-               <?php if (in_array($field, [
-                  'elementary_school', 'elementary_year', 'elementary_honors',
-                  'secondary_school', 'secondary_year', 'secondary_honors',
-                  'senior_high_school', 'senior_high_year', 'senior_high_honors',
-                  'course_enrolled', 'no_of_units', 'year_level', 'current_semester',
-                  'graduating', 'school_name', 'school_type', 'expected_year_of_graduation',
-                  'school_address', 'student_id_no'
-                  ])) : ?>
-               <tr>
-                  <th><?php echo ucwords(str_replace('_', ' ', $field)) . ': '; ?></th>
-                  <td><?php echo $value; ?></td>
-               </tr>
-               <?php endif; ?>
-               <?php endforeach; ?>
-            </table>
-         </div>
+                    </td>
+                </tr>
+                <?php endif; ?>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </table>
+</div>
+<!-- Table 3: Educational Background -->
+<div class="applicant-info">
+    <h2>Educational Background</h2>
+    <table>
+        <?php 
+            $desiredSequence = [
+                'elementary_school', 'secondary_school', 'senior_high_school', 'school_name',  'school_type', 'school_address',
+                'course_enrolled', 'year_level', 'current_semester', 'no_of_units',  
+                'graduating', 'expected_year_of_graduation',
+                 'student_id_no'
+            ];
+
+            foreach ($desiredSequence as $field) : 
+                if (isset($applicantInfo[$field])) : ?>
+                    <?php if ($field === 'school_name') : ?>
+                        <tr>
+                            <th><?php echo "Tertiary School Name:"; ?></th>
+                            <td><?php echo $applicantInfo[$field]; ?></td>
+                        </tr>
+                        <?php elseif ($field === 'student_id_no') : ?>
+                        <tr>
+                            <th><?php echo "Student ID No. :"; ?></th>
+                            <td><?php echo $applicantInfo[$field]; ?></td>
+                        </tr>
+                     
+                    <?php elseif (strpos($field, '_school') !== false && isset($applicantInfo[str_replace('_school', '_year', $field)])) : ?>
+                        <tr>
+                            <th><?php echo ucwords(str_replace('_', ' ', str_replace('_school', '', $field))) . ':'; ?></th>
+                            <td><?php echo $applicantInfo[$field] . ', (' . $applicantInfo[str_replace('_school', '_year', $field)] . ')'; ?></td>
+                        </tr>
+                    <?php else : ?>
+                        <tr>
+                            <th><?php echo ucwords(str_replace('_', ' ', $field)) . ':'; ?></th>
+                            <td><?php echo $applicantInfo[$field]; ?></td>
+                        </tr>
+                    <?php endif; ?>
+                <?php endif; ?>
+        <?php endforeach; ?>
+    </table>
+</div>
+
+
+
              <!-- Table 2: Family Background -->
              <div class="applicant-info">
             <h2>Family Background</h2>
@@ -207,8 +226,8 @@ $tempAccountResultTable = mysqli_stmt_get_result($stmtTable);
                <tr>
                   <td>
                      <div class="file-group">
-                     <?php
-// Ensure Imagick is installed and enabled
+                      <?php
+//Ensure Imagick is installed and enabled
 if (!extension_loaded('imagick')) {
     echo 'Imagick extension is not available.';
     // Handle the situation where Imagick is not available
@@ -252,7 +271,7 @@ foreach ($pdfFiles as $key => $pdfFile) {
         // Log error
         echo "<script>console.error('Error converting $key:', '" . $e->getMessage() . "', PDF File: $pdfFile, Output Image: $outputImage');</script>";
     }
-}
+} 
                            // Voters applicant
                            echo '<table class="table" style="border: 1px solid black; margin: 0 auto !important;border-collapse: collapse;">';
                            echo "<tbody>";
@@ -406,23 +425,20 @@ for ($i = 0; $i < count($tempAccountRows); $i++) {
     }
 
     // Check if this row has a previous status
-
     if (!empty($tempAccountRow['currentSTAT']) && $status != 'In Progress') {
         // Display a new row for the previous status
         echo '<tr>';
         echo '<td data-label="Date:">' . $UpdatedDateFormatted . '</td>';
         echo '<td data-label="Status:">' . strtoupper($tempAccountRow['currentSTAT']) . '</td>';
-        echo '<td data-label="Approved by:">' .  $updatedBy . '</td>';
+        echo '<td data-label="Approved by:">' . ($status == 'In Progress' ? '-' : $updatedBy) . '</td>';
         echo '</tr>';
-}
- }       // Check if the current status is "Disqualified" and display the reason if so
+    }
+}       // Check if the current status is "Disqualified" and display the reason if so
         if ($status == 'Disqualified' || $status ==  'Fail') {
             echo '<tr>';
             echo '<td colspan="3" style="font-style: italic;">Reason for Disqualification: <strong>' . $tempAccountRow['reason'] . '<strong></td>';
             echo '</tr>';
-        }
-    
-
+}
             ?>
         </tbody>
     </table>

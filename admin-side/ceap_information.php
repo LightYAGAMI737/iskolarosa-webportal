@@ -203,7 +203,7 @@ fieldset:disabled input, select{
         <fieldset id="personal-info-fields" disabled>    
             <table>
                 <?php foreach ($applicantInfo as $field => $value) : ?>
-                    <?php if (in_array($field, ['control_number', 'last_name', 'first_name', 'middle_name', 'suffix_name', 'date_of_birth', 'gender', 'civil_status', 'place_of_birth', 'religion', 'contact_number', 'active_email_address', 'house_number', 'province', 'municipality', 'barangay'])) : ?>
+                    <?php if ($value !== "N/A" && in_array($field, ['control_number', 'last_name', 'first_name', 'middle_name', 'suffix_name', 'date_of_birth', 'gender', 'civil_status', 'place_of_birth', 'religion', 'contact_number', 'active_email_address', 'house_number', 'province', 'municipality', 'barangay'])) : ?>
                       
                         <tr>
                             <th><?php echo ucwords(str_replace('_', ' ', $field)) . ': '; ?></th>
@@ -238,7 +238,7 @@ fieldset:disabled input, select{
                                             if ($field === 'date_of_birth') : ?>
                                                 <tr>
                                                     <th>Age:</th>
-                                                    <td style="opacity: 0.7;" id="ageDisplay">
+                                                    <td style="height: 57px; opacity: 0.7; padding: 10px;" id="ageDisplay">
                                                         <?php
                                                         // Calculate age from date of birth
                                                         $birthDate = new DateTime($value);
@@ -349,7 +349,7 @@ fieldset:disabled input, select{
     <fieldset id="educational-background-fields" disabled>
         <table>
             <?php foreach ($applicantInfo as $field => $value) : ?>
-                <?php if (in_array($field, ['elementary_school', 'elementary_year', 'secondary_school', 'secondary_year', 'senior_high_school', 'senior_high_year', 'course_enrolled', 'graduating', 'no_of_units', 'year_level', 'current_semester', 'school_name', 'school_type', 'expected_year_of_graduation', 'school_address', 'student_id_no'])) : ?>
+                <?php if ($value !== 'N/A' && in_array($field, ['elementary_school', 'elementary_year', 'secondary_school', 'secondary_year', 'senior_high_school', 'senior_high_year', 'course_enrolled', 'graduating', 'no_of_units', 'year_level', 'current_semester', 'school_name', 'school_type', 'expected_year_of_graduation', 'school_address', 'student_id_no'])) : ?>
                     <tr>
                         <th><?php echo ucwords(str_replace('_', ' ', $field)) . ': '; ?></th>
                         <td>
@@ -718,7 +718,7 @@ for ($i = 0; $i < count($tempAccountRows); $i++) {
             echo '<tr>';
             echo '<td colspan="3" style="font-style: italic;">Reason for Disqualification: <strong>' . $tempAccountRow['reason'] . '<strong></td>';
             echo '</tr>';
-        }
+}
             ?>
         </tbody>
     </table>
@@ -743,7 +743,7 @@ for ($i = 0; $i < count($tempAccountRows); $i++) {
             <button id="submitReasonFail" onclick="submitStatusAndReasonFail()" class="disabled">Submit</button>
          </div>
       </div>
-         <!--<footer class="footer">
+          <!-- <footer class="footer">
 <div class="button-container">
             <?php 
 
@@ -761,7 +761,7 @@ for ($i = 0; $i < count($tempAccountRows); $i++) {
          </main>
          <div class="overlay"></div>
       </div>
-      partial -->
+     partial -->
       <script src='https://unpkg.com/@popperjs/core@2'></script>
       <script  src="./js/side_bar.js"></script>
       <script  src="./js/validateCeapInfo.js"></script>
