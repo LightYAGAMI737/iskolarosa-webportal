@@ -33,16 +33,16 @@
    $currentPage = "post";
    $currentSubPage = 'manage post';
    
-   $sql = "SELECT * FROM create_post WHERE post_schedule_at <= '$currentDateTime' ORDER BY post_created_at DESC";
+   $sql = "SELECT * FROM create_post WHERE post_schedule_at <= '$currentDateTime' AND post_deleted = 0 ORDER BY post_created_at DESC";
    $result = mysqli_query($conn, $sql);
    
    $selectedTag = $_GET['tag'] ?? '';
    if ($selectedTag === 'all') {
-    $sql = "SELECT * FROM create_post WHERE tag IN ('ceap', 'lppp','public') ORDER BY post_created_at DESC";
+    $sql = "SELECT * FROM create_post WHERE tag IN ('ceap', 'lppp','public') AND post_deleted = 0 ORDER BY post_created_at DESC";
    } elseif (!empty($selectedTag)) {
-    $sql = "SELECT * FROM create_post WHERE tag = '$selectedTag' ORDER BY post_created_at DESC";
+    $sql = "SELECT * FROM create_post WHERE tag = '$selectedTag' AND post_deleted = 0 ORDER BY post_created_at DESC";
    } else {
-    $sql = "SELECT * FROM create_post ORDER BY post_created_at DESC";
+    $sql = "SELECT * FROM create_post WHERE post_deleted = 0 ORDER BY post_created_at DESC";
    }
 
    $result = mysqli_query($conn, $sql);
@@ -80,7 +80,7 @@
       <form action="#" method="post" id="post-form">
       <div class="card">
          <div class="header-delete-checkbox">
-            <!--dropdown filtering--->
+          <!-- dropdown filtering -->
             <div class="custom-select">
                <select id="tag-filter" onchange="applyFilter()">
                   <option value="" hidden>Tags</option>
@@ -89,7 +89,7 @@
                   <option value="ceap">CEAP</option>
                   <option value="lppp">LPPP</option>
                </select>
-               </div>
+            </div>
             <div class="post-checkbox">
                <button type="button" onclick="opendeletepostpopup()" class="delete-button">
                <i class="ri-delete-bin-fill" style="margin-right: 7px;"></i>
@@ -269,20 +269,22 @@ if (selectAllCheckboxForDelete) {
            });
          });
       </script>
-      <script>
-         function applyFilter() {
-           const selectedTag = document.getElementById('tag-filter').value;
-           window.location.href = `manage_post.php?tag=${selectedTag}`;
-         
-         const urlParams = new URLSearchParams(window.location.search);
-         const selectedTagParam = urlParams.get('tag');
-         
-         if (selectedTagParam) {
-           document.getElementById('tag-filter').value = selectedTagParam;
-         } 
-         
-         }
-         
-      </script>
+  <script>
+    function applyFilter() {
+        const selectedTag = document.getElementById('tag-filter').value;
+        window.location.href = `manage_post.php?tag=${selectedTag}`;
+    }
+
+    // Add this script to set the selected filter label
+    window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const selectedTagParam = urlParams.get('tag');
+
+        if (selectedTagParam) {
+            document.getElementById('tag-filter').value = selectedTagParam;
+            document.querySelector(`option[value="${selectedTagParam}"]`).selected = true;
+        }
+    };
+</script>
    </body>
 </html>

@@ -7,7 +7,7 @@
  //  echo "Current Date and Time: $currentDateTime (FOR TESTING LANG PO ITO)"; // Echo the current date and time for debugging
    
    // Fetch posts from the database where the scheduled time is in the past or equal to the current date and time
-   $sql = "SELECT * FROM create_post WHERE post_schedule_at <= '$currentDateTime' ORDER BY post_created_at DESC";
+   $sql = "SELECT * FROM create_post WHERE post_schedule_at <= '$currentDateTime' AND post_deleted = 0 ORDER BY post_created_at DESC";
    $result = mysqli_query($conn, $sql);
    
 ?>
