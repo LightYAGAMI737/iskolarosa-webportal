@@ -84,12 +84,22 @@ mysqli_close($conn);
         <div class="leftColumn">
             <h3>Qualification:</h3>
             <div class="scrollable-content">
+        <?php
+            if ($rowReqAndQualiCEAP['start_date'] == '0000-00-00') {
+                echo '<p style="font-size: 15px; text-align: center; width: 260px;">Qualifications are not available yet.</p>';
+            }
+?>
                 <p class="text-break"><?= $qualificationsCEAP ?></p>
             </div>
         </div>
         <div class="rightColumn">
             <h3>Requirement:</h3>
             <div class="scrollable-content">
+            <?php
+            if ($rowReqAndQualiCEAP['start_date'] == '0000-00-00') {
+                echo '<p style="font-size: 15px; text-align: center; width: 260px;">Requirements are not available yet.</p>';
+            }
+?>
                 <p class="text-break"><?= $requirementsCEAP ?></p>
             </div>
     </div>
@@ -103,7 +113,7 @@ mysqli_close($conn);
         </div>
         <?php
             if ($rowReqAndQualiCEAP['start_date'] == '0000-00-00') {
-                echo '<p class="timeDateApplication">The Application has not started yet.</p>';
+                echo '<p class="timeDateApplication">The Application is closed. Check back soon for updates</p>';
             }else{
                 echo '<p class="timeDateApplication">Application starts on <strong>' . $formattedStartDate . ', ' . $formattedStartTime . '</strong></p>';
                 echo '<p class="timeDateApplication">Application ends on <strong>' . $formattedEndDate . ', ' . $formattedEndtime . '</strong></p>';
@@ -130,12 +140,22 @@ mysqli_close($conn);
         <div class="leftColumn">
             <h3>Qualification:</h3>
             <div class="scrollable-content">
+        <?php
+            if ($rowReqAndQualiCEAP['start_date'] == '0000-00-00') {
+                echo '<p style="font-size: 15px; text-align: center; width: 260px;">Qualifications are not available yet.</p>';
+            }
+?>
                 <p class="text-break"><?= $qualificationsLPPP ?></p>
             </div>
         </div>
         <div class="rightColumn">
             <h3>Requirement:</h3>
             <div class="scrollable-content">
+            <?php
+            if ($rowReqAndQualiCEAP['start_date'] == '0000-00-00') {
+                echo '<p style="font-size: 15px; text-align: center; width: 260px;">Requirements are not available yet.</p>';
+            }
+?>
                 <p class="text-break"><?= $requirementsLPPP ?></p>
             </div>
     </div>
@@ -148,7 +168,7 @@ mysqli_close($conn);
         </div>
         <?php
             if ($rowReqAndQualiLPPP['start_date'] == '0000-00-00') {
-                echo '<p class="timeDateApplication">The Application has not started yet.</p>';
+                echo '<p class="timeDateApplication">The Application is closed. Check back soon for updates.</p>';
             }else{
                 echo '<p class="timeDateApplication">Application starts on <strong>' . $formattedStartDateLPPP . ', ' . $formattedStartTimeLPPP . '</strong></p>';
                 echo '<p class="timeDateApplication">Application ends on <strong>' . $formattedEndDateLPPP . ', ' . $formattedEndtimeLPPP . '</strong></p>';
