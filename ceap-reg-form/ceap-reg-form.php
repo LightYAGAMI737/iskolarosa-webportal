@@ -114,7 +114,7 @@ if ($row['toggle_value'] == 0) {
                            <option value="widowed">WIDOWED</option>
                            <option value="divorced">DIVORCED</option>
                            <option value="separated">SEPARATED</option>
-                           <option value="lived_in">LIVED IN</option>
+                           <option value="lived in">LIVED IN</option>
                         </select>
                      </div>
                      <div class="input-container">
@@ -295,20 +295,20 @@ if ($row['toggle_value'] == 0) {
                      <div class="input-container">
                         <label class="required" >Current Year Level</label>
                         <select name="year_level" id="year_level" required>
-                           <option value="one">1</option>
-                           <option value="two">2</option>
-                           <option value="three">3</option>
-                           <option value="four">4</option>
-                           <option value="five">5</option>
-                           <option value="six">6</option>
+                           <option value="first">1</option>
+                           <option value="second">2</option>
+                           <option value="third">3</option>
+                           <option value="fourth">4</option>
+                           <option value="fifth">5</option>
+                           <option value="sixth">6</option>
                         </select>
                      </div>
                      <div class="input-container">
                         <label class="required">Current Semester</label>
                         <select name="current_semester" id="current_semester" required>
-                           <option value="one">1</option>
-                           <option value="two">2</option>
-                           <option value="three">3</option>
+                           <option value="first">1</option>
+                           <option value="second">2</option>
+                           <option value="third">3</option>
                         </select>
                      </div>
                      <div class="input-container">
