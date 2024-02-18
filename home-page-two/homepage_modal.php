@@ -141,21 +141,18 @@ mysqli_close($conn);
             <h3>Qualification:</h3>
             <div class="scrollable-content">
         <?php
-            if ($rowReqAndQualiCEAP['start_date'] == '0000-00-00') {
-                echo $rowReqAndQualiCEAP['start_date'] ;
+            if ($rowReqAndQualiLPPP['start_date'] == '0000-00-00') {
                 echo '<p style="font-size: 15px; text-align: center; width: 260px;">Qualifications are not available yet.</p>';
-            }else{
-                echo $rowReqAndQualiCEAP['start_date'] ;
-            echo ' <p class="text-break">'.  $qualificationsLPPP .'</p>';
             }
 ?>
+                <p class="text-break"><?= $qualificationsLPPP ?></p>
             </div>
         </div>
         <div class="rightColumn">
             <h3>Requirement:</h3>
             <div class="scrollable-content">
             <?php
-            if ($rowReqAndQualiCEAP['start_date'] == '0000-00-00') {
+            if ($rowReqAndQualiLPPP['start_date'] == '0000-00-00') {
                 echo '<p style="font-size: 15px; text-align: center; width: 260px;">Requirements are not available yet.</p>';
             }
 ?>
