@@ -35,7 +35,10 @@
    
    $sql = "SELECT * FROM create_post WHERE post_schedule_at <= '$currentDateTime' AND post_deleted = 0 ORDER BY post_created_at DESC";
    $result = mysqli_query($conn, $sql);
-   
+
+   // Check if there are any posts
+$tagDropdownEnabled = mysqli_num_rows($result) > 0;
+
    $selectedTag = $_GET['tag'] ?? '';
    if ($selectedTag === 'all') {
     $sql = "SELECT * FROM create_post WHERE tag IN ('ceap', 'lppp','public') AND post_deleted = 0 ORDER BY post_created_at DESC";
@@ -46,8 +49,6 @@
    }
 
    $result = mysqli_query($conn, $sql);
-   
-
    
    ?>
 
@@ -81,15 +82,17 @@
       <div class="card">
          <div class="header-delete-checkbox">
           <!-- dropdown filtering -->
-            <div class="custom-select">
-               <select id="tag-filter" onchange="applyFilter()">
-                  <option value="" hidden>Tags</option>
-                  <option value="all">All</option>
-                  <option value="public">PUBLIC</option>
-                  <option value="ceap">CEAP</option>
-                  <option value="lppp">LPPP</option>
-               </select>
-            </div>
+
+          <div class="custom-select">
+    <select id="tag-filter" onchange="applyFilter()" <?php if (!$tagDropdownEnabled) echo 'disabled'; ?>>
+        <option value="" hidden>Tags</option>
+        <option value="all">All</option>
+        <option value="public">PUBLIC</option>
+        <option value="ceap">CEAP</option>
+        <option value="lppp">LPPP</option>
+    </select>
+</div>
+
             <div class="post-checkbox">
                <button type="button" onclick="opendeletepostpopup()" class="delete-button">
                <i class="ri-delete-bin-fill" style="margin-right: 7px;"></i>
@@ -129,16 +132,16 @@
             <div class="card mb-3">
                <div class="card-body dynamic-height">
                   <div class="post-left-column">
-                     <div class="post-title">
-                        <div class="post-info-label">Title:</div>
-                        <h3 class="text-center card-title truncate" id="postTitle"style="font-weight: normal;"><?php echo $postTitle; ?></h3>
-                     </div>
-                     <div class="post-description">
-                        <div class="post-info-label">Description:</div>
-                        <p class="card-text description truncate" id="postDescription">
-                           <?php echo $postDescription; ?>
-                        </p>
-                     </div>
+                  <div class="post-title">
+                     <div class="post-info-label">Title:</div>
+                     <h3 class="text-center card-title truncate" id="postTitle" style="font-weight: normal;"><?php echo $postTitle; ?></h3>
+                  </div>
+                  <div class="post-description">
+                     <div class="post-info-label">Description:</div>
+                     <p class="card-text description truncate" id="postDescription">
+                        <?php echo $postDescription; ?>
+                     </p>
+                  </div>
                   </div>
                   <div class="post-right-column">
                      <div class="post-date">
@@ -254,21 +257,21 @@ if (selectAllCheckboxForDelete) {
          });
          
       </script>
-      <script>
-         document.addEventListener("DOMContentLoaded", function () {
-           const truncatableElements = document.querySelectorAll(".truncate");
-         
-           truncatableElements.forEach((element) => {
-             const originalText = element.textContent;
-             const maxLength = 35;
-         
-             if (originalText.length > maxLength) {
-               const truncatedText = originalText.slice(0, maxLength) + "...";
-               element.textContent = truncatedText;
-             }
-           });
-         });
-      </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const truncatableElements = document.querySelectorAll(".truncate");
+
+        truncatableElements.forEach((element) => {
+            const originalText = element.textContent.trim(); // Trim whitespace
+            const maxLength = 35;
+
+            if (originalText.length > maxLength) {
+                const truncatedText = originalText.slice(0, maxLength) + "...";
+                element.textContent = truncatedText;
+            }
+        });
+    });
+</script>
   <script>
     function applyFilter() {
         const selectedTag = document.getElementById('tag-filter').value;
