@@ -144,6 +144,7 @@ mysqli_close($conn);
             if ($rowReqAndQualiCEAP['start_date'] == '0000-00-00') {
                 echo '<p style="font-size: 15px; text-align: center; width: 260px;">Qualifications are not available yet.</p>';
             }else{
+                echo $rowReqAndQualiCEAP['start_date'] ;
             echo ' <p class="text-break">'.  $qualificationsLPPP .'</p>';
             }
 ?>
