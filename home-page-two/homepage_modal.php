@@ -142,6 +142,7 @@ mysqli_close($conn);
             <div class="scrollable-content">
         <?php
             if ($rowReqAndQualiCEAP['start_date'] == '0000-00-00') {
+                echo $rowReqAndQualiCEAP['start_date'] ;
                 echo '<p style="font-size: 15px; text-align: center; width: 260px;">Qualifications are not available yet.</p>';
             }else{
                 echo $rowReqAndQualiCEAP['start_date'] ;
