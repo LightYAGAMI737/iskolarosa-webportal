@@ -112,14 +112,14 @@ if (mysqli_num_rows($ceapStatusData) === 0 && mysqli_num_rows($ceapGenderData) =
     echo '</div>';
 } else {
     ?>
-    <div class="chart-type">
-<!-- Add an HTML element for chart type selection -->
+ <!--   <div class="chart-type">
+ Add an HTML element for chart type selection
 <label for="chartType">Select Chart Type:</label>
 <select id="chartType" onchange="updateChart()">
     <option value="pie">Pie Chart</option>
     <option value="bar">Bar Graph</option>
 </select>
-    </div>
+    </div> -->
 
 <!-- Create separate chart containers for each chart -->
 <div class="outside-chart-container">
@@ -164,11 +164,20 @@ if (mysqli_num_rows($ceapStatusData) === 0 && mysqli_num_rows($ceapGenderData) =
     // Initialize Google Charts library
     google.charts.load('current', { 'packages': ['corechart'] });
 
-    // Define separate data variables for CEAP and LPPP
+    // Create arrays to store the status and count data
     var ceapStatusData = [
         ['Status', 'Count'],
         <?php
         while ($row = mysqli_fetch_assoc($ceapStatusData)) {
+            echo "['{$row['status']}', {$row['count']}],";
+        }
+        ?>
+    ];
+
+    var lpppStatusData = [
+        ['Status', 'Count'],
+        <?php
+        while ($row = mysqli_fetch_assoc($lpppStatusData)) {
             echo "['{$row['status']}', {$row['count']}],";
         }
         ?>
@@ -183,15 +192,6 @@ if (mysqli_num_rows($ceapStatusData) === 0 && mysqli_num_rows($ceapGenderData) =
         ?>
     ];
 
-    var lpppStatusData = [
-        ['Status', 'Count'],
-        <?php
-        while ($row = mysqli_fetch_assoc($lpppStatusData)) {
-            echo "['{$row['status']}', {$row['count']}],";
-        }
-        ?>
-    ];
-
     var lpppGenderData = [
         ['Gender', 'Count'],
         <?php
@@ -201,16 +201,6 @@ if (mysqli_num_rows($ceapStatusData) === 0 && mysqli_num_rows($ceapGenderData) =
         ?>
     ];
 
-    // Set the default chart type
-    var selectedChartType = 'pie';
-
-    
-    // Handle chart type change
-    function updateChart() {
-        selectedChartType = document.getElementById('chartType').value;
-        drawCharts();
-    }
-
     // Draw the charts
     function drawCharts() {
         var chartOptions = {
@@ -219,38 +209,34 @@ if (mysqli_num_rows($ceapStatusData) === 0 && mysqli_num_rows($ceapGenderData) =
         };
 
         var ceapStatusChart = new google.visualization.PieChart(document.getElementById('ceapStatusChart'));
-var ceapGenderChart = new google.visualization.PieChart(document.getElementById('ceapGenderChart'));
-var lpppStatusChart = new google.visualization.PieChart(document.getElementById('lpppStatusChart'));
-var lpppGenderChart = new google.visualization.PieChart(document.getElementById('lpppGenderChart'));
+        var ceapGenderChart = new google.visualization.PieChart(document.getElementById('ceapGenderChart'));
+        var lpppStatusChart = new google.visualization.PieChart(document.getElementById('lpppStatusChart'));
+        var lpppGenderChart = new google.visualization.PieChart(document.getElementById('lpppGenderChart'));
 
-var options = {
-    backgroundColor: 'white',
-    legend: { position: 'right' },
-    is3D: true, // Enable 3D effect
-    pieSliceText: 'percentage', // Show percentage labels
-    pieSliceTextStyle: {
-        color: 'white',
-        bold: true
-    }
-};
-
-        if (selectedChartType === 'bar') {
-            ceapStatusChart = new google.visualization.BarChart(document.getElementById('ceapStatusChart'));
-            ceapGenderChart = new google.visualization.BarChart(document.getElementById('ceapGenderChart'));
-            lpppStatusChart = new google.visualization.BarChart(document.getElementById('lpppStatusChart'));
-            lpppGenderChart = new google.visualization.BarChart(document.getElementById('lpppGenderChart'));
-        }
-
-       // Draw the charts with the specified options
-ceapStatusChart.draw(google.visualization.arrayToDataTable(ceapStatusData), options);
-ceapGenderChart.draw(google.visualization.arrayToDataTable(ceapGenderData), options);
-lpppStatusChart.draw(google.visualization.arrayToDataTable(lpppStatusData), options);
-lpppGenderChart.draw(google.visualization.arrayToDataTable(lpppGenderData), options);
+        var options = {
+            backgroundColor: 'white',
+            legend: { position: 'right' },
+            is3D: true, // Enable 3D effect
+            pieSliceText: 'value', // show the total count
+            pieSliceTextStyle: {
+                color: 'white',
+                bold: true,
+                fontSize: 11
+            },
+            colors: ['#F3B95F', '#8f6a53', '#78B0A0', '#aab9c8', '#8f5357', '#D04848', '#6895D2','#FDE767']
+        };
+      
+            // Draw the charts with the specified options for pie charts
+            ceapStatusChart.draw(google.visualization.arrayToDataTable(ceapStatusData), options);
+            ceapGenderChart.draw(google.visualization.arrayToDataTable(ceapGenderData), options);
+            lpppStatusChart.draw(google.visualization.arrayToDataTable(lpppStatusData), options);
+            lpppGenderChart.draw(google.visualization.arrayToDataTable(lpppGenderData), options);
     }
 
     // Initial chart drawing
     google.charts.setOnLoadCallback(drawCharts);
 </script>
+
 
 </body>
 </html>
