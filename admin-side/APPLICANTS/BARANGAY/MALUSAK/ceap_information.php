@@ -116,49 +116,44 @@ $tempAccountResultTable = mysqli_stmt_get_result($stmtTable);
     <h2 style="margin-top: -40px;">Personal Information</h2>
     <table>
         <?php 
-        // Define the desired sequence of fields
-        $desiredFields = ['control_number', 'last_name', 'suffix_name', 'first_name', 'middle_name', 'date_of_birth', 'gender', 'civil_status', 'place_of_birth', 'religion', 'contact_number', 'active_email_address', 'house_number', 'province', 'municipality', 'barangay', 'control_number'];
-        
-        foreach ($desiredFields as $field) : ?>
-            <?php if (isset($applicantInfo[$field]) && $applicantInfo[$field] !== 'N/A') : ?>
-                <tr>
-                    <th>
-                        <?php 
-                        $label = ucwords(str_replace('_', ' ', $field)); 
-                        if ($field === 'suffix_name') {
-                            $label = 'Suffix';
-                        }
-                        echo $label . ': ';
-                        ?>
-                    </th>
-                    <td>
-                        <?php 
-                        if ($field === 'date_of_birth') {
-                            echo $applicantInfo[$field]; // Display date of birth
-                        } else {
-                            echo $applicantInfo[$field];
-                        }
-                        ?>
-                    </td>
-                </tr>
-                <?php if ($field === 'date_of_birth') : ?>
-                <tr>
-                    <th>Age:</th>
-                    <td>
-                        <?php
-                        // Calculate age
-                        $birthDate = new DateTime($applicantInfo[$field]);
-                        $currentDate = new DateTime();
-                        $age = $currentDate->diff($birthDate);
-                        echo $age->y . ' years old';
-                        ?>
-                    </td>
-                </tr>
-                <?php endif; ?>
-            <?php endif; ?>
-        <?php endforeach; ?>
-    </table>
-</div>
+           // Define the desired sequence of fields
+           $desiredFields = ['control_number', 'last_name', 'first_name', 'middle_name', 'date_of_birth', 'gender', 'civil_status', 'place_of_birth', 'religion', 'contact_number', 'active_email_address', 'house_number', 'province', 'municipality', 'barangay', 'control_number'];
+           
+           foreach ($desiredFields as $field) : ?>
+               <?php if (isset($applicantInfo[$field]) && $applicantInfo[$field] !== 'N/A') : ?>
+                   <tr>
+                       <th><?php echo ucwords(str_replace('_', ' ', $field)); ?>:</th>
+                       <td>
+                           <?php 
+                           if ($field === 'date_of_birth') {
+                               echo $applicantInfo[$field]; // Display date of birth
+                           } elseif ($field === 'last_name' && isset($applicantInfo['suffix_name']) && $applicantInfo['suffix_name'] !== 'N/A') {
+                               echo $applicantInfo['last_name'] . ' ' . $applicantInfo['suffix_name']; // Display last name and suffix
+                           } else {
+                               echo $applicantInfo[$field];
+                           }
+                           ?>
+                       </td>
+                   </tr>
+                   <?php if ($field === 'date_of_birth') : ?>
+                   <tr>
+                       <th>Age:</th>
+                       <td>
+                           <?php
+                           // Calculate age
+                           $birthDate = new DateTime($applicantInfo[$field]);
+                           $currentDate = new DateTime();
+                           $age = $currentDate->diff($birthDate);
+                           echo $age->y . ' years old';
+                           ?>
+                       </td>
+                   </tr>
+                   <?php endif; ?>
+               <?php endif; ?>
+           <?php endforeach; ?>
+       </table>
+   </div>
+   
 <!-- Table 3: Educational Background -->
 <div class="applicant-info">
     <h2>Educational Background</h2>
