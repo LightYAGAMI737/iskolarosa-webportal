@@ -57,57 +57,97 @@
 
     // Create a container element to display the review information
     var reviewContainer = document.getElementById("review-container");
+    
+    var tableHTML = '<table style="border-collapse: separate; border-spacing: 15px 0px; width: 100%; text-transform: uppercase;">';
+    tableHTML += '<tr><span class="HeadingInfo"><th colspan="4" style="text-align: center;  font-weight: bold; background: #ececec; padding: 8px; font-size: 18px;">Personal Information</th></span></tr>';
+    tableHTML += '<tr><td colspan="4" class="HeadingInfo"><br></td></tr>';
 
-   var tableHTML = '<table>';
-   tableHTML += '<tr class="personal-info"><td>Last Name:</td><td>' + lastName + '</td></tr>';
-   tableHTML += '<tr class="personal-info"><td>First Name:</td><td>' + firstName + '</td></tr>';
-   tableHTML += '<tr class="personal-info"><td>Middle Name:</td><td>' + middleName + '</td></tr>';
-   tableHTML += '<tr class="personal-info"><td>Suffix Name:</td><td>' + suffixName + '</td></tr>';
-        tableHTML+= '<tr><td>Gender:</td><td>' + gender + '</td></tr>';
-        tableHTML+= '<tr><td>Civil Status:</td><td>' + civilStatus + '</td></tr>';
-        tableHTML+= '<tr><td>Religion:</td><td>' + religion + '</td></tr>';
-        tableHTML+= '<tr><td>Contact Number:</td><td>' + contactNumber + '</td></tr>';
-        tableHTML+= '<tr><td>Active Email Address:</td><td>' + activeEmailAddress + '</td></tr>';
-        tableHTML+= '<tr><td>Place of Birth:</td><td>' + placeOfBirth + '</td></tr>';
-        tableHTML+= '<tr><td>Date of Birth:</td><td>' + dateOfBirth + '</td></tr>';
-        tableHTML+= '<tr><td>Age:</td><td>' + age + '</td></tr>';
-        tableHTML+= '<tr><td>House No. / Blk / Lot No.:</td><td>' + houseNumber + '</td></tr>';
-        tableHTML+= '<tr><td>Barangay:</td><td>' + barangay + '</td></tr>';
-        tableHTML+= '<tr><td>Municipality:</td><td>' + municipality + '</td></tr>';
-        tableHTML+= '<tr><td>Province:</td><td>' + province  + '</td></tr>';
-        //school
-        tableHTML+= '<tr><td>Elementary School:</td><td>' + elementarySchool + '</td></tr>';
-        tableHTML+= '<tr><td>Year Graduated (Elementary):</td><td>' + elementaryYear + '</td></tr>';
-        tableHTML+= '<tr><td>Junior High School:</td><td>' + secondarySchool + '</td></tr>';
-        tableHTML+= '<tr><td>Year Graduated (Junior High):</td><td>' + secondaryYear + '</td></tr>';
-        tableHTML+= '<tr><td>Senior High School:</td><td>' + seniorHighSchool + '</td></tr>';
-        tableHTML+= '<tr><td>Year Graduated (Senior High):</td><td>' + seniorHighYear + '</td></tr>';
-        tableHTML+= '<tr><td>Course Enrolled (Tertiary):</td><td>' + courseEnrolled + '</td></tr>';
-        tableHTML+= '<tr><td>Graduating (Tertiary):</td><td>' + graduating + '</td></tr>';
-        tableHTML+= '<tr><td>No. of Units (Tertiary):</td><td>' + noOfUnits + '</td></tr>';
-        tableHTML+= '<tr><td>Current Year Level (Tertiary):</td><td>' + yearLevel + '</td></tr>';
-        tableHTML+= '<tr><td>Current Semester (Tertiary):</td><td>' + currentSemester + '</td></tr>';
-        tableHTML+= '<tr><td>Expected Year of Graduation (Tertiary):</td><td>' + expectedYearOfGraduation + '</td></tr>';
-        tableHTML+= '<tr><td>School Name:</td><td>' + schoolName + '</td></tr>';
-        tableHTML+= '<tr><td>School Address:</td><td>' + schoolAddress + '</td></tr>';
-        tableHTML+= '<tr><td>School Type:</td><td>' + schoolType + '</td></tr>';
-        tableHTML+= '<tr><td>Student ID No.:</td><td>' + studentIdNo + '</td></tr>';
-        //family
-        tableHTML+= '<tr><td>Guardian First Name:</td><td>' + guardianFirstName + '</td></tr>';
-        tableHTML+= '<tr><td>Guardian Last Name:</td><td>' + guardianLastName + '</td></tr>';
-        tableHTML+= '<tr><td>Relationship:</td><td>' + guardianRelationship + '</td></tr>';
-        tableHTML+= '<tr><td>Occupation:</td><td>' + guardianOccupation + '</td></tr>';
-        tableHTML+= '<tr><td>Monthly Income:</td><td>' + guardianMonthlyIncome + '</td></tr>';
-        tableHTML+= '<tr><td>Annual Income:</td><td>' + guardianAnnualIncome + '</td></tr>';
+    // Full Name
+    tableHTML += '<tr>';
+    tableHTML += '<td class="equal-width"><span class="spanReview">First Name:</span><br><span class="ReviewField">' + ((firstName !== "N/A") ? firstName : '') + '</span></td>';
+    tableHTML += '<td class="equal-width"><span class="spanReview">Middle Name:</span><br><span class="ReviewField">' + ((middleName !== "N/A") ? middleName : '') + '</span></td>';
+    tableHTML += '<td class="equal-width"><span class="spanReview">Last Name:</span><br><span class="ReviewField">' + ((lastName !== "N/A") ? lastName : '') + '</span></td>';
+    tableHTML += '<td class="equal-width"><span class="spanReview">Suffix:</span><br><span class="ReviewField">' + ((suffixName !== "N/A") ? suffixName : '') + '</span></td>';
+    tableHTML += '</tr>';
 
+    // Gender, Civil Status, Religion
+    tableHTML += '<tr>';
+    tableHTML += '<td class="equal-width"><span class="spanReview">Birth Sex:</span><br><span class="ReviewField">' + gender + '</span></td>';
+    tableHTML += '<td class="equal-width"><span class="spanReview">Civil Status:</span><br><span class="ReviewField">' + civilStatus + '</span></td>';
+    tableHTML += '<td class="equal-width"><span class="spanReview">Religion:</span><br><span class="ReviewField">' + ((religion !== "N/A") ? religion : '') + '</span></td>';
+    tableHTML += '<td class="equal-width"><span class="spanReview">Contact Number:</span><br><span class="ReviewField">' + ((contactNumber !== "N/A") ? contactNumber : '') + '</span></td>';
+    tableHTML += '</tr>';
+    
+    // Contact Number, Date of Birth, Email Address
+    tableHTML += '<tr>';
+    tableHTML += '<td class="equal-width"><span class="spanReview">Email Address:</span><br><span class="ReviewField">' + ((activeEmailAddress !== "N/A") ? activeEmailAddress : '') + '</span></td>';
+    tableHTML += '<td class="equal-width"><span class="spanReview">Date of Birth:</span><br><span class="ReviewField">' + dateOfBirth + '</span></td>';
+    tableHTML += '<td class="equal-width"><span class="spanReview">Age:</span><br><span class="ReviewField">' + age + '</span></td>';
+    tableHTML += '<td class="equal-width"><span class="spanReview">Place of Birth:</span><br><span class="ReviewField">' + placeOfBirth + '</span></td>';
+    tableHTML += '</tr>';
+
+    //address
+    tableHTML += '<tr>';
+    tableHTML += '<td class="equal-width"><span class="spanReview">House Number:</span><br><span class="ReviewField">' + ((houseNumber !== "N/A") ? houseNumber : '') + '</span></td>';
+    tableHTML += '<td class="equal-width"><span class="spanReview">Barangay:</span><br><span class="ReviewField">' + ((barangay !== "N/A") ? barangay : '') + '</span></td>';
+    tableHTML += '<td class="equal-width"><span class="spanReview">Municipality:</span><br><span class="ReviewField">' + ((municipality !== "N/A") ? municipality : '') + '</span></td>';
+    tableHTML += '<td class="equal-width"><span class="spanReview">Province:</span><br><span class="ReviewField">' + ((province !== "N/A") ? province : '') + '</span></td>';
+    tableHTML += '</tr>';
+
+   // Spacer
+tableHTML += '<tr><td colspan="4" class="HeadingInfo"><br></td></tr>';
+    tableHTML += '<tr><th colspan="4" style=" text-align: center; font-weight: bold; background: #ececec; padding: 8px; font-size: 18px;">Educational Background</th></tr>';
+tableHTML += '<tr><td colspan="4" class="HeadingInfo"><br></td></tr>';
+//school
+    tableHTML += '<tr>';
+    tableHTML += '<td class="equal-width"><span class="spanReview">Elementary:</span><br><span class="ReviewField">' + elementarySchool + ', (' + elementaryYear + ')' + '</span></td>';
+    tableHTML += '<td class="equal-width"><span class="spanReview">Junior Highschool:</span><br><span class="ReviewField">' + ((secondarySchool !== "N/A") ? secondarySchool + ', (' + secondaryYear + ')' : '') + '</span></td>';
+    tableHTML += '<td class="equal-width"><span class="spanReview">Senior Highschool:</span><br><span class="ReviewField">' + ((seniorHighSchool !== "N/A") ? seniorHighSchool + ', (' + seniorHighYear + ')' : '') + '</span></td>';
+    tableHTML += '<td class="equal-width"><span class="spanReview">Tertiary School Name:</span><br><span class="ReviewField">' + schoolName + '</span></td>';
+   
+    tableHTML += '<tr>';
+    tableHTML+= '<td class="equal-width"><span class="spanReview">Course Enrolled (Tertiary):</span><br><span class="ReviewField">' + courseEnrolled + '</span></td>';
+    tableHTML+= '<td class="equal-width"><span class="spanReview">Year / Semester </span><br><span class="ReviewField">' + yearLevel + ' / ' + currentSemester + '</span></td>';
+    tableHTML+= '<td class="equal-width"><span class ="spanReview">Student ID No.:</span><br><span class="ReviewField">' + studentIdNo + '</span></td>';
+    tableHTML+= '<td class="equal-width"><span class ="spanReview">No. of Units (Tertiary):</span><br><span class="ReviewField">' + noOfUnits + '</span></td>';
+   
+    tableHTML += '</tr>';
+
+    tableHTML += '<tr>';
+    tableHTML+= '<td class="equal-width"><span class="spanReview">Graduating (Tertiary):</span><br><span class="ReviewField">' + graduating + '</span></td>';
+    tableHTML+= '<td class="equal-width"><span class="spanReview">Expected Year of Graduation (Tertiary):</span><br><span class="ReviewField">' + expectedYearOfGraduation + '</span></td>';
+    tableHTML+= '<td class="equal-width"><span class ="spanReview">School Address:</span><br><span class="ReviewField">' + schoolAddress + '</span></td>';
+    tableHTML+= '<td class="equal-width"><span class ="spanReview">School Type:</span><br><span class="ReviewField">' + schoolType + '</span></td>';
+    tableHTML += '</tr>';
+    
+    tableHTML += '<tr><td colspan="4" class="HeadingInfo"><br></td></tr>';
+    tableHTML += '<tr><th colspan="4" style="    text-align: center; font-weight: bold; background: #ececec; padding: 8px; font-size: 18px;">Family Background</th></tr>';
+    tableHTML += '<tr><td colspan="4" class="HeadingInfo"><br></td></tr>';
+
+      //family
+    tableHTML+= '<td class="equal-width"><span class ="spanReview">Guardian Full Name:</span><br><span class="ReviewField">' +guardianLastName  + ', ' +  guardianFirstName + '</span></td>';
+    tableHTML+= '<td class="equal-width"><span class ="spanReview">Relationship:</span><br><span class="ReviewField">' + guardianRelationship + '</span></td>';
+    tableHTML+= '<td class="equal-width"><span class ="spanReview">Occupation:</span><br><span class="ReviewField">' + guardianOccupation + '</span></td>';
+    tableHTML+= '<td class="equal-width"><span class ="spanReview">Annual Income:</span><br><span class="ReviewField">' + guardianAnnualIncome + '</span></td>';
+    tableHTML += '</tr>';
+    
+    tableHTML += '<tr><td colspan="4" class="HeadingInfo"><br></td></tr>';
+    tableHTML += '<tr><th colspan="4" style="    text-align: center; font-weight: bold; background: #ececec; padding: 8px; font-size: 18px;">Requirements Uploaded</th></tr>';
+    tableHTML += '<tr><td colspan="4" class="HeadingInfo"><br></td></tr>';
+        
         // Update the tableHTML with the extracted file names
-    tableHTML += '<tr><td>Applicant\'s Voter Certificate:</td><td>' + uploadVotersApplicant + '</td></tr>';
-    tableHTML += '<tr><td>Upload 2x2 Picture:</td><td>' + uploadPhotoJPG + '</td></tr>';
-    tableHTML += '<tr><td>Upload Current Grade:</td><td>' + uploadGrade + '</td></tr>';
-    tableHTML += '<tr><td>Upload Certificate of Registration:</td><td>' + uploadCOR + '</td></tr>';
-    tableHTML += '<tr><td>Upload Guardian\'s Voter Certificate:</td><td>' + uploadVotersParent + '</td></tr>';
-    tableHTML += '<tr><td>Upload Guardian\'s Income Tax Return:</td><td>' + uploadITR + '</td></tr>';
-    tableHTML += '<tr><td>Upload Guardian\'s Voter Certificate:</td><td>' + uploadResidency + '</td></tr>';
+    tableHTML += '<tr>';
+    tableHTML += '<td class="equal-width"><span class ="spanReview">Applicant\'s Voter Certificate:</span><br><span class="ReviewField">' + uploadVotersApplicant + '</span></td>';
+    tableHTML += '<td class="equal-width"><span class ="spanReview">Upload 2x2 Picture:</span><br><span class="ReviewField">' + uploadPhotoJPG + '</span></td>';
+    tableHTML += '<td class="equal-width"><span class ="spanReview">Upload Current Grade:</span><br><span class="ReviewField">' + uploadGrade + '</span></td>';
+    tableHTML += '<td class="equal-width"><span class ="spanReview">Upload Certificate of Registration:</span><br><span class="ReviewField">' + uploadCOR + '</span></td>';
+    tableHTML += '</tr>';
+
+    tableHTML += '<tr>';
+    tableHTML += '<td class="equal-width"><span class ="spanReview">Upload Guardian\'s Voter Certificate:</span><br><span class="ReviewField">' + uploadVotersParent + '</span></td>';
+    tableHTML += '<td class="equal-width"><span class ="spanReview">Upload Guardian\'s Income Tax Return:</span><br><span class="ReviewField">' + uploadITR + '</span></td>';
+    tableHTML += '<td class="equal-width"><span class ="spanReview">Upload Guardian\'s Voter Certificate:</span><br><span class="ReviewField">' + uploadResidency + '</span></td>';
+    tableHTML += '</tr>';
 
     // Clear the review container before adding new content
     reviewContainer.innerHTML = "";

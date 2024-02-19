@@ -212,7 +212,7 @@ if ($row['toggle_value'] == 0) {
                   <div class="tooltip-container">
                      <div class="tooltips" id="tooltips"></div>
                   </div>
-                  <input type="button" name="next" id="nextButtonStep_One" class="next action-button next-button" value="Next" disabled />
+                  <input type="button" name="next" id="nextButtonStep_One" class="next action-button next-button" value="Next"  />
                </fieldset>
                <fieldset id="step_two">
                   <h2 class="fs-title"><strong>Educational Background</strong></h2>
@@ -362,7 +362,7 @@ if ($row['toggle_value'] == 0) {
                      <div class="tooltipstwo" id="tooltips_step_two"></div>
                   </div>
                   <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
-                  <input type="button" name="next" id="nextButtonStep_two" class="next action-button" value="Next" disabled/>
+                  <input type="button" name="next" id="nextButtonStep_two" class="next action-button" value="Next" />
                </fieldset>
                <!--STEP THREE-->
                <fieldset id="step_three">
@@ -424,17 +424,16 @@ if ($row['toggle_value'] == 0) {
                      <div class="tooltipstwo" id="tooltips_step_three"></div>
                   </div>
                   <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
-                  <input type="button" name="next" id="nextButtonStep_three" class="next action-button" value="Next" disabled/>
+                  <input type="button" name="next" id="nextButtonStep_three" class="next action-button" value="Next" />
                </fieldset>
                <!-- Add a new fieldset for the review step -->
                <fieldset id="step_four" style="width: 73%;">
                   <h2 class="fs-title"><strong>Review Your Information</strong></h2>
-                  <h3 class="fs-subtitle"></h3>
-                  
-                  <!-- Create a container to display the review information -->
+                  <!-- <h3 class="fs-subtitle"></h3> -->
+                     <!-- Create a container to display the review information -->
                   <div id="review-container"></div>
 
-                  <label for="agreeCheckbox" style="text-align: center !important; font-weight: normal !important;">
+                  <label for="agreeCheckbox" style="text-align: center !important; font-weight: normal !important; margin-top: 20px;">
                   By submitting this form, you hereby certify that you have read the <span onclick="openTermsCondiModal()" style="color: #A5040A; cursor: pointer;">Terms and Conditions</span> outlined <br>by the City Scholarship Office,
                   along with its implementing rules and regulations.
                   </label>

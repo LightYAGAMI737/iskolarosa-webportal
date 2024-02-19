@@ -302,31 +302,31 @@ flex-direction: column;
  .tooltip-container:hover .tooltips {
      visibility: visible;
 }
-/* Style for the review table */
- table {
-     width: 100%;
-     border-collapse: collapse;
-     margin-bottom: 20px;
-}
- th, td {
-     border: 1px solid #ddd;
-     padding: 8px;
-     text-align: left;
-     text-transform: uppercase;
-}
- th {
-     background-color: #f2f2f2;
-}
-/* Optional: Style for even and odd rows */
- tr:nth-child(even) {
-     background-color: #f2f2f2;
-}
- td:nth-child(even) {
-     font-weight: bolder;
-}
+
+ 
  .disabled {
      pointer-events: none;
     /* Disable pointer events on the button */
      opacity: 0.5;
     /* Reduce opacity to indicate it's disabled */
+}
+
+.equal-width {
+    width: 25% !important; /* Adjust the width as needed */
+    text-align: left;
+    padding: 5px; 
+     border-bottom: 1px solid #ccc;
+}
+
+.spanReview {
+    text-align: left;
+    font-size: 11px;
+    font-weight: normal !important;
+}
+
+.ReviewField {
+    font-weight: bolder;
+}
+.HeadingInfo {
+    margin: 100px;
 }
