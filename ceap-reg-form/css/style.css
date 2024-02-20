@@ -330,3 +330,28 @@ flex-direction: column;
 .HeadingInfo {
     margin: 100px;
 }
+
+.question-mark-icon {
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+    position: relative;
+}
+
+.question-mark-icon i {
+    display: block; /* Ensure icon is displayed */
+}
+
+.tooltip-content {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    width: 250px;
+    border-radius: 5px;
+    padding: 10px;
+    z-index: 999;
+    top: calc(23% + 5px);
+    left: 50%;
+    transform: translateX(-50%);
+}

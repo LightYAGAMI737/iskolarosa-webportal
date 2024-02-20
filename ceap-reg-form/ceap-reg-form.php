@@ -256,13 +256,21 @@ if ($row['toggle_value'] == 0) {
                         </select>
                      </div>
                   </div>
-                  <!--new row-->
+                   <!--new row-->
                   <h2 class="fs-title"><strong>Senior High</strong></h2>
                   <div class="text-row">
                      <div class="input-container school-graduated">
-                        <label class="required">School Graduated</label>
+                        <label class="required">
+                           School Graduated
+                           <span class="question-mark-icon" title="sample">
+                              <i class="ri-question-line"></i>
+                           </span>
+                        </label>
                         <input type="text" name="senior_high_school" id="senior_high_school" placeholder="Enter School Graduated"  minlength="5" maxlength="100" required/>
                         <span class="error-message" id="senior_high_school_error"></span>
+                        <div class="tooltip-content">
+                           Applicants who did not graduate from the K-12 program should input <strong>'Not Applicable'</strong> in the Senior Highschool field and select the current year.
+                        </div>
                      </div>
                      <div class="input-container">
                         <label class="required">Year Graduated</label>
@@ -463,6 +471,21 @@ function openTermsCondiModal() {
 function closeHomePageModal() {
     TermsCondiModal.style.display = "none";
 }
+document.addEventListener("DOMContentLoaded", function() {
+    const questionMarkIcon = document.querySelector('.question-mark-icon');
+    const tooltipContent = document.querySelector('.tooltip-content');
+
+    questionMarkIcon.addEventListener('mouseover', function() {
+        tooltipContent.style.display = 'block';
+        console.log('Mouse entered the question mark icon.');
+    });
+
+    questionMarkIcon.addEventListener('mouseout', function() {
+        tooltipContent.style.display = 'none';
+        console.log('Mouse left the question mark icon.');
+    });
+});
+
       </script>
    </body>
 </html>
